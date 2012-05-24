@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name=""
+            extensions="xml"
+            icon="icons/SGicon16x16.gif"
+            contributorClass="simgrideclipseplugin.editors.MultiPageEditorXMLContributor"
+            class="simgrideclipseplugin.editors.MultiPageXMLEditor"
+            id="simgrideclipseplugin.editors.MultiPageXMLEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="SimGrid"
+            id="simgridEclipsePlugin">
+      </category>
+      <wizard
+            name="SimGrid Platform Description File"
+            icon="icons/SGicon16x16.gif"
+            category="simgridEclipsePlugin"
+            class="simgrideclipseplugin.wizards.SimgridPlatformWizard"
+            id="simgrideclipseplugin.wizards.SimgridPlatformWizard">
+      </wizard>
+      <wizard
+            name="SimGrid Deployment File"
+            icon="icons/SGicon16x16.gif"
+            category="simgridEclipsePlugin"
+            class="simgrideclipseplugin.wizards.SimgridDeploymentWizard"
+            id="simgrideclipseplugin.wizards.SimgridDeploymentWizard">
+      </wizard>
+   </extension>
+
+</plugin>
