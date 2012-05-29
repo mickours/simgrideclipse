@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Small DTD for SURF based tools. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="platform">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="config"/>
+          <xs:element ref="random"/>
+        </xs:choice>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="include"/>
+          <xs:element ref="cluster"/>
+          <xs:element ref="peer"/>
+          <xs:element ref="AS"/>
+          <xs:element ref="trace"/>
+          <xs:element ref="trace_connect"/>
+        </xs:choice>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="process"/>
+      </xs:sequence>
+      <xs:attribute name="version" default="0.0"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="include">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="include"/>
+        <xs:element ref="cluster"/>
+        <xs:element ref="peer"/>
+        <xs:element ref="AS"/>
+        <xs:element ref="trace"/>
+        <xs:element ref="trace_connect"/>
+      </xs:choice>
+      <xs:attribute name="file" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="trace">
+    <xs:complexType mixed="true">
+      <xs:attribute name="id" use="required"/>
+      <xs:attribute name="file" default=""/>
+      <xs:attribute name="periodicity" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="random">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="prop"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required"/>
+      <xs:attribute name="min" use="required"/>
+      <xs:attribute name="max" use="required"/>
+      <xs:attribute name="mean" use="required"/>
+      <xs:attribute name="std_deviation" use="required"/>
+      <xs:attribute name="seed" default="2147483647"/>
+      <xs:attribute name="radical" default=""/>
+      <xs:attribute name="generator" default="DRAND48">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="DRAND48"/>
+            <xs:enumeration value="RAND"/>
+            <xs:enumeration value="RNGSTREAM"/>
+            <xs:enumeration value="NONE"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="trace_connect">
+    <xs:complexType>
+      <xs:attribute name="kind" default="HOST_AVAIL">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="HOST_AVAIL"/>
+            <xs:enumeration value="POWER"/>
+            <xs:enumeration value="LINK_AVAIL"/>
+            <xs:enumeration value="BANDWIDTH"/>
+            <xs:enumeration value="LATENCY"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="trace" use="required"/>
+      <xs:attribute name="element" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AS">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="AS"/>
+        <xs:element ref="cluster"/>
+        <xs:element ref="peer"/>
+        <xs:element ref="ASroute"/>
+        <xs:element ref="bypassASroute"/>
+        <xs:element ref="host"/>
+        <xs:element ref="route"/>
+        <xs:element ref="bypassRoute"/>
+        <xs:element ref="include"/>
+        <xs:element ref="router"/>
+        <xs:element ref="link"/>
+        <xs:element ref="storage_type"/>
+        <xs:element ref="storage"/>
+        <xs:element ref="trace"/>
+        <xs:element ref="trace_connect"/>
+      </xs:choice>
+      <xs:attribute name="id" use="required"/>
+      <xs:attribute name="routing" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="storage_type">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="prop"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required"/>
+      <xs:attribute name="model" use="required"/>
+      <xs:attribute name="content" default="0"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="storage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="prop"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required"/>
+      <xs:attribute name="typeId" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="mount">
+    <xs:complexType>
+      <xs:attribute name="id" use="required"/>
+      <xs:attribute name="name" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="mstorage">
+    <xs:complexType>
+      <xs:attribute name="typeId" use="required"/>
+      <xs:attribute name="name" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="host">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="prop"/>
+        <xs:element ref="mount"/>
+        <xs:element ref="mstorage"/>
+      </xs:choice>
+      <xs:attribute name="id" use="required"/>
+      <xs:attribute name="power" use="required"/>
+      <xs:attribute name="core" default="1"/>
+      <xs:attribute name="availability" default="1.0"/>
+      <xs:attribute name="availability_file" default=""/>
+      <xs:attribute name="state" default="ON">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="ON"/>
+            <xs:enumeration value="OFF"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="state_file" default=""/>
+      <xs:attribute name="coordinates" default=""/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="cluster">
+    <xs:complexType>
+      <xs:attribute name="id" use="required"/>
+      <xs:attribute name="prefix" use="required"/>
+      <xs:attribute name="suffix" use="required"/>
+      <xs:attribute name="radical" use="required"/>
+      <xs:attribute name="power" use="required"/>
+      <xs:attribute name="core" default="1"/>
+      <xs:attribute name="bw" use="required"/>
+      <xs:attribute name="lat" use="required"/>
+      <xs:attribute name="sharing_policy" default="FULLDUPLEX">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="SHARED"/>
+            <xs:enumeration value="FULLDUPLEX"/>
+            <xs:enumeration value="FATPIPE"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="bb_bw" default=""/>
+      <xs:attribute name="bb_lat" default=""/>
+      <xs:attribute name="bb_sharing_policy" default="SHARED">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="SHARED"/>
+            <xs:enumeration value="FATPIPE"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="availability_file" default=""/>
+      <xs:attribute name="state_file" default=""/>
+      <xs:attribute name="router_id" default=""/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="peer">
+    <xs:complexType>
+      <xs:attribute name="id" use="required"/>
+      <xs:attribute name="power" use="required"/>
+      <xs:attribute name="bw_in" use="required"/>
+      <xs:attribute name="bw_out" use="required"/>
+      <xs:attribute name="lat" use="required"/>
+      <xs:attribute name="coordinates" default=""/>
+      <xs:attribute name="availability_file" default=""/>
+      <xs:attribute name="state_file" default=""/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="router">
+    <xs:complexType>
+      <xs:attribute name="id" use="required"/>
+      <xs:attribute name="coordinates" default=""/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="link">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="prop"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required"/>
+      <xs:attribute name="bandwidth" use="required"/>
+      <xs:attribute name="bandwidth_file" default=""/>
+      <xs:attribute name="latency" default="0.0"/>
+      <xs:attribute name="latency_file" default=""/>
+      <xs:attribute name="state" default="ON">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="ON"/>
+            <xs:enumeration value="OFF"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="state_file" default=""/>
+      <xs:attribute name="sharing_policy" default="SHARED">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="SHARED"/>
+            <xs:enumeration value="FATPIPE"/>
+            <xs:enumeration value="FULLDUPLEX"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="route">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="link_ctn"/>
+      </xs:sequence>
+      <xs:attribute name="src" use="required"/>
+      <xs:attribute name="dst" use="required"/>
+      <xs:attribute name="symmetrical" default="YES">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="YES"/>
+            <xs:enumeration value="NO"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ASroute">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="link_ctn"/>
+      </xs:sequence>
+      <xs:attribute name="src" use="required"/>
+      <xs:attribute name="dst" use="required"/>
+      <xs:attribute name="gw_src" use="required"/>
+      <xs:attribute name="gw_dst" use="required"/>
+      <xs:attribute name="symmetrical" default="YES">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="YES"/>
+            <xs:enumeration value="NO"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="link_ctn">
+    <xs:complexType>
+      <xs:attribute name="id" use="required"/>
+      <xs:attribute name="direction" default="NONE">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="UP"/>
+            <xs:enumeration value="DOWN"/>
+            <xs:enumeration value="NONE"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="bypassRoute">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="link_ctn"/>
+      </xs:sequence>
+      <xs:attribute name="src" use="required"/>
+      <xs:attribute name="dst" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="bypassASroute">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="link_ctn"/>
+      </xs:sequence>
+      <xs:attribute name="src" use="required"/>
+      <xs:attribute name="dst" use="required"/>
+      <xs:attribute name="gw_src" use="required"/>
+      <xs:attribute name="gw_dst" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="process">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="argument"/>
+        <xs:element ref="prop"/>
+      </xs:choice>
+      <xs:attribute name="host" use="required"/>
+      <xs:attribute name="function" use="required"/>
+      <xs:attribute name="start_time" default="-1.0"/>
+      <xs:attribute name="kill_time" default="-1.0"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="argument">
+    <xs:complexType>
+      <xs:attribute name="value" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="config">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="prop"/>
+      </xs:sequence>
+      <xs:attribute name="id" default=""/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="prop">
+    <xs:complexType>
+      <xs:attribute name="id" use="required"/>
+      <xs:attribute name="value" use="required"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+<!-- <!ATTLIST prop key CDATA #REQUIRED> -->
