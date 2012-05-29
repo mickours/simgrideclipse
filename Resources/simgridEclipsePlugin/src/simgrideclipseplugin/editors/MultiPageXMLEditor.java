@@ -6,6 +6,7 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -20,6 +21,8 @@ import org.eclipse.ui.part.MultiPageEditorSite;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.contenttype.ContentTypeIdForXML;
 
+import simgrideclipseplugin.graphical.SimgridGraphicEditor;
+
 /**
  * An example showing how to create a multi-page editor. This example has 3
  * pages:
@@ -29,6 +32,7 @@ import org.eclipse.wst.xml.core.internal.provisional.contenttype.ContentTypeIdFo
  * <li>page 2 shows the words in page 0 in sorted order
  * </ul>
  */
+@SuppressWarnings("restriction")
 public class MultiPageXMLEditor extends MultiPageEditorPart implements
 		IResourceChangeListener {
 
@@ -36,7 +40,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	private StructuredTextEditor editor;
 
 	/** The graphic editor used in page 1. */
-	private GraphicEditor graphEditor;
+	private SimgridGraphicEditor graphEditor;
 
 	/** holder for graphicEditor index */
 	private int graphicEditorIndex = -1;
@@ -92,7 +96,8 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	 * graphic view.
 	 */
 	void createGraphicEditorPage() {
-		graphEditor = new GraphicEditor();
+		IDocument doc = editor.getDocumentProvider().getDocument(editor.getEditorInput());
+		graphEditor = new SimgridGraphicEditor(this,doc);
 		try {
 			graphicEditorIndex = addPage(graphEditor, getEditorInput());
 			setPageText(graphicEditorIndex, "Visual editor");

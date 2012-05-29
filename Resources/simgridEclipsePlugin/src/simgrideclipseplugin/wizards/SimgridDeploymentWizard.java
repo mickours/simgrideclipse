@@ -107,6 +107,7 @@ public class SimgridDeploymentWizard extends Wizard implements INewWizard {
 			}
 			stream.close();
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		monitor.worked(1);
 		monitor.setTaskName("Opening file for editing...");
@@ -117,6 +118,7 @@ public class SimgridDeploymentWizard extends Wizard implements INewWizard {
 				try {
 					IDE.openEditor(page, file, true);
 				} catch (PartInitException e) {
+					e.printStackTrace();
 				}
 			}
 		});
@@ -133,7 +135,7 @@ public class SimgridDeploymentWizard extends Wizard implements INewWizard {
              "<!DOCTYPE platform SYSTEM \"http://simgrid.gforge.inria.fr/simgrid.dtd\">\n" + 
              "<platform version=\"3\">\n" +
              "<process host=\"\" function=\"\">\n" +		
-             "	<argument value=\"\">\n" +
+             "	<argument value=\"\"/>\n" +
              "</process>\n" +
              "</platform>";
 		return new ByteArrayInputStream(contents.getBytes());
