@@ -20,7 +20,7 @@ import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.part.MultiPageEditorSite;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.contenttype.ContentTypeIdForXML;
-
+import org.eclipse.wst.sse.core.internal.provisional.IModelStateListener;
 import simgrideclipseplugin.graphical.SimgridGraphicEditor;
 
 /**
@@ -96,8 +96,8 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	 * graphic view.
 	 */
 	void createGraphicEditorPage() {
-		IDocument doc = editor.getDocumentProvider().getDocument(editor.getEditorInput());
-		graphEditor = new SimgridGraphicEditor(this,doc);
+		//IDocument doc = editor.getDocumentProvider().getDocument(editor.getEditorInput());
+		graphEditor = new SimgridGraphicEditor(this);
 		try {
 			graphicEditorIndex = addPage(graphEditor, getEditorInput());
 			setPageText(graphicEditorIndex, "Visual editor");
@@ -132,6 +132,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	/**
 	 * Saves the multi-page editor's document.
 	 */
+	@Override
 	public void doSave(IProgressMonitor monitor) {
 		getEditor(0).doSave(monitor);
 	}
@@ -141,6 +142,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	 * text for page 0's tab, and updates this multi-page editor's input to
 	 * correspond to the nested editor's.
 	 */
+	@Override
 	public void doSaveAs() {
 		IEditorPart editor = getEditor(0);
 		editor.doSaveAs();
@@ -197,5 +199,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 			});
 		}
 	}
+	
+	
 
 }
