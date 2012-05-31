@@ -1,11 +1,10 @@
 package simgrideclipseplugin.graphical;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.editparts.ScalableRootEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.ui.IEditorInput;
@@ -20,19 +19,17 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import simgrideclipseplugin.graphical.parts.PlatformEditPartFactory;
+import simgrideclipseplugin.graphical.parts.SimgridEditPartFactory;
 import simgrideclipseplugin.model.SimgridModelListener;
 
 @SuppressWarnings("restriction")
 public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
-	private IEditorPart parent;
 	private SimgridModelListener listener;
 	// The DOM Model initialized with IFile Input Source
 	private IDOMModel model;
 
 	public SimgridGraphicEditor(IEditorPart parent) {
 		super.setEditDomain(new DefaultEditDomain(this));
-		this.parent = parent;
 		listener = new SimgridModelListener(this);
 	}
 
@@ -88,12 +85,6 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	}
 
 	@Override
-	protected PaletteRoot getPaletteRoot() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void doSave(IProgressMonitor monitor) {
 		try {
 			model.save();
@@ -106,14 +97,18 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 		GraphicalViewer viewer = getGraphicalViewer();
-		viewer.setContents(model);
+		viewer.setContents(model.getDocument().getDocumentElement());
 	}
 
 	@Override
 	protected void configureGraphicalViewer() {
 		super.configureGraphicalViewer();
+		//RootEditPart root = new SimgridRootEditPart();
 		GraphicalViewer viewer = getGraphicalViewer();
-		viewer.setEditPartFactory(PlatformEditPartFactory.INSTANCE);
+		viewer.setEditPartFactory(SimgridEditPartFactory.INSTANCE);
+		viewer.setRootEditPart(new ScalableRootEditPart());
+		//viewer.setRootEditPart(root);
+		//root.setViewer(viewer);
 	}
 
 	public void setDirty() {
@@ -129,7 +124,8 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		Document document = model.getDocument();
 		Element root = document.getDocumentElement();
 		if (root != null) {
-
+			//do update for add/remove nodes
+			this.getGraphicalViewer().getRootEditPart().refresh();
 		}
 	}
 
@@ -138,11 +134,17 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		IStructuredModel model = getDOMModel();
 		// Remove listener
 		model.removeModelStateListener(listener);
-		if (model.isDirty()) {
-			// The DOM is changed and this editor was closed without save it
-			model.releaseFromEdit();
-		}
+		
+//		if (model.isDirty()) {
+//			// The DOM is changed and this editor was closed without save it
+//			model.releaseFromEdit();
+//		}
 		super.dispose();
+	}
+
+	@Override
+	protected PaletteRoot getPaletteRoot() {
+		return new PaletteRoot();
 	}
 
 }

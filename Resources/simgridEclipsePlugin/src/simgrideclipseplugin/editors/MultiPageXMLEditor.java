@@ -6,7 +6,6 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -20,7 +19,6 @@ import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.part.MultiPageEditorSite;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.contenttype.ContentTypeIdForXML;
-import org.eclipse.wst.sse.core.internal.provisional.IModelStateListener;
 import simgrideclipseplugin.graphical.SimgridGraphicEditor;
 
 /**
@@ -101,6 +99,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 		try {
 			graphicEditorIndex = addPage(graphEditor, getEditorInput());
 			setPageText(graphicEditorIndex, "Visual editor");
+			graphEditor.updateUIFromDOMModel();
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
@@ -134,7 +133,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		getEditor(0).doSave(monitor);
+		editor.doSave(monitor);
 	}
 
 	/**
@@ -144,7 +143,6 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	 */
 	@Override
 	public void doSaveAs() {
-		IEditorPart editor = getEditor(0);
 		editor.doSaveAs();
 		setPageText(0, editor.getTitle());
 		setInput(editor.getEditorInput());
@@ -174,7 +172,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	 * (non-Javadoc) Method declared on IEditorPart.
 	 */
 	public boolean isSaveAsAllowed() {
-		return true;
+		return editor.isSaveAsAllowed();
 	}
 
 	/**
