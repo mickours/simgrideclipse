@@ -74,7 +74,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	}
 
 	/**
-	 * Creates page 0 of the multi-page editor, which contains a text editor.
+	 * Creates page of the multi-page editor, which contains a text editor.
 	 */
 	void createStructuredTextEditorPage() {
 		try {
@@ -99,7 +99,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 		try {
 			graphicEditorIndex = addPage(graphEditor, getEditorInput());
 			setPageText(graphicEditorIndex, "Visual editor");
-			graphEditor.updateUIFromDOMModel();
+//			graphEditor.updateUIFromDOMModel();
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
@@ -197,7 +197,4 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 			});
 		}
 	}
-	
-	
-
 }

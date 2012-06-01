@@ -4,6 +4,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
+import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ScalableRootEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
@@ -19,18 +21,19 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import simgrideclipseplugin.graphical.parts.SimgridAbstractEditPart;
 import simgrideclipseplugin.graphical.parts.SimgridEditPartFactory;
 import simgrideclipseplugin.model.SimgridModelListener;
 
 @SuppressWarnings("restriction")
 public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
-	private SimgridModelListener listener;
+	//private SimgridModelListener listener;
 	// The DOM Model initialized with IFile Input Source
 	private IDOMModel model;
 
 	public SimgridGraphicEditor(IEditorPart parent) {
 		super.setEditDomain(new DefaultEditDomain(this));
-		listener = new SimgridModelListener(this);
+		//listener = new SimgridModelListener(this);
 	}
 
 	@Override
@@ -80,7 +83,7 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 
 		// Add listener to observe change of DOM (change is done with another
 		// editor).
-		model.addModelStateListener(listener);
+		//model.addModelStateListener(listener);
 		return (IDOMModel) model;
 	}
 
@@ -97,50 +100,45 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 		GraphicalViewer viewer = getGraphicalViewer();
+		AutomaticGraphLayoutRenderer.INSTANCE.init(viewer.getRootEditPart());
 		viewer.setContents(model.getDocument().getDocumentElement());
+		AutomaticGraphLayoutRenderer.INSTANCE.computeLayout();
 	}
 
 	@Override
 	protected void configureGraphicalViewer() {
 		super.configureGraphicalViewer();
-		//RootEditPart root = new SimgridRootEditPart();
 		GraphicalViewer viewer = getGraphicalViewer();
 		viewer.setEditPartFactory(SimgridEditPartFactory.INSTANCE);
-		viewer.setRootEditPart(new ScalableRootEditPart());
-		//viewer.setRootEditPart(root);
-		//root.setViewer(viewer);
+		viewer.setRootEditPart(new FreeformGraphicalRootEditPart());
 	}
 
-	public void setDirty() {
-		firePropertyChange(IEditorPart.PROP_DIRTY);
-	}
+//	public void setDirty() {
+//		firePropertyChange(IEditorPart.PROP_DIRTY);
+//	}
 
 	@Override
 	public boolean isDirty() {
 		return model.isDirty();
 	}
 
-	public void updateUIFromDOMModel() {
-		Document document = model.getDocument();
-		Element root = document.getDocumentElement();
-		if (root != null) {
-			//do update for add/remove nodes
-			this.getGraphicalViewer().getRootEditPart().refresh();
-		}
-	}
-
-	@Override
-	public void dispose() {
-		IStructuredModel model = getDOMModel();
-		// Remove listener
-		model.removeModelStateListener(listener);
-		
-//		if (model.isDirty()) {
-//			// The DOM is changed and this editor was closed without save it
-//			model.releaseFromEdit();
+//	public void updateUIFromDOMModel() {
+//		Document document = model.getDocument();
+//		Element root = document.getDocumentElement();
+//		if (root != null) {
+//			//do update for add/remove nodes
+//			//this.getGraphicalViewer().getRootEditPart().refresh();
 //		}
-		super.dispose();
-	}
+//	}
+
+//	@Override
+//	public void dispose() {
+//		IgetDOMModel();
+//		// Remove listener
+//		//model.removeModelStateListener(listener);
+//		
+//		super.dispose();
+//	}
 
 	@Override
 	protected PaletteRoot getPaletteRoot() {

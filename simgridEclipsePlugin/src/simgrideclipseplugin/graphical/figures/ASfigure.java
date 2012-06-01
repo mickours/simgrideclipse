@@ -1,13 +1,16 @@
 package simgrideclipseplugin.graphical.figures;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.TitleBarBorder;
 import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.XYLayout;
+import org.eclipse.draw2d.geometry.Rectangle;
 
-public class ASfigure extends Figure {
+public class ASfigure extends SimgridAbstractFigure {
 	
 	private final Label idLabel;
 	private final Label routingLabel;
@@ -23,6 +26,7 @@ public class ASfigure extends Figure {
 		contentPane.setLayoutManager(new ToolbarLayout());
 		contentPane.setBorder(new TitleBarBorder("AS"));
 		add(contentPane);
+		setBorder(new LineBorder(ColorConstants.red, 2));
 	}
 	
 

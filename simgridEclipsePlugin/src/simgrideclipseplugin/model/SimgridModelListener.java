@@ -14,6 +14,7 @@ import simgrideclipseplugin.graphical.SimgridGraphicEditor;
  * 
  */
 @SuppressWarnings("restriction")
+//TODO Remove this class if it's not used after adding commands
 public class SimgridModelListener implements IModelStateListener {
 
 	SimgridGraphicEditor editor;
@@ -37,7 +38,7 @@ public class SimgridModelListener implements IModelStateListener {
 	@Override
 	public void modelChanged(IStructuredModel arg0) {
 		// UPdate UI From DOM Model which have changed
-		editor.updateUIFromDOMModel();
+		//editor.updateUIFromDOMModel();
 
 	}
 
@@ -46,7 +47,7 @@ public class SimgridModelListener implements IModelStateListener {
 		 // dirty from DOM Model has changed (the XML content was changed 
 	      // with anothher editor), fire the dirty property change to 
 	      // indicate to the editor that dirty has changed.
-		editor.setDirty();
+		//editor.setDirty();
 		
 	}
 
