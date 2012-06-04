@@ -13,6 +13,8 @@ import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 
+import simgrideclipseplugin.graphical.AutomaticGraphLayoutRenderer;
+
 /**
  * Manages the installation/deinstallation of global actions for multi-page editors.
  * Responsible for the redirection of global actions to the active editor.
@@ -21,6 +23,7 @@ import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 public class MultiPageEditorXMLContributor extends MultiPageEditorActionBarContributor {
 	private IEditorPart activeEditorPart;
 	private Action sampleAction;
+	private Action autoLayoutAction;
 	/**
 	 * Creates a multi-page contributor.
 	 */
@@ -90,14 +93,29 @@ public class MultiPageEditorXMLContributor extends MultiPageEditorActionBarContr
 		sampleAction.setToolTipText("Simgrid Action tool tip");
 		sampleAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 				getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
+		
+		//AutoLayout Action
+		autoLayoutAction = new Action() {
+			public void run() {
+				AutomaticGraphLayoutRenderer.INSTANCE.computeLayout();
+			}
+		};
+		autoLayoutAction.setText("Auto Layout");
+		autoLayoutAction.setToolTipText("Perform Auto Layout");
+		autoLayoutAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
+				getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
+		
 	}
+	
 	public void contributeToMenu(IMenuManager manager) {
 		IMenuManager menu = new MenuManager("Editor &Menu");
 		manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS, menu);
 		menu.add(sampleAction);
+		menu.add(autoLayoutAction);
 	}
 	public void contributeToToolBar(IToolBarManager manager) {
 		manager.add(new Separator());
 		manager.add(sampleAction);
+		manager.add(autoLayoutAction);
 	}
 }

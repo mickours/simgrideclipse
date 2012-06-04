@@ -12,8 +12,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.eclipse.gef.GraphicalEditPart;
 
-import simgrideclipseplugin.graphical.AutomaticGraphLayoutRenderer;
-
 @SuppressWarnings("restriction")
 public abstract class SimgridAbstractEditPart extends AbstractGraphicalEditPart
 		implements INodeAdapter {
@@ -22,10 +20,11 @@ public abstract class SimgridAbstractEditPart extends AbstractGraphicalEditPart
 	
 	public void setPosition(Point position) {
 		this.position = position;
+		refreshVisuals();
+		getFigure().revalidate();
 	}
 	
 	private Point getPosition(){
-		//return AutomaticGraphLayoutRenderer.INSTANCE.getPosition(this);
 		return position;
 	}
 
@@ -34,7 +33,7 @@ public abstract class SimgridAbstractEditPart extends AbstractGraphicalEditPart
 		super.refreshVisuals();
 		int x = getPosition().x;
 		int y = getPosition().y;
-
+		
 		Rectangle bounds = new Rectangle(x, y, 100, 100);
 		((GraphicalEditPart) getParent())
 			.setLayoutConstraint(this,getFigure(), bounds);

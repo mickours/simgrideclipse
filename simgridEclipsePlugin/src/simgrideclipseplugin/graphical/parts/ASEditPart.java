@@ -20,8 +20,6 @@ public class ASEditPart extends SimgridAbstractEditPart {
 		Element node = (Element) getModel();
 		f.setId(node.getAttribute("id"));
 		f.setRouting(node.getAttribute("routing"));
-		f.revalidate();
-		f.repaint();
 	}
 	
 	public IFigure getContentPane(){

@@ -2,6 +2,7 @@ package simgrideclipseplugin.graphical.figures;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.LineBorder;
@@ -19,14 +20,14 @@ public class ASfigure extends SimgridAbstractFigure {
 	public ASfigure() {
 		super.setLayoutManager(new ToolbarLayout());
 		idLabel = new Label();
+		idLabel.setForegroundColor(ColorConstants.gray);
 		routingLabel = new Label();
-		add(idLabel);
-		add(routingLabel);
 		contentPane = new Figure();
 		contentPane.setLayoutManager(new ToolbarLayout());
 		contentPane.setBorder(new TitleBarBorder("AS"));
+		add(idLabel);
+		add(routingLabel);
 		add(contentPane);
-		setBorder(new LineBorder(ColorConstants.red, 2));
 	}
 	
 
@@ -43,10 +44,10 @@ public class ASfigure extends SimgridAbstractFigure {
 	}
 
 	public void setId(String id) {
-		this.idLabel.setText(id);
+		this.idLabel.setText("id: "+id);
 	}
 
 	public void setRouting(String routing) {
-		this.routingLabel.setText(routing);
+		this.routingLabel.setText("routing: "+routing);
 	}
 }
