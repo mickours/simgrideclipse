@@ -34,6 +34,7 @@ public abstract class SimgridAbstractEditPart extends AbstractGraphicalEditPart
 		int x = getPosition().x;
 		int y = getPosition().y;
 		
+		//assign object size depending on zoom/space
 		Rectangle bounds = new Rectangle(x, y, 100, 100);
 		((GraphicalEditPart) getParent())
 			.setLayoutConstraint(this,getFigure(), bounds);

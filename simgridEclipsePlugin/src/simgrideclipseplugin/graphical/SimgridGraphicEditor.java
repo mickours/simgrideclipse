@@ -5,8 +5,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
-import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
-import org.eclipse.gef.editparts.ScalableRootEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.ui.IEditorInput;
@@ -18,12 +16,8 @@ import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
-import simgrideclipseplugin.graphical.parts.SimgridAbstractEditPart;
 import simgrideclipseplugin.graphical.parts.SimgridEditPartFactory;
-import simgrideclipseplugin.model.SimgridModelListener;
 
 @SuppressWarnings("restriction")
 public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {

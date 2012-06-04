@@ -49,11 +49,13 @@ public class AutomaticGraphLayoutRenderer {
 		do  {
 			layoutManager.compute();
 			i++;
+			//TODO the i limit must depends on the number of nodes
 		}while(layoutManager.getNodeMoved() != 0 && i < 100 );
 		// update position in the map
 		for (Node n : graph.getEachNode()) {
 			// get (position,id) from graph
 			double pos[] = Toolkit.nodePosition(graph, n.getId());
+			//TODO assign position depending on object size and zoom
 			int x =  new Double(pos[0]*100).intValue();
 			int y =  new Double(pos[1]*100).intValue();
 			Point p = new Point(x, y);
