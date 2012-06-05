@@ -6,7 +6,7 @@ import org.eclipse.ui.part.EditorPart;
 import org.eclipse.wst.sse.core.internal.provisional.IModelStateListener;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 
-import simgrideclipseplugin.graphical.SimgridGraphicEditor;
+import simgrideclipseplugin.editors.SimgridGraphicEditor;
 
 /**
  * Provide default implementation of the IModelStateListener interface 

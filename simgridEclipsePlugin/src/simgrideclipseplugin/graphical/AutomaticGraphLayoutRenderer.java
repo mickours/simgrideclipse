@@ -50,7 +50,7 @@ public class AutomaticGraphLayoutRenderer {
 			layoutManager.compute();
 			i++;
 			//TODO the i limit must depends on the number of nodes
-		}while(layoutManager.getNodeMoved() != 0 && i < 100 );
+		}while(layoutManager.getNodeMoved() != 0 && i < 300 );
 		// update position in the map
 		for (Node n : graph.getEachNode()) {
 			// get (position,id) from graph

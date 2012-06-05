@@ -12,6 +12,8 @@ import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
+import simgrideclipseplugin.graphical.SimgridIconProvider;
+
 public class ASfigure extends SimgridAbstractFigure {
 	
 	private final Label idLabel;
@@ -19,23 +21,12 @@ public class ASfigure extends SimgridAbstractFigure {
 	private final Label iconLabel;
 	private final IFigure contentPane;
 	
-	private static Image getIcon(){
-		URL url = null;
-		try {
-			url = new URL("platform:/plugin/simgridEclipsePlugin/icons/AS.png");
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return ImageDescriptor.createFromURL(url).createImage();
-	}
-	
 	public ASfigure() {
 		super.setLayoutManager(new ToolbarLayout());
 		idLabel = new Label();
 		idLabel.setForegroundColor(ColorConstants.gray);
 		iconLabel = new Label();
-		iconLabel.setIcon(getIcon());
+		iconLabel.setIcon(SimgridIconProvider.getIcon("AS"));
 		routingLabel = new Label();
 		contentPane = new Figure();
 		contentPane.setLayoutManager(new ToolbarLayout());

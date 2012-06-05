@@ -6,6 +6,8 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -17,9 +19,9 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.part.MultiPageEditorSite;
+import org.eclipse.ui.part.MultiPageSelectionProvider;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.contenttype.ContentTypeIdForXML;
-import simgrideclipseplugin.graphical.SimgridGraphicEditor;
 
 /**
  * An example showing how to create a multi-page editor. This example has 3
@@ -45,6 +47,8 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 
 	/** holder for graphicEditor index */
 	private int indexSSE = -1;
+	
+	private MultiPageSelectionProvider selectionProvider;
 
 	/**
 	 * Creates a multi-page editor example.
@@ -52,6 +56,12 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	public MultiPageXMLEditor() {
 		super();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
+		selectionProvider = new MultiPageSelectionProvider(this);
+	    selectionProvider.addSelectionChangedListener(new ISelectionChangedListener() {
+	      public void selectionChanged(SelectionChangedEvent event) {
+	        System.out.println(event.getSelection());
+	      }
+	    }); 
 	}
 
 	/**
@@ -94,12 +104,10 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	 * graphic view.
 	 */
 	void createGraphicEditorPage() {
-		//IDocument doc = editor.getDocumentProvider().getDocument(editor.getEditorInput());
 		graphEditor = new SimgridGraphicEditor(this);
 		try {
 			graphicEditorIndex = addPage(graphEditor, getEditorInput());
 			setPageText(graphicEditorIndex, "Visual editor");
-//			graphEditor.updateUIFromDOMModel();
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
@@ -166,6 +174,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 			throw new PartInitException(
 					"Invalid Input: Must be IFileEditorInput");
 		super.init(site, editorInput);
+		site.setSelectionProvider(selectionProvider); 
 	}
 
 	/*

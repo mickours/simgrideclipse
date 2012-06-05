@@ -1,4 +1,4 @@
-package simgrideclipseplugin.graphical;
+package simgrideclipseplugin.editors;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -12,11 +12,14 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.part.MultiPageSelectionProvider;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 
+import simgrideclipseplugin.graphical.AutomaticGraphLayoutRenderer;
+import simgrideclipseplugin.graphical.SimgridPaletteFactory;
 import simgrideclipseplugin.graphical.parts.SimgridEditPartFactory;
 
 @SuppressWarnings("restriction")
@@ -24,6 +27,7 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	//private SimgridModelListener listener;
 	// The DOM Model initialized with IFile Input Source
 	private IDOMModel model;
+	private static PaletteRoot palette;
 
 	public SimgridGraphicEditor(IEditorPart parent) {
 		super.setEditDomain(new DefaultEditDomain(this));
@@ -58,6 +62,7 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 				throw new RuntimeException("Invalid Input: Must be DOM", e);
 			}
 		}
+		//model.getModelManager().getExistingModelForEdit(model).
 		return model;
 	}
 
@@ -136,7 +141,10 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 
 	@Override
 	protected PaletteRoot getPaletteRoot() {
-		return new PaletteRoot();
+		if(palette == null){
+			palette = SimgridPaletteFactory.createPalette();	
+		}
+		return palette;
 	}
 
 }

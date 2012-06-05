@@ -1,8 +1,10 @@
 package simgrideclipseplugin.graphical.parts;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPolicy;
 
 import simgrideclipseplugin.graphical.figures.ContentPaneFigure;
+import simgrideclipseplugin.graphical.policies.SimgridXYLayoutEditPolicy;
 
 public class PlatformEditPart extends SimgridAbstractEditPart {
 
@@ -13,11 +15,6 @@ public class PlatformEditPart extends SimgridAbstractEditPart {
 
 	@Override
 	protected void createEditPolicies() {
-		// TODO Auto-generated method stub
-
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new SimgridXYLayoutEditPolicy());
 	}
-	
-//	public IFigure getContentPane(){
-//		return ((ContentPaneFigure)getFigure()).getContentPane();
-//	}
 }
