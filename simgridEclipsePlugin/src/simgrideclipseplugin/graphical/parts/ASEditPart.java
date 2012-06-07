@@ -26,9 +26,5 @@ public class ASEditPart extends SimgridAbstractEditPart {
 		return ((ASfigure)getFigure()).getContentPane();
 	}
 	
-	@Override
-	protected void createEditPolicies() {
-		// TODO Auto-generated method stub
-
-	}
+	
 }

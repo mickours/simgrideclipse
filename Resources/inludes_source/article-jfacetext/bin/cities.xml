@@ -1,0 +1,40 @@
+
+<!DOCTYPE world SYSTEM "cities.dtd">
+<world>
+	<continent name = "Africa">
+		<description>Easily the most beautiful continent</description>
+	</continent>	
+	<continent name = "North America">
+		<country name = "USA" population = "250m">
+			<description>Is &lt; people think</description>
+			<city name = "New York">
+				<attraction name = "Statue of Liberty"/>
+				<attraction name = "Central Park"/>
+			</city>
+			<city name = "Los Angeles">
+				<attraction name = "Hollywood"/>
+			</city>
+		</country>
+		<country name = "Mexico" population = "250m"/>
+		<ocean name = "atlantic"/>
+		<ocean name = "pacific"/>
+	</continent>
+	<continent name = "Europe">
+		<country name = "UK" population = "55m">
+			<city name = "London">
+				<description></description>
+				<attraction name = "Big Ben"/>
+				<attraction name = "Buckingham Palace">
+					<description>
+						<![CDATA[Where the queen lives > than most]]>
+					</description>
+				</attraction>
+			</city>
+			<city name = "Edinburgh">
+				<attraction name = "Castle"/>
+			</city>
+			<attraction name = "Buckingham Palace"/>
+		</country>
+		<ocean name = "atlantic"/>		
+	</continent>
+</world>

@@ -1,16 +1,11 @@
 package simgrideclipseplugin.graphical.figures;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.TitleBarBorder;
 import org.eclipse.draw2d.ToolbarLayout;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Image;
 
 import simgrideclipseplugin.graphical.SimgridIconProvider;
 
@@ -22,6 +17,7 @@ public class ASfigure extends SimgridAbstractFigure {
 	private final IFigure contentPane;
 	
 	public ASfigure() {
+		
 		super.setLayoutManager(new ToolbarLayout());
 		idLabel = new Label();
 		idLabel.setForegroundColor(ColorConstants.gray);
@@ -32,13 +28,20 @@ public class ASfigure extends SimgridAbstractFigure {
 		contentPane.setLayoutManager(new ToolbarLayout());
 		TitleBarBorder b = new TitleBarBorder("AS");
 		b.setBackgroundColor(ColorConstants.darkGreen);
-		contentPane.setBorder(b);
+		setBorder(b);
 		add(idLabel);
 		add(iconLabel);
 		add(routingLabel);
 		add(contentPane);
 	}
 	
+
+	public ASfigure(ASfigure figure) {
+		this();
+		setId(figure.getId());
+		setRouting(figure.getRouting());
+	}
+
 
 	public IFigure getContentPane() {
 		return contentPane;

@@ -13,7 +13,7 @@ import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 
-import simgrideclipseplugin.graphical.AutomaticGraphLayoutRenderer;
+import simgrideclipseplugin.graphical.AutomaticGraphLayoutHelper;
 
 /**
  * Manages the installation/deinstallation of global actions for multi-page editors.
@@ -97,7 +97,7 @@ public class MultiPageEditorXMLContributor extends MultiPageEditorActionBarContr
 		//AutoLayout Action
 		autoLayoutAction = new Action() {
 			public void run() {
-				AutomaticGraphLayoutRenderer.INSTANCE.computeLayout();
+				AutomaticGraphLayoutHelper.INSTANCE.computeLayout();
 			}
 		};
 		autoLayoutAction.setText("Auto Layout");

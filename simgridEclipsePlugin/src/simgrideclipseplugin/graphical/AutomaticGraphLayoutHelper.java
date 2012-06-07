@@ -13,7 +13,7 @@ import org.graphstream.ui.layout.springbox.SpringBox;
 import simgrideclipseplugin.graphical.parts.PlatformEditPart;
 import simgrideclipseplugin.graphical.parts.SimgridAbstractEditPart;
 
-public class AutomaticGraphLayoutRenderer {
+public class AutomaticGraphLayoutHelper {
 	//private HashMap<String, Point> positionMap;
 	private HashMap<String, SimgridAbstractEditPart> editPartMap;
 
@@ -22,7 +22,7 @@ public class AutomaticGraphLayoutRenderer {
 	private RootEditPart root;
 
 	// define as a singleton
-	public static final AutomaticGraphLayoutRenderer INSTANCE = new AutomaticGraphLayoutRenderer();
+	public static final AutomaticGraphLayoutHelper INSTANCE = new AutomaticGraphLayoutHelper();
 
 	public void init(RootEditPart root) {
 		this.root = root;
@@ -51,19 +51,27 @@ public class AutomaticGraphLayoutRenderer {
 			i++;
 			//TODO the i limit must depends on the number of nodes
 		}while(layoutManager.getNodeMoved() != 0 && i < 300 );
+		double xmin = 0, ymin = 0;
+		//get the x and y min to translate
+		for (Node n : graph.getEachNode()) {
+			double pos[] = Toolkit.nodePosition(graph, n.getId());
+			xmin = Math.min(pos[0], xmin);
+			ymin = Math.min(pos[1], ymin);
+		}
+		
 		// update position in the map
 		for (Node n : graph.getEachNode()) {
 			// get (position,id) from graph
 			double pos[] = Toolkit.nodePosition(graph, n.getId());
 			//TODO assign position depending on object size and zoom
-			int x =  new Double(pos[0]*100).intValue();
-			int y =  new Double(pos[1]*100).intValue();
+			int x =  new Double((pos[0]+Math.abs(xmin))*50).intValue();
+			int y =  new Double((pos[1]+Math.abs(ymin))*50).intValue();
 			Point p = new Point(x, y);
-			//positionMap.put(n.getId(), new Point(x, y));
 			// set position
-			editPartMap.get(n.getId()).setPosition(p);
+			ElementPositionMap.setPositionAndRefresh(editPartMap.get(n.getId()),p);
 		}	
 		((PlatformEditPart)root.getContents()).refresh();
+		//TODO refresh the Selection too
 	}
 
 	@SuppressWarnings("unchecked")

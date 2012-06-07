@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.example.emfgmf/src"
+    modelPluginID="org.example.emfgmf" modelName="TopicMap" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" copyrightFields="false">
+  <foreignModel>TopicMap.ecore</foreignModel>
+  <genPackages prefix="Topicmap" basePackage="org.example.emfgmf" disposableProviderFactory="true"
+      ecorePackage="TopicMap.ecore#/">
+    <genClasses ecoreClass="TopicMap.ecore#//Topic">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TopicMap.ecore#//Topic/label"/>
+    </genClasses>
+    <genClasses ecoreClass="TopicMap.ecore#//Association">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TopicMap.ecore#//Association/label"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TopicMap.ecore#//Association/left"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TopicMap.ecore#//Association/right"/>
+    </genClasses>
+    <genClasses ecoreClass="TopicMap.ecore#//TopicMap">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TopicMap.ecore#//TopicMap/label"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TopicMap.ecore#//TopicMap/topics"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TopicMap.ecore#//TopicMap/associations"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

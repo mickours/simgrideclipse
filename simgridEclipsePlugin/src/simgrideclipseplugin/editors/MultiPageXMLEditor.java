@@ -6,8 +6,6 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -19,9 +17,11 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.part.MultiPageEditorSite;
-import org.eclipse.ui.part.MultiPageSelectionProvider;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.contenttype.ContentTypeIdForXML;
+
+import simgrideclipseplugin.editors.outline.SimgridOutlinePage;
 
 /**
  * An example showing how to create a multi-page editor. This example has 3
@@ -37,7 +37,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 		IResourceChangeListener {
 
 	/** The text editor used in page 0. */
-	private StructuredTextEditor editor;
+	public StructuredTextEditor editor;
 
 	/** The graphic editor used in page 1. */
 	private SimgridGraphicEditor graphEditor;
@@ -48,20 +48,27 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	/** holder for graphicEditor index */
 	private int indexSSE = -1;
 	
-	private MultiPageSelectionProvider selectionProvider;
-
+	/** the specific outline for this editor */
+	private SimgridOutlinePage myOutlinePage;
 	/**
 	 * Creates a multi-page editor example.
 	 */
 	public MultiPageXMLEditor() {
 		super();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
-		selectionProvider = new MultiPageSelectionProvider(this);
-	    selectionProvider.addSelectionChangedListener(new ISelectionChangedListener() {
-	      public void selectionChanged(SelectionChangedEvent event) {
-	        System.out.println(event.getSelection());
-	      }
-	    }); 
+		
+	}
+	
+	/**
+	 * The <code>MultiPageEditorExample</code> implementation of this method
+	 * checks that the input is an instance of <code>IFileEditorInput</code>.
+	 */
+	public void init(IEditorSite site, IEditorInput editorInput)
+			throws PartInitException {
+		if (!(editorInput instanceof IFileEditorInput))
+			throw new PartInitException(
+					"Invalid Input: Must be IFileEditorInput");
+		super.init(site, editorInput);
 	}
 
 	/**
@@ -119,6 +126,9 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	protected void createPages() {
 		createStructuredTextEditorPage();
 		createGraphicEditorPage();
+//		getSite().getSelectionProvider()
+//		.addSelectionChangedListener(editor);
+		
 	}
 
 
@@ -164,19 +174,6 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 		IDE.gotoMarker(getEditor(0), marker);
 	}
 
-	/**
-	 * The <code>MultiPageEditorExample</code> implementation of this method
-	 * checks that the input is an instance of <code>IFileEditorInput</code>.
-	 */
-	public void init(IEditorSite site, IEditorInput editorInput)
-			throws PartInitException {
-		if (!(editorInput instanceof IFileEditorInput))
-			throw new PartInitException(
-					"Invalid Input: Must be IFileEditorInput");
-		super.init(site, editorInput);
-		site.setSelectionProvider(selectionProvider); 
-	}
-
 	/*
 	 * (non-Javadoc) Method declared on IEditorPart.
 	 */
@@ -206,4 +203,28 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 			});
 		}
 	}
+	
+	
+
+//	@Override
+//	protected void pageChange(int newPageIndex) {
+//		IPerspectiveDescriptor tab[] = getSite().getPage().getOpenPerspectives();
+//		for(IViewReference ref : getSite().getPage().getViewReferences()){
+//			IViewPart v = ref.getView(false).;
+//			System.out.println(v);
+//		}
+//		super.pageChange(newPageIndex);
+//	}
+
+//	@Override
+//	public Object getAdapter(Class required) {
+//	      if (IContentOutlinePage.class.equals(required)) {
+//	         if (myOutlinePage == null) {
+//	            myOutlinePage = new SimgridOutlinePage(graphEditor);
+//	            myOutlinePage.setInput(getEditorInput());
+//	         }
+//	         return myOutlinePage;
+//	      }
+//	      return super.getAdapter(required);
+//	   }
 }

@@ -1,0 +1,21 @@
+<!ELEMENT world (continent*)>
+
+<!ELEMENT continent (description?,country*, ocean*)>
+<!ATTLIST continent name CDATA #REQUIRED
+                     population CDATA #IMPLIED>
+
+<!ELEMENT country (description?,city*,attraction*)>
+<!ATTLIST country name CDATA #REQUIRED
+                     population CDATA #IMPLIED>
+					 
+<!ELEMENT city (description?,attraction*)>
+<!ATTLIST city name CDATA #REQUIRED
+                     population CDATA #IMPLIED>
+					 
+<!ELEMENT description (#PCDATA)>
+
+<!ELEMENT attraction (description?)>
+<!ATTLIST attraction name CDATA #REQUIRED>
+
+<!ELEMENT ocean EMPTY>
+<!ATTLIST ocean name CDATA #REQUIRED>

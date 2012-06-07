@@ -1,0 +1,7 @@
+# Tracing options for the org.example.emfgmf.diagram plug-in
+
+# Common issues
+org.example.emfgmf.diagram/debug=false
+
+# Visual IDs
+org.example.emfgmf.diagram/debug/visualID=false

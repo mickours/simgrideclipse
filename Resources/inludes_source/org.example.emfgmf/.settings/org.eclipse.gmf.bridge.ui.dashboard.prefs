@@ -1,0 +1,8 @@
+#Sat Jun 30 20:07:45 CEST 2007
+eclipse.preferences.version=1
+gmf_dashboard/domainGenerationModel=platform\:/resource/org.example.emfgmf/model/TopicMap.genmodel
+gmf_dashboard/domainModel=platform\:/resource/org.example.emfgmf/model/TopicMap.ecore
+gmf_dashboard/generationModel=platform\:/resource/org.example.emfgmf/model/TopicMap.gmfgen
+gmf_dashboard/graphicalDefinitionModel=platform\:/resource/org.example.emfgmf/model/TopicMap.gmfgraph
+gmf_dashboard/mappingModel=platform\:/resource/org.example.emfgmf/model/TopicMap.gmfmap
+gmf_dashboard/toolingDefinitionModel=platform\:/resource/org.example.emfgmf/model/TopicMap.gmftool
