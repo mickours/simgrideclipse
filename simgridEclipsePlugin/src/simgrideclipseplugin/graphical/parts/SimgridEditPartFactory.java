@@ -33,7 +33,7 @@ public class SimgridEditPartFactory implements EditPartFactory {
 			return new PlatformEditPart();
 		}
 		throw new RuntimeException("Can't create part for model element: "
-				+ ((modelElement != null) ? modelElement.getClass().getName()
+				+ ((modelElement != null) ? name
 						: "null"));
 		}
 }

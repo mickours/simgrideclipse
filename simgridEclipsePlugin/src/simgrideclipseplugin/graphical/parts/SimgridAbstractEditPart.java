@@ -33,20 +33,6 @@ import simgrideclipseplugin.model.ModelHelper;
 public abstract class SimgridAbstractEditPart extends AbstractGraphicalEditPart
 		implements INodeAdapter {
 
-	private Point location;
-
-	@Override
-	protected void refreshVisuals() {
-		location = ElementPositionMap.getPosition((Element) getModel());
-		if (location == null)
-			location = new Point(0, 0);
-
-		// assign object size depending on zoom/space
-		Rectangle bounds = new Rectangle(location.x, location.y, 100, 100);
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
-				getFigure(), bounds);
-	}
-
 	@SuppressWarnings("rawtypes")
 	@Override
 	public List getModelChildren() {
@@ -81,64 +67,5 @@ public abstract class SimgridAbstractEditPart extends AbstractGraphicalEditPart
 	@Override
 	public boolean isAdapterForType(Object type) {
 		return type.equals(Element.class);
-	}
-
-	private IFigure getScaledFeedbackLayer() {
-		FreeformGraphicalRootEditPart dep = (FreeformGraphicalRootEditPart) getRoot();
-		if (dep != null) {
-			IFigure layer = dep.getLayer(LayerConstants.SCALABLE_LAYERS);
-			if (layer instanceof ScalableFreeformLayeredPane) {
-				Layer feedbackLayer = ((ScalableFreeformLayeredPane) layer)
-						.getLayer(LayerConstants.SCALED_FEEDBACK_LAYER);
-				if (feedbackLayer == null) {
-					feedbackLayer = new FreeformLayer();
-					feedbackLayer.setEnabled(false);
-					layer.add(feedbackLayer,
-							LayerConstants.SCALED_FEEDBACK_LAYER);
-				}
-				return feedbackLayer;
-			}
-		}
-		return null;
-	}
-
-	@Override
-	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE,
-				new SelectionEditPolicy() {
-					private Figure f;
-
-					@Override
-					protected void showSelection() {
-						IFigure feedBackLayer = getScaledFeedbackLayer();
-						if (feedBackLayer != null){
-							f = new Figure();
-							f.setBorder(new LineBorder(ColorConstants.red));
-							Rectangle bounds = new Rectangle(location.x,
-									location.y, 100, 100);
-							LayoutManager layoutManager = feedBackLayer.getLayoutManager();
-							if (layoutManager == null){
-								feedBackLayer.setLayoutManager(new FreeformLayout());
-							}
-							feedBackLayer.getLayoutManager().setConstraint(f,
-									bounds);
-							feedBackLayer.add(f);
-						}
-					}
-
-					@Override
-					protected void hideSelection() {
-						IFigure feedBackLayer = getScaledFeedbackLayer();
-						if (feedBackLayer != null && f != null) {
-							feedBackLayer.remove(f);
-						}
-					}
-				});
-	}
-
-	@Override
-	public DragTracker getDragTracker(Request request) {
-		// TODO manage gragging object
-		return super.getDragTracker(request);
 	}
 }

@@ -21,6 +21,15 @@ import org.w3c.dom.NodeList;
  */
 @SuppressWarnings("restriction")
 public final class ModelHelper {
+	
+	public static void addChild(Element parent, Element child){
+		try{
+			ElementImpl e = (ElementImpl)parent;
+			e.appendChild(child);
+		}catch (Exception e2) {
+			e2.printStackTrace();
+		}
+	}
 
 	public static List<Element> getChildren(Element root) {
 		// return the model children

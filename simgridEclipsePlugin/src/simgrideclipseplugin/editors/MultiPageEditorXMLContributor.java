@@ -1,5 +1,8 @@
 package simgrideclipseplugin.editors;
 
+import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
+import org.eclipse.gef.ui.actions.ZoomInRetargetAction;
+import org.eclipse.gef.ui.actions.ZoomOutRetargetAction;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IActionBars;
@@ -83,6 +86,8 @@ public class MultiPageEditorXMLContributor extends MultiPageEditorActionBarContr
 			actionBars.updateActionBars();
 		}
 	}
+	
+	
 	private void createActions() {
 		sampleAction = new Action() {
 			public void run() {
@@ -104,18 +109,22 @@ public class MultiPageEditorXMLContributor extends MultiPageEditorActionBarContr
 		autoLayoutAction.setToolTipText("Perform Auto Layout");
 		autoLayoutAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 				getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
-		
 	}
 	
 	public void contributeToMenu(IMenuManager manager) {
-		IMenuManager menu = new MenuManager("Editor &Menu");
-		manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS, menu);
-		menu.add(sampleAction);
-		menu.add(autoLayoutAction);
+		IMenuManager editorMenu = new MenuManager("Editor &Menu");
+		manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS, editorMenu);
+		editorMenu.add(sampleAction);
+		editorMenu.add(autoLayoutAction);
+		IMenuManager viewMenu = new MenuManager("View");
+		manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS,viewMenu);
+		viewMenu.add(new ZoomInRetargetAction());
+		viewMenu.add(new ZoomOutRetargetAction());
 	}
 	public void contributeToToolBar(IToolBarManager manager) {
 		manager.add(new Separator());
 		manager.add(sampleAction);
 		manager.add(autoLayoutAction);
+		manager.add(new ZoomComboContributionItem(getPage()));
 	}
 }

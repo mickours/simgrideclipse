@@ -70,8 +70,7 @@ public class AutomaticGraphLayoutHelper {
 			// set position
 			ElementPositionMap.setPositionAndRefresh(editPartMap.get(n.getId()),p);
 		}	
-		((PlatformEditPart)root.getContents()).refresh();
-		//TODO refresh the Selection too
+		((PlatformEditPart)root.getContents()).refresh();		
 	}
 
 	@SuppressWarnings("unchecked")

@@ -5,7 +5,7 @@ import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.figures.ASfigure;
 
-public class ASEditPart extends SimgridAbstractEditPart {
+public class ASEditPart extends ElementAbstractEditPart {
 
 	@Override
 	protected IFigure createFigure() {

@@ -5,6 +5,7 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
@@ -47,18 +48,19 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 
 	/** holder for graphicEditor index */
 	private int indexSSE = -1;
-	
+
 	/** the specific outline for this editor */
 	private SimgridOutlinePage myOutlinePage;
+
 	/**
 	 * Creates a multi-page editor example.
 	 */
 	public MultiPageXMLEditor() {
 		super();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
-		
+
 	}
-	
+
 	/**
 	 * The <code>MultiPageEditorExample</code> implementation of this method
 	 * checks that the input is an instance of <code>IFileEditorInput</code>.
@@ -107,8 +109,8 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	}
 
 	/**
-	 * Creates page 1 of the multi-page editor, which should contain the
-	 * graphic view.
+	 * Creates page 1 of the multi-page editor, which should contain the graphic
+	 * view.
 	 */
 	void createGraphicEditorPage() {
 		graphEditor = new SimgridGraphicEditor(this);
@@ -126,11 +128,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	protected void createPages() {
 		createStructuredTextEditorPage();
 		createGraphicEditorPage();
-//		getSite().getSelectionProvider()
-//		.addSelectionChangedListener(editor);
-		
 	}
-
 
 	public void adaptiveSetPageText(int index, String name) {
 		setPageText(index, name);
@@ -203,28 +201,29 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 			});
 		}
 	}
-	
-	
 
-//	@Override
-//	protected void pageChange(int newPageIndex) {
-//		IPerspectiveDescriptor tab[] = getSite().getPage().getOpenPerspectives();
-//		for(IViewReference ref : getSite().getPage().getViewReferences()){
-//			IViewPart v = ref.getView(false).;
-//			System.out.println(v);
-//		}
-//		super.pageChange(newPageIndex);
-//	}
+	// @Override
+	// protected void pageChange(int newPageIndex) {
+	// IPerspectiveDescriptor tab[] = getSite().getPage().getOpenPerspectives();
+	// for(IViewReference ref : getSite().getPage().getViewReferences()){
+	// IViewPart v = ref.getView(false).;
+	// System.out.println(v);
+	// }
+	// super.pageChange(newPageIndex);
+	// }
 
-//	@Override
-//	public Object getAdapter(Class required) {
-//	      if (IContentOutlinePage.class.equals(required)) {
-//	         if (myOutlinePage == null) {
-//	            myOutlinePage = new SimgridOutlinePage(graphEditor);
-//	            myOutlinePage.setInput(getEditorInput());
-//	         }
-//	         return myOutlinePage;
-//	      }
-//	      return super.getAdapter(required);
-//	   }
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Object getAdapter(Class required) {
+		// if (IContentOutlinePage.class.equals(required)) {
+		// if (myOutlinePage == null) {
+		// myOutlinePage = new SimgridOutlinePage(graphEditor);
+		// myOutlinePage.setInput(getEditorInput());
+		// }
+		// return myOutlinePage;
+		// }
+		if (required == ZoomManager.class)
+			return graphEditor.getAdapter(ZoomManager.class);
+		return super.getAdapter(required);
+	}
 }

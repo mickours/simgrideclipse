@@ -2,10 +2,10 @@ package simgrideclipseplugin.graphical.commands;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.ElementPositionMap;
+import simgrideclipseplugin.model.ModelHelper;
 
 public class addElementCommand extends Command {
 	private Element parent;
@@ -29,11 +29,6 @@ public class addElementCommand extends Command {
 		e.setAttribute("id", "ASnew");
 		e.setAttribute("routing", "Full");
 		ElementPositionMap.setPosition(e, position);
-		try{
-			parent.appendChild(e);
-		}catch (DOMException e2) {
-			e2.printStackTrace();
-		}
-		
+		ModelHelper.addChild(parent, e);
 	}
 }
