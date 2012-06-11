@@ -30,6 +30,10 @@ public final class ModelHelper {
 			e2.printStackTrace();
 		}
 	}
+	
+	public static void removeElement(Element e) {
+		e.getOwnerDocument().removeChild(e);
+	}
 
 	public static List<Element> getChildren(Element root) {
 		// return the model children
@@ -59,6 +63,10 @@ public final class ModelHelper {
 		}
 		return (IDOMModel) model;
 	}
+	
+	
+	
+	
 	
 	public static Element getRootElement(IEditorInput input){
 		Element e = null;

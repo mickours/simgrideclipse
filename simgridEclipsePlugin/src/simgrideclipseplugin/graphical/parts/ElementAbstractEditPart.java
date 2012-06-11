@@ -1,5 +1,7 @@
 package simgrideclipseplugin.graphical.parts;
 
+import java.util.List;
+
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
@@ -12,16 +14,24 @@ import org.eclipse.draw2d.ScalableFreeformLayeredPane;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
+import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
+import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.gef.tools.DragEditPartsTracker;
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.ElementPositionMap;
+import simgrideclipseplugin.graphical.commands.DeleteElementCommand;
+import simgrideclipseplugin.graphical.policies.SimgridXYLayoutEditPolicy;
+import simgrideclipseplugin.model.ModelHelper;
 
 public abstract class ElementAbstractEditPart extends SimgridAbstractEditPart {
 
@@ -41,6 +51,7 @@ public abstract class ElementAbstractEditPart extends SimgridAbstractEditPart {
 		bounds.y = getLocation().y;
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
 				getFigure(), bounds);
+		
 		if (getSelected() != SELECTED_NONE){
 			//little trick to update selection UI
 			setSelected(SELECTED_NONE);
@@ -48,7 +59,7 @@ public abstract class ElementAbstractEditPart extends SimgridAbstractEditPart {
 		}
 	}
 	
-	private Point getLocation() {
+	public Point getLocation() {
 		Point location = ElementPositionMap.getPosition((Element) getModel());
 		if (location == null){
 			location = new Point(0, 0);
@@ -56,81 +67,23 @@ public abstract class ElementAbstractEditPart extends SimgridAbstractEditPart {
 		return location;
 	}
 
-	private void setLocation(Point location) {
+	public void setLocation(Point location) {
 		 ElementPositionMap.setPositionAndRefresh(this, location);
 	}
-
-	private IFigure getScaledFeedbackLayer() {
-		FreeformGraphicalRootEditPart dep = (FreeformGraphicalRootEditPart) getRoot();
-		if (dep != null) {
-			IFigure layer = dep.getLayer(LayerConstants.SCALABLE_LAYERS);
-			if (layer instanceof ScalableFreeformLayeredPane) {
-				Layer feedbackLayer = ((ScalableFreeformLayeredPane) layer)
-						.getLayer(LayerConstants.SCALED_FEEDBACK_LAYER);
-				if (feedbackLayer == null) {
-					feedbackLayer = new FreeformLayer();
-					feedbackLayer.setEnabled(false);
-					layer.add(feedbackLayer,
-							LayerConstants.SCALED_FEEDBACK_LAYER);
-				}
-				return feedbackLayer;
-			}
-		}
-		return null;
-	}
-
+	
 	@Override
-	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE,
-				new SelectionEditPolicy() {
-					private Figure f;
-
-					@Override
-					protected void showSelection() {
-						IFigure feedBackLayer = getScaledFeedbackLayer();
-						if (feedBackLayer != null){
-							LayoutManager layoutManager = feedBackLayer.getLayoutManager();
-							if (layoutManager == null){
-								feedBackLayer.setLayoutManager(new FreeformLayout());
-							}
-							if (f == null){
-								f = new Figure();
-							}
-							
-							f.setBorder(new LineBorder(ColorConstants.red));
-							feedBackLayer.getLayoutManager().setConstraint(f,bounds);
-							if (! feedBackLayer.getChildren().contains(f)){
-								feedBackLayer.add(f);
-								
-							}
-						}
-					}
-
-					@Override
-					protected void hideSelection() {
-						IFigure feedBackLayer = getScaledFeedbackLayer();
-						if (feedBackLayer != null && f != null) {
-							feedBackLayer.remove(f);
-						}
-					}
-				});
-	}
-
-	@Override
-	public DragTracker getDragTracker(Request request) {
-		return new DragEditPartsTracker(this){
-
+	protected void createEditPolicies() {		
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicy() {
+			
 			@Override
-			protected void performDrag() {
-				Point p = this.getLocation();
-				//get the center
-				p.x -= size.x/2;
-				p.y -= size.y/2;
-				setLocation(p);
-				super.performDrag();
+			protected Command createDeleteCommand(GroupRequest deleteRequest) {
+				DeleteElementCommand cmd = new DeleteElementCommand();
+				cmd.setModel((Element) getModel());
+				return cmd;
 			}
 			
-		};
+		});
+		
+		//installEditPolicy(EditPolicy.LAYOUT_ROLE, new SimgridXYLayoutEditPolicy());
 	}
-
 }

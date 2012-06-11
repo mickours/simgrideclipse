@@ -1,13 +1,17 @@
 package simgrideclipseplugin.editors;
 
+import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.actions.DeleteAction;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
 import org.eclipse.gef.ui.actions.ZoomInRetargetAction;
 import org.eclipse.gef.ui.actions.ZoomOutRetargetAction;
+import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.ide.IDE;
@@ -15,8 +19,11 @@ import org.eclipse.ui.ide.IDEActionFactory;
 import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
+import org.eclipse.wst.sse.ui.internal.IStructuredTextEditorActionConstants;
 
 import simgrideclipseplugin.graphical.AutomaticGraphLayoutHelper;
+import simgrideclipseplugin.graphical.SimgridIconProvider;
+import simgrideclipseplugin.graphical.actions.AutoLayoutAction;
 
 /**
  * Manages the installation/deinstallation of global actions for multi-page editors.
@@ -25,14 +32,11 @@ import simgrideclipseplugin.graphical.AutomaticGraphLayoutHelper;
  */
 public class MultiPageEditorXMLContributor extends MultiPageEditorActionBarContributor {
 	private IEditorPart activeEditorPart;
-	private Action sampleAction;
-	private Action autoLayoutAction;
 	/**
 	 * Creates a multi-page contributor.
 	 */
 	public MultiPageEditorXMLContributor() {
 		super();
-		createActions();
 	}
 	/**
 	 * Returns the action registed with the given text editor.
@@ -50,81 +54,73 @@ public class MultiPageEditorXMLContributor extends MultiPageEditorActionBarContr
 			return;
 
 		activeEditorPart = part;
+		
 
 		IActionBars actionBars = getActionBars();
 		if (actionBars != null) {
-
-			ITextEditor editor = (part instanceof ITextEditor) ? (ITextEditor) part : null;
-
-			actionBars.setGlobalActionHandler(
-				ActionFactory.DELETE.getId(),
-				getAction(editor, ITextEditorActionConstants.DELETE));
-			actionBars.setGlobalActionHandler(
-				ActionFactory.UNDO.getId(),
-				getAction(editor, ITextEditorActionConstants.UNDO));
-			actionBars.setGlobalActionHandler(
-				ActionFactory.REDO.getId(),
-				getAction(editor, ITextEditorActionConstants.REDO));
-			actionBars.setGlobalActionHandler(
-				ActionFactory.CUT.getId(),
-				getAction(editor, ITextEditorActionConstants.CUT));
-			actionBars.setGlobalActionHandler(
-				ActionFactory.COPY.getId(),
-				getAction(editor, ITextEditorActionConstants.COPY));
-			actionBars.setGlobalActionHandler(
-				ActionFactory.PASTE.getId(),
-				getAction(editor, ITextEditorActionConstants.PASTE));
-			actionBars.setGlobalActionHandler(
-				ActionFactory.SELECT_ALL.getId(),
-				getAction(editor, ITextEditorActionConstants.SELECT_ALL));
-			actionBars.setGlobalActionHandler(
-				ActionFactory.FIND.getId(),
-				getAction(editor, ITextEditorActionConstants.FIND));
-			actionBars.setGlobalActionHandler(
-				IDEActionFactory.BOOKMARK.getId(),
-				getAction(editor, IDEActionFactory.BOOKMARK.getId()));
-			actionBars.updateActionBars();
+				if (part instanceof ITextEditor){
+				ITextEditor editor =  (ITextEditor) part;
+	
+				actionBars.setGlobalActionHandler(
+					ActionFactory.DELETE.getId(),
+					getAction(editor, ITextEditorActionConstants.DELETE));
+				actionBars.setGlobalActionHandler(
+					ActionFactory.UNDO.getId(),
+					getAction(editor, ITextEditorActionConstants.UNDO));
+				actionBars.setGlobalActionHandler(
+					ActionFactory.REDO.getId(),
+					getAction(editor, ITextEditorActionConstants.REDO));
+				actionBars.setGlobalActionHandler(
+					ActionFactory.CUT.getId(),
+					getAction(editor, ITextEditorActionConstants.CUT));
+				actionBars.setGlobalActionHandler(
+					ActionFactory.COPY.getId(),
+					getAction(editor, ITextEditorActionConstants.COPY));
+				actionBars.setGlobalActionHandler(
+					ActionFactory.PASTE.getId(),
+					getAction(editor, ITextEditorActionConstants.PASTE));
+				actionBars.setGlobalActionHandler(
+					ActionFactory.SELECT_ALL.getId(),
+					getAction(editor, ITextEditorActionConstants.SELECT_ALL));
+				actionBars.setGlobalActionHandler(
+					ActionFactory.FIND.getId(),
+					getAction(editor, ITextEditorActionConstants.FIND));
+				actionBars.setGlobalActionHandler(
+					IDEActionFactory.BOOKMARK.getId(),
+					getAction(editor, IDEActionFactory.BOOKMARK.getId()));
+				
+			}
 		}
+		//TODO manage action bars to works with graphical editor
+		if (part instanceof SimgridGraphicEditor){
+			ActionRegistry actionRegistry = (ActionRegistry) activeEditorPart.getAdapter(ActionRegistry.class);
+			actionBars.setGlobalActionHandler(
+					ActionFactory.DELETE.getId(),actionRegistry.getAction(ActionFactory.DELETE.getId()));
+			
+		}
+		actionBars.updateActionBars();
 	}
 	
-	
-	private void createActions() {
-		sampleAction = new Action() {
-			public void run() {
-				MessageDialog.openInformation(null, "SimgridEclipsePlugin", "SimGrid plugin Action Executed");
-			}
-		};
-		sampleAction.setText("Simgrid Action");
-		sampleAction.setToolTipText("Simgrid Action tool tip");
-		sampleAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
-		
-		//AutoLayout Action
-		autoLayoutAction = new Action() {
-			public void run() {
-				AutomaticGraphLayoutHelper.INSTANCE.computeLayout();
-			}
-		};
-		autoLayoutAction.setText("Auto Layout");
-		autoLayoutAction.setToolTipText("Perform Auto Layout");
-		autoLayoutAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
+	private ActionRegistry getActionRegistery(){
+		ActionRegistry actionRegistry = null;
+		if (activeEditorPart instanceof SimgridGraphicEditor){
+			actionRegistry = (ActionRegistry) activeEditorPart.getAdapter(ActionRegistry.class);
+		}
+		return actionRegistry;
 	}
 	
 	public void contributeToMenu(IMenuManager manager) {
 		IMenuManager editorMenu = new MenuManager("Editor &Menu");
 		manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS, editorMenu);
-		editorMenu.add(sampleAction);
-		editorMenu.add(autoLayoutAction);
+		editorMenu.add(new AutoLayoutAction(null));
 		IMenuManager viewMenu = new MenuManager("View");
 		manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS,viewMenu);
 		viewMenu.add(new ZoomInRetargetAction());
 		viewMenu.add(new ZoomOutRetargetAction());
 	}
 	public void contributeToToolBar(IToolBarManager manager) {
-		manager.add(new Separator());
-		manager.add(sampleAction);
-		manager.add(autoLayoutAction);
-		manager.add(new ZoomComboContributionItem(getPage()));
+			manager.add(new Separator());
+			manager.add(new AutoLayoutAction(null));
+			manager.add(new ZoomComboContributionItem(getPage()));
 	}
 }

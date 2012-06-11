@@ -16,11 +16,15 @@ import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.PaletteRoot;
+import org.eclipse.gef.ui.actions.ActionBarContributor;
+import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.actions.DeleteRetargetAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
+import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.text.TextSelection;
@@ -51,6 +55,7 @@ import org.w3c.dom.Element;
 import simgrideclipseplugin.editors.outline.SimgridOutlinePage;
 import simgrideclipseplugin.graphical.AutomaticGraphLayoutHelper;
 import simgrideclipseplugin.graphical.SimgridPaletteFactory;
+import simgrideclipseplugin.graphical.actions.AutoLayoutAction;
 import simgrideclipseplugin.graphical.parts.SimgridEditPartFactory;
 import simgrideclipseplugin.model.ModelHelper;
 
@@ -125,15 +130,6 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	}
 
 	@Override
-	public void doSave(IProgressMonitor monitor) {
-		try {
-			model.save();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 		GraphicalViewer viewer = getGraphicalViewer();
@@ -166,16 +162,44 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		// mouse support
 		viewer.setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1),
 				MouseWheelZoomHandler.SINGLETON);
+		//key support
+		viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer));
 	}
+	
+	
 
 	// public void setDirty() {
 	// firePropertyChange(IEditorPart.PROP_DIRTY);
 	// }
 
 	@Override
+	protected void createActions() {
+		super.createActions();
+		
+		ActionRegistry ar = getActionRegistry();
+		IAction action;
+		
+		action = new AutoLayoutAction(this);
+		ar.registerAction(action);
+		
+		ar.registerAction(new DeleteRetargetAction());
+		
+	}
+
+	@Override
 	public boolean isDirty() {
 		return model.isDirty();
 	}
+	
+	@Override
+	public void doSave(IProgressMonitor monitor) {
+		try {
+			model.save();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	// public void updateUIFromDOMModel() {
 	// Document document = model.getDocument();
@@ -209,6 +233,9 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		if (type == ZoomManager.class)
 			return getGraphicalViewer().getProperty(
 					ZoomManager.class.toString());
+		if (type == ActionRegistry.class){
+			return getActionRegistry();
+		}
 		return super.getAdapter(type);
 	}
 

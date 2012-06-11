@@ -66,6 +66,6 @@ public abstract class SimgridAbstractEditPart extends AbstractGraphicalEditPart
 
 	@Override
 	public boolean isAdapterForType(Object type) {
-		return type.equals(Element.class);
+		return false;
 	}
 }

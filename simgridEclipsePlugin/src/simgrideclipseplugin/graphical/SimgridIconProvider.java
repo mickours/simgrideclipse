@@ -10,6 +10,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
+//FIXME : Modify this this class and use Activator instead
 public class SimgridIconProvider {
 	private static final String iconPath = "platform:/plugin/simgridEclipsePlugin/icons/";
 	private static final HashMap<String,ImageDescriptor> iconRegister = init();
@@ -41,6 +42,7 @@ public class SimgridIconProvider {
 		h.put("AS.small", "AS_small.png");
 		h.put("AS.large", "AS_large.png");
 		h.put("AS", "AS.png");
+		h.put("AutoLayout", "auto_layout.png");
 		return h;
 	}
 

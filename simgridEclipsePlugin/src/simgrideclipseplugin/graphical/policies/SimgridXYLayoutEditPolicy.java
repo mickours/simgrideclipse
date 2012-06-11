@@ -1,21 +1,19 @@
 package simgrideclipseplugin.graphical.policies;
 
-import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.Figure;
-import org.eclipse.draw2d.FreeformLayer;
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.Request;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
+import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 import org.w3c.dom.Element;
 
-import simgrideclipseplugin.graphical.commands.addElementCommand;
+import simgrideclipseplugin.graphical.commands.AddElementCommand;
+import simgrideclipseplugin.graphical.commands.ChangeLayoutConstraintCommand;
+import simgrideclipseplugin.graphical.parts.ElementAbstractEditPart;
 
 public class SimgridXYLayoutEditPolicy extends XYLayoutEditPolicy implements
 		EditPolicy {
@@ -24,31 +22,23 @@ public class SimgridXYLayoutEditPolicy extends XYLayoutEditPolicy implements
 	protected Command getCreateCommand(CreateRequest request) {
 		String type = request.getNewObject().toString();
 		Element parent = ((Element)getHost().getModel());
-		Point position = request.getLocation();
-		Command cmd = new addElementCommand(parent,type,position);
+		Point position = ((Rectangle)getConstraintFor(request)).getLocation();
+		Command cmd = new AddElementCommand(parent,type,position);
 		return cmd;
 	}
-	
-	
-	
+
 	@Override
-	protected IFigure getSizeOnDropFeedback() {
-		IFigure f = new Figure();
-		f.setBorder(new LineBorder(ColorConstants.red));
-		return f;
+	protected Command createChangeConstraintCommand(
+			ChangeBoundsRequest request, EditPart child, Object constraint) 
+	{
+		ChangeLayoutConstraintCommand cmd = null;
+		if (child instanceof ElementAbstractEditPart)
+		{
+			cmd = new ChangeLayoutConstraintCommand();
+			cmd.setLayout((Rectangle) constraint);
+			cmd.setPart((ElementAbstractEditPart) child);
+		}
+		return cmd;
 	}
-
-
-
-	@Override 
-	  protected EditPolicy createChildEditPolicy(EditPart child) { 
-	    return null; 
-	  } 
-	 
-	 
-//	  @Override 
-//	  protected Command getMoveChildrenCommand(Request request) { 
-//	    return null; 
-//	  }
 
 }

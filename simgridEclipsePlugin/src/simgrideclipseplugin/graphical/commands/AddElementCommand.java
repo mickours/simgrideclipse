@@ -7,12 +7,12 @@ import org.w3c.dom.Element;
 import simgrideclipseplugin.graphical.ElementPositionMap;
 import simgrideclipseplugin.model.ModelHelper;
 
-public class addElementCommand extends Command {
+public class AddElementCommand extends Command {
 	private Element parent;
 	private String type;
 	private Point position;
 
-	public addElementCommand(Element parent, String type,Point position) {
+	public AddElementCommand(Element parent, String type,Point position) {
 		this.parent = parent;
 		this.type = type;
 		this.position = position;
