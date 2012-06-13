@@ -25,6 +25,14 @@ public class AutoLayoutAction extends EditorPartAction{
 	public void run() {
 		AutomaticGraphLayoutHelper.INSTANCE.computeLayout();
 	}
+	
+	
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return super.isEnabled();
+	}
 
 	@Override
 	protected boolean calculateEnabled() {

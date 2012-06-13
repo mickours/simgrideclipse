@@ -25,15 +25,18 @@ public class SimgridEditPartFactory implements EditPartFactory {
 	 */
 	private EditPart getPartForElement(Object modelElement) {
 		//TODO modify this to fit with the model
-		String name = ((Element)modelElement).getTagName();
-		if (name.equals("AS")) {
-			return new ASEditPart();
+		String name = "null";
+		if (modelElement != null){
+			name = ((Element)modelElement).getTagName();
+			if (name.equals("AS")) {
+				return new ASEditPart();
+			}
+			if (name.equals("platform")) {
+				return new PlatformEditPart();
+			}
 		}
-		if (name.equals("platform")) {
-			return new PlatformEditPart();
-		}
-		throw new RuntimeException("Can't create part for model element: "
-				+ ((modelElement != null) ? name
-						: "null"));
-		}
+		//throw new RuntimeException("Can't create part for model element: "+ name);
+		return (EditPart) new ErrorEditPart();
+	}
+	
 }

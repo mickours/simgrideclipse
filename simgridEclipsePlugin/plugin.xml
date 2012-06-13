@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-
+	<extension 
+	  point="org.eclipse.wst.xml.core.catalogContributions"> 
+	  <catalogContribution 
+	  id="simgrideclipse.catalog"> 
+	  <public 
+		  publicId="http://simgrid.gforge.inria.fr/simgrid.dtd" 
+		  uri="xsd/simgrid.xsd"> 
+	  </public> 
+	  </catalogContribution> 
+   </extension> 
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            name="Simgrid Editor"
+            class="simgrideclipseplugin.editors.MultiPageXMLEditor"
+            contributorClass="simgrideclipseplugin.editors.MultiPageEditorXMLContributor"
             extensions="xml"
             icon="icons/SGicon16x16.gif"
-            contributorClass="simgrideclipseplugin.editors.MultiPageEditorXMLContributor"
-            class="simgrideclipseplugin.editors.MultiPageXMLEditor"
-            id="simgrideclipseplugin.editors.MultiPageXMLEditor">
+            id="simgrideclipseplugin.editors.MultiPageXMLEditor"
+            name="Simgrid Editor">
       </editor>
    </extension>
    <extension

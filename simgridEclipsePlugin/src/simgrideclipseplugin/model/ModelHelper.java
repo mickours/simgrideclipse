@@ -32,7 +32,7 @@ public final class ModelHelper {
 	}
 	
 	public static void removeElement(Element e) {
-		e.getOwnerDocument().removeChild(e);
+		e.getParentNode().removeChild(e);
 	}
 
 	public static List<Element> getChildren(Element root) {

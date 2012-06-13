@@ -3,56 +3,41 @@ package simgrideclipseplugin.editors;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.management.RuntimeErrorException;
-
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.KeyHandler;
+import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.MouseWheelHandler;
 import org.eclipse.gef.MouseWheelZoomHandler;
-import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.PaletteRoot;
-import org.eclipse.gef.ui.actions.ActionBarContributor;
 import org.eclipse.gef.ui.actions.ActionRegistry;
-import org.eclipse.gef.ui.actions.DeleteRetargetAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
-import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.commands.ActionHandler;
-import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IKeyBindingService;
 import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.contexts.IContextService;
+import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.handlers.IHandlerService;
-import org.eclipse.ui.internal.ISelectionConversionService;
-import org.eclipse.ui.part.MultiPageEditorPart;
-import org.eclipse.ui.part.MultiPageSelectionProvider;
-import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-import org.eclipse.wst.sse.core.StructuredModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.w3c.dom.Element;
 
-import simgrideclipseplugin.editors.outline.SimgridOutlinePage;
 import simgrideclipseplugin.graphical.AutomaticGraphLayoutHelper;
 import simgrideclipseplugin.graphical.SimgridPaletteFactory;
 import simgrideclipseplugin.graphical.actions.AutoLayoutAction;
@@ -66,40 +51,23 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	private IDOMModel model;
 	private MultiPageXMLEditor parent;
 	private static PaletteRoot palette;
-
+	private KeyHandler sharedKeyHandler;
+	
+	
+	public SimgridGraphicEditor(){
+		super.setEditDomain(new DefaultEditDomain(this));
+	}
+	
 	public SimgridGraphicEditor(final MultiPageXMLEditor parent) {
 		super.setEditDomain(new DefaultEditDomain(this));
 		this.parent = parent;
-		// listener = new SimgridModelListener(this);
-		parent.getSite().getSelectionProvider()
-				.addSelectionChangedListener(new ISelectionChangedListener() {
-
-					@SuppressWarnings("unchecked")
-					@Override
-					public void selectionChanged(SelectionChangedEvent event) {
-						//System.out.println(event.getSelection());
-						IStructuredSelection sel = (IStructuredSelection) event.getSelection();
-						if (!sel.isEmpty()) {
-							List selectedList = sel.toList();
-							// update EditPart Selection from UI and from outline
-							List<EditPart> partList = getGraphicalViewer()
-									.getContents().getChildren();
-							for (EditPart e : partList) {
-								if  ((sel.getFirstElement() instanceof Element && selectedList.contains(e.getModel()))
-									|| (sel.getFirstElement() instanceof EditPart && selectedList.contains(e))){
-									e.setSelected(EditPart.SELECTED_PRIMARY);
-								} else{
-									e.setSelected(EditPart.SELECTED_NONE);
-								}
-							}
-						}
-					}
-				});
+		parent.getSite().getPage().addSelectionListener((ISelectionListener) this);
 	}
 
 	@Override
 	public void init(IEditorSite site, IEditorInput input)
 			throws PartInitException {
+		super.init(site, input);
 		if (!(input instanceof IFileEditorInput)) {
 			throw new PartInitException(
 					"Invalid Input: Must be IFileEditorInput");
@@ -121,11 +89,9 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 			try {
 				model = ModelHelper.getDOMModel(getEditorInput());
 			} catch (Exception e) {
-				// TODO maybe show it in UI
 				throw new RuntimeException("Invalid Input: Must be DOM", e);
 			}
 		}
-		// model.getModelManager().getExistingModelForEdit(model).
 		return model;
 	}
 
@@ -145,8 +111,12 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		viewer.setEditPartFactory(SimgridEditPartFactory.INSTANCE);
 		ScalableFreeformRootEditPart rootEditPart = new ScalableFreeformRootEditPart();
 		viewer.setRootEditPart(rootEditPart);
+		getSite().setSelectionProvider(viewer);
+		//add actions...
+		IHandlerService service = (IHandlerService) getSite().getService(
+				IHandlerService.class);
 		// add zooming support
-		List zoomContributions = Arrays.asList(new String[] {
+		List<String> zoomContributions = Arrays.asList(new String[] {
 				ZoomManager.FIT_ALL, ZoomManager.FIT_HEIGHT,
 				ZoomManager.FIT_WIDTH });
 		rootEditPart.getZoomManager().setZoomLevelContributions(
@@ -155,15 +125,31 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		IAction zoomOut = new ZoomOutAction(rootEditPart.getZoomManager());
 		getActionRegistry().registerAction(zoomIn);
 		getActionRegistry().registerAction(zoomOut);
-		IHandlerService service = (IHandlerService) getSite().getService(
-				IHandlerService.class);
 		service.activateHandler(GEFActionConstants.ZOOM_IN, new ActionHandler(zoomIn));
 		service.activateHandler(GEFActionConstants.ZOOM_OUT, new ActionHandler(zoomOut));
 		// mouse support
 		viewer.setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1),
 				MouseWheelZoomHandler.SINGLETON);
 		//key support
-		viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer));
+		GraphicalViewerKeyHandler handler = new GraphicalViewerKeyHandler(viewer);
+		handler.setParent(getCommonKeyHandler());
+		viewer.setKeyHandler(handler);
+		//context menu
+		ContextMenuProvider provider = new SimgridContextMenuProvider(viewer, getActionRegistry());
+		viewer.setContextMenu(provider);
+		getSite().registerContextMenu( 
+			      "simgrideclipse.graphical.contextmenu", //$NON-NLS-1$ 
+			      provider, getGraphicalViewer());
+	}
+	
+	protected KeyHandler getCommonKeyHandler() { 
+		  if (sharedKeyHandler == null) { 
+		    sharedKeyHandler = new KeyHandler(); 
+		    sharedKeyHandler 
+		        .put(KeyStroke.getPressed(SWT.DEL, 127, 0), 
+		            getActionRegistry().getAction(ActionFactory.DELETE.getId())); 
+		  } 
+		  return sharedKeyHandler; 
 	}
 	
 	
@@ -180,10 +166,7 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		IAction action;
 		
 		action = new AutoLayoutAction(this);
-		ar.registerAction(action);
-		
-		ar.registerAction(new DeleteRetargetAction());
-		
+		ar.registerAction(action);		
 	}
 
 	@Override
@@ -199,6 +182,8 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 			e.printStackTrace();
 		}
 	}
+	
+	
 
 
 	// public void updateUIFromDOMModel() {
@@ -220,6 +205,34 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	// }
 
 	@Override
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		// If not the active editor, ignore selection changed.
+		IWorkbenchPartSite site = getSite();
+		if (parent.equals(site.getPage().getActiveEditor())) {
+			if (this.equals(parent.getActivePageEditor())) {
+				super.updateActions(super.getSelectionActions());
+			}
+		}
+		
+		//System.out.println(event.getSelection());
+		IStructuredSelection sel = (IStructuredSelection) selection;
+		if (!sel.isEmpty()) {
+			List<?> selectedList = sel.toList();
+			// update EditPart Selection from UI and from outline
+			List<EditPart> partList = getGraphicalViewer()
+					.getContents().getChildren();
+			for (EditPart e : partList) {
+				if  ((sel.getFirstElement() instanceof Element && selectedList.contains(e.getModel()))
+					|| (sel.getFirstElement() instanceof EditPart && selectedList.contains(e))){
+					e.setSelected(EditPart.SELECTED_PRIMARY);
+				} else{
+					e.setSelected(EditPart.SELECTED_NONE);
+				}
+			}
+		}
+	}
+
+	@Override
 	protected PaletteRoot getPaletteRoot() {
 		if (palette == null) {
 			palette = SimgridPaletteFactory.createPalette();
@@ -230,10 +243,11 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class type) {
-		if (type == ZoomManager.class)
+		if (type == ZoomManager.class){
 			return getGraphicalViewer().getProperty(
 					ZoomManager.class.toString());
-		if (type == ActionRegistry.class){
+		}
+		if (type == ActionRegistry.class) {
 			return getActionRegistry();
 		}
 		return super.getAdapter(type);

@@ -12,13 +12,17 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.part.MultiPageEditorSite;
+import org.eclipse.ui.views.contentoutline.ContentOutline;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.contenttype.ContentTypeIdForXML;
 
@@ -50,7 +54,30 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	private int indexSSE = -1;
 
 	/** the specific outline for this editor */
-	private SimgridOutlinePage myOutlinePage;
+//	private SimgridOutlinePage myOutlinePage;
+	
+	/** part Listener to handle part activation changes **/
+	protected IPartListener partListener = new IPartListener() {
+		public void partActivated(IWorkbenchPart p) {
+				handleActivate();
+		}
+
+		public void partBroughtToTop(IWorkbenchPart p) {
+			// Ignore.
+		}
+
+		public void partClosed(IWorkbenchPart p) {
+			// Ignore.
+		}
+
+		public void partDeactivated(IWorkbenchPart p) {
+			// Ignore.
+		}
+
+		public void partOpened(IWorkbenchPart p) {
+			// Ignore.
+		}
+	};
 
 	/**
 	 * Creates a multi-page editor example.
@@ -58,7 +85,6 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	public MultiPageXMLEditor() {
 		super();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
-
 	}
 
 	/**
@@ -71,6 +97,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 			throw new PartInitException(
 					"Invalid Input: Must be IFileEditorInput");
 		super.init(site, editorInput);
+		site.getPage().addPartListener(partListener);
 	}
 
 	/**
@@ -98,6 +125,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	void createStructuredTextEditorPage() {
 		try {
 			editor = new StructuredTextEditor();
+			editor.setEditorPart(this);
 			indexSSE = addPage(editor, getEditorInput());
 			setPageText(indexSSE, "Text Editor");
 		} catch (PartInitException e) {
@@ -132,6 +160,11 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 
 	public void adaptiveSetPageText(int index, String name) {
 		setPageText(index, name);
+	}
+	
+	protected void handleActivate() {
+		// Refresh any actions that may become enabled or disabled.
+		getSite().getSelectionProvider().setSelection(getSite().getSelectionProvider().getSelection()); 
 	}
 
 	/**
@@ -202,16 +235,6 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 		}
 	}
 
-	// @Override
-	// protected void pageChange(int newPageIndex) {
-	// IPerspectiveDescriptor tab[] = getSite().getPage().getOpenPerspectives();
-	// for(IViewReference ref : getSite().getPage().getViewReferences()){
-	// IViewPart v = ref.getView(false).;
-	// System.out.println(v);
-	// }
-	// super.pageChange(newPageIndex);
-	// }
-
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class required) {
@@ -225,5 +248,9 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 		if (required == ZoomManager.class)
 			return graphEditor.getAdapter(ZoomManager.class);
 		return super.getAdapter(required);
+	}
+
+	public IEditorPart getActivePageEditor() {
+		return super.getActiveEditor();
 	}
 }

@@ -9,7 +9,7 @@ import org.eclipse.draw2d.ToolbarLayout;
 
 import simgrideclipseplugin.graphical.SimgridIconProvider;
 
-public class ASfigure extends Figure {
+public class ASfigure extends AbstractElementFigure {
 	
 	private final Label idLabel;
 	private final Label routingLabel;
@@ -17,7 +17,6 @@ public class ASfigure extends Figure {
 	private final IFigure contentPane;
 	
 	public ASfigure() {
-		
 		super.setLayoutManager(new ToolbarLayout());
 		idLabel = new Label();
 		idLabel.setForegroundColor(ColorConstants.gray);

@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
@@ -27,7 +28,7 @@ public class SimgridIconProvider {
 				throw new Exception("Icon not found");
 			} catch (Exception e) {
 				d = PlatformUI.getWorkbench().getSharedImages().
-						getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK);
+						getImageDescriptor(ISharedImages.IMG_DEF_VIEW);
 			}
 		}
 		return d;
@@ -41,7 +42,7 @@ public class SimgridIconProvider {
 		HashMap<String,String> h = new HashMap<String, String>();
 		h.put("AS.small", "AS_small.png");
 		h.put("AS.large", "AS_large.png");
-		h.put("AS", "AS.png");
+		h.put("AS", "AS.svg");
 		h.put("AutoLayout", "auto_layout.png");
 		return h;
 	}
