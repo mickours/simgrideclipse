@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
 import simgrideclipseplugin.graphical.ElementPositionMap;
 import simgrideclipseplugin.graphical.policies.ElementComponentEditPolicy;
 
-public abstract class ElementAbstractEditPart extends SimgridAbstractEditPart {
+public abstract class AbstractElementEditPart extends SimgridAbstractEditPart {
 
 	private final Point size = new Point(100,100);
 	private Rectangle bounds;

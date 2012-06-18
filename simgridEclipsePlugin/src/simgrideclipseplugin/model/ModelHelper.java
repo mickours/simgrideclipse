@@ -6,15 +6,20 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
-
+import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
+import org.eclipse.wst.sse.core.internal.provisional.INodeNotifier;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
-
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
+import org.eclipse.wst.xml.core.internal.provisional.format.FormatProcessorXML;
+import org.eclipse.wst.xml.ui.internal.properties.XMLPropertySource;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import simgrideclipseplugin.editors.properties.ElementPropertySource;
 
 /*
  * Help to access WST internal model and hide it to avoid restriction warnings
@@ -24,8 +29,10 @@ public final class ModelHelper {
 	
 	public static void addChild(Element parent, Element child){
 		try{
-			ElementImpl e = (ElementImpl)parent;
-			e.appendChild(child);
+			parent.appendChild(child);
+			//format sources
+			FormatProcessorXML formatProcessor = new FormatProcessorXML();
+			formatProcessor.formatNode(parent);
 		}catch (Exception e2) {
 			e2.printStackTrace();
 		}
@@ -64,7 +71,19 @@ public final class ModelHelper {
 		return (IDOMModel) model;
 	}
 	
-	
+	public static IPropertySource getPropertySource(Object node){
+		if (node instanceof IDOMNode) {
+			INodeNotifier source = (INodeNotifier) node;
+			IPropertySource propertySource = (IPropertySource) source
+					.getAdapterFor(IPropertySource.class);
+			if (propertySource == null) {
+				propertySource = new XMLPropertySource(
+						(INodeNotifier) source);
+				return new ElementPropertySource(propertySource);
+			}
+		}
+		return null;
+	}
 	
 	
 	

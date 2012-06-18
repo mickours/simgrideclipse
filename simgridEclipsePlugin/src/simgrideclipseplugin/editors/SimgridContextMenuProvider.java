@@ -20,16 +20,27 @@ public class SimgridContextMenuProvider extends ContextMenuProvider {
 	 
 	  public void buildContextMenu(IMenuManager menu) { 
 	    GEFActionConstants.addStandardActionGroups(menu); 
-	 
-	    IAction action = getActionRegistry().getAction( 
-	        ActionFactory.DELETE.getId()); 
-	    if (action.isEnabled()) 
-	      menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action); 
-	  } 
-	 
-	  private ActionRegistry getActionRegistry() { 
-	    return actionRegistry; 
-	  } 
+		  ActionFactory[] actionList = 
+				{ActionFactory.UNDO,
+				 ActionFactory.DELETE,
+				 ActionFactory.REDO,
+				 ActionFactory.SELECT_ALL,
+				 ActionFactory.COPY,
+				 ActionFactory.PASTE,
+				 ActionFactory.CUT,
+				};
+			for (ActionFactory af : actionList){
+				IAction action = (IAction) actionRegistry.getAction(af.getId());
+				if (action != null){
+					if (action.getId().equals(ActionFactory.UNDO.getId()) || action.getId().equals(ActionFactory.REDO.getId())){
+						menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
+					}
+					else if (action.isEnabled()) {
+						menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+					}
+				}
+			}
+	  }
 	 
 	  public void setActionRegistry(ActionRegistry registry) { 
 	    actionRegistry = registry; 

@@ -13,7 +13,7 @@ import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.commands.AddElementCommand;
 import simgrideclipseplugin.graphical.commands.ChangeLayoutConstraintCommand;
-import simgrideclipseplugin.graphical.parts.ElementAbstractEditPart;
+import simgrideclipseplugin.graphical.parts.AbstractElementEditPart;
 
 public class SimgridXYLayoutEditPolicy extends XYLayoutEditPolicy implements
 		EditPolicy {
@@ -32,11 +32,11 @@ public class SimgridXYLayoutEditPolicy extends XYLayoutEditPolicy implements
 			ChangeBoundsRequest request, EditPart child, Object constraint) 
 	{
 		ChangeLayoutConstraintCommand cmd = null;
-		if (child instanceof ElementAbstractEditPart)
+		if (child instanceof AbstractElementEditPart)
 		{
 			cmd = new ChangeLayoutConstraintCommand();
 			cmd.setLayout((Rectangle) constraint);
-			cmd.setPart((ElementAbstractEditPart) child);
+			cmd.setPart((AbstractElementEditPart) child);
 		}
 		return cmd;
 	}

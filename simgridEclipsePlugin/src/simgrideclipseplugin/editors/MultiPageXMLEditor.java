@@ -7,6 +7,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -59,7 +60,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	/** part Listener to handle part activation changes **/
 	protected IPartListener partListener = new IPartListener() {
 		public void partActivated(IWorkbenchPart p) {
-				handleActivate();
+				//handleActivate();
 		}
 
 		public void partBroughtToTop(IWorkbenchPart p) {
@@ -93,9 +94,10 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	 */
 	public void init(IEditorSite site, IEditorInput editorInput)
 			throws PartInitException {
-		if (!(editorInput instanceof IFileEditorInput))
+		if (!(editorInput instanceof IFileEditorInput)){
 			throw new PartInitException(
 					"Invalid Input: Must be IFileEditorInput");
+		}
 		super.init(site, editorInput);
 		site.getPage().addPartListener(partListener);
 	}
@@ -234,6 +236,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 			});
 		}
 	}
+	
 
 	@SuppressWarnings("rawtypes")
 	@Override

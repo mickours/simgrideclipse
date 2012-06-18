@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="simgrideclipseplugin/graphical/parts/test.java" kind="src" path="src"/>
+	<classpathentry excluding="simgrideclipseplugin/graphical/parts/test.java|simgrideclipseplugin/graphical/policies/ElementDirectEditingPolicies.java" kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="lib/gs-algo-1.1/gs-algo-1.1.jar" sourcepath="lib/gs-algo-1.1/gs-algo-1.1-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/simgridEclipsePlugin/lib/gs-algo-1.1/gs-algo-1.1-javadoc.jar!/"/>
@@ -17,5 +17,6 @@
 			<accessrule kind="accessible" pattern="*"/>
 		</accessrules>
 	</classpathentry>
+	<classpathentry kind="lib" path="/home/mmercier/simgrideclipse/Resources/inludes_source/org.eclipse.wst.sse.ui.source_1.3.2.v201201041522.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -6,13 +6,13 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 
 import simgrideclipseplugin.graphical.ElementPositionMap;
-import simgrideclipseplugin.graphical.parts.ElementAbstractEditPart;
+import simgrideclipseplugin.graphical.parts.AbstractElementEditPart;
 
 public class ChangeLayoutConstraintCommand extends Command {
 	//private Rectangle oldLayout;
 	private Point oldLocation;
 	private Rectangle layout;
-	private ElementAbstractEditPart part;
+	private AbstractElementEditPart part;
 
 	@Override
 	public void execute() {
@@ -30,7 +30,7 @@ public class ChangeLayoutConstraintCommand extends Command {
 		this.layout = layout;
 	}
 
-	public void setPart(ElementAbstractEditPart part) {
+	public void setPart(AbstractElementEditPart part) {
 		this.part = part;
 	}	
 	
