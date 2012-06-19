@@ -1,5 +1,6 @@
 package simgrideclipseplugin.editors;
 
+import org.eclipse.core.commands.util.Tracing;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -7,20 +8,28 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorActionBarContributor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IPartService;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.internal.misc.Policy;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.part.MultiPageEditorSite;
+import org.eclipse.ui.part.MultiPageSelectionProvider;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.PropertySheet;
@@ -52,33 +61,34 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	private int graphicEditorIndex = -1;
 
 	/** holder for graphicEditor index */
-	private int indexSSE = -1;
+	private int textEditorIndex = -1;
 
 	/** the specific outline for this editor */
 //	private SimgridOutlinePage myOutlinePage;
 	
 	/** part Listener to handle part activation changes **/
-	protected IPartListener partListener = new IPartListener() {
-		public void partActivated(IWorkbenchPart p) {
-				//handleActivate();
-		}
-
-		public void partBroughtToTop(IWorkbenchPart p) {
-			// Ignore.
-		}
-
-		public void partClosed(IWorkbenchPart p) {
-			// Ignore.
-		}
-
-		public void partDeactivated(IWorkbenchPart p) {
-			// Ignore.
-		}
-
-		public void partOpened(IWorkbenchPart p) {
-			// Ignore.
-		}
-	};
+//	protected IPartListener partListener = new IPartListener() {
+//		public void partActivated(IWorkbenchPart p) {
+////				handleActivate();
+//		}
+//
+//		public void partBroughtToTop(IWorkbenchPart p) {
+//			// Ignore.
+//		}
+//
+//		public void partClosed(IWorkbenchPart p) {
+//			// Ignore.
+//		}
+//
+//		public void partDeactivated(IWorkbenchPart p) {
+//			// Ignore.
+//		}
+//
+//		public void partOpened(IWorkbenchPart p) {
+//			// Ignore.
+//		}
+//	};
+	
 
 	/**
 	 * Creates a multi-page editor example.
@@ -99,7 +109,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 					"Invalid Input: Must be IFileEditorInput");
 		}
 		super.init(site, editorInput);
-		site.getPage().addPartListener(partListener);
+//		site.getPage().addPartListener(partListener);
 	}
 
 	/**
@@ -128,8 +138,8 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 		try {
 			editor = new StructuredTextEditor();
 			editor.setEditorPart(this);
-			indexSSE = addPage(editor, getEditorInput());
-			setPageText(indexSSE, "Text Editor");
+			textEditorIndex = addPage(editor, getEditorInput());
+			setPageText(textEditorIndex, "Text Editor");
 		} catch (PartInitException e) {
 			ErrorDialog.openError(getSite().getShell(),
 					"Error creating nested text editor", null, e.getStatus());
@@ -143,8 +153,8 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	 * view.
 	 */
 	void createGraphicEditorPage() {
-		graphEditor = new SimgridGraphicEditor(this);
 		try {
+			graphEditor = new SimgridGraphicEditor(this);
 			graphicEditorIndex = addPage(graphEditor, getEditorInput());
 			setPageText(graphicEditorIndex, "Visual editor");
 		} catch (PartInitException e) {
@@ -159,15 +169,17 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 		createStructuredTextEditorPage();
 		createGraphicEditorPage();
 	}
-
-	public void adaptiveSetPageText(int index, String name) {
-		setPageText(index, name);
-	}
 	
-	protected void handleActivate() {
-		// Refresh any actions that may become enabled or disabled.
-		getSite().getSelectionProvider().setSelection(getSite().getSelectionProvider().getSelection()); 
-	}
+	
+
+//	public void adaptiveSetPageText(int index, String name) {
+//		setPageText(index, name);
+//	}
+//	
+//	protected void handleActivate() {
+//		// Refresh any actions that may become enabled or disabled.
+//		//getSite().getSelectionProvider().setSelection(); 
+//	}
 
 	/**
 	 * The <code>MultiPageEditorPart</code> implementation of this

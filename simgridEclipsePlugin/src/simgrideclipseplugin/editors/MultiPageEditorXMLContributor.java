@@ -20,23 +20,10 @@ public class MultiPageEditorXMLContributor extends MultiPageEditorActionBarContr
 	
 	private IActionBars2 myActionBars2;
 
-	//private SubActionBarsExt myTextSubActionBars;
-
 	private SubActionBarsExt myGraphicSubActionBars;
 	
 	private SubActionBarsExt activeEditorActionBars;
 	private IEditorPart activeEditorPart;
-	
-//	private IPropertyListener myEditorPropertyChangeListener = new IPropertyListener() {
-//
-//		public void propertyChanged(Object source, int propId) {
-//			if (activeEditorActionBars != null) {
-//				if (activeEditorActionBars.getContributor() instanceof GraphicalEditorActionBarContributor) {
-//					((GraphicalEditorActionBarContributor) activeEditorActionBars.getContributor()).update();
-//				}
-//			}
-//		}
-//	};
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.part.EditorActionBarContributor#init(org.eclipse.ui.IActionBars)
@@ -56,12 +43,8 @@ public class MultiPageEditorXMLContributor extends MultiPageEditorActionBarContr
 		return (editor == null ? null : editor.getAction(actionID));
 	}
 	
-	/* (non-JavaDoc)
-	 * Method declared in AbstractMultiPageEditorActionBarContributor.
-	 */
+
 	public void setActivePage(IEditorPart part) {
-		if (activeEditorPart == part)
-			return;
 		activeEditorPart = part;
 		if (activeEditorPart instanceof SimgridGraphicEditor) {
 			setActiveActionBars(getGraphicSubActionBars());
@@ -70,6 +53,7 @@ public class MultiPageEditorXMLContributor extends MultiPageEditorActionBarContr
 		}
 		updateTextEditorActions();
 		updateGraphicalEditorActions();
+		getActionBars().updateActionBars();
 	}
 	
 	private void updateGraphicalEditorActions(){
@@ -129,7 +113,6 @@ public class MultiPageEditorXMLContributor extends MultiPageEditorActionBarContr
 			actionBars.setGlobalActionHandler(
 				IDEActionFactory.BOOKMARK.getId(),
 				getAction(editor, IDEActionFactory.BOOKMARK.getId()));
-			actionBars.updateActionBars();
 		}
 	}
 	

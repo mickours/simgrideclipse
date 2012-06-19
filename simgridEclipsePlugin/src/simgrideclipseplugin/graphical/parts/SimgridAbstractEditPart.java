@@ -63,18 +63,18 @@ public abstract class SimgridAbstractEditPart extends AbstractGraphicalEditPart
 		return type.equals(Element.class);
 	}
 //	
-//	@Override
-//    public void performRequest(Request req) {
-//            if (req.getType().equals(RequestConstants.REQ_OPEN)) {
-//                    try {
-//                            IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-//                            page.showView(IPageLayout.ID_PROP_SHEET);
-//                    }
-//                    catch (PartInitException e) {
-//                            e.printStackTrace();
-//                    }
-//            }
-//    }
+	@Override
+    public void performRequest(Request req) {
+            if (req.getType().equals(RequestConstants.REQ_OPEN)) {
+                    try {
+                            IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+                            page.showView(IPageLayout.ID_PROP_SHEET);
+                    }
+                    catch (PartInitException e) {
+                            e.printStackTrace();
+                    }
+            }
+    }
 	
 //	/**
 //     * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)

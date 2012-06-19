@@ -17,6 +17,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.provisional.format.FormatProcessorXML;
 import org.eclipse.wst.xml.ui.internal.properties.XMLPropertySource;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import simgrideclipseplugin.editors.properties.ElementPropertySource;
@@ -27,11 +28,12 @@ import simgrideclipseplugin.editors.properties.ElementPropertySource;
 @SuppressWarnings("restriction")
 public final class ModelHelper {
 	
+	private final static FormatProcessorXML formatProcessor = new FormatProcessorXML();
+	
 	public static void addChild(Element parent, Element child){
 		try{
 			parent.appendChild(child);
 			//format sources
-			FormatProcessorXML formatProcessor = new FormatProcessorXML();
 			formatProcessor.formatNode(parent);
 		}catch (Exception e2) {
 			e2.printStackTrace();
@@ -39,7 +41,9 @@ public final class ModelHelper {
 	}
 	
 	public static void removeElement(Element e) {
-		e.getParentNode().removeChild(e);
+		Node parent = e.getParentNode();
+		parent.removeChild(e);
+		formatProcessor.formatNode(parent);
 	}
 
 	public static List<Element> getChildren(Element root) {

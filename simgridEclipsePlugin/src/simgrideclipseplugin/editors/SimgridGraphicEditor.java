@@ -2,7 +2,12 @@ package simgrideclipseplugin.editors;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ContextMenuProvider;
@@ -46,45 +51,26 @@ import org.w3c.dom.Element;
 import simgrideclipseplugin.graphical.AutomaticGraphLayoutHelper;
 import simgrideclipseplugin.graphical.SimgridPaletteFactory;
 import simgrideclipseplugin.graphical.actions.AutoLayoutAction;
+import simgrideclipseplugin.graphical.parts.ErrorEditPart;
 import simgrideclipseplugin.graphical.parts.SimgridEditPartFactory;
 import simgrideclipseplugin.model.ModelHelper;
 
 @SuppressWarnings("restriction")
 public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
-	// private SimgridModelListener listener;
+
 	// The DOM Model initialized with IFile Input Source
 	private IDOMModel model;
 	private MultiPageXMLEditor parent;
 	private static PaletteRoot palette;
 	private KeyHandler sharedKeyHandler;
-	private ISelectionChangedListener listener = new ISelectionChangedListener() {
-		
-		@Override
-		public void selectionChanged(SelectionChangedEvent event) {
-			
-			ISelection selection = event.getSelection();
-			System.out.println(selection);
-			IStructuredSelection sel = (IStructuredSelection) selection;
-
-			if (!sel.isEmpty()) {
-				//update selection in other view
-				parent.editor.getSelectionProvider().setSelection(convertedSelection(sel));
-				// update EditPart Selection from UI and from outline
-				List<?> selectedList = sel.toList();
-				@SuppressWarnings("unchecked")
-				List<EditPart> partList = getGraphicalViewer()
-						.getContents().getChildren();
-				for (EditPart e : partList) {
-					if  ((sel.getFirstElement() instanceof Element && selectedList.contains(e.getModel()))
-						|| (sel.getFirstElement() instanceof EditPart && selectedList.contains(e))){
-						e.setSelected(EditPart.SELECTED_PRIMARY);
-					} else{
-						e.setSelected(EditPart.SELECTED_NONE);
-					}
-				}
-			}
-		}
-	};
+//	private ISelectionChangedListener listener = new ISelectionChangedListener() {
+//		@Override
+//		public void selectionChanged(SelectionChangedEvent event) {
+//			ISelection selection = event.getSelection();
+//			System.out.println("Listener: " +selection);
+//			SimgridGraphicEditor.this.selectionChanged(SimgridGraphicEditor.this, selection);
+//		}
+//	};
 	
 	
 	public SimgridGraphicEditor(){
@@ -94,20 +80,19 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	public SimgridGraphicEditor(final MultiPageXMLEditor parent) {
 		super.setEditDomain(new DefaultEditDomain(this));
 		this.parent = parent;
-		//parent.getSite().getPage().addSelectionListener((ISelectionListener) this);
 	}
 
 	@Override
 	public void init(IEditorSite site, IEditorInput input)
 			throws PartInitException {
-		setSite(site);
-		setInput(input);
-		getCommandStack().addCommandStackListener(this);
-		initializeActionRegistry();
 		if (!(input instanceof IFileEditorInput)) {
 			throw new PartInitException(
 					"Invalid Input: Must be IFileEditorInput");
 		}
+		super.init(site, input);
+		//listen to Post selection instead
+		getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(this);
+		getSite().getWorkbenchWindow().getSelectionService().addPostSelectionListener(this);
 		setPartName(input.getName());
 	}
 
@@ -149,10 +134,8 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		viewer.setRootEditPart(rootEditPart);
 		
 		//synch selection
-		//getSite().setSelectionProvider(viewer);
-		//getSite().getWorkbenchWindow().getSelectionService().addPostSelectionListener(this);
-		parent.editor.getSelectionProvider().addSelectionChangedListener(listener );
-		viewer.addSelectionChangedListener(listener);
+		//parent.editor.getSelectionProvider().addSelectionChangedListener(listener );
+		//viewer.addSelectionChangedListener(listener);
 		
 		//add actions...
 		IHandlerService service = (IHandlerService) getSite().getService(
@@ -227,14 +210,20 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 
 	 @Override
 	 public void dispose() {
-		 // Remove listener
-		 //getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(this);
-	
+		// Remove ErrorParts
+//		Map<?,?> reg = getGraphicalViewer().getEditPartRegistry();
+//		Collection<EditPart> l = (Collection<EditPart>) reg.values();
+//		for (EditPart e : l){
+//			if (e instanceof ErrorEditPart){
+//				reg.remove(e.getModel());
+//			}
+//		}
+		getSite().getWorkbenchWindow().getSelectionService().removePostSelectionListener(this);
 	 	super.dispose();
 	 }
 	 
 	 @SuppressWarnings("unchecked")
-	private ISelection convertedSelection(IStructuredSelection partSelection){
+	private StructuredSelection partToModelSelection(IStructuredSelection partSelection){
 		 List<?> l = partSelection.toList();
 		 if ((!l.isEmpty() && l.get(0) instanceof EditPart)){
 			 List<Object> modelList = new ArrayList<Object>(l.size());
@@ -246,45 +235,54 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		 return new StructuredSelection();
 	 }
 	 
-	 private ISelection oldSelection;
-
+	 @SuppressWarnings("unchecked")
+		private StructuredSelection modelToPartSelection(IStructuredSelection modelSelection){
+			 List<?> selectedList = modelSelection.toList();
+			 if ((!selectedList.isEmpty() && selectedList.get(0) instanceof Element)){
+				 List<EditPart> partList = getGraphicalViewer()
+							.getContents().getChildren();
+				 List<EditPart> selectedPartList = new LinkedList<EditPart>();
+				for (EditPart e : partList) {
+					if (selectedList.contains(e.getModel())){
+						selectedPartList.add(e);
+					}
+				 }
+				 return new StructuredSelection(selectedPartList);
+			 }
+			 return new StructuredSelection();
+		 }
+	 
+	private IStructuredSelection oldSelection = new StructuredSelection();
+	
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-//		System.out.println(selection);
-//		if (part == SimgridGraphicEditor.this || selection.equals(oldSelection)){
-//			return;
-//		}
-//		oldSelection = selection;
-//		IStructuredSelection sel = (IStructuredSelection) selection;
-//		
+		IStructuredSelection sel = (IStructuredSelection) selection;
+		//avoid loop
+		if (sel.equals(oldSelection)){
+			return;
+		}
+		oldSelection = sel;
+		//System.out.println(selection);
+		
+		if (!sel.isEmpty()) {
+			//update selection in other view
+			if (sel.getFirstElement() instanceof EditPart){
+				oldSelection = partToModelSelection(sel);
+				parent.editor.getSelectionProvider().setSelection(oldSelection);
+			}
+			else if (sel.getFirstElement() instanceof Element){
+				oldSelection = modelToPartSelection(sel);
+				getGraphicalViewer().setSelection(oldSelection);
+			}
+		}
+		
 		// If not the active editor, ignore selection changed.
 		IWorkbenchPartSite site = getSite();
 		if (parent.equals(site.getPage().getActiveEditor()) 
 				&& this.equals(parent.getActivePageEditor())) {
 			//update available action 
 			super.updateActions(super.getSelectionActions());
-			listener.selectionChanged(new SelectionChangedEvent(getSite().getSelectionProvider(), selection));
 		}
-////		if (part instanceof PropertySheet){
-////			
-////		}
-//		if (!sel.isEmpty()) {
-//			//update selection in other view
-//			parent.editor.getSelectionProvider().setSelection(convertedSelection(sel));
-//			// update EditPart Selection from UI and from outline
-//			List<?> selectedList = sel.toList();
-//			@SuppressWarnings("unchecked")
-//			List<EditPart> partList = getGraphicalViewer()
-//					.getContents().getChildren();
-//			for (EditPart e : partList) {
-//				if  ((sel.getFirstElement() instanceof Element && selectedList.contains(e.getModel()))
-//					|| (sel.getFirstElement() instanceof EditPart && selectedList.contains(e))){
-//					e.setSelected(EditPart.SELECTED_PRIMARY);
-//				} else{
-//					e.setSelected(EditPart.SELECTED_NONE);
-//				}
-//			}
-//		}
 	}
 	
 	

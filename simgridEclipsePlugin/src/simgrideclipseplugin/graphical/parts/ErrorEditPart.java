@@ -20,5 +20,12 @@ public class ErrorEditPart extends AbstractGraphicalEditPart{
 	protected void createEditPolicies() {
 		
 	}
+
+	@Override
+	public void activate() {
+		this.deactivate();
+	}
+	
+	
 	
 }

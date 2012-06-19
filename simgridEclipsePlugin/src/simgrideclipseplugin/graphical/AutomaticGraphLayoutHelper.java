@@ -73,7 +73,6 @@ public class AutomaticGraphLayoutHelper {
 		((PlatformEditPart)root.getContents()).refresh();		
 	}
 
-	@SuppressWarnings("unchecked")
 	private void addNode(SimgridAbstractEditPart node) {
 		if (!(node instanceof PlatformEditPart) ) {
 			String id = Integer.toString(node.hashCode());
@@ -81,9 +80,10 @@ public class AutomaticGraphLayoutHelper {
 			// FIXME I think it's not really a good idea...
 			graph.addNode(id);
 		}
-		List<SimgridAbstractEditPart> l = node.getChildren();
-		for (SimgridAbstractEditPart elem : l) {
-			addNode(elem);
+		List<?> l = node.getChildren();
+		for (Object elem : l) {
+			if (elem instanceof SimgridAbstractEditPart)
+			addNode((SimgridAbstractEditPart)elem);
 		}
 	}
 }
