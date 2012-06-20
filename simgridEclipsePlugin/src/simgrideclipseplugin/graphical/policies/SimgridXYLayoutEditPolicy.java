@@ -14,18 +14,22 @@ import org.w3c.dom.Element;
 import simgrideclipseplugin.graphical.commands.AddElementCommand;
 import simgrideclipseplugin.graphical.commands.ChangeLayoutConstraintCommand;
 import simgrideclipseplugin.graphical.parts.AbstractElementEditPart;
+import simgrideclipseplugin.model.ElementList;
 
 public class SimgridXYLayoutEditPolicy extends XYLayoutEditPolicy implements
 		EditPolicy {
 
 	@Override
 	protected Command getCreateCommand(CreateRequest request) {
-		String type = request.getNewObject().toString();
+		Command cmd = null;
+		String type = request.getNewObjectType().toString();
 		Element parent = ((Element)getHost().getModel());
 		Point position = ((Rectangle)getConstraintFor(request)).getLocation();
-		Command cmd = new AddElementCommand(parent,type,position);
+		cmd = new AddElementCommand(parent,type,position);
 		return cmd;
 	}
+
+
 
 	@Override
 	protected Command createChangeConstraintCommand(

@@ -9,7 +9,7 @@ public class ASEditPart extends AbstractElementEditPart {
 
 	@Override
 	protected IFigure createFigure() {
-		return new ASfigure();
+		return initConnection(new ASfigure());
 	}
 	
 	@Override

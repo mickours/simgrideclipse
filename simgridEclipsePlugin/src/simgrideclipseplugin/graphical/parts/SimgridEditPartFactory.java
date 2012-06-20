@@ -24,16 +24,32 @@ public class SimgridEditPartFactory implements EditPartFactory {
 	 *             if no match was found (programming error)
 	 */
 	private EditPart getPartForElement(Object modelElement) {
-		//TODO modify this to fit with the model
 		String name = "null";
 		if (modelElement != null){
 			name = ((Element)modelElement).getTagName();
-			if (name.equals("AS")) {
-				return new ASEditPart();
+			//format the string to get the appropriate editPart
+			String className = this.getClass().getPackage().getName()+"."+name.substring(0,1).toUpperCase() + name.substring(1) + "EditPart";
+			try {
+				return (EditPart) Class.forName(className).newInstance();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			if (name.equals("platform")) {
-				return new PlatformEditPart();
-			}
+//			if (name.equals("AS")) {
+//				return new ASEditPart();
+//			}
+//			if (name.equals("platform")) {
+//				return new PlatformEditPart();
+//			}
+//			if (name.equals("ASroute")){
+//				return new ASrouteEditPart();
+//			}
 		}
 		//throw new RuntimeException("Can't create part for model element: "+ name);
 		return (EditPart) new ErrorEditPart();

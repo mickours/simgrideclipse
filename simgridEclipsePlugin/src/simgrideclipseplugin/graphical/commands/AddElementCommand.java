@@ -26,6 +26,7 @@ public class AddElementCommand extends Command {
 //		for(Node n : ndl){
 //			//find pattern
 //		}
+		//FIXME get attribute according to the element type
 		e.setAttribute("id", "ASnew");
 		e.setAttribute("routing", "Full");
 		ElementPositionMap.setPosition(e, position);
