@@ -34,12 +34,12 @@ public class OutlineContentProvider implements ITreeContentProvider {
 		if (parentElement == input) {
 			if (root == null)
 				return new Object[0];
-			List childrenElements = ModelHelper.getChildren(root);
+			List childrenElements = ModelHelper.getNoConnectionChildren(root);
 			if (childrenElements != null)
 				return childrenElements.toArray();
 		} else {
 			Element parent = (Element) parentElement;
-			List childrenElements = ModelHelper.getChildren(parent);
+			List childrenElements = ModelHelper.getNoConnectionChildren(parent);
 			if (childrenElements != null)
 				return childrenElements.toArray();
 		}
@@ -56,7 +56,7 @@ public class OutlineContentProvider implements ITreeContentProvider {
 		if (element == input)
 			return true;
 		else {
-			return ModelHelper.getChildren((Element) element).size() > 0;
+			return ModelHelper.getNoConnectionChildren((Element) element).size() > 0;
 		}
 	}
 
@@ -64,7 +64,7 @@ public class OutlineContentProvider implements ITreeContentProvider {
 	public Object[] getElements(Object inputElement) {
 		if (root == null)
 			return new Object[0];
-		List childrenDTDElements = ModelHelper.getChildren(root);
+		List childrenDTDElements = ModelHelper.getNoConnectionChildren(root);
 		if (childrenDTDElements != null)
 			return childrenDTDElements.toArray();
 		return new Object[0];

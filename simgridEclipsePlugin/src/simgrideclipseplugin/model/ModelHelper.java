@@ -42,10 +42,31 @@ public final class ModelHelper {
 		parent.removeChild(e);
 		//formatProcessor.formatNode(parent);
 	}
-
+	
 	public static List<Element> getChildren(Element root) {
-		// return the model children
 		return nodeListToElementList(root.getChildNodes());
+	}
+
+	public static List<Element> getNoConnectionChildren(Element root) {
+		// return the model children without connections
+		List<Element> l = nodeListToElementList(root.getChildNodes());
+		List<Element> tmp = new ArrayList<Element>(l);
+		for (Element e : tmp){
+			if (ElementList.isConnection(e.getTagName())){
+				l.remove(e);
+			}
+		}
+		return l;
+	}
+	
+	public static List<Element> nodeListToElementList(NodeList toConvert){
+		List<Element> elemList = new LinkedList<Element>();
+		for (int i = 0; i < toConvert.getLength(); i++) {
+			if (toConvert.item(i) instanceof Element) {
+				elemList.add((Element) toConvert.item(i));
+			}
+		}
+		return elemList;
 	}
 
 	public static IDOMModel getDOMModel(IEditorInput input) throws Exception {
@@ -146,21 +167,26 @@ public final class ModelHelper {
 		return getConnections(model,"dst");
 	}
 	
+//	public static List<String> getAttributeList(Element element) {
+//		List<String> l = new LinkedList<String>();
+//		if (element == null){
+//			return l;
+//		}
+//		for (int i=0; i<element.getAttributes().getLength(); i++){
+//			l.add(element.getAttributes().item(i).getNodeName());
+//		}
+//		return l;
+//	}
+	
+	/** PRIVATE **/
+	
 	private static String getId(Element e){
 		if (e.hasAttribute("id"))
 			return e.getAttribute("id");
 		return "";
 	}
 	
-	private static List<Element> nodeListToElementList(NodeList toConvert){
-		List<Element> elemList = new LinkedList<Element>();
-		for (int i = 0; i < toConvert.getLength(); i++) {
-			if (toConvert.item(i) instanceof Element) {
-				elemList.add((Element) toConvert.item(i));
-			}
-		}
-		return elemList;
-	}
+
 	
 	private static Element getElementbyId(Node anyNode, String id){
 		Element root = anyNode.getOwnerDocument().getDocumentElement();
@@ -171,7 +197,7 @@ public final class ModelHelper {
 		if (getId(current).equals(id)){
 			return current;
 		}
-		for (Element e : getChildren(current)){
+		for (Element e : nodeListToElementList(current.getChildNodes())){
 			Element res = getSubElementbyId(e,id);
 			if (res != null){
 				return e;

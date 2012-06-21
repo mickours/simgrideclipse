@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.wst.sse.core.internal.provisional.INodeAdapter;
 import org.eclipse.wst.sse.core.internal.provisional.INodeNotifier;
 import org.w3c.dom.Element;
@@ -16,11 +15,9 @@ public abstract class SimgridAbstractEditPart extends AbstractGraphicalEditPart
 		implements INodeAdapter, IAdaptable {
 	
 	//private IPropertySource elementPropertySource;
-
-	@SuppressWarnings("rawtypes")
 	@Override
-	public List getModelChildren() {
-		return ModelHelper.getChildren((Element) getModel());
+	public List<?> getModelChildren() {
+		return ModelHelper.getNoConnectionChildren((Element) getModel());
 	}
 
 	@Override
@@ -41,9 +38,9 @@ public abstract class SimgridAbstractEditPart extends AbstractGraphicalEditPart
 			Object changedFeature, Object oldValue, Object newValue, int pos) {
 		// TODO: update UI can be optimized
 		// update only the current if it's an attribute change OR the children
-		if (eventType == 1) {
+		if (eventType == INodeNotifier.CHANGE) {
 			refreshVisuals();
-		} else {
+		} else if (eventType == INodeNotifier.STRUCTURE_CHANGED){//(notifier == this || getChildren().contains(notifier)) {
 			refreshChildren();
 		}
 	}
@@ -52,6 +49,7 @@ public abstract class SimgridAbstractEditPart extends AbstractGraphicalEditPart
 	public boolean isAdapterForType(Object type) {
 		return type.equals(Element.class);
 	}
+
 	
 //	@Override
 //    public void performRequest(Request req) {

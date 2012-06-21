@@ -11,29 +11,22 @@ import simgrideclipseplugin.graphical.SimgridIconProvider;
 
 public class ASfigure extends AbstractElementFigure {
 	
-	private final Label idLabel;
 	private final Label routingLabel;
-	private final Label iconLabel;
-	private final IFigure contentPane;
+//	private final IFigure contentPane;
 	
 	public ASfigure() {
-		super.setLayoutManager(new ToolbarLayout());
-		idLabel = new Label();
-		idLabel.setForegroundColor(ColorConstants.gray);
-		iconLabel = new Label();
-		iconLabel.setIcon(SimgridIconProvider.getIcon("AS"));
+		super("AS");
+		
+	
+		
+//		contentPane = new Figure();
+//		contentPane.setLayoutManager(new ToolbarLayout());
+//		add(contentPane);
+		titleBorder.setBackgroundColor(ColorConstants.darkGreen);
 		routingLabel = new Label();
-		contentPane = new Figure();
-		contentPane.setLayoutManager(new ToolbarLayout());
-		TitleBarBorder b = new TitleBarBorder("AS");
-		b.setBackgroundColor(ColorConstants.darkGreen);
-		setBorder(b);
-		add(idLabel);
-		add(iconLabel);
 		add(routingLabel);
-		add(contentPane);
-		setBackgroundColor(ColorConstants.menuBackground);
-		setOpaque(true);
+
+		
 	}
 	
 
@@ -44,20 +37,12 @@ public class ASfigure extends AbstractElementFigure {
 	}
 
 
-	public IFigure getContentPane() {
-		return contentPane;
-	}
-
-	public String getId() {
-		return idLabel.getText();
-	}
+//	public IFigure getContentPane() {
+//		return contentPane;
+//	}
 
 	public String getRouting() {
 		return routingLabel.getText();
-	}
-
-	public void setId(String id) {
-		this.idLabel.setText("id: "+id);
 	}
 
 	public void setRouting(String routing) {

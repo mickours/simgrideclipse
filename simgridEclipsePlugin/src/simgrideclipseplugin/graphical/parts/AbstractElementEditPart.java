@@ -1,6 +1,5 @@
 package simgrideclipseplugin.graphical.parts;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.draw2d.ChopboxAnchor;
@@ -21,6 +20,7 @@ import org.eclipse.swt.SWT;
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.ElementPositionMap;
+import simgrideclipseplugin.graphical.figures.AbstractElementFigure;
 import simgrideclipseplugin.graphical.policies.ConnectionPolicy;
 import simgrideclipseplugin.graphical.policies.ElementComponentEditPolicy;
 import simgrideclipseplugin.model.ModelHelper;
@@ -33,8 +33,8 @@ public abstract class AbstractElementEditPart extends SimgridAbstractEditPart
 
 	@Override
 	protected void refreshVisuals() {
-		
-		// assign object size depending on zoom/space
+		super.refreshVisuals();
+		// assign object size and location
 		if (bounds == null){
 			bounds = new Rectangle();
 		}
@@ -46,10 +46,18 @@ public abstract class AbstractElementEditPart extends SimgridAbstractEditPart
 		if (parent != null){
 			parent.setLayoutConstraint(this,getFigure(), bounds);
 		}
-		if (getSelected() != SELECTED_NONE){
-			//little trick to update selection UI
-			setSelected(SELECTED_NONE);
-			setSelected(SELECTED_PRIMARY);
+//		if (getSelected() != SELECTED_NONE){
+//			//little trick to update selection UI
+//			setSelected(SELECTED_NONE);
+//			setSelected(SELECTED_PRIMARY);
+//		}
+
+		//get the Figure and the model to refresh the view
+		IFigure f = getFigure();
+		Element node = (Element) getModel();
+		if (node.hasAttribute("id") && f instanceof AbstractElementFigure){
+			AbstractElementFigure elementFigure = (AbstractElementFigure) f;
+			elementFigure.setId(node.getAttribute("id"));
 		}
 	}
 	
@@ -65,15 +73,6 @@ public abstract class AbstractElementEditPart extends SimgridAbstractEditPart
 		 ElementPositionMap.setPositionAndRefresh(this, location);
 	}
 	
-	
-	
-	protected Figure initConnection(Figure figure){
-		ConnectionLayer connLayer = (ConnectionLayer)getLayer(LayerConstants.CONNECTION_LAYER);
-        connLayer.setAntialias(SWT.ON);
-        connLayer.setConnectionRouter(new ShortestPathConnectionRouter(figure));
-        return figure;
-	}
-
 	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,new ElementComponentEditPolicy());

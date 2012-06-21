@@ -44,6 +44,10 @@ public class SimgridIconProvider {
 		h.put("AS.large", "AS_large.png");
 		h.put("AS", "AS.svg");
 		h.put("AutoLayout", "auto_layout.png");
+		h.put("host.small", "host_small.svg");
+		h.put("host.large", "host.svg");
+		h.put("host", "host.svg");
+
 		return h;
 	}
 

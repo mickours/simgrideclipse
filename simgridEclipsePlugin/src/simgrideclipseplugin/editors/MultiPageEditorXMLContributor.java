@@ -146,7 +146,8 @@ public class MultiPageEditorXMLContributor extends MultiPageEditorActionBarContr
 
 	@Override
 	public void dispose() {
-		myGraphicSubActionBars.dispose();
+		if (null != myGraphicSubActionBars)
+			myGraphicSubActionBars.dispose();
 		super.dispose();
 	}
 	
