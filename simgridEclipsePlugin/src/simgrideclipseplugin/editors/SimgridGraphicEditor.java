@@ -2,12 +2,8 @@ package simgrideclipseplugin.editors;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ContextMenuProvider;
@@ -30,28 +26,23 @@ import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.handlers.IHandlerService;
-import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.AutomaticGraphLayoutHelper;
 import simgrideclipseplugin.graphical.SimgridPaletteFactory;
 import simgrideclipseplugin.graphical.actions.AutoLayoutAction;
-import simgrideclipseplugin.graphical.parts.ErrorEditPart;
 import simgrideclipseplugin.graphical.parts.SimgridEditPartFactory;
 import simgrideclipseplugin.model.ModelHelper;
 
@@ -60,7 +51,7 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 
 	// The DOM Model initialized with IFile Input Source
 	private IDOMModel model;
-	private MultiPageXMLEditor parent;
+	private MultiPageSimgridEditor parent;
 	private static PaletteRoot palette;
 	private KeyHandler sharedKeyHandler;
 //	private ISelectionChangedListener listener = new ISelectionChangedListener() {
@@ -77,7 +68,7 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		super.setEditDomain(new DefaultEditDomain(this));
 	}
 	
-	public SimgridGraphicEditor(final MultiPageXMLEditor parent) {
+	public SimgridGraphicEditor(final MultiPageSimgridEditor parent) {
 		super.setEditDomain(new DefaultEditDomain(this));
 		this.parent = parent;
 	}
@@ -94,6 +85,10 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(this);
 		getSite().getWorkbenchWindow().getSelectionService().addPostSelectionListener(this);
 		setPartName(input.getName());
+	}
+	
+	public void setViewerContents(Object contents){
+		getGraphicalViewer().setContents(contents);
 	}
 
 	@Override
@@ -118,9 +113,21 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 		GraphicalViewer viewer = getGraphicalViewer();
-		AutomaticGraphLayoutHelper.INSTANCE.init(viewer.getRootEditPart());
-		viewer.setContents(model.getDocument().getDocumentElement());
-		AutomaticGraphLayoutHelper.INSTANCE.computeLayout();
+		
+		//Initialize the view to display the inside of the root AS
+		Element platform = model.getDocument().getDocumentElement();
+		if (null != platform){
+			Element rootAs = ModelHelper.getNoConnectionChildren(platform).get(0);
+			if (null != rootAs){
+				viewer.setContents(rootAs);
+				EditPart routAsEditPart = (EditPart) viewer.getRootEditPart().getContents();
+				AutomaticGraphLayoutHelper.INSTANCE.init(routAsEditPart);
+				AutomaticGraphLayoutHelper.INSTANCE.computeLayout();
+			}
+			else{
+				viewer.setContents(platform);
+			}
+		}
 	}
 
 	@Override

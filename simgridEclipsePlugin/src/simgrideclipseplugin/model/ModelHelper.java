@@ -1,6 +1,7 @@
 package simgrideclipseplugin.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,12 +45,15 @@ public final class ModelHelper {
 	}
 	
 	public static List<Element> getChildren(Element root) {
-		return nodeListToElementList(root.getChildNodes());
+		if (root != null){
+			return nodeListToElementList(root.getChildNodes());
+		}
+		return Collections.emptyList();
 	}
 
 	public static List<Element> getNoConnectionChildren(Element root) {
 		// return the model children without connections
-		List<Element> l = nodeListToElementList(root.getChildNodes());
+		List<Element> l = getChildren(root);
 		List<Element> tmp = new ArrayList<Element>(l);
 		for (Element e : tmp){
 			if (ElementList.isConnection(e.getTagName())){
@@ -84,6 +88,12 @@ public final class ModelHelper {
 			throw new Exception("Model getted is not DOM Model!!!");
 		}
 		return (IDOMModel) model;
+	}
+	
+	public static List<Element> getLinks(Element anyNode){
+		Element parent = (Element)anyNode.getParentNode();
+        NodeList l = parent.getElementsByTagName(ElementList.LINK);
+        return nodeListToElementList(l);
 	}
 	
 //	public static IPropertySource getPropertySource(Object node){
@@ -200,7 +210,7 @@ public final class ModelHelper {
 		for (Element e : nodeListToElementList(current.getChildNodes())){
 			Element res = getSubElementbyId(e,id);
 			if (res != null){
-				return e;
+				return res;
 			}
 		}
 		return null;
@@ -208,20 +218,20 @@ public final class ModelHelper {
 	
 	private static List<Element> getConnections(Element model, String type){
 		//TODO look for route or ASroute according to the model type
-				NodeList nlAS = model.getOwnerDocument().getElementsByTagName("ASroute");
-				NodeList nl = model.getOwnerDocument().getElementsByTagName("route");
-				
-				List<Element> routeList = new ArrayList<Element>();
-				routeList.addAll(nodeListToElementList(nl));
-				routeList.addAll(nodeListToElementList(nlAS));
-				
-				String id = getId(model);
-				List<Element> connected = new LinkedList<Element>();
-				for (Element e : routeList){
-					if (e.getAttribute(type).equals(id)){
-						connected.add(e);
-					}
-				}
-				return connected;
+		NodeList nlAS = model.getOwnerDocument().getElementsByTagName(ElementList.AS_ROUTE);
+		NodeList nl = model.getOwnerDocument().getElementsByTagName(ElementList.ROUTE);
+		
+		List<Element> routeList = new ArrayList<Element>();
+		routeList.addAll(nodeListToElementList(nl));
+		routeList.addAll(nodeListToElementList(nlAS));
+		
+		String id = getId(model);
+		List<Element> connected = new LinkedList<Element>();
+		for (Element e : routeList){
+			if (e.getAttribute(type).equals(id)){
+				connected.add(e);
+			}
+		}
+		return connected;
 	}
 }

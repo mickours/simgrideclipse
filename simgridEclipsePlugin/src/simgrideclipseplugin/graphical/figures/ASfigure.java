@@ -8,6 +8,7 @@ import org.eclipse.draw2d.TitleBarBorder;
 import org.eclipse.draw2d.ToolbarLayout;
 
 import simgrideclipseplugin.graphical.SimgridIconProvider;
+import simgrideclipseplugin.model.ElementList;
 
 public class ASfigure extends AbstractElementFigure {
 	
@@ -15,9 +16,7 @@ public class ASfigure extends AbstractElementFigure {
 //	private final IFigure contentPane;
 	
 	public ASfigure() {
-		super("AS");
-		
-	
+		super(ElementList.AS);
 		
 //		contentPane = new Figure();
 //		contentPane.setLayoutManager(new ToolbarLayout());
@@ -25,16 +24,15 @@ public class ASfigure extends AbstractElementFigure {
 		titleBorder.setBackgroundColor(ColorConstants.darkGreen);
 		routingLabel = new Label();
 		add(routingLabel);
-
 		
 	}
 	
 
-	public ASfigure(ASfigure figure) {
-		this();
-		setId(figure.getId());
-		setRouting(figure.getRouting());
-	}
+//	public ASfigure(ASfigure figure) {
+//		this();
+//		setId(figure.getId());
+//		setRouting(figure.getRouting());
+//	}
 
 
 //	public IFigure getContentPane() {

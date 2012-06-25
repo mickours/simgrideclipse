@@ -17,7 +17,7 @@ public abstract class SimgridAbstractEditPart extends AbstractGraphicalEditPart
 	//private IPropertySource elementPropertySource;
 	@Override
 	public List<?> getModelChildren() {
-		return ModelHelper.getNoConnectionChildren((Element) getModel());
+		return ModelHelper.getChildren((Element) getModel());
 	}
 
 	@Override
@@ -38,11 +38,12 @@ public abstract class SimgridAbstractEditPart extends AbstractGraphicalEditPart
 			Object changedFeature, Object oldValue, Object newValue, int pos) {
 		// TODO: update UI can be optimized
 		// update only the current if it's an attribute change OR the children
-		if (eventType == INodeNotifier.CHANGE) {
-			refreshVisuals();
-		} else if (eventType == INodeNotifier.STRUCTURE_CHANGED){//(notifier == this || getChildren().contains(notifier)) {
-			refreshChildren();
-		}
+//		if (eventType == INodeNotifier.CHANGE) {
+//			refreshVisuals();
+//		} else if (eventType == INodeNotifier.STRUCTURE_CHANGED){//(notifier == this || getChildren().contains(notifier)) {
+//			refreshChildren();
+//		}
+		refresh();
 	}
 
 	@Override

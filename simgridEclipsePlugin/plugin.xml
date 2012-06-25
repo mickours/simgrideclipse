@@ -14,8 +14,8 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="simgrideclipseplugin.editors.MultiPageXMLEditor"
-            contributorClass="simgrideclipseplugin.editors.MultiPageEditorXMLContributor"
+            class="simgrideclipseplugin.editors.MultiPageSimgridEditor"
+            contributorClass="simgrideclipseplugin.editors.MultiPageSimgridEditorContributor"
             extensions="xml"
             icon="icons/SGicon16x16.gif"
             id="simgrideclipseplugin.editors.MultiPageXMLEditor"

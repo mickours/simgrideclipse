@@ -1,11 +1,11 @@
 package simgrideclipseplugin.graphical.figures;
 
-import org.eclipse.draw2d.Figure;
+import simgrideclipseplugin.model.ElementList;
 
 public class HostFigure extends AbstractElementFigure {
 
 	public HostFigure() {
-		super("host");
+		super(ElementList.HOST);
 		
 	}
 	

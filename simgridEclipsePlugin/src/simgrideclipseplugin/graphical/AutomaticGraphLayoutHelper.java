@@ -4,13 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.gef.RootEditPart;
+import org.eclipse.gef.EditPart;
 import org.graphstream.algorithm.Toolkit;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.layout.springbox.SpringBox;
 
-import simgrideclipseplugin.graphical.parts.PlatformEditPart;
+import simgrideclipseplugin.graphical.parts.AbstractElementEditPart;
+import simgrideclipseplugin.graphical.parts.ErrorEditPart;
+import simgrideclipseplugin.graphical.parts.AbstConnectionEditPart;
 import simgrideclipseplugin.graphical.parts.SimgridAbstractEditPart;
 
 public class AutomaticGraphLayoutHelper {
@@ -19,12 +21,12 @@ public class AutomaticGraphLayoutHelper {
 
 	private SpringBox layoutManager;
 	private GraphicGraph graph;
-	private RootEditPart root;
+	private EditPart root;
 
 	// define as a singleton
 	public static final AutomaticGraphLayoutHelper INSTANCE = new AutomaticGraphLayoutHelper();
 
-	public void init(RootEditPart root) {
+	public void init(EditPart root) {
 		this.root = root;
 		//positionMap = new HashMap<String, Point>();
 		editPartMap = new HashMap<String, SimgridAbstractEditPart>();
@@ -41,9 +43,11 @@ public class AutomaticGraphLayoutHelper {
 		//positionMap.clear();
 		editPartMap.clear();
 		// populate the graph
-		SimgridAbstractEditPart visualRoot = (SimgridAbstractEditPart) root
-				.getContents();
-		addNode(visualRoot);
+		if (root instanceof ErrorEditPart){
+			//there is an Error in the model
+			return;
+		}
+		addNode((SimgridAbstractEditPart) root);
 		// compute layout
 		int i = 0;
 		do  {
@@ -69,21 +73,29 @@ public class AutomaticGraphLayoutHelper {
 			Point p = new Point(x, y);
 			// set position
 			ElementPositionMap.setPositionAndRefresh(editPartMap.get(n.getId()),p);
-		}	
-		((PlatformEditPart)root.getContents()).refresh();		
+		}		
 	}
 
-	private void addNode(SimgridAbstractEditPart node) {
-		if (!(node instanceof PlatformEditPart) ) {
-			String id = Integer.toString(node.hashCode());
-			editPartMap.put(id, node);
+	private void addNode(EditPart node) {
+		String id = computeId(node);
+		if (node instanceof AbstractElementEditPart) {
+			editPartMap.put(id, (SimgridAbstractEditPart) node);
 			// FIXME I think it's not really a good idea...
 			graph.addNode(id);
 		}
+		else if (node instanceof AbstConnectionEditPart) {
+			AbstConnectionEditPart connection = (AbstConnectionEditPart) node;
+			graph.addEdge(id, computeId(connection.getSource()), computeId(connection.getTarget()));
+		}
 		List<?> l = node.getChildren();
 		for (Object elem : l) {
-			if (elem instanceof SimgridAbstractEditPart)
-			addNode((SimgridAbstractEditPart)elem);
+			if (!(elem instanceof ErrorEditPart)){
+				addNode((SimgridAbstractEditPart)elem);
+			}
 		}
+	}
+	
+	private String computeId(EditPart node){
+		return Integer.toString(node.hashCode());
 	}
 }

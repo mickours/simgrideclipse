@@ -5,10 +5,14 @@ import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.TitleBarBorder;
 
 public class ContentPaneFigure extends FreeformLayer {
-
-	public ContentPaneFigure(String title){
+	
+	public ContentPaneFigure(){
 		super(); 
-		setBorder(new TitleBarBorder(title));
+		setBorder(new TitleBarBorder());
 		setLayoutManager(new FreeformLayout());
+	}
+
+	public void setTitle(String title) {
+		((TitleBarBorder)getBorder()).setLabel(title);
 	}
 }

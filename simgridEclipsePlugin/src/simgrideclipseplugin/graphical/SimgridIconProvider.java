@@ -11,6 +11,9 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
+import simgrideclipseplugin.graphical.actions.AutoLayoutAction;
+import simgrideclipseplugin.model.ElementList;
+
 //FIXME : Modify this this class and use Activator instead
 public class SimgridIconProvider {
 	private static final String iconPath = "platform:/plugin/simgridEclipsePlugin/icons/";
@@ -24,12 +27,8 @@ public class SimgridIconProvider {
 	public static ImageDescriptor getIconImageDescriptor(String key){
 		ImageDescriptor d = iconRegister.get(key);
 		if (d == null){
-			try {
-				throw new Exception("Icon not found");
-			} catch (Exception e) {
-				d = PlatformUI.getWorkbench().getSharedImages().
-						getImageDescriptor(ISharedImages.IMG_DEF_VIEW);
-			}
+			d = PlatformUI.getWorkbench().getSharedImages().
+					getImageDescriptor(ISharedImages.IMG_DEF_VIEW);
 		}
 		return d;
 	}
@@ -40,13 +39,16 @@ public class SimgridIconProvider {
 	 */
 	private static HashMap<String, String> getPathMap() {
 		HashMap<String,String> h = new HashMap<String, String>();
-		h.put("AS.small", "AS_small.png");
-		h.put("AS.large", "AS_large.png");
-		h.put("AS", "AS.svg");
-		h.put("AutoLayout", "auto_layout.png");
+		//FIXME must be populate with ElementList.tagList
+		h.put(ElementList.AS+".small", "AS_small.png");
+		h.put(ElementList.AS+".large", "AS_large.png");
+		h.put(ElementList.AS, "AS.svg");
+
 		h.put("host.small", "host_small.svg");
 		h.put("host.large", "host.svg");
 		h.put("host", "host.svg");
+		
+		h.put(AutoLayoutAction.ID, "auto_layout.png");
 
 		return h;
 	}

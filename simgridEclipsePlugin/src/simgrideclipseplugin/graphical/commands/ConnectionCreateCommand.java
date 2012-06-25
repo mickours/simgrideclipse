@@ -2,7 +2,6 @@ package simgrideclipseplugin.graphical.commands;
 
 import org.eclipse.gef.commands.Command;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import simgrideclipseplugin.model.ModelHelper;
 

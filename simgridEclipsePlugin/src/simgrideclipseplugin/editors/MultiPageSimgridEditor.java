@@ -48,7 +48,7 @@ import simgrideclipseplugin.editors.outline.SimgridOutlinePage;
  * </ul>
  */
 @SuppressWarnings("restriction")
-public class MultiPageXMLEditor extends MultiPageEditorPart implements
+public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 		IResourceChangeListener {
 
 	/** The text editor used in page 0. */
@@ -93,7 +93,7 @@ public class MultiPageXMLEditor extends MultiPageEditorPart implements
 	/**
 	 * Creates a multi-page editor example.
 	 */
-	public MultiPageXMLEditor() {
+	public MultiPageSimgridEditor() {
 		super();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 	}

@@ -2,16 +2,22 @@ package simgrideclipseplugin.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.w3c.dom.Document;
 
 public class ElementList {
 	private static List<String> tagNameList = createTagList();
 	private static List<String> connectionList = createConnectionList();
 //	private static Map<String,List<String>> attributMap = createAttributMap();
+	public static final String PLATFORM = "platform";
+	public static final String AS = "AS";
+	public static final String AS_ROUTE = "ASroute";
+	public static final String HOST = "host";
+	public static final String CLUSTER = "cluster";
+	public static final String ROUTE = "route";
+	public static final String PEER = "peer";
+	public static final String ROUTER = "router";
+	public static final String LINK = "link";
 	
 	public static List<String> getElementTagNameList() {
 		return new ArrayList<String>(tagNameList);
@@ -43,8 +49,8 @@ public class ElementList {
 
 	private static List<String> createConnectionList() {
 		String[] tags = {
-				"Route",
-				"ASroute"
+				ROUTE,
+				AS_ROUTE
 		};
 		return Arrays.asList(tags);
 	}
@@ -52,9 +58,10 @@ public class ElementList {
 	private static List<String> createTagList() {
 		//FIXME: this list should come from the dtd
 		String[] tags = {
-				"AS",
-				"host",
-				"ASroute"
+				AS,
+				HOST,
+				AS_ROUTE,
+				CLUSTER
 				//TODO to complete
 		};
 		return Arrays.asList(tags);

@@ -16,7 +16,7 @@ import org.eclipse.ui.texteditor.ITextEditorActionConstants;
  * Responsible for the redirection of global actions to the active editor.
  * Multi-page contributor replaces the contributors for the individual editors in the multi-page editor.
  */
-public class MultiPageEditorXMLContributor extends MultiPageEditorActionBarContributor {
+public class MultiPageSimgridEditorContributor extends MultiPageEditorActionBarContributor {
 	
 	private IActionBars2 myActionBars2;
 

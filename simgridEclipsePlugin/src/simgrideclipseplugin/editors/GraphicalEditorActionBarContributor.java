@@ -1,6 +1,7 @@
 package simgrideclipseplugin.editors;
 
 import org.eclipse.gef.ui.actions.ActionBarContributor;
+import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.DeleteRetargetAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.RedoRetargetAction;
@@ -28,6 +29,8 @@ public class GraphicalEditorActionBarContributor extends ActionBarContributor {
 	    addRetargetAction(new ZoomInRetargetAction());
 	    addRetargetAction(new ZoomOutRetargetAction());
 	    addAction(new AutoLayoutAction(getPage().getActiveEditor()));
+//	    ActionRegistry ar = (ActionRegistry) getPage().getActiveEditor().getAdapter(ActionRegistry.class);
+//	    addAction(ar.getAction(AutoLayoutAction.ID));
 	}
 	
 	@Override

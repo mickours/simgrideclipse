@@ -4,7 +4,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
@@ -14,7 +13,6 @@ import org.w3c.dom.Element;
 import simgrideclipseplugin.graphical.commands.AddElementCommand;
 import simgrideclipseplugin.graphical.commands.ChangeLayoutConstraintCommand;
 import simgrideclipseplugin.graphical.parts.AbstractElementEditPart;
-import simgrideclipseplugin.model.ElementList;
 
 public class SimgridXYLayoutEditPolicy extends XYLayoutEditPolicy implements
 		EditPolicy {
@@ -44,5 +42,4 @@ public class SimgridXYLayoutEditPolicy extends XYLayoutEditPolicy implements
 		}
 		return cmd;
 	}
-
 }

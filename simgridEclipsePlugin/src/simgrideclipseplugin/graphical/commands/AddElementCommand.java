@@ -24,7 +24,7 @@ public class AddElementCommand extends Command {
 	@Override
 	public void execute() {
 		Element e = parent.getOwnerDocument().createElement(type);
-		//TODO find a clever way to define the id default value
+		//TODO find a more clever way to define the id default value
 		String newId = e.getTagName()+numID++;
 		List<Element> ndl = ModelHelper
 				.nodeListToElementList(parent.getOwnerDocument().getElementsByTagName(type));

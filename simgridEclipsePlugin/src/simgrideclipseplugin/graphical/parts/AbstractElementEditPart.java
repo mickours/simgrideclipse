@@ -17,6 +17,7 @@ import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.swt.SWT;
+import org.eclipse.wst.sse.core.internal.provisional.INodeNotifier;
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.ElementPositionMap;
@@ -80,6 +81,22 @@ public abstract class AbstractElementEditPart extends SimgridAbstractEditPart
 		//installEditPolicy(EditPolicy.LAYOUT_ROLE, new SimgridXYLayoutEditPolicy());
 	}
 	
+	@SuppressWarnings("restriction")
+	public void addConnection(Object model){
+		((INodeNotifier) model).addAdapter(this);
+	}
+	
+	@SuppressWarnings("restriction")
+	public void removeConnection(Object model){
+		((INodeNotifier) model).removeAdapter(this);
+	}
+	
+	@Override
+	protected IFigure createFigure() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	protected List<?> getModelSourceConnections() { 
 		  return ModelHelper.getSouceConnections((Element)getModel());
 	}
