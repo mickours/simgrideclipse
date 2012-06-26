@@ -9,14 +9,14 @@ import org.eclipse.draw2d.ToolbarLayout;
 
 import simgrideclipseplugin.graphical.SimgridIconProvider;
 
-public abstract class AbstractElementFigure extends Figure {
+public class ElementFigure extends Figure {
 	
 	protected final Label idLabel = new Label();
 	protected final ImageFigure icon = new ImageFigure();
 	protected final TitleBarBorder titleBorder = new TitleBarBorder();
 	
 	
-	public AbstractElementFigure(String name) {
+	public ElementFigure(String name) {
 		super.setLayoutManager(new ToolbarLayout());
 		titleBorder.setLabel(name);
 		setBorder(titleBorder);

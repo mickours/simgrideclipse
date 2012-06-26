@@ -7,6 +7,7 @@ import org.eclipse.gef.commands.Command;
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.ElementPositionMap;
+import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
 
 public class AddElementCommand extends Command {
@@ -35,6 +36,9 @@ public class AddElementCommand extends Command {
 		}
 		//FIXME get attribute according to the element type
 		e.setAttribute("id",newId);
+		if (type.equals(ElementList.HOST)){
+			//TODO handle power
+		}
 		
 		ElementPositionMap.setPosition(e, position);
 		ModelHelper.addChild(parent, e);

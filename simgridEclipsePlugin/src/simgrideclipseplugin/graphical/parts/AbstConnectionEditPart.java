@@ -4,19 +4,33 @@ import java.util.List;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.wst.sse.core.internal.provisional.INodeAdapter;
 import org.eclipse.wst.sse.core.internal.provisional.INodeNotifier;
 import org.w3c.dom.Element;
 
+import simgrideclipseplugin.graphical.figures.AbstractConnectionFigure;
 import simgrideclipseplugin.graphical.policies.ConnectionDeleteEditPolicy;
 import simgrideclipseplugin.model.ModelHelper;
 
 @SuppressWarnings("restriction")
-public class AbstConnectionEditPart extends AbstractConnectionEditPart implements INodeAdapter{
+public abstract class AbstConnectionEditPart extends AbstractConnectionEditPart implements INodeAdapter{
 
+	@Override
+	protected void refreshVisuals() {
+		AbstractConnectionFigure connection = (AbstractConnectionFigure)getFigure();
+		String sim = ((Element)getModel()).getAttribute("symmetrical");
+		if ( sim.isEmpty() || sim.equals("YES")){
+	        connection.setSourceDecoration();
+		}else{
+			connection.resetSourceDecoration();
+		}
+		connection.invalidate();
+		connection.repaint();
+		super.refreshVisuals();
+	}
+	
 	@Override
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.CONNECTION_ROLE, new ConnectionDeleteEditPolicy());

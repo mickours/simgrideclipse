@@ -4,16 +4,11 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.window.Window;
-import org.eclipse.ui.dialogs.ElementListSelectionDialog;
-import org.eclipse.ui.internal.UIPlugin;
+import org.eclipse.swt.widgets.Shell;
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.commands.ConnectionCreateCommand;
 import simgrideclipseplugin.graphical.commands.ConnectionReconnectCommand;
-import simgrideclipseplugin.model.ElementList;
-import simgrideclipseplugin.model.ModelHelper;
 import simgrideclipseplugin.model.SimgridRules;
 
 public class ConnectionPolicy extends GraphicalNodeEditPolicy {
@@ -23,18 +18,13 @@ public class ConnectionPolicy extends GraphicalNodeEditPolicy {
 		ConnectionCreateCommand cmd = (ConnectionCreateCommand)request.getStartCommand();
         Element targetNode = (Element)getHost().getModel();
         String type = cmd.getConnectionType();
-        if (SimgridRules.isAllowedConnection(targetNode,type)){
+        if (SimgridRules.isAllowedConnection(targetNode,type) && targetNode != cmd.getSourceNode()){
 	        cmd.setTargetNode(targetNode);
-	        //TODO display a dialog that allows to add links and gateways
-	        ElementListSelectionDialog dialog = new ElementListSelectionDialog(getHost().getViewer().getControl().getShell(), new LabelProvider());
-	        
-//		        dialog.setElements(new String[] { "Linux", "Mac", "Windows" });
-//		        dialog.setTitle("Which operating system are you using");
-//		        // User pressed cancel
-//		        if (dialog.open() != Window.OK) {
-//		        		return false;
-//		        }
-//		        Object[] result = dialog.getResult();
+	        Shell shell = getHost().getViewer().getControl().getShell();
+	        cmd.setShell(shell);
+	        Element parent = (Element) targetNode.getParentNode();
+	        boolean isFull = parent.getAttribute("routing").equals("Full");
+	        cmd.isParentFull(isFull);
 	    }
         else{
         	cmd = null;

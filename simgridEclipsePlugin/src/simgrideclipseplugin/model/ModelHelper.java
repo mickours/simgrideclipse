@@ -13,6 +13,7 @@ import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.format.FormatProcessorXML;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -27,8 +28,12 @@ public final class ModelHelper {
 	
 	private final static FormatProcessorXML formatProcessor = new FormatProcessorXML();
 	
+/*******************************************/	
+/*****   CREATION/DELETION FUNCTIONS  ******/
+/*******************************************/
 	public static void addChild(Node parent, Element child){
 		try{
+			//FIXME must add the child after the link and before the route
 			parent.appendChild(child);
 			//format sources
 			formatProcessor.formatNode(parent);
@@ -37,13 +42,105 @@ public final class ModelHelper {
 		}
 	}
 	
+	public static Element createRoute(Element sourceNode, Element targetNode,
+			String routeType) {
+		//create a route
+		Element route = sourceNode.getOwnerDocument().createElement(routeType);
+		route.setAttribute("src",getId(sourceNode));
+		route.setAttribute("dst",getId(targetNode));
+		//include the route in sourceNode location
+		insertAtLast(sourceNode.getParentNode(),route);
+		return route;
+	}
+	
+	public static void createAndAddLink(Element route,String id, String bandwidth){
+		Document doc = route.getOwnerDocument();
+		//create the link
+		Element link = doc.createElement(ElementList.LINK);
+		link.setAttribute("id", id);
+		link.setAttribute("bandwidth", bandwidth);
+		insertAtFirst(route.getParentNode(),link);
+		//add it to the route
+		addLink(route,link);
+	}
+	
+	/**
+	 * add the link to the route by creating a link_ctn node into the route
+	 * @param route
+	 * @param link
+	 */
+	public static void addLink(Element route, Element link){
+		Element linkCtn = route.getOwnerDocument().createElement(ElementList.LINK_CTN);
+		linkCtn.setAttribute("id", link.getAttribute("id"));
+		addChild(route,linkCtn);
+	}
+	
+	
+	public static void reconnect(Element route, Element sourceNode,
+			Element targetNode) {
+		String srcId = getId(sourceNode);
+		if ( ! route.getAttribute("src").equals(srcId)){
+			route.setAttribute("src", srcId);
+		}
+		String dstId = getId(targetNode);
+		if ( ! route.getAttribute("dst").equals(dstId)){
+			route.setAttribute("dst", dstId);
+		}		
+	}
+	
 	public static void removeElement(Element e) {
-		//TODO handle the link deletion if it's a route
 		Node parent = e.getParentNode();
 		parent.removeChild(e);
 		//formatProcessor.formatNode(parent);
 	}
 	
+	/**
+	 * restore the route with the related links
+	 * @param parent
+	 * @param route
+	 * @param links
+	 */
+	public static void restoreRoute(Node parent,Element route,List<Element> links) {
+		//add links
+		for (Element link : links){
+			insertAtFirst(parent,link);
+		}
+		//add a route
+		insertAtLast(parent,route);
+	}
+	
+	/**
+	 * remove the route and handle the related link deletion
+	 * @param route
+	 */
+	public static List<Element> removeRoute(Element route) {
+		List<Element> deletedLink = new LinkedList<Element>(); 
+		NodeList nl = route.getChildNodes();
+		Element parent = (Element) route.getParentNode();
+		for (int i = 0; i< nl.getLength(); i++){
+			String id = ((Element)nl.item(i)).getAttribute("id");
+			NodeList linkCtnList = parent.getElementsByTagName(ElementList.LINK_CTN);
+			//check if this link is not used elsewhere
+			int j = 0;
+			while(j< linkCtnList.getLength() 
+					&& !((Element)linkCtnList.item(j)).getAttribute("id").equals(id)){
+				j++;
+			}
+			if (j < linkCtnList.getLength()){
+				//remove the link
+				Element link = getSubElementbyId(parent,id);
+				if (link != null){
+					removeElement(link);
+					deletedLink.add(link);
+				}
+			}
+		}
+		return deletedLink;
+	}
+
+/*******************************************/	
+/*****       ACCES FUNCTIONS          ******/
+/*******************************************/
 	public static List<Element> getChildren(Element root) {
 		if (root != null){
 			return nodeListToElementList(root.getChildNodes());
@@ -61,16 +158,6 @@ public final class ModelHelper {
 			}
 		}
 		return l;
-	}
-	
-	public static List<Element> nodeListToElementList(NodeList toConvert){
-		List<Element> elemList = new LinkedList<Element>();
-		for (int i = 0; i < toConvert.getLength(); i++) {
-			if (toConvert.item(i) instanceof Element) {
-				elemList.add((Element) toConvert.item(i));
-			}
-		}
-		return elemList;
 	}
 
 	public static IDOMModel getDOMModel(IEditorInput input) throws Exception {
@@ -90,8 +177,14 @@ public final class ModelHelper {
 		return (IDOMModel) model;
 	}
 	
-	public static List<Element> getLinks(Element anyNode){
-		Element parent = (Element)anyNode.getParentNode();
+	/**
+	 * return the links contained in the same AS as aNode and in
+	 * the descendants
+	 * @param aNode
+	 * @return
+	 */
+	public static List<Element> getLinks(Element aNode){
+		Element parent = (Element)aNode.getParentNode();
         NodeList l = parent.getElementsByTagName(ElementList.LINK);
         return nodeListToElementList(l);
 	}
@@ -130,21 +223,15 @@ public final class ModelHelper {
 //	public static int getLength(Element e){
 //		return ((ElementImpl)e).getLength();
 //	}
-
-	public static void addRoute(Element route, Node parent) {
-		//add a route
-		addChild(parent,route);
-	}
-
-	public static Element createRoute(Element sourceNode, Element targetNode,
-			String routeType) {
-		//create a route
-		Element route = sourceNode.getOwnerDocument().createElement(routeType);
-		route.setAttribute("src",getId(sourceNode));
-		route.setAttribute("dst",getId(targetNode));
-		//include the route in sourceNode location
-		addChild(sourceNode.getParentNode(),route);
-		return route;
+	
+	public static List<Element> nodeListToElementList(NodeList toConvert){
+		List<Element> elemList = new LinkedList<Element>();
+		for (int i = 0; i < toConvert.getLength(); i++) {
+			if (toConvert.item(i) instanceof Element) {
+				elemList.add((Element) toConvert.item(i));
+			}
+		}
+		return elemList;
 	}
 
 	public static Element getSourceNode(Element route) {
@@ -156,19 +243,7 @@ public final class ModelHelper {
 		String dstId = route.getAttribute("dst");
 		return getElementbyId(route, dstId);
 	}
-
-	public static void reconnect(Element route, Element sourceNode,
-			Element targetNode) {
-		String srcId = getId(sourceNode);
-		if ( ! route.getAttribute("src").equals(srcId)){
-			route.setAttribute("src", srcId);
-		}
-		String dstId = getId(targetNode);
-		if ( ! route.getAttribute("dst").equals(dstId)){
-			route.setAttribute("dst", dstId);
-		}		
-	}
-
+	
 	public static List<?> getSouceConnections(Element model) {
 		return getConnections(model,"src");
 	}
@@ -188,7 +263,29 @@ public final class ModelHelper {
 //		return l;
 //	}
 	
-	/** PRIVATE **/
+	/*******************************************/	
+	/*****       PRIVATE UTILS            ******/
+	/*******************************************/
+	
+	private static void insertAtLast(Node parent, Element newChild){
+		try{
+			parent.insertBefore(newChild, null);
+			//format sources
+			formatProcessor.formatNode(parent);
+		}catch (Exception e2) {
+			e2.printStackTrace();
+		}
+	}
+	
+	private static void insertAtFirst(Node parent, Element child) {
+		try{
+			parent.insertBefore(child, parent.getFirstChild());
+			//format sources
+			formatProcessor.formatNode(parent);
+		}catch (Exception e2) {
+			e2.printStackTrace();
+		}
+	}
 	
 	private static String getId(Element e){
 		if (e.hasAttribute("id"))

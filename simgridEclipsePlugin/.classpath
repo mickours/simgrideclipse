@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="simgrideclipseplugin/graphical/parts/test.java|simgrideclipseplugin/graphical/policies/ElementDirectEditingPolicies.java|simgrideclipseplugin/editors/properties/ElementPropertySource.java" kind="src" path="src"/>
+	<classpathentry excluding="simgrideclipseplugin/graphical/parts/test.java|simgrideclipseplugin/graphical/policies/ElementDirectEditingPolicies.java|simgrideclipseplugin/editors/properties/ElementPropertySource.java|simgrideclipseplugin/editors/outline/OutlineContentProvider.java|simgrideclipseplugin/editors/outline/OutlineLabelProvider.java|simgrideclipseplugin/editors/outline/SimgridOutlinePage.java" kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="lib/gs-algo-1.1/gs-algo-1.1.jar" sourcepath="lib/gs-algo-1.1/gs-algo-1.1-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/simgridEclipsePlugin/lib/gs-algo-1.1/gs-algo-1.1-javadoc.jar!/"/>

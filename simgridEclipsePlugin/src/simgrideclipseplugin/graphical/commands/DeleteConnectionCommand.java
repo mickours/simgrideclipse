@@ -1,5 +1,7 @@
 package simgrideclipseplugin.graphical.commands;
 
+import java.util.List;
+
 import org.eclipse.gef.commands.Command;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -10,6 +12,7 @@ public class DeleteConnectionCommand extends Command {
 
 	private Element route;
 	private Node parent;
+	private List<Element> deletedLinks;
 	   
     public void setRoute(Object route) {
         this.route = (Element)route;
@@ -18,11 +21,11 @@ public class DeleteConnectionCommand extends Command {
    
     @Override
     public void execute() {
-        ModelHelper.removeElement(route);
+    	deletedLinks = ModelHelper.removeRoute(route);
     }
    
     @Override
     public void undo() {
-    	ModelHelper.addRoute(route, parent);
+    	ModelHelper.restoreRoute(parent,route,deletedLinks);
     }
 }

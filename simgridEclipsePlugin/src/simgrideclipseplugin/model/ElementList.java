@@ -18,6 +18,7 @@ public class ElementList {
 	public static final String PEER = "peer";
 	public static final String ROUTER = "router";
 	public static final String LINK = "link";
+	public static final String LINK_CTN = "link_ctn";
 	
 	public static List<String> getElementTagNameList() {
 		return new ArrayList<String>(tagNameList);
@@ -58,10 +59,11 @@ public class ElementList {
 	private static List<String> createTagList() {
 		//FIXME: this list should come from the dtd
 		String[] tags = {
-				AS,
-				HOST,
+				AS,CLUSTER,PEER,
 				AS_ROUTE,
-				CLUSTER
+				HOST,ROUTER,
+				ROUTE,
+				
 				//TODO to complete
 		};
 		return Arrays.asList(tags);

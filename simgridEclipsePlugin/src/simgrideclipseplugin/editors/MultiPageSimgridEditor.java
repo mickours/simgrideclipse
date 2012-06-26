@@ -36,7 +36,7 @@ import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.contenttype.ContentTypeIdForXML;
 
-import simgrideclipseplugin.editors.outline.SimgridOutlinePage;
+//import simgrideclipseplugin.editors.outline.SimgridOutlinePage;
 
 /**
  * An example showing how to create a multi-page editor. This example has 3

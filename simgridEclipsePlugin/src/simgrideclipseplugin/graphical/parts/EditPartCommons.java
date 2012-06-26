@@ -20,9 +20,13 @@ public class EditPartCommons {
 		Map<?, ?> reg = anyEditPart.getViewer().getEditPartRegistry();
 		Element src = ModelHelper.getSourceNode(connection);
 		AbstractElementEditPart srcEP = (AbstractElementEditPart) reg.get(src);
-		srcEP.refresh();
+		if (srcEP != null){
+			srcEP.refresh();
+		}
 		Element dst = ModelHelper.getTargetNode(connection);
 		GraphicalEditPart dstEP = (GraphicalEditPart) reg.get(dst);
-		dstEP.refresh();
+		if(dstEP != null ){
+			dstEP.refresh();
+		}
 	}
 }

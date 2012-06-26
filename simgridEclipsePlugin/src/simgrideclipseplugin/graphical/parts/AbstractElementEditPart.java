@@ -21,7 +21,7 @@ import org.eclipse.wst.sse.core.internal.provisional.INodeNotifier;
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.ElementPositionMap;
-import simgrideclipseplugin.graphical.figures.AbstractElementFigure;
+import simgrideclipseplugin.graphical.figures.ElementFigure;
 import simgrideclipseplugin.graphical.policies.ConnectionPolicy;
 import simgrideclipseplugin.graphical.policies.ElementComponentEditPolicy;
 import simgrideclipseplugin.model.ModelHelper;
@@ -56,8 +56,8 @@ public abstract class AbstractElementEditPart extends SimgridAbstractEditPart
 		//get the Figure and the model to refresh the view
 		IFigure f = getFigure();
 		Element node = (Element) getModel();
-		if (node.hasAttribute("id") && f instanceof AbstractElementFigure){
-			AbstractElementFigure elementFigure = (AbstractElementFigure) f;
+		if (node.hasAttribute("id") && f instanceof ElementFigure){
+			ElementFigure elementFigure = (ElementFigure) f;
 			elementFigure.setId(node.getAttribute("id"));
 		}
 	}

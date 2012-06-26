@@ -10,7 +10,7 @@ import org.eclipse.draw2d.ToolbarLayout;
 import simgrideclipseplugin.graphical.SimgridIconProvider;
 import simgrideclipseplugin.model.ElementList;
 
-public class ASfigure extends AbstractElementFigure {
+public class ASfigure extends ElementFigure {
 	
 	private final Label routingLabel;
 //	private final IFigure contentPane;
