@@ -9,12 +9,10 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
 
 import simgrideclipseplugin.graphical.actions.AutoLayoutAction;
 import simgrideclipseplugin.model.ElementList;
 
-//FIXME : Modify this this class and use Activator instead
 public class SimgridIconProvider {
 	private static final String iconPath = "platform:/plugin/simgridEclipsePlugin/icons/";
 	private static final HashMap<String,ImageDescriptor> iconRegister = init();
@@ -39,15 +37,14 @@ public class SimgridIconProvider {
 	 */
 	private static HashMap<String, String> getPathMap() {
 		HashMap<String,String> h = new HashMap<String, String>();
-		//FIXME must be populate with ElementList.tagList
-		h.put(ElementList.AS+".small", "AS_small.png");
-		h.put(ElementList.AS+".large", "AS_large.png");
-		h.put(ElementList.AS, "AS.svg");
-
-		h.put("host.small", "host_small.svg");
-		h.put("host.large", "host.svg");
-		h.put("host", "host.svg");
 		
+		//add Element Icons
+		for (String tag : ElementList.getElementTagNameList()){
+			h.put(tag+"_small", tag+"_small.svg");
+			h.put(tag, tag+".svg");
+		}
+		
+		//add Actions Icons
 		h.put(AutoLayoutAction.ID, "auto_layout.png");
 
 		return h;
@@ -63,8 +60,7 @@ public class SimgridIconProvider {
 				h.put(e.getKey(),ImageDescriptor.createFromURL(url));
 				
 			} catch (MalformedURLException ex) {
-				// TODO Auto-generated catch block
-				ex.printStackTrace();
+				System.err.println("this icon path : "+iconPath+e.getValue()+"doesn't exists");
 			}
 		}
 		return h;

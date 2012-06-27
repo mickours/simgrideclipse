@@ -1,6 +1,8 @@
 package simgrideclipseplugin.graphical.parts;
 
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.PlatformUI;
@@ -25,17 +27,22 @@ public class ASEditPart extends AbstractElementEditPart {
 	}
 
 	@Override
-	public void performRequest(Request req) {
-		if (req.getType().equals(REQ_OPEN)){
-			IAction a = new GoIntoAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-					.getActivePage().getActivePart());
-			a.run();
-		}
+	protected void addChild(EditPart child, int index) {
+		//do nothing
 	}
+
+
+//	@Override
+//	public void performRequest(Request req) {
+//		if (req.getType().equals(REQ_OPEN)){
+//			getViewer().getContextMenu().get
+//		}
+//	}
 	
 //	public IFigure getContentPane(){
 //		return ((ASfigure)getFigure()).getContentPane();
 //	}
+	
 	
 	
 }

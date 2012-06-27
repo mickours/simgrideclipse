@@ -15,8 +15,10 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.actions.RetargetAction;
 
 import simgrideclipseplugin.graphical.actions.AutoLayoutAction;
+import simgrideclipseplugin.graphical.actions.AutoLayoutRetargetAction;
 
 public class GraphicalEditorActionBarContributor extends ActionBarContributor {
 
@@ -28,7 +30,7 @@ public class GraphicalEditorActionBarContributor extends ActionBarContributor {
 	    
 	    addRetargetAction(new ZoomInRetargetAction());
 	    addRetargetAction(new ZoomOutRetargetAction());
-	    addAction(new AutoLayoutAction(getPage().getActiveEditor()));
+	    addRetargetAction(new AutoLayoutRetargetAction());
 //	    ActionRegistry ar = (ActionRegistry) getPage().getActiveEditor().getAdapter(ActionRegistry.class);
 //	    addAction(ar.getAction(AutoLayoutAction.ID));
 	}

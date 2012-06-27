@@ -43,6 +43,8 @@ import org.w3c.dom.Element;
 import simgrideclipseplugin.graphical.AutomaticGraphLayoutHelper;
 import simgrideclipseplugin.graphical.SimgridPaletteFactory;
 import simgrideclipseplugin.graphical.actions.AutoLayoutAction;
+import simgrideclipseplugin.graphical.actions.GoIntoAction;
+import simgrideclipseplugin.graphical.actions.GoUpAction;
 import simgrideclipseplugin.graphical.parts.SimgridEditPartFactory;
 import simgrideclipseplugin.model.ModelHelper;
 
@@ -86,10 +88,6 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		getSite().getWorkbenchWindow().getSelectionService().addPostSelectionListener(this);
 		setPartName(input.getName());
 	}
-	
-	public void setViewerContents(Object contents){
-		getGraphicalViewer().setContents(contents);
-	}
 
 	@Override
 	protected void setInput(IEditorInput input) {
@@ -112,9 +110,22 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	@Override
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
+		//FIXME has to be synchronize with the text Editor
+		initContents();
+	}
+	
+	@Override
+	public GraphicalViewer getGraphicalViewer() {
+		// TODO Auto-generated method stub
+		return super.getGraphicalViewer();
+	}
+
+	/**
+	 * Initialize the view to display the inside of the root AS
+	 * @param viewer
+	 */
+	public void initContents() {
 		GraphicalViewer viewer = getGraphicalViewer();
-		
-		//Initialize the view to display the inside of the root AS
 		Element platform = model.getDocument().getDocumentElement();
 		if (null != platform){
 			Element rootAs = ModelHelper.getNoConnectionChildren(platform).get(0);
@@ -128,6 +139,7 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 				viewer.setContents(platform);
 			}
 		}
+		
 	}
 
 	@Override
@@ -198,7 +210,14 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		IAction action;
 		
 		action = new AutoLayoutAction(this);
-		ar.registerAction(action);		
+		ar.registerAction(action);
+		
+		action = new GoIntoAction(this);
+		ar.registerAction(action);
+		getSelectionActions().add(action.getId());
+		
+		action = new GoUpAction(this);
+		ar.registerAction(action);
 	}
 
 	@Override
@@ -259,37 +278,36 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 			 return new StructuredSelection();
 		 }
 	 
-	private IStructuredSelection oldSelection = new StructuredSelection();
+	private IStructuredSelection oldEditPartSelection = new StructuredSelection();
+	private IStructuredSelection oldElementSelection = new StructuredSelection();
 	
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-		IStructuredSelection sel = (IStructuredSelection) selection;
-		//avoid loop
-		if (sel.equals(oldSelection)){
-			return;
-		}
-		oldSelection = sel;
-		//System.out.println(selection);
-		
-		if (!sel.isEmpty()) {
-			//update selection in other view
-			if (sel.getFirstElement() instanceof EditPart){
-				oldSelection = partToModelSelection(sel);
-				parent.editor.getSelectionProvider().setSelection(oldSelection);
-			}
-			else if (sel.getFirstElement() instanceof Element){
-				oldSelection = modelToPartSelection(sel);
-				getGraphicalViewer().setSelection(oldSelection);
-			}
-		}
-		
 		// If not the active editor, ignore selection changed.
 		IWorkbenchPartSite site = getSite();
+		IStructuredSelection sel = (IStructuredSelection) selection;
 		if (parent.equals(site.getPage().getActiveEditor()) 
 				&& this.equals(parent.getActivePageEditor())) {
+			
+			//avoid loop
+			if (sel.equals(oldEditPartSelection) || sel.equals(oldElementSelection) ){
+				return;
+			}
+			
+			//update selection in other view
+			if (sel.getFirstElement() instanceof EditPart){
+				oldEditPartSelection = sel;
+				parent.editor.getSelectionProvider().setSelection(partToModelSelection(sel));
+			}
+			
 			//update available action 
 			super.updateActions(super.getSelectionActions());
 		}
+		else if (sel.getFirstElement() instanceof Element){
+			oldElementSelection = sel;
+			getGraphicalViewer().setSelection(modelToPartSelection(sel));
+		}
+		
 	}
 	
 	

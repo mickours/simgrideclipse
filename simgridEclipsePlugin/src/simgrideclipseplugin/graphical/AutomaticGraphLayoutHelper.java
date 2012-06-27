@@ -80,7 +80,6 @@ public class AutomaticGraphLayoutHelper {
 		String id = computeId(node);
 		if (node instanceof AbstractElementEditPart) {
 			editPartMap.put(id, (SimgridAbstractEditPart) node);
-			// FIXME I think it's not really a good idea...
 			graph.addNode(id);
 		}
 		else if (node instanceof AbstConnectionEditPart) {

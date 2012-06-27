@@ -12,8 +12,8 @@ public class ElementCreationToolEntryProvider {
 	public static CreationToolEntry newCreationToolEntry(String label) {
 		String shortDesc = "Create a "+label;
 		ElementCreationFactory factory = new ElementCreationFactory(label);
-		ImageDescriptor iconSmall = SimgridIconProvider.getIconImageDescriptor(label+".small");
-		ImageDescriptor iconLarge = SimgridIconProvider.getIconImageDescriptor(label+".large");
+		ImageDescriptor iconSmall = SimgridIconProvider.getIconImageDescriptor(label+"_small");
+		ImageDescriptor iconLarge = SimgridIconProvider.getIconImageDescriptor(label);
 		if (ElementList.isConnection(label)){
 			return new ConnectionCreationToolEntry(label, shortDesc, factory, iconSmall, iconLarge);
 		}

@@ -13,7 +13,5 @@ public class ElementComponentEditPolicy extends ComponentEditPolicy {
 		DeleteElementCommand cmd = new DeleteElementCommand();
 		cmd.setModel((Element) getHost().getModel());
 		return cmd;
-	}	
-	
-	
+	}
 }

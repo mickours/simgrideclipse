@@ -44,7 +44,7 @@ public class SimgridEditPartFactory implements EditPartFactory {
 				return (EditPart) Class.forName(className).newInstance();
 			} catch (Exception e) {
 				//nothing created
-				System.err.println("EditPart of type : "+className+" not created");
+				//System.err.println("EditPart of type : "+className+" not created");
 			}
 		}
 		//throw new RuntimeException("Can't create part for model element: "+ name);

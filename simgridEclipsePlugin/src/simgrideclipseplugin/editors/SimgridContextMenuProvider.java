@@ -6,7 +6,11 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
+
+import simgrideclipseplugin.graphical.actions.GoIntoAction;
+import simgrideclipseplugin.graphical.actions.GoUpAction;
 
 public class SimgridContextMenuProvider extends ContextMenuProvider {
 
@@ -19,7 +23,12 @@ public class SimgridContextMenuProvider extends ContextMenuProvider {
 	  } 
 	 
 	  public void buildContextMenu(IMenuManager menu) { 
-	    GEFActionConstants.addStandardActionGroups(menu); 
+		  menu.removeAll();
+		  menu.add(new Separator(GEFActionConstants.GROUP_UNDO));
+			menu.add(new Separator(GEFActionConstants.GROUP_COPY));
+			menu.add(new Separator(GEFActionConstants.GROUP_EDIT));
+			menu.add(new Separator(GEFActionConstants.GROUP_VIEW));
+			menu.add(new Separator("Others"));
 		  ActionFactory[] actionList = 
 				{ActionFactory.UNDO,
 				 ActionFactory.DELETE,
@@ -40,10 +49,22 @@ public class SimgridContextMenuProvider extends ContextMenuProvider {
 					}
 				}
 			}
+			IAction action = actionRegistry.getAction(GoIntoAction.ID);
+			if (action.isEnabled()){
+				menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
+			}
+			action = actionRegistry.getAction(GoUpAction.ID);
+			if (action.isEnabled()){
+				menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
+			}
 	  }
 	 
 	  public void setActionRegistry(ActionRegistry registry) { 
 	    actionRegistry = registry; 
-	  } 
+	  }
+	  
+	  public ActionRegistry getActionRegistry( ) { 
+		    return actionRegistry; 
+		 } 
 
 }

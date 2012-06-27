@@ -31,11 +31,14 @@ public final class ModelHelper {
 /*******************************************/	
 /*****   CREATION/DELETION FUNCTIONS  ******/
 /*******************************************/
-	public static void addChild(Node parent, Element child){
+	
+	/**
+	 * add the child in the same tag children block
+	 */
+	public static void addElementChild(Node parent, Element newChild){
 		try{
-			//FIXME must add the child after the link and before the route
-			parent.appendChild(child);
-			//format sources
+			Element firstChild = getFirstElementByTag(parent, newChild.getTagName());
+			parent.insertBefore(newChild, firstChild);
 			formatProcessor.formatNode(parent);
 		}catch (Exception e2) {
 			e2.printStackTrace();
@@ -53,12 +56,13 @@ public final class ModelHelper {
 		return route;
 	}
 	
-	public static void createAndAddLink(Element route,String id, String bandwidth){
+	public static void createAndAddLink(Element route,String id, String bandwidth, String latency){
 		Document doc = route.getOwnerDocument();
 		//create the link
 		Element link = doc.createElement(ElementList.LINK);
 		link.setAttribute("id", id);
 		link.setAttribute("bandwidth", bandwidth);
+		link.setAttribute("latency", latency);
 		insertAtFirst(route.getParentNode(),link);
 		//add it to the route
 		addLink(route,link);
@@ -66,13 +70,11 @@ public final class ModelHelper {
 	
 	/**
 	 * add the link to the route by creating a link_ctn node into the route
-	 * @param route
-	 * @param link
 	 */
 	public static void addLink(Element route, Element link){
 		Element linkCtn = route.getOwnerDocument().createElement(ElementList.LINK_CTN);
 		linkCtn.setAttribute("id", link.getAttribute("id"));
-		addChild(route,linkCtn);
+		addElementChild(route,linkCtn);
 	}
 	
 	
@@ -88,10 +90,14 @@ public final class ModelHelper {
 		}		
 	}
 	
+	/**
+	 * remove the element from the document
+	 * @param e
+	 */
 	public static void removeElement(Element e) {
 		Node parent = e.getParentNode();
 		parent.removeChild(e);
-		//formatProcessor.formatNode(parent);
+		//TODO find textImpl node that doesn't contains anything and remove them
 	}
 	
 	/**
@@ -114,27 +120,34 @@ public final class ModelHelper {
 	 * @param route
 	 */
 	public static List<Element> removeRoute(Element route) {
+		//remove the links
 		List<Element> deletedLink = new LinkedList<Element>(); 
 		NodeList nl = route.getChildNodes();
 		Element parent = (Element) route.getParentNode();
 		for (int i = 0; i< nl.getLength(); i++){
-			String id = ((Element)nl.item(i)).getAttribute("id");
-			NodeList linkCtnList = parent.getElementsByTagName(ElementList.LINK_CTN);
-			//check if this link is not used elsewhere
-			int j = 0;
-			while(j< linkCtnList.getLength() 
-					&& !((Element)linkCtnList.item(j)).getAttribute("id").equals(id)){
-				j++;
-			}
-			if (j < linkCtnList.getLength()){
-				//remove the link
-				Element link = getSubElementbyId(parent,id);
-				if (link != null){
-					removeElement(link);
-					deletedLink.add(link);
+			if (nl.item(i) instanceof Element){
+				Element myLinkCtn = (Element)nl.item(i);
+				String id = myLinkCtn.getAttribute("id");
+				NodeList linkCtnList = parent.getElementsByTagName(ElementList.LINK_CTN);
+				//check if this link is not used elsewhere
+				int j = 0;
+				while(j< linkCtnList.getLength()
+						&& (linkCtnList.item(j) == myLinkCtn
+							|| !((Element)linkCtnList.item(j)).getAttribute("id").equals(id))){
+					j++;
+				}
+				if (j == linkCtnList.getLength()){
+					//remove the link
+					Element link = getSubElementbyId(parent,id);
+					if (link != null){
+						removeElement(link);
+						deletedLink.add(link);
+					}
 				}
 			}
 		}
+		//remove the route
+		removeElement(route);
 		return deletedLink;
 	}
 
@@ -189,6 +202,20 @@ public final class ModelHelper {
         return nodeListToElementList(l);
 	}
 	
+	/**
+	 * return the routers contained in the ASNode and in
+	 * the descendants
+	 */
+	public static List<Element> getRouters(Element ASNode) {
+        NodeList rl = ASNode.getElementsByTagName(ElementList.ROUTER);
+        NodeList cl = ASNode.getElementsByTagName(ElementList.CLUSTER);
+        NodeList pl = ASNode.getElementsByTagName(ElementList.PEER);
+        List<Element> l = nodeListToElementList(rl);
+        l.addAll(nodeListToElementList(cl));
+        l.addAll(nodeListToElementList(pl));
+        return l;
+	}
+	
 //	public static IPropertySource getPropertySource(Object node){
 //		if (node instanceof IDOMNode) {
 //			INodeNotifier source = (INodeNotifier) node;
@@ -234,22 +261,40 @@ public final class ModelHelper {
 		return elemList;
 	}
 
+	/**
+	 * return the node related to the route as a source
+	 */
 	public static Element getSourceNode(Element route) {
 		String srcId = route.getAttribute("src");
 		return getElementbyId(route, srcId);
 	}
 
+	/**
+	 * return the node related to the route as a target
+	 */
 	public static Element getTargetNode(Element route) {
 		String dstId = route.getAttribute("dst");
 		return getElementbyId(route, dstId);
 	}
 	
-	public static List<?> getSouceConnections(Element model) {
-		return getConnections(model,"src");
+	public static List<Element> getConnections(Element node) {
+		List<Element> ret = getSouceConnections(node);
+		ret.addAll(getTargetConnections(node));
+		return ret;
+	}
+	
+	/**
+	 * return the route related to the node as a source
+	 */
+	public static List<Element> getSouceConnections(Element node) {
+		return getConnections(node,"src");
 	}
 
-	public static List<?> getTargetConnections(Element model) {
-		return getConnections(model,"dst");
+	/**
+	 * return the route related to the node as a target
+	 */
+	public static List<Element> getTargetConnections(Element node) {
+		return getConnections(node,"dst");
 	}
 	
 //	public static List<String> getAttributeList(Element element) {
@@ -266,6 +311,22 @@ public final class ModelHelper {
 	/*******************************************/	
 	/*****       PRIVATE UTILS            ******/
 	/*******************************************/
+	
+	/**
+	 * return the first element whose got this tag name in this container
+	 */
+	private static Element getFirstElementByTag(Node parent, String tag){
+		NodeList nl = parent.getChildNodes();
+		Element foundElem = null;
+		int i=0;
+		while ( i< nl.getLength() && foundElem == null){
+			if (nl.item(i) instanceof Element && ((Element)nl.item(i)).getTagName().equals(tag)){
+				foundElem = (Element)nl.item(i);
+			}
+			i++;
+		}
+		return foundElem;
+	}
 	
 	private static void insertAtLast(Node parent, Element newChild){
 		try{

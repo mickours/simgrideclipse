@@ -27,14 +27,14 @@ public final class SimgridRules {
 		return false;
 	}
 	
-	private static boolean isASLike(String node){
-		return (node.equals(ElementList.AS) ||
-				node.equals(ElementList.CLUSTER) ||
-				node.equals(ElementList.PEER));
+	public static boolean isASLike(String tag){
+		return (tag.equals(ElementList.AS) ||
+				tag.equals(ElementList.CLUSTER) ||
+				tag.equals(ElementList.PEER));
 	}
 	
-	private static boolean isHostLike(String node){
-		return (node.equals(ElementList.HOST) ||
-				node.equals(ElementList.ROUTER));
+	public static boolean isHostLike(String tag){
+		return (tag.equals(ElementList.HOST) ||
+				tag.equals(ElementList.ROUTER));
 	}
 }

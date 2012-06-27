@@ -8,6 +8,7 @@ import java.util.List;
 public class ElementList {
 	private static List<String> tagNameList = createTagList();
 	private static List<String> connectionList = createConnectionList();
+	private static List<String> notDrawableList = createNotDrawableList();
 //	private static Map<String,List<String>> attributMap = createAttributMap();
 	public static final String PLATFORM = "platform";
 	public static final String AS = "AS";
@@ -26,6 +27,10 @@ public class ElementList {
 	
 	public static boolean isConnection(String tagName){
 		return connectionList.contains(tagName);
+	}
+	
+	public static boolean isDrawable(String tagName){
+		return !notDrawableList.contains(tagName);
 	}
 	
 //	public static void setAttributesList(String tagName, List<String> attributes){
@@ -55,6 +60,13 @@ public class ElementList {
 		};
 		return Arrays.asList(tags);
 	}
+	
+	private static List<String> createNotDrawableList() {
+		String[] tags = {
+				LINK,LINK_CTN,
+		};
+		return Arrays.asList(tags);
+	}
 
 	private static List<String> createTagList() {
 		//FIXME: this list should come from the dtd
@@ -62,7 +74,7 @@ public class ElementList {
 				AS,CLUSTER,PEER,
 				AS_ROUTE,
 				HOST,ROUTER,
-				ROUTE,
+				ROUTE,LINK
 				
 				//TODO to complete
 		};

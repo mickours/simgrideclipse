@@ -41,6 +41,6 @@ public class AddElementCommand extends Command {
 		}
 		
 		ElementPositionMap.setPosition(e, position);
-		ModelHelper.addChild(parent, e);
+		ModelHelper.addElementChild(parent, e);
 	}
 }

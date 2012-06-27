@@ -12,11 +12,14 @@ public class DeleteElementCommand extends Command {
 	@Override
 	public void execute() {
 		ModelHelper.removeElement(model);
+		for (Element e : ModelHelper.getConnections(model)){
+			ModelHelper.removeRoute(e);
+		}
 	}
 	
 	@Override
 	public void undo() {
-		ModelHelper.addChild(parent, model);
+		ModelHelper.addElementChild(parent, model);
 	}
 
 	public void setModel(Element model) {

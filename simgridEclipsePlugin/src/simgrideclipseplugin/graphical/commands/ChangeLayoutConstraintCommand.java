@@ -25,6 +25,11 @@ public class ChangeLayoutConstraintCommand extends Command {
 	@Override public void undo() {
 	    part.setLocation(oldLocation);
 	}
+	
+	@Override
+	public boolean canUndo() {
+		return part != null && part.isActive();
+	}
 
 	public void setLayout(Rectangle layout) {
 		this.layout = layout;
