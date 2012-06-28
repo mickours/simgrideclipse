@@ -11,7 +11,7 @@ public class ElementLabelProvider extends LabelProvider {
 	@Override
 	public Image getImage(Object element) {
 		Element elem = (Element)element;
-		return SimgridIconProvider.getIcon(elem.getTagName());
+		return SimgridIconProvider.getIcon(elem.getTagName()+"_small");
 	}
 
 	@Override

@@ -1,9 +1,10 @@
 package simgrideclipseplugin.graphical.actions;
 
-import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.*;
 import org.eclipse.ui.IEditorPart;
 
+import simgrideclipseplugin.editors.SimgridGraphicEditor;
 import simgrideclipseplugin.graphical.AutomaticGraphLayoutHelper;
 import simgrideclipseplugin.graphical.SimgridIconProvider;
 
@@ -24,17 +25,12 @@ public class AutoLayoutAction extends EditorPartAction{
 	}
 
 	public void run() {
+		GraphicalViewer viewer = ((SimgridGraphicEditor)getEditorPart()).getGraphicalViewer();
+		AutomaticGraphLayoutHelper.INSTANCE.init(viewer.getContents());
 		AutomaticGraphLayoutHelper.INSTANCE.computeLayout();
 	}
 	
 	
-
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return super.isEnabled();
-	}
-
 	@Override
 	protected boolean calculateEnabled() {
 		//FIXME activate only if necessary

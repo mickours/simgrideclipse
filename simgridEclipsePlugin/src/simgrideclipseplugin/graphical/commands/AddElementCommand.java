@@ -39,7 +39,9 @@ public class AddElementCommand extends Command {
 		if (type.equals(ElementList.HOST)){
 			//TODO handle power
 		}
-		
+		if (type.equals(ElementList.CLUSTER)){
+			//TODO handle prefix and suffix
+		}
 		ElementPositionMap.setPosition(e, position);
 		ModelHelper.addElementChild(parent, e);
 	}

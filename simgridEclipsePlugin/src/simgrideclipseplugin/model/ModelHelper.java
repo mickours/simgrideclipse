@@ -10,7 +10,9 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
+import org.eclipse.wst.sse.core.internal.provisional.IModelStateListener;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
+import org.eclipse.wst.xml.core.internal.document.TextImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.format.FormatProcessorXML;
 import org.w3c.dom.Document;
@@ -37,8 +39,22 @@ public final class ModelHelper {
 	 */
 	public static void addElementChild(Node parent, Element newChild){
 		try{
+			//find the block
 			Element firstChild = getFirstElementByTag(parent, newChild.getTagName());
-			parent.insertBefore(newChild, firstChild);
+			if (firstChild != null){
+				parent.insertBefore(newChild, firstChild);
+			}
+			//fist insertion of this type
+			else{
+				//go after the links
+				Node child = parent.getFirstChild();
+				while(child != null
+						&& (! (child instanceof Element)
+						|| !((Element) child).getTagName().equals(ElementList.LINK))){
+					child = child.getNextSibling();
+				}
+				parent.insertBefore(newChild,child);
+			}
 			formatProcessor.formatNode(parent);
 		}catch (Exception e2) {
 			e2.printStackTrace();
@@ -97,7 +113,18 @@ public final class ModelHelper {
 	public static void removeElement(Element e) {
 		Node parent = e.getParentNode();
 		parent.removeChild(e);
-		//TODO find textImpl node that doesn't contains anything and remove them
+		//FIXME : find node that doesn't contains anything and remove them
+		Node child = parent.getFirstChild();
+		Node next;
+		while(child != null){
+			next = child.getNextSibling();
+			if (child instanceof TextImpl && 
+					(child.getTextContent().startsWith("\n\t\n")
+							|| child.getTextContent().startsWith("\n\n"))){
+				parent.removeChild(child);
+			}
+			child = next;
+		}
 	}
 	
 	/**
@@ -391,5 +418,16 @@ public final class ModelHelper {
 			}
 		}
 		return connected;
+	}
+
+	public static void addModelListener(IEditorInput input,
+			SimgridModelListener simgridModelListener) {
+		try{
+			IDOMModel model = ModelHelper.getDOMModel(input);
+			model.addModelStateListener(simgridModelListener);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

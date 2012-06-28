@@ -1,46 +1,63 @@
 package simgrideclipseplugin.editors.outline;
 
 
-import java.util.List;
-
-import org.eclipse.gef.ui.parts.GraphicalEditor;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
-import org.w3c.dom.Element;
+import org.eclipse.wst.sse.core.internal.provisional.IModelStateListener;
+import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
+import org.eclipse.wst.sse.ui.StructuredTextEditor;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 
+import simgrideclipseplugin.graphical.ElementLabelProvider;
 import simgrideclipseplugin.model.ModelHelper;
+import simgrideclipseplugin.model.SimgridModelListener;
 
-public class SimgridOutlinePage extends ContentOutlinePage
+@SuppressWarnings("restriction")
+public class SimgridOutlinePage extends ContentOutlinePage //implements IPropertyListener
 {
 
-	private GraphicalEditor editor;
 	private IEditorInput input;
 	private OutlineContentProvider outlineContentProvider;
-	private OutlineLabelProvider outlineLabelProvider;
+	private LabelProvider outlineLabelProvider;
+	private StructuredTextEditor editor;
+//	private ISelectionChangedListener listener = new ISelectionChangedListener() {
+//		@Override
+//		public void selectionChanged(SelectionChangedEvent event) {
+//			ISelection selection = event.getSelection();
+//			if (!selection.isEmpty() && selection instanceof IStructuredSelection) {
+//				setSelection(editor.partToModelSelection((IStructuredSelection) selection));
+//			}
+//		}
+//	};
 
-	public SimgridOutlinePage(GraphicalEditor editor)
+	public SimgridOutlinePage(StructuredTextEditor editor)
 	{
 		super();
 		this.editor = editor;
+		outlineContentProvider = new OutlineContentProvider(editor.getDocumentProvider());
+		ModelHelper.addModelListener(editor.getEditorInput(),
+				new SimgridModelListener(){
+					@Override
+					public void modelChanged(IStructuredModel arg0) {
+						updateInput();
+					}
+		});
+		updateInput();
 	}
 
 	public void createControl(Composite parent)
 	{
-
 		super.createControl(parent);
 		TreeViewer viewer = getTreeViewer();
-		//outlineContentProvider = new OutlineContentProvider(editor.get);
 		viewer.setContentProvider(outlineContentProvider);
-		outlineLabelProvider = new OutlineLabelProvider();
+		outlineLabelProvider = new ElementLabelProvider();
 		viewer.setLabelProvider(outlineLabelProvider);
-		viewer.addSelectionChangedListener(this);
+		//viewer.addSelectionChangedListener(this);
+//		editor.getSite().getSelectionProvider().addSelectionChangedListener(listener);
 
 		//control is created after input is set
 		if (input != null)
@@ -50,9 +67,9 @@ public class SimgridOutlinePage extends ContentOutlinePage
 	/**
 	 * Sets the input of the outline page
 	 */
-	public void setInput(Object input)
+	public void updateInput()
 	{
-		this.input = (IEditorInput) input;
+		this.input = (IEditorInput)editor.getEditorInput();
 		update();
 	}
 
@@ -60,34 +77,19 @@ public class SimgridOutlinePage extends ContentOutlinePage
 	 * Change in selection
 	 */
 
-	public void selectionChanged(SelectionChangedEvent event)
-	{
-		super.selectionChanged(event);
-		//find out which item in tree viewer we have selected, and set highlight range accordingly
-
-		ISelection selection = event.getSelection();
-		if (selection.isEmpty()){
-			//TODO reset selection on editor
-			//editor.resetHighlightRange();
-		}
-		else
-		{
-			List<Element> elemList = (List<Element>) ((IStructuredSelection) selection).toList();		
-			for(Element e : elemList){
-				//TODO show selected element in UI
-			}
-//			int start = ModelHelper.getStartOffset(element);
-//			int length = ModelHelper.getLength(element);
-//			try
-//			{
-//				editor.setHighlightRange(start, length, true);
-//			}
-//			catch (IllegalArgumentException x)
-//			{
-//				editor.resetHighlightRange();
-//			}
-		}
-	}
+//	public void selectionChanged(SelectionChangedEvent event)
+//	{
+//		super.selectionChanged(event);
+//		//find out which item in tree viewer we have selected, and set highlight range accordingly
+//
+//		ISelection selection = event.getSelection();
+//		if (!selection.isEmpty() && selection instanceof IStructuredSelection) {
+//			List<?> selectedElements = ((IStructuredSelection) selection)
+//					.toList();
+//			editor.selectionChanged(getSite().getPage().getActivePart(),
+//					new StructuredSelection(selectedElements));
+//		}
+//	}
 
 	/**
 	 * The editor is saved, so we should refresh representation
@@ -112,5 +114,11 @@ public class SimgridOutlinePage extends ContentOutlinePage
 			}
 		}
 	}
+
+//	@Override
+//	public void propertyChanged(Object source, int propId) {
+//		//TODO: can be optimized
+//		updateInput();
+//	}
 
 }

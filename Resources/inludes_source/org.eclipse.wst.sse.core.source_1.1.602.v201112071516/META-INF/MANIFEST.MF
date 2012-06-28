@@ -1,0 +1,855 @@
+Manifest-Version: 1.0
+Bundle-Vendor: %providerName
+Eclipse-SourceBundle: org.eclipse.wst.sse.core;version="1.1.602.v20111
+ 2071516";roots:="."
+Bundle-Localization: plugin
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.wst.sse.core.source
+Bundle-Version: 1.1.602.v201112071516
+Bundle-ManifestVersion: 2
+
+Name: org/eclipse/wst/sse/core/internal/encoding/IStreamCharsetDetecto
+ r.java
+SHA1-Digest: ifQxdhhKZWdTlU3+GjTBrfkkMMo=
+
+Name: about.ini
+SHA1-Digest: Bzw7xELt1unwB8fJF8vLkdBPsAU=
+
+Name: org/eclipse/wst/sse/core/internal/tasks/TaskTagPreferenceKeys.ja
+ va
+SHA1-Digest: 2ZYX03GX7S7VbrOoVR26buCmWqk=
+
+Name: org/eclipse/wst/sse/core/internal/IExecutionDelegate.java
+SHA1-Digest: c5ryWpbvnqTSvviyvPYCkMcPot0=
+
+Name: org/eclipse/wst/sse/core/internal/format/IStructuredFormatPrefer
+ ences.java
+SHA1-Digest: QK+YTEHrc88D8jyiM3ekGQi87lU=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/IModelManager.java
+SHA1-Digest: j/t0Z9CKVOAHcn0QxxAT6W9k0G0=
+
+Name: org/eclipse/wst/sse/core/internal/util/TextUtilities.java
+SHA1-Digest: YT4YUMsXK7t/uuiDzw8B87clQjw=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/util/ResourceBundleHe
+ lper.java
+SHA1-Digest: N49KqD7QycccP5S1x9ZfD97F48c=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/util/UnicodeBOMEncodi
+ ngDetector.java
+SHA1-Digest: xzbrAgzOEq97BDOSObFiXIFYs0A=
+
+Name: org/eclipse/wst/sse/core/internal/text/BasicStructuredDocumentRe
+ gion.java
+SHA1-Digest: A9YvIPCHT8WD4ckUl8KnGisC8HU=
+
+Name: org/eclipse/wst/sse/core/indexing/AbstractIndexManager.java
+SHA1-Digest: FCoMNGGkOdHtYXsTeHrloHCk32A=
+
+Name: org/eclipse/wst/sse/core/internal/cleanup/IStructuredCleanupHand
+ ler.java
+SHA1-Digest: aTtjCDNyYQhVRNFzejKIPxDDpjU=
+
+Name: org/eclipse/wst/sse/core/internal/text/IExecutionDelegatable.jav
+ a
+SHA1-Digest: FzIsGvgk22v8W33nAHEMxFCQeuU=
+
+Name: org/eclipse/wst/sse/core/internal/ltk/modelhandler/IModelHandler
+ .java
+SHA1-Digest: QfovNAGoGpBsds/jp41FOc2I/QY=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/text/IStructuredTe
+ xtReParser.java
+SHA1-Digest: 0evEGy2fzZmckt5fB9kogAEDOt0=
+
+Name: org/eclipse/wst/sse/internal/contentproperties/ContentSettings.j
+ ava
+SHA1-Digest: /eI2MuqG9jbWxcsw/PJbq5NqqU0=
+
+Name: org/eclipse/wst/sse/core/internal/text/StructuredDocumentRegionE
+ numeration.java
+SHA1-Digest: EuqONiob0Z6OcXrCDshQhlEsxAY=
+
+Name: org/eclipse/wst/sse/internal/contentproperties/SimpleNodeOperato
+ r.java
+SHA1-Digest: 470PSr+zofPmM+hEAADG/Ciq2/g=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/events/NoChangeEve
+ nt.java
+SHA1-Digest: hrn7csgImZLEgXVWwFkiNuj06Xs=
+
+Name: schema/embeddedTypeHandler.exsd
+SHA1-Digest: /Zi6nMNjaTasKKtxNnJYbm+W1wQ=
+
+Name: org/eclipse/wst/sse/core/internal/tasks/StructuredFileTaskScanne
+ r.java
+SHA1-Digest: caZqgXjzpafMr34BGt1K21rn6n4=
+
+Name: org/eclipse/wst/sse/internal/contentproperties/ContentSettingsFi
+ leHandler.java
+SHA1-Digest: aXrjWQH6R42zl4hv1ulg1jTuwMU=
+
+Name: org/eclipse/wst/sse/core/internal/validate/ErrorInfo.java
+SHA1-Digest: sqzYccL+isvqJMX3ArUePwJ/ufU=
+
+Name: org/eclipse/wst/sse/core/internal/text/BasicStructuredDocument.j
+ ava
+SHA1-Digest: DHbPm4QZu3nNDIIuEi534rxQYSk=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/text/IStructuredPa
+ rtitionTypes.java
+SHA1-Digest: rtdysfcX09vtopsjU13zEsG2IVs=
+
+Name: org/eclipse/wst/sse/core/internal/JSPAwareAdapterFactory.java
+SHA1-Digest: a5q0a0FU2DbPo8CjMBdxb7YBQ0c=
+
+Name: org/eclipse/wst/sse/core/internal/propertytester/StructuredFileP
+ ropertyTester.java
+SHA1-Digest: ERGeChqyHZogu173Jqf/IJ2vlrA=
+
+Name: org/eclipse/wst/sse/core/internal/text/IRegionComparible.java
+SHA1-Digest: Be1sYed//FFpvYWgxwyLY+TM88U=
+
+Name: org/eclipse/wst/sse/core/internal/ltk/parser/RegionParser.java
+SHA1-Digest: 6PLGSxyIW1lxH2IxFTc90BlnQvw=
+
+Name: about.properties
+SHA1-Digest: pBVXOWlaQxJu7ZN4hH3vCQosYQc=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/CodedReaderCreator.ja
+ va
+SHA1-Digest: 3F7SAH4z9DmIxz0OBwUW+5k2qEA=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/IModelLoader.java
+SHA1-Digest: zxErH7zdL3TE5MkUOikYJq9w1Rc=
+
+Name: org/eclipse/wst/sse/internal/contentproperties/IContentSettings.
+ java
+SHA1-Digest: CCt4I+/21RPd6mYvhW9cPiVgG+g=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/util/BufferedLimitedS
+ tream.java
+SHA1-Digest: OYz0Ljs633b8QY42N0souPsrsOA=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/exceptions/Resourc
+ eInUse.java
+SHA1-Digest: /4LFt6IB/9naLNJY65KK89ZzlJU=
+
+Name: org/eclipse/wst/sse/core/internal/text/rules/IStructuredTypedReg
+ ion.java
+SHA1-Digest: JshhYJrgvCbINO7Mf++v/GU8eu8=
+
+Name: org/eclipse/wst/sse/core/internal/util/ResourceUtil.java
+SHA1-Digest: 3jARwXH/Vk0/vycJj+3KUfOA14g=
+
+Name: org/eclipse/wst/sse/core/internal/Logger.java
+SHA1-Digest: WaSEbcV/XCs8EitgT98BOfBnkCY=
+
+Name: org/eclipse/wst/sse/core/internal/text/CharSequenceReader.java
+SHA1-Digest: ELOXyw8soUibuc03YtPdR9Ov5jc=
+
+Name: org/eclipse/wst/sse/core/internal/util/Sorter.java
+SHA1-Digest: oA8ql3zLCD5DVIGAPb0Z0MDGhs0=
+
+Name: org/eclipse/wst/sse/core/internal/exceptions/MalformedInputExcep
+ tionWithDetail.java
+SHA1-Digest: hWx9lhkzAD4tKJWTOdgHE2lJp/o=
+
+Name: org/eclipse/wst/sse/core/internal/SSECorePlugin.java
+SHA1-Digest: iVx1tg1y5g9/FFsqgAcxPPSlsOk=
+
+Name: org/eclipse/wst/sse/core/internal/exceptions/MalformedOutputExce
+ ptionWithDetail.java
+SHA1-Digest: +huOJLhoxd77jrx2Q/oOPjJHpe0=
+
+Name: org/eclipse/wst/sse/core/internal/exceptions/UnsupportedCharsetE
+ xceptionWithDetail.java
+SHA1-Digest: 5OnJwSysVHO90BJKXK4ip9+dReg=
+
+Name: org/eclipse/wst/sse/core/internal/undo/StructuredTextUndoManager
+ .java
+SHA1-Digest: KwkWCVdulpeM/H7HGDp9yFnX7oY=
+
+Name: org/eclipse/wst/sse/internal/contentproperties/ContentSettingsCr
+ eator.java
+SHA1-Digest: vIkGlwxUztuG4kGnhgJstPPNnyE=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/util/CodedResourcePlu
+ gin.java
+SHA1-Digest: S/EWzOKwYtJJoETimxkdyrghclM=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/AbstractNotifier.j
+ ava
+SHA1-Digest: mciB6wd08UIlREM6Ak2WXj1Vw/4=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/ContentBasedPreferenc
+ eGateway.java
+SHA1-Digest: fg8QwqDduOwJf5jGzeFZ5/8QVJY=
+
+Name: org/eclipse/wst/sse/core/internal/format/IStructuredFormatProces
+ sor.java
+SHA1-Digest: BzPyt32EoYP+KkPRFQ65bx975K8=
+
+Name: org/eclipse/wst/sse/core/internal/text/StructuredDocumentSequent
+ ialRewriteTextStore.java
+SHA1-Digest: qly+GZgnDHioWmL0amgICdgIXLk=
+
+Name: doc/book.css
+SHA1-Digest: fL5Ls4/cGBOobcdWz6h6bVTpRGA=
+
+Name: org/eclipse/wst/sse/core/internal/text/StructuredDocumentRegionI
+ terator.java
+SHA1-Digest: L82Bpp3Pni+Gl366iQYqzTV84e4=
+
+Name: org/eclipse/wst/sse/core/internal/ltk/modelhandler/IDocumentType
+ Handler.java
+SHA1-Digest: JuYJLgoEbjaP9jS+z2ykVKCSnlg=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/text/IStructuredDo
+ cument.java
+SHA1-Digest: pRbCOeC9Rz21Zn9YCgVxoeh81OM=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/DocumentChanged.ja
+ va
+SHA1-Digest: jHkkOZQg1qsM4wZzw2gSttsDc4s=
+
+Name: schema/contentTypeFactoryContribution.exsd
+SHA1-Digest: 16vYd0NNqXT+xIyRucSZ8efzCkc=
+
+Name: org/eclipse/wst/sse/core/internal/modelhandler/ModelHandlerUtili
+ ty.java
+SHA1-Digest: 7lPwO5XC00imOeEFHkfiPyXSCO4=
+
+Name: schema/cssprofile.exsd
+SHA1-Digest: Q2zGN8S7O/3uEcaZu0aHBYvKyQs=
+
+Name: DevTimeSupport/devTimeSupportInfo.txt
+SHA1-Digest: eIrsODnYeudegzDBty/99G0CQCk=
+
+Name: org/eclipse/wst/sse/core/internal/undo/StructuredTextCompoundCom
+ mandImpl.java
+SHA1-Digest: 63eSvYIqVKe6/kLQhhteWo2EOhA=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/INodeAdapter.java
+SHA1-Digest: iGzYzK4FCXKrcVGEnScI9Bl/dSE=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/IModelStateListene
+ r.java
+SHA1-Digest: vLZIolT/X2qOqNE1+OBGzWYTR1Y=
+
+Name: org/eclipse/wst/sse/internal/contentproperties/ContentSettingsSy
+ nchronizer.java
+SHA1-Digest: VarlaQKeGoK6d4hjmRdZwfFVUpU=
+
+Name: org/eclipse/wst/sse/core/internal/validate/ValidationReporter.ja
+ va
+SHA1-Digest: UNgBpbz/v8PltxYOT+5bdrR8TQ8=
+
+Name: org/eclipse/wst/sse/core/internal/model/AbstractStructuredModel.
+ java
+SHA1-Digest: vz/bDmoDCgW6Z7iBKTpBB7aCHsw=
+
+Name: org/eclipse/wst/sse/core/internal/document/IDocumentLoader.java
+SHA1-Digest: dokNXI2hoezn7hS3ZB7qNA9pBpw=
+
+Name: org/eclipse/wst/sse/core/internal/util/DocumentInputStream.java
+SHA1-Digest: zl+G8qIzOM39n1LtqyeI24g75YY=
+
+Name: org/eclipse/wst/sse/core/internal/FileBufferModelManager.java
+SHA1-Digest: 4CBk+FReRmiVY/roDqFWy2WPIKI=
+
+Name: org/eclipse/wst/sse/core/internal/undo/CommandCursorPosition.jav
+ a
+SHA1-Digest: o61OoUaWjFbfT40dku75jpISNpo=
+
+Name: org/eclipse/wst/sse/core/internal/parser/ForeignRegion.java
+SHA1-Digest: S2Qp/aU9SsFXUpyWkA/CeaXhiQo=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/text/ITextRegion.j
+ ava
+SHA1-Digest: IlDVOq902O9r/5cgJjG9YAMnkTk=
+
+Name: META-INF/eclipse.inf
+SHA1-Digest: KyT9FF7C7t86NoBoa2kZT3ZJBfw=
+
+Name: about.mappings
+SHA1-Digest: YPPErAlWfnwoV7BsI9DDxJbDj3k=
+
+Name: org/eclipse/wst/sse/core/internal/filebuffers/BasicStructuredDoc
+ umentFactory.java
+SHA1-Digest: jnc4pEu+xd5SYCbxYTreAJELQHQ=
+
+Name: org/eclipse/wst/sse/core/internal/util/Assert.java
+SHA1-Digest: m/Vg8FWrciqTPSZmgz4juc7mhRQ=
+
+Name: org/eclipse/wst/sse/core/internal/modelhandler/ModelHandlerRegis
+ tryReader.java
+SHA1-Digest: djWvy7zFVq71XaNxxuHei22Beu0=
+
+Name: org/eclipse/wst/sse/core/internal/ILockable.java
+SHA1-Digest: rwJIr54tWH3iEt3ZIyOxE1q6Vbs=
+
+Name: wtp_prod32.png
+SHA1-Digest: aM+fYGTXVYObMNT4x/LtLIMGb6A=
+
+Name: org/eclipse/wst/sse/core/internal/format/StructuredFormatContrai
+ nts.java
+SHA1-Digest: 7Jjl8w/zwmicWTGwSU881JNNnyE=
+
+Name: org/eclipse/wst/sse/core/internal/text/CoreNodeList.java
+SHA1-Digest: APRcK3teOe1rHuOwTiBkcnUyjLE=
+
+Name: org/eclipse/wst/sse/core/internal/text/TextRegionListImpl.java
+SHA1-Digest: 9+BmpNbLW/5AzPr6H2EEDD2nr1k=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/CommonEncodingPrefere
+ nceNames.java
+SHA1-Digest: tPtv4guR1GJmpuMkag2LNONV1vc=
+
+Name: org/eclipse/wst/sse/core/internal/undo/UndoDocumentEvent.java
+SHA1-Digest: cXnWMJr9enIuquP7BVsD2bxwatE=
+
+Name: org/eclipse/wst/sse/internal/contentproperties/ISubject.java
+SHA1-Digest: Uhq0vbwO1phO3zcsmn2wguOIl+E=
+
+Name: org/eclipse/wst/sse/core/internal/validate/ValidatorGroupListene
+ r.java
+SHA1-Digest: nXtZQt20ammG85Iy0obH4jY09L8=
+
+Name: org/eclipse/wst/sse/core/internal/ltk/parser/StructuredDocumentR
+ egionHandlerExtension.java
+SHA1-Digest: LB1XZuja9CjJJnFuzkc5sgAWtuY=
+
+Name: plugin.properties
+SHA1-Digest: OnJ8XqkpjTlTD4FHWj0jqlh4Y+8=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/IResourceCharsetDetec
+ tor.java
+SHA1-Digest: L/3ewRH/ZdR8AQ5UIrZadR1eL8I=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/exceptions/Resourc
+ eAlreadyExists.java
+SHA1-Digest: IPOz8oXyBGNWj70d1JWWnNa/TcI=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/model/IStructuredM
+ odelEvent.java
+SHA1-Digest: rxMHdBigVz+r9OhH1ee6FB+BL4Q=
+
+Name: org/eclipse/wst/sse/core/internal/modelhandler/EmbeddedTypeRegis
+ tryReader.java
+SHA1-Digest: UWHRBAQIDkT3HHPt7ncC12WzOLg=
+
+Name: org/eclipse/wst/sse/core/internal/preferences/CommonModelPrefere
+ nceNames.java
+SHA1-Digest: PnnZY8+felpO49dhYADxXjMjEkM=
+
+Name: org/eclipse/wst/sse/core/internal/util/Debug.java
+SHA1-Digest: w1XHkEQBrOMhsPHo/KnLq79D2OU=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/util/BufferedLimitedR
+ eader.java
+SHA1-Digest: I3rx+t3B2kH8+RXyFbJupp+ubCk=
+
+Name: org/eclipse/wst/sse/core/internal/text/rules/SimpleStructuredTyp
+ edRegion.java
+SHA1-Digest: +MCXsAZiSfiD4Dv5To6JyD7dV1c=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/document/IEncodedD
+ ocument.java
+SHA1-Digest: SvIxK+SCsrru0Lmg+cvD10UwhoE=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/events/NewDocument
+ ContentEvent.java
+SHA1-Digest: XqVaX39grb2H1yP1NgkVnVv82e0=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/text/ITextRegionCo
+ llection.java
+SHA1-Digest: SbAL2zYeRiRQSWC7JYDxMTnZJAo=
+
+Name: org/eclipse/wst/sse/core/internal/text/JobSafeStructuredDocument
+ .java
+SHA1-Digest: EDS/Ys7O9JktylmNOWhr2IWN3jM=
+
+Name: org/eclipse/wst/sse/core/internal/text/rules/IStructuredRegion.j
+ ava
+SHA1-Digest: yO+ucLlEpve6yfwCThys20FNi68=
+
+Name: schema/taskscanner.exsd
+SHA1-Digest: FoWj+gIz0KVgCE4Z306D6ZUIp/0=
+
+Name: org/eclipse/wst/sse/core/internal/parser/ContextRegion.java
+SHA1-Digest: CEp1U4MZeorJiyOzX/xWH5aeCYU=
+
+Name: org/eclipse/wst/sse/core/internal/format/AbstractStructuredForma
+ tProcessor.java
+SHA1-Digest: 31IjQ6TelN+pc7ge/VpfUcySklk=
+
+Name: org/eclipse/wst/sse/core/internal/tasks/FileTaskScannerRegistryR
+ eader.java
+SHA1-Digest: jeZrDkuXFUL+W2mpeaKLn5qfhQg=
+
+Name: org/eclipse/wst/sse/internal/contentproperties/ContentSettingsCh
+ angeSubject.java
+SHA1-Digest: ceeZPoqT5Hc+PQg0SFboLEy9oIU=
+
+Name: org/eclipse/wst/sse/core/internal/modelhandler/PluginContributed
+ FactoryReader.java
+SHA1-Digest: eJrD7vEVs6L83BlX4hJ8kkJMvxE=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/ContentTypeEncodingPr
+ eferences.java
+SHA1-Digest: xEC0p9bWgdZOtiQQOvoeUZSJSxc=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/events/IStructured
+ DocumentListener.java
+SHA1-Digest: rIQfgTV24KAihM1MkLYx2N7ZupU=
+
+Name: org/eclipse/wst/sse/core/internal/util/Utilities.java
+SHA1-Digest: /r5zYDf9JZ6/+LpAscybc33kOyI=
+
+Name: org/eclipse/wst/sse/core/internal/format/StructuredFormatPrefere
+ nces.java
+SHA1-Digest: wupA4y2goUwCzWdJv0UrlfRd38o=
+
+Name: org/eclipse/wst/sse/core/internal/document/AbstractDocumentLoade
+ r.java
+SHA1-Digest: voyhZpOHbYCABSg2ZAbDEOLlVXo=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/events/IModelAbout
+ ToBeChangedListener.java
+SHA1-Digest: 9WPtyMhkce1OoSOxwehZIgks7E4=
+
+Name: org/eclipse/wst/sse/core/internal/util/AbstractMemoryListener.ja
+ va
+SHA1-Digest: VQqhNO2YApuYH4QXMtVDBTdnPwA=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/INodeNotifier.java
+SHA1-Digest: W3FO22Uhw88vgQrpPoCKG74qing=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/document/IStructur
+ edDocumentProposed.java
+SHA1-Digest: Sw6EoiMDWQIc7aBRbJxQi/TezdA=
+
+Name: org/eclipse/wst/sse/core/internal/cleanup/IStructuredCleanupProc
+ essor.java
+SHA1-Digest: z9VYxGwV0AgJr1KgSRM+9QhcSbw=
+
+Name: schema/formatProcessors.exsd
+SHA1-Digest: B3ZwFgj8/uXAk2sdPUsKbfP2ySk=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/IndexedRegion.java
+SHA1-Digest: t0+mN6Ewz9aEOXivRKEAxtofLtg=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/events/RegionsRepl
+ acedEvent.java
+SHA1-Digest: SlKdNHcSzBoifqunny0VoVSrWUg=
+
+Name: org/eclipse/wst/sse/core/internal/modelhandler/EmbeddedTypeRegis
+ try.java
+SHA1-Digest: Wt8PzUQjO1rFTdHKq2/n/n50TVk=
+
+Name: org/eclipse/wst/sse/core/internal/ltk/parser/BlockMarker.java
+SHA1-Digest: s1Edx60JgbJrNuxskDLwgOjTw+0=
+
+Name: org/eclipse/wst/sse/core/internal/text/ReadOnlyPosition.java
+SHA1-Digest: pDFnmlsM/LsymKRGAPZ8JOMQH6g=
+
+Name: org/eclipse/wst/sse/core/internal/undo/IStructuredTextUndoManage
+ r.java
+SHA1-Digest: Ey59sIeqqURIqIGbQEojliLV9y0=
+
+Name: org/eclipse/wst/sse/core/internal/format/IStructuredFormatContra
+ ints.java
+SHA1-Digest: g+mpHBCD4Z8P1a1MeHLh4+UzECw=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/events/NewDocument
+ Event.java
+SHA1-Digest: ctnzbS59wlVPmeEEYRIyVh5yrS0=
+
+Name: org/eclipse/wst/sse/core/internal/undo/IDocumentSelectionMediato
+ r.java
+SHA1-Digest: Ps7YPDGSspniwDV47bHsOK5yNO0=
+
+Name: org/eclipse/wst/sse/core/internal/ltk/modelhandler/AbstractModel
+ Handler.java
+SHA1-Digest: 5LCoRi9P9h3j4C/0frHsVw+FnLQ=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/text/IStructuredTe
+ xtPartitioner.java
+SHA1-Digest: CllYyu7Cx6Wvk5mquUrla4ymIpc=
+
+Name: org/eclipse/wst/sse/core/internal/document/IDocumentCharsetDetec
+ tor.java
+SHA1-Digest: +WW6PiNGiV+wo2fHfMnwN4Q8xeE=
+
+Name: org/eclipse/wst/sse/core/internal/PropagatingAdapterFactory.java
+SHA1-Digest: fT3q1SOpLQlQFC1yDvP+nubDB/8=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/text/ITextRegionLi
+ st.java
+SHA1-Digest: 7fQsvhNK8UG6tdL8rPJ8rM8YGHs=
+
+Name: org/eclipse/wst/sse/core/internal/NotImplementedException.java
+SHA1-Digest: Qa7h/rHMpdhk9aTi53xs7yY/rF0=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/events/StructuredD
+ ocumentRegionsReplacedEvent.java
+SHA1-Digest: 5BJdOV3pt/Alt1wBZub6jr5UUnI=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/model/IModelManage
+ rProposed.java
+SHA1-Digest: JxkdnnypdViS7WGyJgxlNaUA+gc=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/NonContentBasedEncodi
+ ngRules.java
+SHA1-Digest: O1hUpIiCNQjAEozCdxdK6Y4jiTg=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/EncodingMemento.java
+SHA1-Digest: fmbMQWIYavWxOMGcYe7oVsRKdm4=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/events/AboutToBeCh
+ angedEvent.java
+SHA1-Digest: ze5HGeOTnWFwi3foISUMaCa0p2c=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/model/IModelStateL
+ istenerProposed.java
+SHA1-Digest: KQPsnaJ7ZIyoWl9tjZKkw69H4bU=
+
+Name: org/eclipse/wst/sse/core/internal/exceptions/CharConversionError
+ WithDetail.java
+SHA1-Digest: 3dgSlEgjWM0Z8Z+zmZNXt8Vlk5I=
+
+Name: org/eclipse/wst/sse/core/internal/tasks/WorkspaceTaskScanner.jav
+ a
+SHA1-Digest: e366O5tyAw82DEp9+XyiXDb9f6I=
+
+Name: org/eclipse/wst/sse/core/internal/ltk/parser/BlockTagParser.java
+SHA1-Digest: 1chLbaOSyp+kqxEyk0o+qNYlZAI=
+
+Name: org/eclipse/wst/sse/core/internal/ltk/parser/BlockTokenizer.java
+SHA1-Digest: VIy2BhKrCjAQ4E9akX8RF1zu1Ag=
+
+Name: org/eclipse/wst/sse/core/internal/modelhandler/ModelHandlerRegis
+ try.java
+SHA1-Digest: ZJQsSvVNbEXyqK81zPwH8L8gCbk=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/ICodedResourcePlugin.
+ java
+SHA1-Digest: /0UShMJ9/LUv1+zfqHpYkDqo9xs=
+
+Name: org/eclipse/wst/sse/core/internal/tasks/TaskScanningJob.java
+SHA1-Digest: G/KPYAR5/VLsQy40cTU5SRuYbhg=
+
+Name: schema/documentTypes.exsd
+SHA1-Digest: iL/wDQSWYkXSELDiRhvR1WW/Dp4=
+
+Name: org/eclipse/wst/sse/core/internal/util/ScriptLanguageKeys.java
+SHA1-Digest: ig9nb27RIj1mZ06ec2zqzpVztRw=
+
+Name: org/eclipse/wst/sse/core/internal/tasks/TaskScanningScheduler.ja
+ va
+SHA1-Digest: p9XXI9HheFvidIYKsKzxSv85CgY=
+
+Name: schema/modelHandler.exsd
+SHA1-Digest: i09UUsjn8vWidBFN8Wj4bjl6BN8=
+
+Name: org/eclipse/wst/sse/core/internal/cleanup/StructuredContentClean
+ upHandler.java
+SHA1-Digest: 0xUQjsPVsZ8nIVTGaysaUz0UM2A=
+
+Name: org/eclipse/wst/sse/core/internal/document/TextUtilities.java
+SHA1-Digest: dFEM1OrSAUpOkdX7BciyGF5pK3A=
+
+Name: org/eclipse/wst/sse/core/internal/SSECoreMessages.java
+SHA1-Digest: 9GyZlp5QczH0Lp2Oj4BwRrbpxBQ=
+
+Name: org/eclipse/wst/sse/core/internal/preferences/PreferenceInitiali
+ zer.java
+SHA1-Digest: NBZt3dtyaZR51vcp6b1yDvGnuFk=
+
+Name: schema/adaptOnCreateFactory.exsd
+SHA1-Digest: D8kry8/5KwKPvB/APjrUVTxab2E=
+
+Name: org/eclipse/wst/sse/core/internal/modelhandler/EmbeddedTypeRegis
+ tryImpl.java
+SHA1-Digest: V3+70T+7oceMqQtLYYnPsw62ibY=
+
+Name: org/eclipse/wst/sse/core/internal/validate/ValidationAdapter.jav
+ a
+SHA1-Digest: TxB1sWOFeZ1eM1QQ1wZrVOVMnuI=
+
+Name: org/eclipse/wst/sse/core/internal/format/IStructuredFormatter.ja
+ va
+SHA1-Digest: cOnwQEsA0MmyRDz4gK2udr3s99k=
+
+Name: org/eclipse/wst/sse/core/internal/ltk/parser/IBlockedStructuredD
+ ocumentRegion.java
+SHA1-Digest: g/z00ubR01wTPJwq6aU64qqUFYM=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/tasks/TaskTag.java
+SHA1-Digest: ySiOr4sKi9ZU6ywHXbSqhzjpcVw=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/events/RegionChang
+ edEvent.java
+SHA1-Digest: JDm0gU9/uUD+NhtexpEX1oa4J9Q=
+
+Name: org/eclipse/wst/sse/core/internal/util/PathHelper.java
+SHA1-Digest: 9Rtv9PHOOyrK/IwotciIbl/zmBQ=
+
+Name: org/eclipse/wst/sse/core/internal/ltk/parser/TagMarker.java
+SHA1-Digest: Faf+6R/FCvIcP8r/TifbTlU/xFM=
+
+Name: about.html
+SHA1-Digest: L/+sXWRVWt/rYmhZLfCymBteDgE=
+
+Name: doc/schema.css
+SHA1-Digest: +wqwB8+MrFV9PItRpV9VlhWN7fA=
+
+Name: org/eclipse/wst/sse/core/internal/text/DeleteEqualPositionUpdate
+ r.java
+SHA1-Digest: XgvNsvaxw5nrvvWH2sK0ms9dX5k=
+
+Name: org/eclipse/wst/sse/core/internal/model/ModelManagerImpl.java
+SHA1-Digest: BMls938416HPBvx02ZY53FjADWA=
+
+Name: org/eclipse/wst/sse/core/internal/document/StructuredDocumentFac
+ tory.java
+SHA1-Digest: JPrgF6h5xREgHr14ALsnoVBpTWg=
+
+Name: org/eclipse/wst/sse/core/internal/model/ModelLifecycleEvent.java
+SHA1-Digest: /5x6JoAVQ62YTBOXXnJDl6Uzj6Y=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/CodedStreamCreator.ja
+ va
+SHA1-Digest: yOX0KIRPGvKn7IHLpWjTjND79V0=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/util/Logger.java
+SHA1-Digest: d8l2iChFcNlRFxzWCb1kRGxX3Ng=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/CodedIO.java
+SHA1-Digest: /PqsJ0r+96u5VCVJszGbGvzx8jI=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/text/IStructuredPa
+ rtitioning.java
+SHA1-Digest: Ta78UJzqPlabNgrsAC9ms4+CnZQ=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/util/ByteReader.java
+SHA1-Digest: SnAZqtqV4dKtRcwdJrfjkbKdLLA=
+
+Name: org/eclipse/wst/sse/internal/contentproperties/INotify.java
+SHA1-Digest: 4KsHaQxeLwAaIEsehe8zP+qeB9s=
+
+Name: org/eclipse/wst/sse/internal/contentproperties/AbstractContentSe
+ ttingsHandler.java
+SHA1-Digest: tGkghFrQho+RyWAYrAawb+Mn6ys=
+
+Name: org/eclipse/wst/sse/core/internal/ltk/parser/StructuredDocumentR
+ egionParser.java
+SHA1-Digest: ZH0a/hmuOT0xyHk+9XNsxwG3EaA=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/util/Assert.java
+SHA1-Digest: Y5+CqU0jpL2lwJqWlgEA8NeVeBA=
+
+Name: org/eclipse/wst/sse/core/internal/cleanup/StructuredContentClean
+ upHandlerImpl.java
+SHA1-Digest: UFTmQFJvi5UplYhupLl3hI+NXSs=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/CommonCharsetNames.ja
+ va
+SHA1-Digest: dXgcAX4I7ioEKTniHVymsM1LcEE=
+
+Name: org/eclipse/wst/sse/core/internal/cleanup/AbstractStructuredClea
+ nupProcessor.java
+SHA1-Digest: QmLFphb7XuiJGqcnasWB/hA32Z4=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/INodeAdapterFactor
+ y.java
+SHA1-Digest: OS6UquwYbDzO0CeGwJjFD5sZXbo=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/model/IStructuredM
+ odelProposed.java
+SHA1-Digest: g/0cPGANr/WRVudm4xpB0rGdN/0=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/IContentDescriptionEx
+ tended.java
+SHA1-Digest: u/Yl8cZIs8SFh3BDreF8u3FwPu0=
+
+Name: org/eclipse/wst/sse/core/internal/ltk/parser/StructuredDocumentR
+ egionHandler.java
+SHA1-Digest: nyi0DjKZsddUyAST7BukO69preE=
+
+Name: org/eclipse/wst/sse/core/internal/NullMemento.java
+SHA1-Digest: v7gXovZWq3DBcY7u9pUz71gPeUk=
+
+Name: org/eclipse/wst/sse/core/internal/text/GenericPositionManager.ja
+ va
+SHA1-Digest: xyywlbkdLrDjnPXl63pKUuVGQ0Q=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/text/ITextRegionCo
+ ntainer.java
+SHA1-Digest: ULCU5XRJ+5Hv+O5hIcGibVrEDJ8=
+
+Name: org/eclipse/wst/sse/core/internal/ltk/parser/JSPCapableParser.ja
+ va
+SHA1-Digest: 8ZJMq0idQe0JsWrfFBiLbikrfmE=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/model/INodeAdapter
+ FactoryManager.java
+SHA1-Digest: sa33+ugVGxospf3ihXmBBsUtfRo=
+
+Name: org/eclipse/wst/sse/core/StructuredModelManager.java
+SHA1-Digest: WO7DJ/V/ACVaA9LBonQyTkbcX7M=
+
+Name: org/eclipse/wst/sse/core/internal/cleanup/IStructuredCleanupPref
+ erences.java
+SHA1-Digest: Q+mNmUrgUMDJsjmpzZo9iHwDVYU=
+
+Name: org/eclipse/wst/sse/core/internal/validate/ValidationMessage.jav
+ a
+SHA1-Digest: nRw3OvPT9nUNk+4WI+nYzLLVNvw=
+
+Name: org/eclipse/wst/sse/core/internal/model/FactoryRegistry.java
+SHA1-Digest: 5PeN2XMLZ6WYmOk9NkLsCi7APyc=
+
+Name: component.xml
+SHA1-Digest: A2/rwRHnnVaHNOApy8yEref34RI=
+
+Name: org/eclipse/wst/sse/core/internal/util/ProjectResolver.java
+SHA1-Digest: 7zWRE3pbSmuQiRF8R7OX/Crzj5I=
+
+Name: org/eclipse/wst/sse/core/internal/util/JarUtilities.java
+SHA1-Digest: tthybpzRnffvxkbuNrotnZwC708=
+
+Name: org/eclipse/wst/sse/core/internal/text/SubSetTextStore.java
+SHA1-Digest: P8VjfVbNq18VIMgHKzsU8O/yIKc=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/AbstractAdapterFac
+ tory.java
+SHA1-Digest: gxvEUiepbTt2B0NOmP6rD7h3cy4=
+
+Name: org/eclipse/wst/sse/core/internal/PropagatingAdapter.java
+SHA1-Digest: upYOAFTFl6ou72iX1HyFqtWDzBM=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/util/NullInputStream.
+ java
+SHA1-Digest: k+QGNOQuM7q26k/Ui5PI18beyeg=
+
+Name: org/eclipse/wst/sse/core/internal/text/StructuredDocumentTextSto
+ re.java
+SHA1-Digest: 0czom8DonjcRKe1VX9qx8si9naI=
+
+Name: org/eclipse/wst/sse/core/internal/util/URIResolver.java
+SHA1-Digest: PBpS1CZzUT3HTOhA6+SE5nKj+lk=
+
+Name: org/eclipse/wst/sse/core/internal/text/rules/SimpleStructuredReg
+ ion.java
+SHA1-Digest: 7DQgOizT5ggfgsMK0QmfrRdBxLY=
+
+Name: org/eclipse/wst/sse/core/internal/ltk/modelhandler/EmbeddedTypeH
+ andler.java
+SHA1-Digest: RdbOI0zMowa2QFGTZu5EvgoLBVI=
+
+Name: org/eclipse/wst/sse/core/internal/undo/StructuredTextCommandImpl
+ .java
+SHA1-Digest: rfjg5U9b/K5zbbVW2qkKcwGX0k8=
+
+Name: org/eclipse/wst/sse/core/internal/ltk/parser/StructuredDocumentR
+ egionParserExtension.java
+SHA1-Digest: oeOOjNoaMfEstUIy8F1BkwJGKkA=
+
+Name: org/eclipse/wst/sse/core/internal/text/StructuredDocumentReParse
+ r.java
+SHA1-Digest: 8z7PCCeKDx307QtyYIN+ms8bshM=
+
+Name: org/eclipse/wst/sse/core/internal/model/PrefUtil.java
+SHA1-Digest: av1BXdyDvZTvMSi9y+17ZtZ9ueU=
+
+Name: org/eclipse/wst/sse/core/internal/model/AbstractModelLoader.java
+SHA1-Digest: 68MDPO5o5DDbtEdPzHKFGtnR0cM=
+
+Name: schema/commentElementHandler.exsd
+SHA1-Digest: nOVv2UnVfVpG4lpK7oKhAUEFwXc=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/events/StructuredD
+ ocumentEvent.java
+SHA1-Digest: 4gp/bp8QhMrz4CSIt88U0oBlSr4=
+
+Name: org/eclipse/wst/sse/core/internal/document/DocumentReader.java
+SHA1-Digest: QFn90Z2G1xAt7H3H2Aiu59Gq2nU=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/tasks/IFileTaskSca
+ nner.java
+SHA1-Digest: HpMcEVr3oE8JD8KO5bZw0NCUEcA=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/IModelLifecycleLis
+ tener.java
+SHA1-Digest: 0DBQgfxEWNIx52uyTBSu2EozQVY=
+
+Name: org/eclipse/wst/sse/core/internal/text/rules/StructuredTextParti
+ tioner.java
+SHA1-Digest: fp5kZqQsa/uF6R2UG+9IJ/QAUek=
+
+Name: org/eclipse/wst/sse/core/internal/text/MinimalDocument.java
+SHA1-Digest: NTv5aaaDPP/5pKtGCwW1gEWLFbA=
+
+Name: org/eclipse/wst/sse/core/internal/ModelManagerPluginRegistryRead
+ er.java
+SHA1-Digest: DWXv37O1ToeiX2vnlrWL2/WmA+A=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/text/IStructuredDo
+ cumentRegion.java
+SHA1-Digest: R6tT+wBsqHtWpq12K4w8kPIoaGE=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/text/IStructuredDo
+ cumentRegionList.java
+SHA1-Digest: FYf6Yl1YtCCA8KHQKza/0CD8Xm0=
+
+Name: org/eclipse/wst/sse/internal/contentproperties/AbstractSubject.j
+ ava
+SHA1-Digest: lBQ+RgFQEDcY9KDd5cOGRoC2MMU=
+
+Name: org/eclipse/wst/sse/internal/contentproperties/IContentSettingsL
+ istener.java
+SHA1-Digest: cv9OQ0Hwt+bB3Sq2rkGowq4iOFs=
+
+Name: org/eclipse/wst/sse/core/utils/StringUtils.java
+SHA1-Digest: DLmOvXxhYtxw99bV5zbyCwRgkBY=
+
+Name: org/eclipse/wst/sse/core/internal/cleanup/StructuredCleanupPrefe
+ rences.java
+SHA1-Digest: +Vjg8sr0WEpFT9X0+t0Pls0q95Y=
+
+Name: org/eclipse/wst/sse/internal/contentproperties/ContentSettingsSe
+ lfHandler.java
+SHA1-Digest: Iltf6VYJc0nB/sBG3PazPzrKqgQ=
+
+Name: org/eclipse/wst/sse/core/text/IStructuredPartitions.java
+SHA1-Digest: VSbj52ZQ+lrv3m2DSeweItfzV7Q=
+
+Name: org/eclipse/wst/sse/core/internal/NoCancelProgressMonitor.java
+SHA1-Digest: cms9Y+e1Smly9bdGG0GlKiDpLJ4=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/StructuredModelMan
+ ager.java
+SHA1-Digest: 0yJX7EfIAP348BSYeXodB5M2uXk=
+
+Name: org/eclipse/wst/sse/core/internal/undo/StructuredTextCommand.jav
+ a
+SHA1-Digest: HNKLxQ1dUEm7F8fBr7fBHtYQNlE=
+
+Name: org/eclipse/wst/sse/internal/contentproperties/IContentSettingsH
+ andler.java
+SHA1-Digest: iA7w6jL+DHJfssudNFukLOgcOwk=
+
+Name: org/eclipse/wst/sse/core/internal/encoding/EncodingRule.java
+SHA1-Digest: chQMgudIzqKf4TcvDYmefBEzlcQ=
+
+Name: org/eclipse/wst/sse/core/internal/model/LifecycleNotificationMan
+ ager.java
+SHA1-Digest: rY/awyueAqgBDTba+JvEtVCWCKY=
+
+Name: org/eclipse/wst/sse/core/internal/provisional/IStructuredModel.j
+ ava
+SHA1-Digest: tIgITre5Se7Jayhdk3gri9s5dW4=
+
