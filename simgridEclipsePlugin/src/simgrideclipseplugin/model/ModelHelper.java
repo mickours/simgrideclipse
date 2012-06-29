@@ -6,11 +6,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.gef.EditPart;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IModelStateListener;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.xml.core.internal.document.TextImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
@@ -19,6 +21,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import simgrideclipseplugin.editors.SimgridGraphicEditor;
 
 //import simgrideclipseplugin.editors.properties.ElementPropertySource;
 
@@ -335,6 +339,35 @@ public final class ModelHelper {
 //		return l;
 //	}
 	
+	@SuppressWarnings("unchecked")
+	public static StructuredSelection partToModelSelection(IStructuredSelection partSelection){
+		 List<?> l = partSelection.toList();
+		 if (!l.isEmpty()){
+			 List<Object> modelList = new ArrayList<Object>(l.size());
+			 for (EditPart e : (List<EditPart>) l) {
+				 modelList.add(e.getModel());
+			 }
+			 return new StructuredSelection(modelList);
+		 }
+		 return new StructuredSelection();
+	 }
+
+	public static StructuredSelection modelToPartSelection(IStructuredSelection modelSelection, SimgridGraphicEditor graphEditor){
+		 List<?> selectedList = modelSelection.toList();
+		 if (!selectedList.isEmpty()){
+			 List<EditPart> selectedPartList = new LinkedList<EditPart>();
+			 for (Object e : selectedList){
+				 if (e instanceof Element){
+					 EditPart ep =(EditPart) graphEditor.getEditPartRegistry().get(e);
+					 if (ep != null && ep.isActive()){
+						 selectedPartList.add(ep);
+					 }
+				 }
+			 }
+			 return new StructuredSelection(selectedPartList);
+		 }
+		 return new StructuredSelection();
+	 }
 	/*******************************************/	
 	/*****       PRIVATE UTILS            ******/
 	/*******************************************/

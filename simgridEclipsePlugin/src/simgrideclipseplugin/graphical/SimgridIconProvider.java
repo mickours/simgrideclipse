@@ -11,6 +11,8 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
 import simgrideclipseplugin.graphical.actions.AutoLayoutAction;
+import simgrideclipseplugin.graphical.actions.GoIntoAction;
+import simgrideclipseplugin.graphical.actions.GoOutAction;
 import simgrideclipseplugin.model.ElementList;
 
 public class SimgridIconProvider {
@@ -46,7 +48,8 @@ public class SimgridIconProvider {
 		
 		//add Actions Icons
 		h.put(AutoLayoutAction.ID, "auto_layout.png");
-
+		h.put(GoIntoAction.ID, "go-down.png");
+		h.put(GoOutAction.ID, "go-up.png");
 		return h;
 	}
 

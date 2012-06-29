@@ -47,11 +47,6 @@ public abstract class AbstractElementEditPart extends SimgridAbstractEditPart
 		if (parent != null){
 			parent.setLayoutConstraint(this,getFigure(), bounds);
 		}
-//		if (getSelected() != SELECTED_NONE){
-//			//little trick to update selection UI
-//			setSelected(SELECTED_NONE);
-//			setSelected(SELECTED_PRIMARY);
-//		}
 
 		//get the Figure and the model to refresh the view
 		IFigure f = getFigure();

@@ -17,8 +17,6 @@ import org.eclipse.ui.texteditor.ITextEditorActionConstants;
  * Multi-page contributor replaces the contributors for the individual editors in the multi-page editor.
  */
 public class MultiPageSimgridEditorContributor extends MultiPageEditorActionBarContributor {
-	
-	private IActionBars2 myActionBars2;
 
 	private SubActionBarsExt myGraphicSubActionBars;
 	
@@ -32,7 +30,13 @@ public class MultiPageSimgridEditorContributor extends MultiPageEditorActionBarC
 	public void init(IActionBars bars) {
 		super.init(bars);
 		assert bars instanceof IActionBars2;
-		myActionBars2 = (IActionBars2) bars;
+		myGraphicSubActionBars = new SubActionBarsExt(getPage(),
+				(IActionBars2) getActionBars(),
+				new GraphicalEditorActionBarContributor(),
+				"simgrideclipseplugin.editors.GraphicalActionBarContributor");
+		getActionBars().clearGlobalActionHandlers();
+		getActionBars().updateActionBars();
+		myGraphicSubActionBars.deactivate(true);
 	}
 	
 	/**
@@ -47,7 +51,7 @@ public class MultiPageSimgridEditorContributor extends MultiPageEditorActionBarC
 	public void setActivePage(IEditorPart part) {
 		activeEditorPart = part;
 		if (activeEditorPart instanceof SimgridGraphicEditor) {
-			setActiveActionBars(getGraphicSubActionBars());
+			setActiveActionBars(myGraphicSubActionBars);
 		}else {
 			setActiveActionBars(null);
 		}
@@ -116,18 +120,6 @@ public class MultiPageSimgridEditorContributor extends MultiPageEditorActionBarC
 		}
 	}
 	
-	/**
-	 * @return the sub cool bar manager for the diagram editor.
-	 */
-	public SubActionBarsExt getGraphicSubActionBars() {
-		if (myGraphicSubActionBars == null) {
-			myGraphicSubActionBars = new SubActionBarsExt(getPage(),
-					myActionBars2,
-					new GraphicalEditorActionBarContributor(),
-					"simgrideclipseplugin.editors.GraphicalActionBarContributor");
-		}
-		return myGraphicSubActionBars;
-	}
 	
 	/**
 	 * Switches the active action bars.

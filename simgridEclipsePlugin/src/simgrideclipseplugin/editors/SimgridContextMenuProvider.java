@@ -10,7 +10,7 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
 
 import simgrideclipseplugin.graphical.actions.GoIntoAction;
-import simgrideclipseplugin.graphical.actions.GoUpAction;
+import simgrideclipseplugin.graphical.actions.GoOutAction;
 
 public class SimgridContextMenuProvider extends ContextMenuProvider {
 
@@ -53,7 +53,7 @@ public class SimgridContextMenuProvider extends ContextMenuProvider {
 			if (action.isEnabled()){
 				menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
 			}
-			action = actionRegistry.getAction(GoUpAction.ID);
+			action = actionRegistry.getAction(GoOutAction.ID);
 			if (action.isEnabled()){
 				menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
 			}

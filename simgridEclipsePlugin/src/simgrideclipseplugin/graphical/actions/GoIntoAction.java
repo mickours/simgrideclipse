@@ -1,6 +1,10 @@
 package simgrideclipseplugin.graphical.actions;
 
+import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IWorkbenchPart;
 
 import simgrideclipseplugin.graphical.SimgridIconProvider;
@@ -13,18 +17,24 @@ public class GoIntoAction extends SelectionAction{
 	}
 
 	public static final String ID = "simgrideclipseplugin.GoInto";
+	public static final String TEXT = "Go into";
+	public static final String TOOL_TIP = "Go into the selected AS";
 
 	@Override
 	protected void init() {
 		setId(ID);
-		setText("Go into");
-		setToolTipText("Go into the selected AS");
+		setText(TEXT);
+		setToolTipText(TOOL_TIP);
 		setImageDescriptor(SimgridIconProvider.getIconImageDescriptor(ID));
 	}
 
 	public void run() {
 		ASEditPart asEP  = (ASEditPart)getSelectedObjects().get(0);
-		asEP.getViewer().setContents(asEP.getModel());
+		EditPartViewer viewer = asEP.getViewer();
+		viewer.setContents(asEP.getModel());
+		//update selection
+		ISelection sel =new StructuredSelection(viewer.getRootEditPart().getContents());
+		getWorkbenchPart().getSite().getSelectionProvider().setSelection(sel);
 }
 
 	@Override

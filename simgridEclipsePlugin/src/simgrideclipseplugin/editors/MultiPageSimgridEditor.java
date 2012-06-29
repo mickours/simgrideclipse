@@ -5,9 +5,13 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.ZoomManager;
-import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -21,11 +25,14 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.part.MultiPageEditorSite;
+import org.eclipse.ui.part.MultiPageSelectionProvider;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.contenttype.ContentTypeIdForXML;
+import org.w3c.dom.Element;
 
 import simgrideclipseplugin.editors.outline.SimgridOutlinePage;
+import simgrideclipseplugin.model.ModelHelper;
 
 //import simgrideclipseplugin.editors.outline.SimgridOutlinePage;
 
@@ -57,12 +64,16 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 	/** the specific outline for this editor */
 	public SimgridOutlinePage outline;
 	
+	/** This selection provider coordinates the selections of the various editor parts. */
+	protected MultiPageSelectionProvider selectionProvider;
+
+	private ISelectionChangedListener listener;
+	
 	/** part Listener to handle part activation changes **/
 	protected IPartListener partListener = new IPartListener() {
 		public void partActivated(IWorkbenchPart p) {
-			if (p instanceof SimgridGraphicEditor){
-				((SimgridGraphicEditor)p).initContents();
-			}
+			if (p instanceof IEditorPart)
+			((IEditorPart) p).getEditorSite().getActionBarContributor().setActiveEditor((IEditorPart)p);
 		}
 
 		public void partBroughtToTop(IWorkbenchPart p) {
@@ -88,6 +99,9 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 	public MultiPageSimgridEditor() {
 		super();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
+		editor = new StructuredTextEditor();
+		editor.setBlockSelectionMode(true);
+		graphEditor = new SimgridGraphicEditor(this);
 	}
 
 	/**
@@ -101,7 +115,61 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 					"Invalid Input: Must be IFileEditorInput");
 		}
 		super.init(site, editorInput);
-//		site.getPage().addPartListener(partListener);
+
+		
+		selectionProvider = new MultiPageSelectionProvider(this);
+		listener = new ISelectionChangedListener() {
+			private IStructuredSelection oldEditPartSelection = new StructuredSelection();
+			private IStructuredSelection oldElementSelection = new StructuredSelection();
+			
+			public void selectionChanged(SelectionChangedEvent event) {
+				IStructuredSelection sel = (IStructuredSelection) event.getSelection();
+				//avoid loop
+				if (sel.equals(oldEditPartSelection) || sel.equals(oldElementSelection) ){
+					return;
+				}
+				//it's Coming from the multiEditor
+				if (event.getSource() == selectionProvider){
+					//it's the text editor
+					if (event.getSource() == selectionProvider && getActiveEditor().equals(editor) && sel.getFirstElement() instanceof Element ){
+						oldElementSelection = new StructuredSelection(sel.toList());
+						oldEditPartSelection = ModelHelper.modelToPartSelection(sel,graphEditor);
+						
+						if (outline != null){
+							outline.setSelection(sel);
+						}
+						graphEditor.externalSelectionChanged(oldElementSelection);
+					}
+					//it's the graphical editor
+					else if (getActiveEditor().equals(graphEditor) && sel.getFirstElement() instanceof EditPart){
+						oldEditPartSelection = new StructuredSelection(sel.toList());
+						oldElementSelection = ModelHelper.partToModelSelection(sel);
+						
+						editor.getSelectionProvider().setSelection(oldElementSelection);
+						if (outline != null){
+							outline.setSelection(oldElementSelection);
+						}
+					}
+				}
+				//it's coming from the outline
+				else if (outline != null && event.getSource()== outline){
+					oldElementSelection = new StructuredSelection(sel.toList());
+					oldEditPartSelection = ModelHelper.modelToPartSelection(sel,graphEditor);
+					
+					Runnable doSelect = new Runnable() {
+						@Override
+						public void run() {
+							editor.getSelectionProvider().setSelection(oldElementSelection);
+							graphEditor.externalSelectionChanged(oldElementSelection);
+						}
+					};
+					getSite().getShell().getDisplay().asyncExec(doSelect);
+				}
+			}
+		};
+		selectionProvider.addPostSelectionChangedListener(listener);
+		getSite().setSelectionProvider(selectionProvider);
+		site.getPage().addPartListener(partListener);
 	}
 
 	/**
@@ -128,7 +196,7 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 	 */
 	void createStructuredTextEditorPage() {
 		try {
-			editor = new StructuredTextEditor();
+			
 			editor.setEditorPart(this);
 			textEditorIndex = addPage(editor, getEditorInput());
 			setPageText(textEditorIndex, "Text Editor");
@@ -146,7 +214,6 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 	 */
 	void createGraphicEditorPage() {
 		try {
-			graphEditor = new SimgridGraphicEditor(this);
 			graphicEditorIndex = addPage(graphEditor, getEditorInput());
 			setPageText(graphicEditorIndex, "Visual editor");
 		} catch (PartInitException e) {
@@ -180,7 +247,6 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 	 */
 	public void dispose() {
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
-		outline.dispose();
 		super.dispose();
 	}
 
@@ -248,8 +314,8 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 	public Object getAdapter(Class required) {
 		if (required == IContentOutlinePage.class){
 			if (outline == null){
-				outline = new SimgridOutlinePage(editor);
-				//editor.addPropertyListener(outline);
+				outline = new SimgridOutlinePage(editor, graphEditor);
+				outline.addSelectionChangedListener(listener);
 			}
 			return outline;
 		}

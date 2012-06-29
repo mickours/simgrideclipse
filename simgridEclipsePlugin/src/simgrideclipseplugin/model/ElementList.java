@@ -74,7 +74,7 @@ public class ElementList {
 				AS,CLUSTER,PEER,
 				AS_ROUTE,
 				HOST,ROUTER,
-				ROUTE,LINK
+				ROUTE,LINK,LINK_CTN,
 				
 				//TODO to complete
 		};

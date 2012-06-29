@@ -1,7 +1,6 @@
 package simgrideclipseplugin.editors;
 
 import org.eclipse.gef.ui.actions.ActionBarContributor;
-import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.DeleteRetargetAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.RedoRetargetAction;
@@ -15,10 +14,13 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.actions.RetargetAction;
 
 import simgrideclipseplugin.graphical.actions.AutoLayoutAction;
 import simgrideclipseplugin.graphical.actions.AutoLayoutRetargetAction;
+import simgrideclipseplugin.graphical.actions.GoIntoAction;
+import simgrideclipseplugin.graphical.actions.GoIntoRetargetAction;
+import simgrideclipseplugin.graphical.actions.GoOutAction;
+import simgrideclipseplugin.graphical.actions.GoOutRetargetAction;
 
 public class GraphicalEditorActionBarContributor extends ActionBarContributor {
 
@@ -31,8 +33,8 @@ public class GraphicalEditorActionBarContributor extends ActionBarContributor {
 	    addRetargetAction(new ZoomInRetargetAction());
 	    addRetargetAction(new ZoomOutRetargetAction());
 	    addRetargetAction(new AutoLayoutRetargetAction());
-//	    ActionRegistry ar = (ActionRegistry) getPage().getActiveEditor().getAdapter(ActionRegistry.class);
-//	    addAction(ar.getAction(AutoLayoutAction.ID));
+	    addRetargetAction(new GoIntoRetargetAction());
+	    addRetargetAction(new GoOutRetargetAction());
 	}
 	
 	@Override
@@ -44,6 +46,9 @@ public class GraphicalEditorActionBarContributor extends ActionBarContributor {
 	    toolBarManager.add(new Separator());
 	    toolBarManager.add(getAction(AutoLayoutAction.ID));
 	    toolBarManager.add(new ZoomComboContributionItem(getPage()));
+	    toolBarManager.add(new Separator());
+	    toolBarManager.add(getAction(GoIntoAction.ID));
+	    toolBarManager.add(getAction(GoOutAction.ID));
 	 }
 
 	@Override
@@ -53,10 +58,13 @@ public class GraphicalEditorActionBarContributor extends ActionBarContributor {
 	}
 	
 	public void contributeToMenu(IMenuManager manager) {
-		IMenuManager editorMenu = new MenuManager("Editor &Menu");
+		IMenuManager editorMenu = new MenuManager("Simgrid &Menu");
 		manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS, editorMenu);
 		editorMenu.add(getAction(AutoLayoutAction.ID));
-		IMenuManager viewMenu = new MenuManager("View");
+		editorMenu.add(new Separator());
+		editorMenu.add(getAction(GoIntoAction.ID));
+		editorMenu.add(getAction(GoOutAction.ID));
+		IMenuManager viewMenu = new MenuManager("Simgrid &View");
 		manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS,viewMenu);
 		viewMenu.add(getAction(GEFActionConstants.ZOOM_IN));
 		viewMenu.add(getAction(GEFActionConstants.ZOOM_OUT));

@@ -1,7 +1,7 @@
 package simgrideclipseplugin.graphical.actions;
 
-import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.ui.actions.*;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.ui.actions.EditorPartAction;
 import org.eclipse.ui.IEditorPart;
 
 import simgrideclipseplugin.editors.SimgridGraphicEditor;
@@ -25,8 +25,8 @@ public class AutoLayoutAction extends EditorPartAction{
 	}
 
 	public void run() {
-		GraphicalViewer viewer = ((SimgridGraphicEditor)getEditorPart()).getGraphicalViewer();
-		AutomaticGraphLayoutHelper.INSTANCE.init(viewer.getContents());
+		EditPart content = ((SimgridGraphicEditor)getEditorPart()).getGraphicalContents();
+		AutomaticGraphLayoutHelper.INSTANCE.init(content);
 		AutomaticGraphLayoutHelper.INSTANCE.computeLayout();
 	}
 	
