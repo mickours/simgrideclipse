@@ -54,7 +54,7 @@ public class AutomaticGraphLayoutHelper {
 			layoutManager.compute();
 			i++;
 			//TODO the i limit must depends on the number of nodes
-		}while(layoutManager.getNodeMoved() != 0 && i < 300 );
+		}while(layoutManager.getNodeMoved() != 0 && i < 500 );
 		double xmin = 0, ymin = 0;
 		//get the x and y min to translate
 		for (Node n : graph.getEachNode()) {
@@ -67,7 +67,7 @@ public class AutomaticGraphLayoutHelper {
 		for (Node n : graph.getEachNode()) {
 			// get (position,id) from graph
 			double pos[] = Toolkit.nodePosition(graph, n.getId());
-			//TODO assign position depending on object size and zoom
+			//TODO assign position depending on object size
 			int x =  new Double((pos[0]+Math.abs(xmin))*50).intValue();
 			int y =  new Double((pos[1]+Math.abs(ymin))*50).intValue();
 			Point p = new Point(x, y);

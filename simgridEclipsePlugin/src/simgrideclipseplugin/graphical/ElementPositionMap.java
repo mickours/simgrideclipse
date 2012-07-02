@@ -33,4 +33,8 @@ public class ElementPositionMap {
 		Point p = map.get(part.getModel());
 		return p;
 	}
+
+	public static void removeElement(Element newElem) {
+		map.remove(newElem);		
+	}
 }

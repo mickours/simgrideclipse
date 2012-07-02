@@ -34,8 +34,8 @@ public class GoOutAction extends WorkbenchPartAction {
 		Element current = (Element) content.getModel();
 		graphEditor.setGraphicalContents(current.getParentNode());
 		//update selection
-		ISelection sel =new StructuredSelection(current.getParentNode());
-		graphEditor.getSite().getSelectionProvider().setSelection(sel);
+		StructuredSelection sel =new StructuredSelection(current.getParentNode());
+		graphEditor.externalSelectionChanged(sel);
 	}
 
 	@Override

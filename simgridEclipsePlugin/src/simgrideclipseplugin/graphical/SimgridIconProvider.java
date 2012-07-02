@@ -1,7 +1,5 @@
 package simgrideclipseplugin.graphical;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -10,13 +8,14 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
+import simgrideclipseplugin.Activator;
 import simgrideclipseplugin.graphical.actions.AutoLayoutAction;
 import simgrideclipseplugin.graphical.actions.GoIntoAction;
 import simgrideclipseplugin.graphical.actions.GoOutAction;
 import simgrideclipseplugin.model.ElementList;
 
 public class SimgridIconProvider {
-	private static final String iconPath = "platform:/plugin/simgridEclipsePlugin/icons/";
+	private static final String iconPath = "icons/";
 	private static final HashMap<String,ImageDescriptor> iconRegister = init();
 	
 	public static Image getIcon(String key){
@@ -56,13 +55,14 @@ public class SimgridIconProvider {
 	private static HashMap<String, ImageDescriptor> init() {
 		HashMap<String, ImageDescriptor> h = new HashMap<String,ImageDescriptor>();
 		
-		URL url = null;
+		String url = null;
 		for(Entry<String, String> e : getPathMap().entrySet()){
-			try {
-				url = new URL(iconPath+e.getValue());
-				h.put(e.getKey(),ImageDescriptor.createFromURL(url));
-				
-			} catch (MalformedURLException ex) {
+			url = iconPath+e.getValue();
+			ImageDescriptor desImg = Activator.getImageDescriptor(url);
+			if (desImg != null){
+				h.put(e.getKey(),desImg);
+			}
+			else{
 				System.err.println("this icon path : "+iconPath+e.getValue()+"doesn't exists");
 			}
 		}

@@ -11,6 +11,10 @@ import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 
+import simgrideclipseplugin.graphical.actions.AutoLayoutAction;
+import simgrideclipseplugin.graphical.actions.GoIntoAction;
+import simgrideclipseplugin.graphical.actions.GoOutAction;
+
 /**
  * Manages the installation/deinstallation of global actions for multi-page editors.
  * Responsible for the redirection of global actions to the active editor.
@@ -79,6 +83,17 @@ public class MultiPageSimgridEditorContributor extends MultiPageEditorActionBarC
 					IAction action = (IAction) actionRegistry.getAction(af.getId());
 					if (action != null){
 						actionBars.setGlobalActionHandler(action.getId(),action);
+					}
+				}
+				String[] simgridActions = {
+						AutoLayoutAction.ID,
+						GoIntoAction.ID,
+						GoOutAction.ID,
+				};
+				for (String id : simgridActions){
+					IAction action = (IAction) actionRegistry.getAction(id);
+					if (action != null){
+						actionBars.setGlobalActionHandler(id,action);
 					}
 				}
 			}

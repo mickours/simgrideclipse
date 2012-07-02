@@ -14,20 +14,23 @@ import simgrideclipseplugin.graphical.CreateElementFormDialog;
 import simgrideclipseplugin.graphical.ListSelectionDialog;
 import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
+import simgrideclipseplugin.model.SimgridRules;
 
 public class ConnectionCreateCommand extends Command {
-	private Element sourceNode, targetNode;
+	private Element sourceNode, targetNode, parent;
 	private String connectionType;
     private Element route = null;
-	private boolean parentFull;
 	private Shell shell;
    
     @Override
     public boolean canExecute() {
-        if (sourceNode == null || targetNode == null)
+        if (sourceNode == null || targetNode == null 
+        		|| sourceNode.equals(targetNode)
+        		|| parent.getAttribute("routing").equals("None")
+        		|| !SimgridRules.isAllowedConnection(sourceNode,connectionType)
+        		|| !SimgridRules.isAllowedConnection(targetNode,connectionType)){
             return false;
-        else if (sourceNode.equals(targetNode))
-            return false;
+        }
         return true;
     }
    
@@ -35,7 +38,7 @@ public class ConnectionCreateCommand extends Command {
     public void execute() {
     	boolean isOk;
     	//create the route and set links
-    	if (!parentFull){
+    	if (!parent.getAttribute("routing").equals("Full")){
     		//the link is unique
     		HashMap<String, String> map = new HashMap<String, String>();
     		map.put("id",null);
@@ -45,7 +48,7 @@ public class ConnectionCreateCommand extends Command {
 	        dialog.create();
 	    	dialog.open();
 	    	isOk = dialog.getReturnCode()== Window.OK;
-	    	if ( isOk){
+	    	if (isOk){
 	    		route = ModelHelper.createRoute(sourceNode, targetNode, connectionType);
 	    		String id = map.get("id");
 	    		String bw = map.get("bandwidth");
@@ -161,8 +164,8 @@ public class ConnectionCreateCommand extends Command {
         this.targetNode = targetNode;
     }
 
-	public void isParentFull(boolean isFull) {
-		parentFull = isFull;
+	public void setParent(Element parent) {
+		this.parent = parent;
 		
 	}
 

@@ -1,7 +1,6 @@
 package simgrideclipseplugin.graphical.actions;
 
 import org.eclipse.gef.EditPartViewer;
-import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -26,16 +25,21 @@ public class GoIntoAction extends SelectionAction{
 		setText(TEXT);
 		setToolTipText(TOOL_TIP);
 		setImageDescriptor(SimgridIconProvider.getIconImageDescriptor(ID));
+		setSelectionProvider(getWorkbenchPart().getSite().getSelectionProvider());
 	}
 
 	public void run() {
 		ASEditPart asEP  = (ASEditPart)getSelectedObjects().get(0);
+		doGoInto(asEP);
+	}
+	
+	public void doGoInto(ASEditPart asEP){
 		EditPartViewer viewer = asEP.getViewer();
 		viewer.setContents(asEP.getModel());
 		//update selection
 		ISelection sel =new StructuredSelection(viewer.getRootEditPart().getContents());
 		getWorkbenchPart().getSite().getSelectionProvider().setSelection(sel);
-}
+	}
 
 	@Override
 	protected boolean calculateEnabled() {

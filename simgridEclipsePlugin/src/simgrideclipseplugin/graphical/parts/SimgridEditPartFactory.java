@@ -2,11 +2,9 @@ package simgrideclipseplugin.graphical.parts;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
-import org.eclipse.gef.RootEditPart;
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.model.ElementList;
-import simgrideclipseplugin.model.ModelHelper;
 
 public class SimgridEditPartFactory implements EditPartFactory {
 
