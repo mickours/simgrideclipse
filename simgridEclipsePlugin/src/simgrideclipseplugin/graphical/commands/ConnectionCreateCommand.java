@@ -2,9 +2,11 @@ package simgrideclipseplugin.graphical.commands;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
@@ -15,6 +17,7 @@ import simgrideclipseplugin.graphical.ListSelectionDialog;
 import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
 import simgrideclipseplugin.model.SimgridRules;
+import simgrideclipseplugin.wizards.CreateElementWizard;
 
 public class ConnectionCreateCommand extends Command {
 	private Element sourceNode, targetNode, parent;
@@ -40,16 +43,15 @@ public class ConnectionCreateCommand extends Command {
     	//create the route and set links
     	if (!parent.getAttribute("routing").equals("Full")){
     		//the link is unique
-    		HashMap<String, String> map = new HashMap<String, String>();
-    		map.put("id",null);
-    		map.put("bandwidth", null);
-    		map.put("latency", null);
-	        CreateElementFormDialog dialog = new CreateElementFormDialog(shell,map);
+
+    		CreateElementWizard wizard = new CreateElementWizard(ElementList.LINK);
+    		WizardDialog dialog = new WizardDialog(shell, wizard);
 	        dialog.create();
 	    	dialog.open();
 	    	isOk = dialog.getReturnCode()== Window.OK;
 	    	if (isOk){
 	    		route = ModelHelper.createRoute(sourceNode, targetNode, connectionType);
+	    		Map<String, String> map = wizard.attrMap;
 	    		String id = map.get("id");
 	    		String bw = map.get("bandwidth");
 	    		String lat = map.get("latency");

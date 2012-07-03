@@ -24,4 +24,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  lib/gs-core-1.1.1/gs-core-1.1.1.jar,
- lib/gs-algo-1.1/gs-algo-1.1.jar
+ lib/gs-algo-1.1/gs-algo-1.1.jar,
+ lib/dtdparser-1.21/dtdparser-1.21.jar

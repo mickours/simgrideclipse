@@ -1,72 +1,151 @@
 package simgrideclipseplugin.wizards;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.draw2d.ScrollPane;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.ManagedForm;
-import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import simgrideclipseplugin.graphical.SimgridIconProvider;
 import simgrideclipseplugin.model.ElementList;
 
-public class AttributeFieldFormPage extends WizardPage {
+public class AttributeFieldFormPage extends WizardPage implements Listener {
 	private String tagName;
 	private Map<String, Text> fieldMap;
-	private FormToolkit toolkit;
+	private Map<String, Button> defaultMap;
 	
 	public AttributeFieldFormPage(String tagName) {
-		super(tagName, tagName + "creation", SimgridIconProvider.getIconImageDescriptor(tagName));
+		super(tagName, tagName + " creation", SimgridIconProvider.getIconImageDescriptor(tagName));
 		this.tagName = tagName;
 		fieldMap = new HashMap<String, Text>();
+		defaultMap = new HashMap<String, Button>();
+	}
+	
+	public void init(){
+		
 	}
 
 	@Override
 	public void createControl(Composite parent) {
-		//init form
-		toolkit = new FormToolkit(parent.getDisplay());
-		ScrolledForm sform = toolkit.createScrolledForm(parent);
-		sform.setLayoutData(new GridData(GridData.FILL_BOTH));
-		ManagedForm mform = new ManagedForm(toolkit, sform);
-		ScrolledForm form = mform.getForm();
-		
-		GridLayout layout = new GridLayout();
-		form.getBody().setLayout(layout);
+		// create the composite to hold the widgets 
+		ScrolledComposite sc = new ScrolledComposite(parent, SWT.V_SCROLL | SWT.BORDER);
+		sc.setExpandHorizontal(true);
+	    sc.setExpandVertical(true);
+		Composite composite = new Composite(sc, SWT.FILL);
+		sc.setContent(composite);
+	    // create the desired layout for this wizard page
+		GridLayout gl = new GridLayout();
+	    int ncol = 3;
+	    gl.numColumns = ncol;
+	    composite.setLayout(gl);
+	    
+//	    Label l = new Label (composite, SWT.RIGHT);
+//	    l.setText("set as default");
+//	    GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+//		gd.horizontalSpan = ncol;
+//	    l.setLayoutData(gd);
 
-		//FIELDs
-		Map<String, Boolean> attrMap = ElementList.getAttributesList(tagName);
+		//create FIELDs
+		List<String> attrList = ElementList.getAttributesList(tagName);
 		//add required fields
-		for (String field: attrMap.keySet()){
-			if (attrMap.get(field)){
-				addField(field, form.getBody());
+		for (String field: attrList){
+			if (ElementList.isRequieredField(tagName, field)){
+				addField(field, composite);
 			}
-		}		
-
+		}
+		createLine(composite, ncol);
+		//add others
+		for (String field: attrList){
+			if (!ElementList.isRequieredField(tagName, field)){
+				addField(field, composite);
+			}
+		}
+		sc.setMinSize(composite.computeSize(500, SWT.DEFAULT));
+		setControl(sc);
+		updateData();
+		setPageComplete(false);
 	}
-	
+
+	private void updateData(){
+		//save data
+		CreateElementWizard wizard = (CreateElementWizard) getWizard();
+		for (String field : fieldMap.keySet()){
+			String value = fieldMap.get(field).getText();
+			wizard.attrMap.put(field,value);
+			if (isDefault(field)){
+				ElementList.setDefaultValue(tagName, field, value);
+			}
+		}
+	}
+
 	private void addField(String fieldName, Composite container){
 		
-		toolkit.createLabel(container, fieldName+":");
-		Text text = toolkit.createText(container, ElementList.getDefaultValue(tagName,fieldName));
+		new Label (container, SWT.NONE).setText(fieldName+":");
+		Text text = new Text(container,SWT.BORDER);
 		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		Button button = toolkit.createButton(container, "set as default", SWT.CHECK);
-		GridData gd = new GridData();
-		gd.verticalSpan = 2;
-		button.setLayoutData(gd);
+		
+		//set default value
+		String val = ElementList.getDefaultValue(tagName, fieldName);
+		if (val != null){
+			text.setText(val);
+		}
+		text.addListener(SWT.KeyUp, this);
 		fieldMap.put(fieldName,text);
+		
+		Button button = new Button(container, SWT.CHECK);
+		button.setText("set as default");
+		button.addListener(SWT.Selection, this);
+		defaultMap.put(fieldName, button);		
 	}
+	
+	private void createLine(Composite parent, int ncol) 
+	{
+		Label line = new Label(parent, SWT.SEPARATOR|SWT.HORIZONTAL|SWT.BOLD);
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalSpan = ncol;
+		line.setLayoutData(gridData);
+	}	
 	
 	public Map<String, Text> getFieldMap(){
 		return fieldMap;
+	}
+	
+	public boolean isDefault(String tag){
+		return defaultMap.get(tag).getSelection();
+	}
+	
+	/**
+	 * @see Listener#handleEvent(Event)
+	 */
+	public void handleEvent(Event event) {
+	    // Initialize a variable with the no error status
+//	    Status status = new Status(IStatus.OK, "not_used", 0, "", null);
+	    String error = null;
+		for (String field : fieldMap.keySet()){
+			if (fieldMap.get(field).getText().isEmpty() && ElementList.isRequieredField(tagName, field)){
+				if (error == null){
+					error = "";
+				}
+				error += ("The fields \""+field+"\" must be set\n");
+			}
+		}
+		setErrorMessage(error);
+		setPageComplete(error == null);
+		updateData();
 	}
 
 }

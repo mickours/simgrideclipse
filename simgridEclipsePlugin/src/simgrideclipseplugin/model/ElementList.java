@@ -11,13 +11,16 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.XMLReader;
 
+import com.wutka.dtd.DTD;
+import com.wutka.dtd.DTDAttribute;
+
 
 public class ElementList {
 	private static List<String> tagNameList = createTagList();
 	private static List<String> connectionList = createConnectionList();
 	private static List<String> notDrawableList = createNotDrawableList();
-	private static Map<String, Map<String,Boolean>> attributMap = createAttributMap();
 	private static Map<String,String> defaultValueMap = new HashMap<String, String>();
+	
 	public static final String PLATFORM = "platform";
 	public static final String AS = "AS";
 	public static final String AS_ROUTE = "ASroute";
@@ -41,22 +44,32 @@ public class ElementList {
 		return !notDrawableList.contains(tagName);
 	}
 	
-//	public static void setAttributesList(String tagName, List<String> attributes){
-//		attributMap.put(tagName, attributes);
-//	}
-//	
-	public static Map<String,Boolean> getAttributesList(String tagName){
-		return attributMap.get(tagName);
+	public static List<String> getAttributesList(String tagName){
+		return DtdParser.INSTANCE.getAttributesList(tagName);
+	}
+	
+	public static boolean isRequieredField(String tagName, String fieldName){
+		return DtdParser.INSTANCE.isRequieredField(tagName, fieldName);
+	}
+	
+	public static List<String> getValueList(String tagName, String fieldName){
+		return DtdParser.INSTANCE.getValueList(tagName, fieldName);
+	}
+	
+	
+	public static String getDefaultValue(String tagName, String fieldName) {
+		String val = defaultValueMap.get(tagName+"."+fieldName);
+		if (val == null){
+			val = DtdParser.INSTANCE.getDefaultValue(tagName,fieldName);
+		}
+		return val;
+	}
+	
+	public static void setDefaultValue(String tagName, String fieldName, String value) {
+		defaultValueMap.put(tagName+"."+fieldName,value);
 	}
 	
 	/** PRIVATE **/
-	
-	private static Map<String, Map<String,Boolean>> createAttributMap() {
-		//FIXME: this list should come from a local dtd if network not available
-		Map<String, Map<String,Boolean>> elementMap = DtdParser.INSTANCE.parse();
-		return elementMap;
-	}
-	
 
 	private static List<String> createConnectionList() {
 		String[] tags = {
@@ -79,18 +92,8 @@ public class ElementList {
 				AS_ROUTE,
 				HOST,ROUTER,
 				ROUTE,LINK,LINK_CTN,
-				
 				//TODO to complete
 		};
 		return Arrays.asList(tags);
 	}
-
-	public static String getDefaultValue(String tagName, String fieldName) {
-		return defaultValueMap.get(tagName+"."+fieldName);
-	}
-	
-	public static void setDefaultValue(String tagName, String fieldName, String value) {
-		defaultValueMap.put(tagName+"."+fieldName,value);
-	}
-	
 }

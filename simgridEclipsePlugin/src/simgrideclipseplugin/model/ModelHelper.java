@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.gef.EditPart;
@@ -39,7 +40,8 @@ public final class ModelHelper {
 /*******************************************/
 	
 	/**
-	 * add the child in the same tag children block
+	 * add the child in the write place
+	 * 
 	 */
 	public static void addElementChild(Node parent, Element newChild){
 		try{
@@ -63,6 +65,15 @@ public final class ModelHelper {
 		}catch (Exception e2) {
 			e2.printStackTrace();
 		}
+	}
+	
+	
+	public static Element createElement(Element anyNode, String tagName, Map<String,String> attrMap){
+		Element newElem = anyNode.getOwnerDocument().createElement(tagName);
+		for (String attr : attrMap.keySet()){
+			newElem.setAttribute(attr, attrMap.get(attr));
+		}
+		return newElem;
 	}
 	
 	public static Element createRoute(Element sourceNode, Element targetNode,
