@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +19,7 @@ import com.wutka.dtd.DTD;
 import com.wutka.dtd.DTDAttribute;
 import com.wutka.dtd.DTDDecl;
 import com.wutka.dtd.DTDElement;
+import com.wutka.dtd.DTDEnumeration;
 import com.wutka.dtd.DTDParser;
 
 public class DtdParser {
@@ -52,10 +56,12 @@ public class DtdParser {
 
 	public List<String> getValueList(String tagName, String fieldName) {
 		DTDElement e = (DTDElement) dtd.elements.get(tagName);
-		//TODO finish this!!!
-		e.getAttribute(fieldName).getType();
-		// TODO Auto-generated method stub
-		return null;
+		Object type = e.getAttribute(fieldName).getType();
+		if (type instanceof DTDEnumeration){
+			DTDEnumeration en = (DTDEnumeration)type;
+			return Arrays.asList(en.getItems());
+		}
+		return Collections.emptyList();
 	}
 
 	/** PRIVATE **/

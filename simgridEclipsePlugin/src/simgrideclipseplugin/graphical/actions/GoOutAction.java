@@ -8,7 +8,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.editors.SimgridGraphicEditor;
-import simgrideclipseplugin.graphical.SimgridIconProvider;
+import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 
 public class GoOutAction extends WorkbenchPartAction {
 

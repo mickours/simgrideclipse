@@ -7,7 +7,7 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.TitleBarBorder;
 import org.eclipse.draw2d.ToolbarLayout;
 
-import simgrideclipseplugin.graphical.SimgridIconProvider;
+import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 
 public class ElementFigure extends Figure {
 	

@@ -2,8 +2,8 @@ package simgrideclipseplugin.graphical.actions;
 
 import org.eclipse.ui.actions.RetargetAction;
 
-import simgrideclipseplugin.graphical.SimgridIconProvider;
 import simgrideclipseplugin.graphical.actions.GoOutAction;
+import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 
 public class GoOutRetargetAction extends RetargetAction {
 

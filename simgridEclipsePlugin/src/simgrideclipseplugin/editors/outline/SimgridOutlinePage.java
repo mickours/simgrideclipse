@@ -17,7 +17,7 @@ import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.editors.SimgridGraphicEditor;
-import simgrideclipseplugin.graphical.ElementLabelProvider;
+import simgrideclipseplugin.graphical.providers.ElementLabelProvider;
 import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
 import simgrideclipseplugin.model.SimgridModelListener;

@@ -4,39 +4,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.draw2d.ScrollPane;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
-import simgrideclipseplugin.graphical.SimgridIconProvider;
+import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 import simgrideclipseplugin.model.ElementList;
 
 public class AttributeFieldFormPage extends WizardPage implements Listener {
 	private String tagName;
-	private Map<String, Text> fieldMap;
+	private Map<String, Control> fieldMap;
 	private Map<String, Button> defaultMap;
 	
 	public AttributeFieldFormPage(String tagName) {
 		super(tagName, tagName + " creation", SimgridIconProvider.getIconImageDescriptor(tagName));
 		this.tagName = tagName;
-		fieldMap = new HashMap<String, Text>();
+		fieldMap = new HashMap<String, Control>();
 		defaultMap = new HashMap<String, Button>();
-	}
-	
-	public void init(){
-		
 	}
 
 	@Override
@@ -84,7 +78,7 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 		//save data
 		CreateElementWizard wizard = (CreateElementWizard) getWizard();
 		for (String field : fieldMap.keySet()){
-			String value = fieldMap.get(field).getText();
+			String value = getField(field);
 			wizard.attrMap.put(field,value);
 			if (isDefault(field)){
 				ElementList.setDefaultValue(tagName, field, value);
@@ -95,17 +89,36 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 	private void addField(String fieldName, Composite container){
 		
 		new Label (container, SWT.NONE).setText(fieldName+":");
-		Text text = new Text(container,SWT.BORDER);
-		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
-		//set default value
-		String val = ElementList.getDefaultValue(tagName, fieldName);
-		if (val != null){
-			text.setText(val);
+		List<String> valList = ElementList.getValueList(tagName, fieldName);
+		String defVal = ElementList.getDefaultValue(tagName, fieldName);
+		Control ctr;
+		if (valList.isEmpty()){
+			//it's a text field
+			Text text = new Text(container,SWT.BORDER);
+			text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			//set default value
+			if (defVal != null){
+				text.setText(defVal);
+			}
+			text.addListener(SWT.KeyUp, this);
+			ctr = text;
+
 		}
-		text.addListener(SWT.KeyUp, this);
-		fieldMap.put(fieldName,text);
-		
+		else{
+			//it's a combo box
+			Combo cmb = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
+			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+			gd.horizontalAlignment = GridData.BEGINNING;
+			cmb.setLayoutData(gd);
+			cmb.setItems(valList.toArray(new String[0]));
+			//set default value
+			if (defVal != null){
+				cmb.setText(defVal);
+			}
+			cmb.addListener(SWT.Selection, this);
+			ctr = cmb;
+		}
+		fieldMap.put(fieldName,ctr);
 		Button button = new Button(container, SWT.CHECK);
 		button.setText("set as default");
 		button.addListener(SWT.Selection, this);
@@ -120,10 +133,6 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 		line.setLayoutData(gridData);
 	}	
 	
-	public Map<String, Text> getFieldMap(){
-		return fieldMap;
-	}
-	
 	public boolean isDefault(String tag){
 		return defaultMap.get(tag).getSelection();
 	}
@@ -132,11 +141,9 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 	 * @see Listener#handleEvent(Event)
 	 */
 	public void handleEvent(Event event) {
-	    // Initialize a variable with the no error status
-//	    Status status = new Status(IStatus.OK, "not_used", 0, "", null);
 	    String error = null;
 		for (String field : fieldMap.keySet()){
-			if (fieldMap.get(field).getText().isEmpty() && ElementList.isRequieredField(tagName, field)){
+			if (getField(field).isEmpty() && ElementList.isRequieredField(tagName, field)){
 				if (error == null){
 					error = "";
 				}
@@ -146,6 +153,17 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 		setErrorMessage(error);
 		setPageComplete(error == null);
 		updateData();
+	}
+	
+	private String getField(String fieldName){
+		Control c = fieldMap.get(fieldName);
+		if (c instanceof Combo){
+			Combo combo = (Combo)c;
+			return combo.getItem(combo.getSelectionIndex());
+		}
+		else{ //(c instanceof Text){
+			return ((Text)c).getText();
+		}
 	}
 
 }

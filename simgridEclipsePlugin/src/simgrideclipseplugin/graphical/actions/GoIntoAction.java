@@ -6,8 +6,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IWorkbenchPart;
 
-import simgrideclipseplugin.graphical.SimgridIconProvider;
 import simgrideclipseplugin.graphical.parts.ASEditPart;
+import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 
 public class GoIntoAction extends SelectionAction{
 

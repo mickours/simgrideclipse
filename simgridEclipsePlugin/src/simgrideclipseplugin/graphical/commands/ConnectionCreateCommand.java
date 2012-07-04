@@ -1,6 +1,5 @@
 package simgrideclipseplugin.graphical.commands;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +11,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.w3c.dom.Element;
 
-import simgrideclipseplugin.graphical.CreateElementFormDialog;
 import simgrideclipseplugin.graphical.ListSelectionDialog;
 import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
@@ -41,44 +39,18 @@ public class ConnectionCreateCommand extends Command {
     public void execute() {
     	boolean isOk;
     	//create the route and set links
-    	if (!parent.getAttribute("routing").equals("Full")){
-    		//the link is unique
-
-    		CreateElementWizard wizard = new CreateElementWizard(ElementList.LINK);
-    		WizardDialog dialog = new WizardDialog(shell, wizard);
-	        dialog.create();
-	    	dialog.open();
-	    	isOk = dialog.getReturnCode()== Window.OK;
-	    	if (isOk){
-	    		route = ModelHelper.createRoute(sourceNode, targetNode, connectionType);
-	    		Map<String, String> map = wizard.attrMap;
-	    		String id = map.get("id");
-	    		String bw = map.get("bandwidth");
-	    		String lat = map.get("latency");
-	    		ModelHelper.createAndAddLink(route,id,bw,lat);
-	    	}
-    	}else{
-    		//TODO show a dialog to select and order links
-    		ElementListSelectionDialog ld = new ListSelectionDialog(shell);
-    		List<Element> links = ModelHelper.getLinks(sourceNode);
-    		if (links.isEmpty()){
-    			MessageBox msgB = new MessageBox(shell);
-    			msgB.setMessage("You must have at least one link available in this AS");
-    			msgB.open();
-    			isOk = false;
-    		}
-    		else{
-	    		ld.setElements(links.toArray());
-	    		ld.open();
-	    		isOk = ld.getReturnCode()== Window.OK;
-		    	if ( isOk){
-	    			route = ModelHelper.createRoute(sourceNode, targetNode, connectionType);
-	    			for (Object link : ld.getResult()){
-	    				ModelHelper.addLink(route, (Element) link);
-	    			}
-	    		}
-    		}
+		CreateElementWizard wizard = new CreateElementWizard(connectionType);
+		wizard.setSourceNode(sourceNode);
+		wizard.setTargetNode(targetNode);
+		wizard.setFullRouting(parent.getAttribute("routing").equals("Full"));
+		WizardDialog dialog = new WizardDialog(shell, wizard);
+        dialog.create();
+    	dialog.open();
+    	isOk = dialog.getReturnCode()== Window.OK;
+    	if (isOk){
+    		route = wizard.createdElement;
     	}
+    	
     	//set gateway
     	if (isOk && connectionType.equals(ElementList.AS_ROUTE)){
     		setSourceGateway();
@@ -92,7 +64,7 @@ public class ConnectionCreateCommand extends Command {
 	}
 
 	private void setSourceGateway() {
-		setGateway(sourceNode,"gw_src");
+		setGateway(sourceNode,"gw_src"); 
 		
 	}
 

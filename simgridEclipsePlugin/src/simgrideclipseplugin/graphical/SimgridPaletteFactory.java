@@ -9,7 +9,8 @@ import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.SelectionToolEntry;
-import simgrideclipseplugin.graphical.ElementCreationToolEntryProvider;
+
+import simgrideclipseplugin.graphical.providers.ElementCreationToolEntryProvider;
 
 import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.SimgridRules;

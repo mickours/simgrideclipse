@@ -6,7 +6,7 @@ import org.eclipse.ui.IEditorPart;
 
 import simgrideclipseplugin.editors.SimgridGraphicEditor;
 import simgrideclipseplugin.graphical.AutomaticGraphLayoutHelper;
-import simgrideclipseplugin.graphical.SimgridIconProvider;
+import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 
 public class AutoLayoutAction extends EditorPartAction{
 	

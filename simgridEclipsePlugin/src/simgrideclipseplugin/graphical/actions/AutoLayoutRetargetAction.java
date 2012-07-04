@@ -3,7 +3,7 @@ package simgrideclipseplugin.graphical.actions;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.RetargetAction;
 
-import simgrideclipseplugin.graphical.SimgridIconProvider;
+import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 
 public class AutoLayoutRetargetAction extends RetargetAction {
 	

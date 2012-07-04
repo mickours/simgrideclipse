@@ -87,13 +87,8 @@ public final class ModelHelper {
 		return route;
 	}
 	
-	public static void createAndAddLink(Element route,String id, String bandwidth, String latency){
-		Document doc = route.getOwnerDocument();
-		//create the link
-		Element link = doc.createElement(ElementList.LINK);
-		link.setAttribute("id", id);
-		link.setAttribute("bandwidth", bandwidth);
-		link.setAttribute("latency", latency);
+	public static void createAndAddLink(Element route,Map<String,String> attrMap){
+		Element link = createElement(route,ElementList.LINK,attrMap);
 		insertAtFirst(route.getParentNode(),link);
 		//add it to the route
 		addLink(route,link);
