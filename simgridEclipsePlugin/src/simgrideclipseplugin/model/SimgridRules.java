@@ -1,7 +1,10 @@
 package simgrideclipseplugin.model;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import simgrideclipseplugin.wizards.CreateElementWizard;
 
 /**
  * define the internal rules of Simgrid
@@ -14,31 +17,29 @@ public final class SimgridRules {
 	 * return true if this type of route is allowed to be connected to
 	 * this element
 	 * @param element
-	 * @param type
-	 * @return
+	 * @param connType the tag name of the connection 
+	 * @see ElementList ElementList to find the connection type
 	 */
-	public static boolean isAllowedConnection(Element element, String type) {
+	public static boolean isAllowedConnection(Element element, String connType) {
+		if (parentDontAcceptRoute(element)){
+			return false;
+		}
 		String node = element.getTagName();
-		if (type.equals(ElementList.AS_ROUTE) && isASLike(node)){
+		if ( isASLikeConnection(connType) && isASLike(node)){
 			return true;
 		}
-		if (type.equals(ElementList.ROUTE) && isHostLike(node)){
+		if ( isHostLikeConnection(connType) && isHostLike(node)){
 			return true;
 		}
 		return false;
 	}
 	
-	public static boolean isASLike(String tag){
-		return (tag.equals(ElementList.AS) ||
-				tag.equals(ElementList.CLUSTER) ||
-				tag.equals(ElementList.PEER));
-	}
-	
-	public static boolean isHostLike(String tag){
-		return (tag.equals(ElementList.HOST) ||
-				tag.equals(ElementList.ROUTER));
-	}
-
+	/**
+	 * return true if the element of tag name </code>childType</code> can be
+	 * added to this parent element
+	 * @param childType the tag name of the child @see "ElementList"
+	 * @return
+	 */
 	public static boolean isAllowedElementAdd(Element parent, String childType) {
 		if (isASLike(childType)){
 			NodeList nl = parent.getChildNodes();
@@ -59,5 +60,53 @@ public final class SimgridRules {
 			}
 		}
 		return true;
+	}
+	
+	public static boolean isASLike(String tag){
+		return (tag.equals(ElementList.AS) ||
+				tag.equals(ElementList.CLUSTER) ||
+				tag.equals(ElementList.PEER));
+	}
+	
+	public static boolean isHostLike(String tag){
+		return (tag.equals(ElementList.HOST) ||
+				tag.equals(ElementList.ROUTER));
+	}
+	
+	public static boolean isASLikeConnection(String tag){
+		return (tag.equals(ElementList.AS_ROUTE) ||
+				tag.equals(ElementList.BYPASS_AS_ROUTE));
+	}
+	
+	public static boolean isHostLikeConnection(String tag){
+		return (tag.equals(ElementList.ROUTE) ||
+				tag.equals(ElementList.BYPASS_ROUTE));
+	}
+	
+	/**
+	 * return true if the tag named an Element that needs a wizard editor to be created 
+	 * @see CreateElementWizard the creation wizard
+	 * @see ElementList ElementList: contains the list of tag constant
+	 */
+	public static boolean needEdition(String tag) {
+		return (tag.equals(ElementList.HOST) ||
+				tag.equals(ElementList.CLUSTER) ||
+				tag.equals(ElementList.PEER));
+	}
+	
+	public static boolean parentDontAcceptRoute(Node element){
+		Element parent = (Element) element.getParentNode();
+		String routing = parent.getAttribute("routing");
+		return isAllowingRoute(routing);
+	}
+
+	public static boolean isAllowingRoute(String routing){
+		if (routing.equals("None")
+	    		||routing.equals("Vivaldi")
+	    		||routing.equals("Cluster")
+	    		||routing.equals("RuleBased")){
+			return true;
+		}
+		return false;
 	}
 }

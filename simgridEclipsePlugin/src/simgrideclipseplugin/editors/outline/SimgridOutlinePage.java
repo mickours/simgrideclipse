@@ -1,11 +1,6 @@
 package simgrideclipseplugin.editors.outline;
 
 
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.ui.parts.GraphicalEditor;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
@@ -14,11 +9,9 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
-import org.w3c.dom.Element;
 
 import simgrideclipseplugin.editors.SimgridGraphicEditor;
 import simgrideclipseplugin.graphical.providers.ElementLabelProvider;
-import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
 import simgrideclipseplugin.model.SimgridModelListener;
 
@@ -30,7 +23,6 @@ public class SimgridOutlinePage extends ContentOutlinePage //implements IPropert
 	private OutlineContentProvider outlineContentProvider;
 	private LabelProvider outlineLabelProvider;
 	private StructuredTextEditor editor;
-	private SimgridGraphicEditor graphEditor;
 
 	public SimgridOutlinePage(StructuredTextEditor editor, SimgridGraphicEditor graphEditor)
 	{

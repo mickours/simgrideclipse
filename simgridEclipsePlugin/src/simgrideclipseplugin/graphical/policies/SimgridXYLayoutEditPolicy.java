@@ -8,6 +8,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.swt.widgets.Shell;
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.commands.AddElementCommand;
@@ -23,7 +24,8 @@ public class SimgridXYLayoutEditPolicy extends XYLayoutEditPolicy implements
 		String type = request.getNewObjectType().toString();
 		Element parent = ((Element)getHost().getModel());
 		Point position = ((Rectangle)getConstraintFor(request)).getLocation();
-		cmd = new AddElementCommand(parent,type,position);
+		Shell shell = getHost().getViewer().getControl().getShell();
+		cmd = new AddElementCommand(parent,type,position,shell);
 		return cmd;
 	}
 

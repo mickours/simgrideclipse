@@ -9,9 +9,24 @@ import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.commands.ConnectionCreateCommand;
 import simgrideclipseplugin.graphical.commands.ConnectionReconnectCommand;
+import simgrideclipseplugin.model.SimgridRules;
 
 public class ConnectionPolicy extends GraphicalNodeEditPolicy {
-
+	
+	@Override
+	protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
+		Element sourceNode = (Element) getHost().getModel();
+		String type = request.getNewObjectType().toString();
+		ConnectionCreateCommand cmd = null;
+		if (SimgridRules.isAllowedConnection(sourceNode, type)){
+			cmd = new ConnectionCreateCommand();
+			cmd.setConnectionType(type);
+			cmd.setSourceNode(sourceNode);
+			request.setStartCommand(cmd);
+		}
+		return cmd;
+	}
+	
 	@Override
 	protected Command getConnectionCompleteCommand(
 			CreateConnectionRequest request) {
@@ -23,17 +38,6 @@ public class ConnectionPolicy extends GraphicalNodeEditPolicy {
 		cmd.setShell(shell);
 		Element parent = (Element) targetNode.getParentNode();
 		cmd.setParent(parent);
-		return cmd;
-	}
-
-	@Override
-	protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
-		Element sourceNode = (Element) getHost().getModel();
-		String type = request.getNewObjectType().toString();
-		ConnectionCreateCommand cmd = new ConnectionCreateCommand();
-		cmd.setConnectionType(type);
-		cmd.setSourceNode(sourceNode);
-		request.setStartCommand(cmd);
 		return cmd;
 	}
 

@@ -2,10 +2,8 @@ package simgrideclipseplugin.graphical.commands;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 
-import simgrideclipseplugin.graphical.ElementPositionMap;
 import simgrideclipseplugin.graphical.parts.AbstractElementEditPart;
 
 public class ChangeLayoutConstraintCommand extends Command {

@@ -13,8 +13,8 @@
    height="32px"
    id="svg2985"
    version="1.1"
-   inkscape:version="0.48.1 r9760"
-   sodipodi:docname="Nouveau document 2">
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="ASroute.svg">
   <defs
      id="defs2987" />
   <sodipodi:namedview
@@ -24,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.395604"
-     inkscape:cx="9.2395471"
-     inkscape:cy="16.797435"
+     inkscape:zoom="11.197802"
+     inkscape:cx="-2.6077237"
+     inkscape:cy="14.855587"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -44,7 +44,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -55,13 +55,13 @@
     <rect
        style="fill:#000000"
        id="rect3763"
-       width="1.3155912"
-       height="29.710436"
-       x="21.711227"
-       y="-14.035425"
-       rx="1.6318765"
-       ry="0.81053901"
-       transform="matrix(0.77918567,0.62679318,-0.62679318,0.77918567,0,0)" />
+       width="1.6628474"
+       height="35.883659"
+       x="22.00943"
+       y="-14.633662"
+       rx="2.0626175"
+       ry="0.97895253"
+       transform="matrix(0.83897813,0.54416514,-0.70628124,0.70793136,0,0)" />
     <path
        sodipodi:type="star"
        style="fill:#000000"
@@ -79,6 +79,13 @@
        d="M 12.547105,23.516191 10.538526,26.997729 8.527715,23.51748 z"
        inkscape:transform-center-x="-0.52781104"
        inkscape:transform-center-y="-0.29906225"
-       transform="matrix(0.95656278,0.76947902,-0.76947902,0.95656278,16.100818,-4.9667908)" />
+       transform="matrix(0.95656278,0.76947902,-0.76947902,0.95656278,12.617991,-3.6272422)" />
+    <rect
+       style="fill:#008000;stroke:none"
+       id="rect2984"
+       width="22.147203"
+       height="4.7777233"
+       x="5.0902848"
+       y="13.157016" />
   </g>
 </svg>

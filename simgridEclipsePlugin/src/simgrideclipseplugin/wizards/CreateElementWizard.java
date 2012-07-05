@@ -9,6 +9,7 @@ import org.w3c.dom.Element;
 
 import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
+import simgrideclipseplugin.model.SimgridRules;
 
 public class CreateElementWizard extends Wizard {
 
@@ -20,11 +21,12 @@ public class CreateElementWizard extends Wizard {
 	public Map<String, String> attrMap;
 	public Element createdElement;
 	public List<Element> linkList;
+	public Element selectedSrcGw, selectedDstGw;
 	
 	private Element sourceNode;
 	private Element targetNode;
 	private boolean fullRouting;
-	
+	private Element parent;
 	
 	public CreateElementWizard(String tagName) {
 		super();
@@ -46,10 +48,12 @@ public class CreateElementWizard extends Wizard {
 				addPage(fieldPage);
 			}
 			//set gateway 
-//			if (tagName.equals(ElementList.AS_ROUTE)){
-//				gwPage = new GatewaySelectionPage();
-//				addPage(gwPage);
-//			}
+			if (SimgridRules.isASLikeConnection(tagName)){
+				List<Element> srcRouter = ModelHelper.getRouters(sourceNode);
+				List<Element> dstRouter = ModelHelper.getRouters(targetNode);
+				gwPage = new GatewaySelectionPage(srcRouter,dstRouter);
+				addPage(gwPage);
+			}
 		}
 		else{
 			fieldPage = new AttributeFieldFormPage(tagName);
@@ -60,8 +64,8 @@ public class CreateElementWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		//assert  sourceNode != null && targetNode != null
 		if (ElementList.isConnection(tagName)){
+			//assert  sourceNode != null && targetNode != null
 			createdElement = ModelHelper.createRoute(sourceNode, targetNode, tagName);
 			//create links
 			if (fullRouting){
@@ -73,10 +77,14 @@ public class CreateElementWizard extends Wizard {
 				ModelHelper.createAndAddLink(createdElement,attrMap);
 			}
 			//create gateway 
-			if (tagName.equals(ElementList.AS_ROUTE)){
-				gwPage = new GatewaySelectionPage();
-				addPage(gwPage);
+			if (SimgridRules.isASLikeConnection(tagName)){
+				String id = ModelHelper.getGatewayId(selectedSrcGw);
+				createdElement.setAttribute("gw_src", id);
+				id = ModelHelper.getGatewayId(selectedDstGw);
+				createdElement.setAttribute("gw_dst", id);
 			}
+		}else{
+			createdElement = ModelHelper.createElement(tagName, attrMap);
 		}
 		return true;
 	}
@@ -93,5 +101,8 @@ public class CreateElementWizard extends Wizard {
 		this.fullRouting= fullRouting; 
 	}
 	
+	public void setParent(Element parent) {
+		this.parent = parent;
+	}
 	
 }

@@ -2,6 +2,7 @@ package simgrideclipseplugin.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,6 @@ import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.xml.core.internal.document.TextImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.format.FormatProcessorXML;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -27,13 +27,15 @@ import simgrideclipseplugin.editors.SimgridGraphicEditor;
 
 //import simgrideclipseplugin.editors.properties.ElementPropertySource;
 
-/*
+/**
  * Help to access WST internal model and hide it to avoid restriction warnings
  */
 @SuppressWarnings("restriction")
 public final class ModelHelper {
 	
 	private final static FormatProcessorXML formatProcessor = new FormatProcessorXML();
+	private static IDOMModel model;
+	private static Map<String,Integer> numIDMap = new HashMap<String,Integer>();
 	
 /*******************************************/	
 /*****   CREATION/DELETION FUNCTIONS  ******/
@@ -45,6 +47,7 @@ public final class ModelHelper {
 	 */
 	public static void addElementChild(Node parent, Element newChild){
 		try{
+			model.aboutToChangeModel();
 			//find the block
 			Element firstChild = getFirstElementByTag(parent, newChild.getTagName());
 			if (firstChild != null){
@@ -62,16 +65,19 @@ public final class ModelHelper {
 				parent.insertBefore(newChild,child);
 			}
 			formatProcessor.formatNode(parent);
+			model.changedModel();
 		}catch (Exception e2) {
 			e2.printStackTrace();
 		}
 	}
 	
 	
-	public static Element createElement(Element anyNode, String tagName, Map<String,String> attrMap){
-		Element newElem = anyNode.getOwnerDocument().createElement(tagName);
+	public static Element createElement(String tagName, Map<String,String> attrMap){
+		Element newElem = model.getDocument().createElement(tagName);
 		for (String attr : attrMap.keySet()){
-			newElem.setAttribute(attr, attrMap.get(attr));
+			if (!attrMap.get(attr).isEmpty()){
+				newElem.setAttribute(attr, attrMap.get(attr));
+			}
 		}
 		return newElem;
 	}
@@ -88,7 +94,7 @@ public final class ModelHelper {
 	}
 	
 	public static void createAndAddLink(Element route,Map<String,String> attrMap){
-		Element link = createElement(route,ElementList.LINK,attrMap);
+		Element link = createElement(ElementList.LINK,attrMap);
 		insertAtFirst(route.getParentNode(),link);
 		//add it to the route
 		addLink(route,link);
@@ -116,11 +122,39 @@ public final class ModelHelper {
 		}		
 	}
 	
+	public static String createId(String type){
+		String newId;
+		if (numIDMap.get(type) == null){
+			numIDMap.put(type, 0);
+		}
+		int idNum = numIDMap.get(type);
+		newId = type+idNum;
+		//increment for next one
+		numIDMap.put(type,++idNum);
+		
+		//verify uniqueness of id for this type
+		String saveId;
+		List<Element> ndl = nodeListToElementList(model.getDocument().getElementsByTagName(type));
+		do{
+			saveId = newId;
+			for(Element n : ndl){
+				if (n.getAttribute("id").equals(newId)){
+					idNum = numIDMap.get(type);
+					newId = type+idNum;
+					//increment for next one
+					numIDMap.put(type,++idNum);
+				}
+			}
+		}while (!saveId.equals(newId));
+		return newId;
+	}
+	
 	/**
 	 * remove the element from the document
 	 * @param e
 	 */
 	public static void removeElement(Element e) {
+		model.aboutToChangeModel();
 		Node parent = e.getParentNode();
 		parent.removeChild(e);
 		//FIXME : find node that doesn't contains anything and remove them
@@ -129,19 +163,18 @@ public final class ModelHelper {
 		while(child != null){
 			next = child.getNextSibling();
 			if (child instanceof TextImpl && 
+					//TODO find a good regexp
 					(child.getTextContent().startsWith("\n\t\n")
 							|| child.getTextContent().startsWith("\n\n"))){
 				parent.removeChild(child);
 			}
 			child = next;
 		}
+		model.changedModel();
 	}
 	
 	/**
 	 * restore the route with the related links
-	 * @param parent
-	 * @param route
-	 * @param links
 	 */
 	public static void restoreRoute(Node parent,Element route,List<Element> links) {
 		//add links
@@ -154,7 +187,7 @@ public final class ModelHelper {
 	
 	/**
 	 * remove the route and handle the related link deletion
-	 * @param route
+	 * @return a list of the deleted links during the deletion
 	 */
 	public static List<Element> removeRoute(Element route) {
 		//remove the links
@@ -224,6 +257,7 @@ public final class ModelHelper {
 		if (!(model instanceof IDOMModel)) {
 			throw new Exception("Model getted is not DOM Model!!!");
 		}
+		ModelHelper.model = (IDOMModel) model;
 		return (IDOMModel) model;
 	}
 	
@@ -253,6 +287,39 @@ public final class ModelHelper {
         return l;
 	}
 	
+	/**
+	 * return the gateway id according to his node type or null
+	 * @param node contains the router. Works for different node type :
+	 *  <ul>
+	 *  <li>CLUSTER</li>
+	 *  <li>PEER</li>
+	 *  <li>AS (if it contains only one router)</li>
+	 *  <li>ROUTER</li>
+	 *  </ul>
+	 *  @see ElementList ElementList to find the node types
+	 * @return
+	 */
+	public static String getGatewayId(Element node) {
+		String gw = null;
+		if (node.getTagName().equals(ElementList.CLUSTER)){
+			String prefix = node.getAttribute("prefix");
+			String suffix = node.getAttribute("suffix");
+			gw = prefix + "router_" + suffix;
+		}else if (node.getTagName().equals(ElementList.PEER)){
+			//TODO add the peer gateway
+		}
+		else if (node.getTagName().equals(ElementList.AS)){
+			List<Element> routers = ModelHelper.getRouters(node);
+			if (routers.size() == 1){
+				gw = routers.get(0).getAttribute("id");
+			}
+		}
+		else if (node.getTagName().equals(ElementList.ROUTER)){
+			gw = node.getAttribute("id");
+		}
+		return gw;
+	}
+	
 //	public static IPropertySource getPropertySource(Object node){
 //		if (node instanceof IDOMNode) {
 //			INodeNotifier source = (INodeNotifier) node;
@@ -279,14 +346,6 @@ public final class ModelHelper {
 		}
 		return e;
 	}
-	
-//	public static int getStartOffset(Element e){
-//		return ((ElementImpl)e).getStartOffset();
-//	}
-//	
-//	public static int getLength(Element e){
-//		return ((ElementImpl)e).getLength();
-//	}
 	
 	public static List<Element> nodeListToElementList(NodeList toConvert){
 		List<Element> elemList = new LinkedList<Element>();
@@ -380,6 +439,7 @@ public final class ModelHelper {
 	
 	/**
 	 * return the first element whose got this tag name in this container
+	 * or null
 	 */
 	private static Element getFirstElementByTag(Node parent, String tag){
 		NodeList nl = parent.getChildNodes();
@@ -396,9 +456,11 @@ public final class ModelHelper {
 	
 	private static void insertAtLast(Node parent, Element newChild){
 		try{
+			model.aboutToChangeModel();
 			parent.insertBefore(newChild, null);
 			//format sources
 			formatProcessor.formatNode(parent);
+			model.changedModel();
 		}catch (Exception e2) {
 			e2.printStackTrace();
 		}
@@ -406,9 +468,11 @@ public final class ModelHelper {
 	
 	private static void insertAtFirst(Node parent, Element child) {
 		try{
+			model.aboutToChangeModel();
 			parent.insertBefore(child, parent.getFirstChild());
 			//format sources
 			formatProcessor.formatNode(parent);
+			model.changedModel();
 		}catch (Exception e2) {
 			e2.printStackTrace();
 		}
@@ -421,12 +485,18 @@ public final class ModelHelper {
 	}
 	
 
-	
+	/**
+	 * return the element corresponding to this id or null in the entire document
+	 */
 	private static Element getElementbyId(Node anyNode, String id){
 		Element root = anyNode.getOwnerDocument().getDocumentElement();
 		return getSubElementbyId(root,id);
 	}
 	
+	/**
+	 * return the element corresponding to this id or null in the sub tree
+	 * determine by the current node
+	 */
 	private static Element getSubElementbyId(Element current, String id){
 		if (getId(current).equals(id)){
 			return current;
@@ -440,14 +510,30 @@ public final class ModelHelper {
 		return null;
 	}
 	
+	/**
+	 * return the list of the connection related to the model element 
+	 * as a source or a destination
+	 * @param model: a connectable node
+	 * @param type : the type must be "src" or "dst"
+	 * @return
+	 */
 	private static List<Element> getConnections(Element model, String type){
-		//TODO look for route or ASroute according to the model type
-		NodeList nlAS = model.getOwnerDocument().getElementsByTagName(ElementList.AS_ROUTE);
-		NodeList nl = model.getOwnerDocument().getElementsByTagName(ElementList.ROUTE);
-		
+		//look for route or ASroute according to the model type
 		List<Element> routeList = new ArrayList<Element>();
-		routeList.addAll(nodeListToElementList(nl));
-		routeList.addAll(nodeListToElementList(nlAS));
+		NodeList nlRoute;
+		NodeList nlBPRoute;
+		if (SimgridRules.isASLike(model.getTagName())){
+			nlRoute = model.getOwnerDocument().getElementsByTagName(ElementList.AS_ROUTE);
+			nlBPRoute = model.getOwnerDocument().getElementsByTagName(ElementList.BYPASS_AS_ROUTE);
+			
+		}
+		else{
+			nlRoute = model.getOwnerDocument().getElementsByTagName(ElementList.ROUTE);
+			nlBPRoute = model.getOwnerDocument().getElementsByTagName(ElementList.BYPASS_ROUTE);
+			
+		}
+		routeList.addAll(nodeListToElementList(nlRoute));
+		routeList.addAll(nodeListToElementList(nlBPRoute));
 		
 		String id = getId(model);
 		List<Element> connected = new LinkedList<Element>();

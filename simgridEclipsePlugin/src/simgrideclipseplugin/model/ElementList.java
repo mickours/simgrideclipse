@@ -6,15 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.XMLReader;
-
-import com.wutka.dtd.DTD;
-import com.wutka.dtd.DTDAttribute;
-
-
+/**
+ * Contains the Element static constant names,
+ * and some function concerning the Elements and their Attributes
+ * @author Michael Mercier 
+ *
+ */
 public class ElementList {
 	private static List<String> tagNameList = createTagList();
 	private static List<String> connectionList = createConnectionList();
@@ -31,6 +28,8 @@ public class ElementList {
 	public static final String ROUTER = "router";
 	public static final String LINK = "link";
 	public static final String LINK_CTN = "link_ctn";
+	public static final String BYPASS_AS_ROUTE = "bypassASroute";
+	public static final String BYPASS_ROUTE = "bypassRoute";
 	
 	public static List<String> getElementTagNameList() {
 		return new ArrayList<String>(tagNameList);
@@ -38,6 +37,10 @@ public class ElementList {
 	
 	public static boolean isConnection(String tagName){
 		return connectionList.contains(tagName);
+	}
+	
+	public static List<String> getConnectionList(){
+		return new ArrayList<String>(connectionList);
 	}
 	
 	public static boolean isDrawable(String tagName){
@@ -62,6 +65,9 @@ public class ElementList {
 		if (val == null){
 			val = DtdParser.INSTANCE.getDefaultValue(tagName,fieldName);
 		}
+		if (val == null && fieldName.equals("id")){
+			val = ModelHelper.createId(tagName);
+		}
 		return val;
 	}
 	
@@ -73,8 +79,8 @@ public class ElementList {
 
 	private static List<String> createConnectionList() {
 		String[] tags = {
-				ROUTE,
-				AS_ROUTE
+				ROUTE,BYPASS_ROUTE,
+				AS_ROUTE,BYPASS_AS_ROUTE,
 		};
 		return Arrays.asList(tags);
 	}
@@ -89,9 +95,10 @@ public class ElementList {
 	private static List<String> createTagList() {
 		String[] tags = {
 				AS,CLUSTER,PEER,
-				AS_ROUTE,
+				AS_ROUTE,BYPASS_AS_ROUTE,
 				HOST,ROUTER,
-				ROUTE,LINK,LINK_CTN,
+				ROUTE,BYPASS_ROUTE,
+				LINK,LINK_CTN,
 				//TODO to complete
 		};
 		return Arrays.asList(tags);

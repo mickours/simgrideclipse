@@ -8,15 +8,11 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import com.wutka.dtd.DTD;
-import com.wutka.dtd.DTDAttribute;
 import com.wutka.dtd.DTDDecl;
 import com.wutka.dtd.DTDElement;
 import com.wutka.dtd.DTDEnumeration;
@@ -35,9 +31,9 @@ public class DtdParser {
 	
 	public List<String> getAttributesList(String tagName){
 		DTDElement e = (DTDElement) dtd.elements.get(tagName);
-		List<String> attrList = new LinkedList<String>();
+		LinkedList<String> attrList = new LinkedList<String>();
 		for (Object attr : e.attributes.keySet()) {
-			attrList.add((String) attr);
+			attrList.addFirst((String) attr);
 		}
 		return attrList;
 	}

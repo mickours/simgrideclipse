@@ -9,7 +9,7 @@ public class GoOutRetargetAction extends RetargetAction {
 
 	public GoOutRetargetAction(){
 		super(GoOutAction.ID,GoOutAction.TEXT);
-		setToolTipText(GoOutAction.TOOL_TIP);
+		setToolTipText(GoOutAction.TOOL_TIP_TEXT);
 		setImageDescriptor(SimgridIconProvider.getIconImageDescriptor(GoOutAction.ID));
 	}
 }

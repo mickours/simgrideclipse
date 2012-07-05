@@ -38,7 +38,6 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import simgrideclipseplugin.graphical.AutomaticGraphLayoutHelper;
 import simgrideclipseplugin.graphical.SimgridPaletteFactory;
 import simgrideclipseplugin.graphical.actions.AutoLayoutAction;
 import simgrideclipseplugin.graphical.actions.GoIntoAction;
@@ -46,7 +45,6 @@ import simgrideclipseplugin.graphical.actions.GoOutAction;
 import simgrideclipseplugin.graphical.parts.SimgridEditPartFactory;
 import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
-import simgrideclipseplugin.model.SimgridRules;
 
 @SuppressWarnings("restriction")
 public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {

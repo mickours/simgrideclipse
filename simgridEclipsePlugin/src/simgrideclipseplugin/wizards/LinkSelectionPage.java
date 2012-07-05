@@ -98,6 +98,7 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 		gd.horizontalSpan = (ncol/2)+1;
 	    c.setLayoutData(gd);
 	    
+	    //TODO add a new link button
 //	    c = new Composite(composite, SWT.NONE);
 //		c.setLayout(new GridLayout(2,true));
 //		plus =  new Button(c, SWT.PUSH);
@@ -110,6 +111,10 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 	    
 	    parent.pack();
 	    setControl(composite);
+	    setPageComplete(false);
+	    if (availableLinks.isEmpty()){
+	    	setErrorMessage("you must have at least one link in this container or in his descendants");
+	    }
 	}
 
 	@Override
@@ -150,6 +155,15 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 			}
 		}
 		((CreateElementWizard)getWizard()).linkList = routeList;
+		
+		boolean isComplete = routeList.size() > 0;
+		if(isComplete){
+			setErrorMessage(null);
+		}
+		else{
+			setErrorMessage("Your route must contains at least one link");
+		}
+		setPageComplete(isComplete);
 	}
 	
 	private void updateUI(){

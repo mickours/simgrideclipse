@@ -40,15 +40,17 @@ public class GraphicalEditorActionBarContributor extends ActionBarContributor {
 	@Override
 	  public void contributeToToolBar(IToolBarManager toolBarManager) {
 	    super.contributeToToolBar(toolBarManager);
+	    toolBarManager.add(getAction(GoOutAction.ID));
+	    toolBarManager.add(getAction(GoIntoAction.ID));
+	    toolBarManager.add(new Separator());
 	    toolBarManager.add(getAction(ActionFactory.UNDO.getId()));
 	    toolBarManager.add(getAction(ActionFactory.REDO.getId()));
+	    toolBarManager.add(new Separator());
 	    toolBarManager.add(getAction(ActionFactory.DELETE.getId()));
 	    toolBarManager.add(new Separator());
 	    toolBarManager.add(getAction(AutoLayoutAction.ID));
 	    toolBarManager.add(new ZoomComboContributionItem(getPage()));
-	    toolBarManager.add(new Separator());
-	    toolBarManager.add(getAction(GoIntoAction.ID));
-	    toolBarManager.add(getAction(GoOutAction.ID));
+	    
 	 }
 
 	@Override

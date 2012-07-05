@@ -30,6 +30,7 @@ public class SimgridPaletteFactory {
 		}
 		asDrawer.add(new PaletteSeparator());
 		addComponent(asDrawer,ElementList.AS_ROUTE);
+		addComponent(asDrawer,ElementList.BYPASS_AS_ROUTE);
 		grp.add(asDrawer);
 
 		// Creation tool for HostLike Element
@@ -40,8 +41,9 @@ public class SimgridPaletteFactory {
 				addComponent(hostDrawer,tagName);
 			}
 		}
-		hostDrawer.add(new PaletteSeparator("Host like route"));
+		hostDrawer.add(new PaletteSeparator());
 		addComponent(hostDrawer,ElementList.ROUTE);
+		addComponent(hostDrawer,ElementList.BYPASS_ROUTE);
 		grp.add(hostDrawer);
 
 		return grp;
