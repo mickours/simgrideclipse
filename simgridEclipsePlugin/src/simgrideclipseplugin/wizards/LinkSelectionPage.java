@@ -37,6 +37,7 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 	private Button up;
 	private Button down;
 	private Button plus;
+	private Button edit;
 
 	public LinkSelectionPage(java.util.List<Element> list, Element refNode) {
 		super("Route editing", "Route editing", SimgridIconProvider.getIconImageDescriptor(ElementList.LINK_CTN));
@@ -94,13 +95,16 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 		gridData.widthHint = listWidth;
 		availableLinkViewer.getTable().setLayoutData(gridData);
 	    
-		//down buttons
+		//up down buttons
 		Composite c = new Composite(composite, SWT.NONE);
-		c.setLayout(new GridLayout(2,true));
+		c.setLayout(new GridLayout(3,false));
 		up =  new Button(c, SWT.ARROW | SWT.UP);
 		up.addListener(SWT.Selection, this);
 	    down = new Button(c, SWT.ARROW | SWT.DOWN);
 	    down.addListener(SWT.Selection, this);
+	    edit = new Button(c,SWT.PUSH);
+	    edit.setText("edit");
+	    edit.addListener(SWT.Selection, this);
 	    gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = (ncol/2)+1;
 	    c.setLayoutData(gd);
@@ -136,7 +140,7 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 	    		availableLinks.add(link);
 	    	}
 		}
-		if (event.widget == toLeft) {
+		else if (event.widget == toLeft) {
 			IStructuredSelection sel = (StructuredSelection) availableLinkViewer
 					.getSelection();
 			if (!sel.isEmpty()) {
@@ -150,7 +154,12 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 			IStructuredSelection sel = (StructuredSelection) routeViewer
 					.getSelection();
 			Element e = (Element) sel.getFirstElement();
-			if (event.widget == toRight) {
+			if (event.widget == edit){
+				EditElementWizard wizard = new EditElementWizard(e);
+				WizardDialog dialog = new WizardDialog(getShell(), wizard);
+		        dialog.create();
+		    	dialog.open();
+			} else if (event.widget == toRight) {
 				routeList.remove(e);
 				availableLinks.add(e);
 				updateUI();
@@ -159,13 +168,11 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 				int ind = routeList.indexOf(e);
 				routeList.remove(ind);
 				routeList.add(ind-1, e);
-				updateUI();
 				
 			} else if (event.widget == down && routeList.indexOf(e) < routeList.size()-1) {
 				int ind = routeList.indexOf(e);
 				routeList.remove(ind);
 				routeList.add(ind+1, e);
-				updateUI();
 			}
 		}
 		((CreateElementWizard)getWizard()).linkList = routeList;
@@ -178,6 +185,7 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 			setErrorMessage("Your route must contains at least one link");
 		}
 		setPageComplete(isComplete);
+		updateUI();
 	}
 	
 	private void updateUI(){

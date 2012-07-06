@@ -16,6 +16,7 @@ import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 import simgrideclipseplugin.model.ElementList;
+import simgrideclipseplugin.model.ModelHelper;
 import simgrideclipseplugin.wizards.composites.ElementSelectionList;
 
 public class GatewaySelectionPage extends WizardPage implements ISelectionChangedListener {
@@ -80,10 +81,20 @@ public class GatewaySelectionPage extends WizardPage implements ISelectionChange
 
 		setControl(composite);
 		
-		if(srcList.size() >= 1){
+		//FIXME init selection
+		CreateElementWizard wizard = (CreateElementWizard) getWizard();
+		String gwSrc = wizard.attrMap.get("gw_src");
+		String gwDst = wizard.attrMap.get("gw_dst");
+		if (gwSrc != null){
+			srcViewer.setSelection(new StructuredSelection(ModelHelper.getElementbyId(gwSrc)));
+		}
+		else if(srcList.size() >= 1){
 			srcViewer.setSelection(new StructuredSelection((srcList).get(0)));
 		}
-		if (dstList.size() >= 1){
+		
+		if (gwDst != null){
+			srcViewer.setSelection(new StructuredSelection(ModelHelper.getElementbyId(gwDst)));
+		}else if (dstList.size() >= 1){
 			dstViewer.setSelection(new StructuredSelection((dstList).get(0)));
 		}
 		updateUI();

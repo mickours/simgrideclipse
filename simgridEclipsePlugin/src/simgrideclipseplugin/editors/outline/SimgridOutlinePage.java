@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
-import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
+import org.eclipse.wst.sse.core.internal.model.ModelLifecycleEvent;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 
 import simgrideclipseplugin.editors.SimgridGraphicEditor;
@@ -32,13 +32,9 @@ public class SimgridOutlinePage extends ContentOutlinePage //implements IPropert
 		//handle model changes
 		ModelHelper.addModelListener(editor.getEditorInput(),
 				new SimgridModelListener(){
-					String oldModel;
 					@Override
-					public void modelChanged(IStructuredModel model) {
-						if (!model.getStructuredDocument().get().equals(oldModel)){
-							oldModel = model.getStructuredDocument().get();
+					public void processPostModelEvent(ModelLifecycleEvent arg0) {
 							updateInput();
-						}
 					}
 		});
 		updateInput();

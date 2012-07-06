@@ -314,6 +314,14 @@ public final class ModelHelper {
 		return l;
 	}
 
+	/**
+	 * return the element corresponding to this id or null in the entire document
+	 */
+	public static Element getElementbyId(String id){
+		Element root = model.getDocument().getDocumentElement();
+		return getSubElementbyId(root,id);
+	}
+
 	public static IDOMModel getDOMModel(IEditorInput input) throws Exception {
 		IFile file = ((IFileEditorInput)input).getFile();
 		IModelManager manager = StructuredModelManager.getModelManager();
@@ -355,6 +363,10 @@ public final class ModelHelper {
         List<Element> l = nodeListToElementList(rl);
         l.addAll(nodeListToElementList(cl));
         l.addAll(nodeListToElementList(pl));
+        if (ASNode.getTagName().equals(ElementList.CLUSTER) 
+        		|| ASNode.getTagName().equals(ElementList.PEER) ){
+        	l.add(ASNode);
+        }
         return l;
 	}
 	
@@ -423,7 +435,7 @@ public final class ModelHelper {
 	 */
 	public static Element getSourceNode(Element route) {
 		String srcId = route.getAttribute("src");
-		return getElementbyId(route, srcId);
+		return getElementbyId(srcId);
 	}
 
 	/**
@@ -431,7 +443,7 @@ public final class ModelHelper {
 	 */
 	public static Element getTargetNode(Element route) {
 		String dstId = route.getAttribute("dst");
-		return getElementbyId(route, dstId);
+		return getElementbyId(dstId);
 	}
 	
 	public static List<Element> getConnections(Element node) {
@@ -503,7 +515,7 @@ public final class ModelHelper {
 			SimgridModelListener simgridModelListener) {
 		try{
 			IDOMModel model = ModelHelper.getDOMModel(input);
-			model.addModelStateListener(simgridModelListener);
+			model.addModelLifecycleListener(simgridModelListener);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -558,15 +570,6 @@ public final class ModelHelper {
 		if (e.hasAttribute("id"))
 			return e.getAttribute("id");
 		return "";
-	}
-	
-
-	/**
-	 * return the element corresponding to this id or null in the entire document
-	 */
-	private static Element getElementbyId(Node anyNode, String id){
-		Element root = anyNode.getOwnerDocument().getDocumentElement();
-		return getSubElementbyId(root,id);
 	}
 	
 	/**

@@ -72,7 +72,7 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 		sc.setMinSize(composite.computeSize(500, SWT.DEFAULT));
 		setControl(sc);
 		updateData();
-		setPageComplete(false);
+		setPageComplete(computeErrors() != null);
 	}
 
 	private void updateData(){
@@ -147,7 +147,14 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 	 * @see Listener#handleEvent(Event)
 	 */
 	public void handleEvent(Event event) {
-	    String error = null;
+	    String error = computeErrors();
+		setErrorMessage(error);
+		setPageComplete(error == null);
+		updateData();
+	}
+	
+	private String computeErrors(){
+		String error = null;
 		for (String field : fieldMap.keySet()){
 			//show error if required fields are not set
 			if (getField(field).isEmpty() && ElementList.isRequieredField(tagName, field)){
@@ -164,9 +171,7 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 				error += ("The id is not unique\n");
 			}
 		}
-		setErrorMessage(error);
-		setPageComplete(error == null);
-		updateData();
+		return error;
 	}
 	
 	private String getField(String fieldName){
