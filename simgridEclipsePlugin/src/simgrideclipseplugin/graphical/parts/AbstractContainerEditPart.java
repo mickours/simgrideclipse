@@ -8,7 +8,6 @@ import org.eclipse.draw2d.ShortestPathConnectionRouter;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.w3c.dom.Element;
@@ -77,7 +76,7 @@ public abstract class AbstractContainerEditPart extends SimgridAbstractEditPart 
 
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE,new RootComponentEditPolicy());
+		//installEditPolicy(EditPolicy.COMPONENT_ROLE,new RootComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new SimgridXYLayoutEditPolicy());
 	}
 	

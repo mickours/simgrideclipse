@@ -43,6 +43,10 @@ public class ElementList {
 		return new ArrayList<String>(connectionList);
 	}
 	
+	public static boolean isBypass(String tagName){
+		return tagName.equals(BYPASS_ROUTE) || tagName.equals(BYPASS_AS_ROUTE);
+	}
+	
 	public static boolean isDrawable(String tagName){
 		return !notDrawableList.contains(tagName);
 	}

@@ -18,6 +18,5 @@
 			<accessrule kind="accessible" pattern="*"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/mmercier/simgrideclipse/Resources/inludes_source/org.eclipse.wst.sse.ui.source_1.3.2.v201201041522.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

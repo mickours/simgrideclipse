@@ -1,0 +1,69 @@
+package simgrideclipseplugin.wizards;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.jface.wizard.Wizard;
+import org.w3c.dom.Element;
+
+import simgrideclipseplugin.model.ElementList;
+import simgrideclipseplugin.model.ModelHelper;
+import simgrideclipseplugin.model.SimgridRules;
+
+public abstract class AbstractElementWizard extends Wizard {
+	protected String tagName;
+	
+	protected AttributeFieldFormPage fieldPage;
+	protected LinkSelectionPage linkPage;
+	protected GatewaySelectionPage gwPage;
+	
+	public Map<String, String> attrMap;
+	public Element createdElement;
+	public List<Element> linkList;
+	public Element selectedSrcGw, selectedDstGw;
+	
+	protected Element sourceNode;
+	protected Element targetNode;
+	protected boolean multiLink;
+	
+	public AbstractElementWizard(String tagName) {
+		super();
+		this.tagName = tagName;
+		this.attrMap = new HashMap<String, String>(); 
+	}
+
+	@Override
+	public void addPages() {
+		
+		if (ElementList.isConnection(tagName)){
+			//set gateway 
+			if (SimgridRules.isASLikeConnection(tagName)){
+				List<Element> srcRouter = ModelHelper.getRouters(sourceNode);
+				List<Element> dstRouter = ModelHelper.getRouters(targetNode);
+				gwPage = new GatewaySelectionPage(srcRouter,dstRouter);
+				addPage(gwPage);
+			}
+			//set links
+			linkPage = new LinkSelectionPage(ModelHelper.getLinks(sourceNode), sourceNode);
+			addPage(linkPage);
+		}
+		else{
+			fieldPage = new AttributeFieldFormPage(tagName);
+			addPage(fieldPage);
+		}
+	}
+	
+	
+	public void setSourceNode(Element sourceNode) {
+		this.sourceNode = sourceNode;
+	}
+
+	public void setTargetNode(Element targetNode) {
+		this.targetNode = targetNode;
+	}
+
+	public void setMultiLink(boolean multiLink) {
+		this.multiLink= multiLink; 
+	}
+}

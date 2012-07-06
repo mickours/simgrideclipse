@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -14,10 +16,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 import simgrideclipseplugin.model.ElementList;
+import simgrideclipseplugin.model.ModelHelper;
 import simgrideclipseplugin.wizards.composites.ElementSelectionList;
 
 public class LinkSelectionPage extends WizardPage implements Listener {
@@ -26,16 +31,18 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 	private ElementSelectionList availableLinkViewer;
 	private List<Element> availableLinks;
 	private LinkedList<Element> routeList;
+	private Element refNode;
 	private Button toLeft;
 	private Button toRight;
 	private Button up;
 	private Button down;
-//	private Button plus;
+	private Button plus;
 
-	public LinkSelectionPage(java.util.List<Element> list) {
+	public LinkSelectionPage(java.util.List<Element> list, Element refNode) {
 		super("Route editing", "Route editing", SimgridIconProvider.getIconImageDescriptor(ElementList.LINK_CTN));
 		availableLinks = list;
 		routeList = new LinkedList<Element>();
+		this.refNode = refNode;
 	}
 
 	@Override
@@ -98,16 +105,16 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 		gd.horizontalSpan = (ncol/2)+1;
 	    c.setLayoutData(gd);
 	    
-	    //TODO add a new link button
-//	    c = new Composite(composite, SWT.NONE);
-//		c.setLayout(new GridLayout(2,true));
-//		plus =  new Button(c, SWT.PUSH);
-//		plus.setImage(PlatformUI.getWorkbench().getSharedImages().
-//				getImageDescriptor(ISharedImages.IMG_OBJ_ADD).createImage());
-//		plus.addListener(SWT.Selection, this);
-//	    gd = new GridData(GridData.FILL_HORIZONTAL);
-//		gd.horizontalSpan = (ncol/2)-1;
-//	    l.setLayoutData(gd);
+	    //add a new link button
+	    c = new Composite(composite, SWT.NONE);
+		c.setLayout(new GridLayout(2,true));
+		plus =  new Button(c, SWT.PUSH);
+		plus.setImage(PlatformUI.getWorkbench().getSharedImages().
+				getImageDescriptor(ISharedImages.IMG_OBJ_ADD).createImage());
+		plus.addListener(SWT.Selection, this);
+	    gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = (ncol/2)-1;
+	    l.setLayoutData(gd);
 	    
 	    parent.pack();
 	    setControl(composite);
@@ -119,9 +126,16 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 
 	@Override
 	public void handleEvent(Event event) {
-//		if (event.widget == plus){
-//			
-//		}
+		if (event.widget == plus){
+			CreateElementWizard wizard = new CreateElementWizard(ElementList.LINK);
+			WizardDialog dialog = new WizardDialog(getShell(), wizard);
+	        dialog.create();
+	    	dialog.open();
+	    	if (dialog.getReturnCode()== Window.OK){
+	    		Element link = ModelHelper.createLink( refNode, wizard.attrMap);
+	    		availableLinks.add(link);
+	    	}
+		}
 		if (event.widget == toLeft) {
 			IStructuredSelection sel = (StructuredSelection) availableLinkViewer
 					.getSelection();

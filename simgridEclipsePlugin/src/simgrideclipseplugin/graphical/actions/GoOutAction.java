@@ -41,6 +41,9 @@ public class GoOutAction extends WorkbenchPartAction {
 	protected boolean calculateEnabled() {
 		SimgridGraphicEditor graphEditor = (SimgridGraphicEditor)getWorkbenchPart();
 		EditPart content = graphEditor.getGraphicalContents();
+		if (content == null){
+			return false;
+		}
 		Element current = (Element) content.getModel();
 		return (current.getParentNode() instanceof Element);
 	}

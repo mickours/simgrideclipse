@@ -34,7 +34,7 @@ public class ConnectionCreateCommand extends Command {
 		CreateElementWizard wizard = new CreateElementWizard(connectionType);
 		wizard.setSourceNode(sourceNode);
 		wizard.setTargetNode(targetNode);
-		wizard.setFullRouting(parent.getAttribute("routing").equals("Full"));
+		wizard.setMultiLink((parent.getAttribute("routing").equals("Full")));
 		WizardDialog dialog = new WizardDialog(shell, wizard);
         dialog.create();
     	dialog.open();

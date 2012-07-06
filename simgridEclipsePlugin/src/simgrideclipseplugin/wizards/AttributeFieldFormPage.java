@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Text;
 
 import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 import simgrideclipseplugin.model.ElementList;
+import simgrideclipseplugin.model.ModelHelper;
 
 public class AttributeFieldFormPage extends WizardPage implements Listener {
 	private String tagName;
@@ -90,7 +91,12 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 		
 		new Label (container, SWT.NONE).setText(fieldName+":");
 		List<String> valList = ElementList.getValueList(tagName, fieldName);
-		String defVal = ElementList.getDefaultValue(tagName, fieldName);
+		
+		CreateElementWizard wizard = (CreateElementWizard) getWizard();
+		String defVal = wizard.attrMap.get(fieldName);
+		if (defVal == null){
+			defVal =  ElementList.getDefaultValue(tagName, fieldName);
+		}
 		Control ctr;
 		if (valList.isEmpty()){
 			//it's a text field
@@ -143,11 +149,19 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 	public void handleEvent(Event event) {
 	    String error = null;
 		for (String field : fieldMap.keySet()){
+			//show error if required fields are not set
 			if (getField(field).isEmpty() && ElementList.isRequieredField(tagName, field)){
 				if (error == null){
 					error = "";
 				}
 				error += ("The fields \""+field+"\" must be set\n");
+			}
+			//show error if the id is not unique
+			if (field.equals("id") && !ModelHelper.isUniqueId(getField(field),tagName)){
+				if (error == null){
+					error = "";
+				}
+				error += ("The id is not unique\n");
 			}
 		}
 		setErrorMessage(error);

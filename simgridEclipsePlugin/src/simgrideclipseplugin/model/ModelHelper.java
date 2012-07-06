@@ -94,10 +94,19 @@ public final class ModelHelper {
 	}
 	
 	public static void createAndAddLink(Element route,Map<String,String> attrMap){
-		Element link = createElement(ElementList.LINK,attrMap);
-		insertAtFirst(route.getParentNode(),link);
+		Element link = createLink(route,attrMap);
 		//add it to the route
 		addLink(route,link);
+	}
+	
+	/**
+	 * create a Link, set the attributes using the attrMap 
+	 * and insert it in the refNode's parent
+	 */
+	public static Element createLink(Element refNode, Map<String,String> attrMap){
+		Element link = createElement(ElementList.LINK,attrMap);
+		insertAtFirst(refNode.getParentNode(),link);
+		return link;
 	}
 	
 	/**
@@ -122,31 +131,41 @@ public final class ModelHelper {
 		}		
 	}
 	
-	public static String createId(String type){
+	public static String createId(String tagName){
 		String newId;
-		if (numIDMap.get(type) == null){
-			numIDMap.put(type, 0);
+		if (numIDMap.get(tagName) == null){
+			numIDMap.put(tagName, 0);
 		}
-		int idNum = numIDMap.get(type);
-		newId = type+idNum;
+		int idNum = numIDMap.get(tagName);
+		newId = tagName+idNum;
 		//increment for next one
-		numIDMap.put(type,++idNum);
+		numIDMap.put(tagName,++idNum);
 		
 		//verify uniqueness of id for this type
 		String saveId;
-		List<Element> ndl = nodeListToElementList(model.getDocument().getElementsByTagName(type));
+		List<Element> ndl = nodeListToElementList(model.getDocument().getElementsByTagName(tagName));
 		do{
 			saveId = newId;
 			for(Element n : ndl){
 				if (n.getAttribute("id").equals(newId)){
-					idNum = numIDMap.get(type);
-					newId = type+idNum;
+					idNum = numIDMap.get(tagName);
+					newId = tagName+idNum;
 					//increment for next one
-					numIDMap.put(type,++idNum);
+					numIDMap.put(tagName,++idNum);
 				}
 			}
 		}while (!saveId.equals(newId));
 		return newId;
+	}
+	
+	public static boolean isUniqueId(String newId, String tagName){
+		List<Element> ndl = nodeListToElementList(model.getDocument().getElementsByTagName(tagName));
+		for(Element n : ndl){
+			if (n.getAttribute("id").equals(newId)){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	/**
@@ -220,7 +239,59 @@ public final class ModelHelper {
 		removeElement(route);
 		return deletedLink;
 	}
+/*******************************************/	
+/*****       EDITION FUNCTIONS        ******/
+/*******************************************/
+	
+	public static void editRoute(Element toEditElement, Element sourceNode,
+			Element targetNode) {
+		editAttribute(toEditElement, "src", getId(sourceNode));
+		editAttribute(toEditElement, "dst", getId(targetNode));
+	}
+	
 
+	public static void editRouteLinks(Element toEditElement,
+			List<Element> linkList) {
+		//remove old nodes
+		int nb = toEditElement.getChildNodes().getLength();
+		for (int i=0; i<nb; i++){
+			Node e =  toEditElement.getChildNodes().item(i);
+			if (e instanceof Element && !linkList.contains(e))
+			toEditElement.removeChild(e);
+		}
+		//add new nodes
+		for (Element link:linkList){
+			List<Element> oldNodes = nodeListToElementList(toEditElement.getChildNodes());
+			if (!oldNodes.contains(link)){
+				addLink(toEditElement, link);
+			}
+		}
+	}
+
+	public static void editRouteGateways(Element toEditElement,
+			Element selectedSrcGw, Element selectedDstGw) {
+		String id = ModelHelper.getGatewayId(selectedSrcGw);
+		editAttribute(toEditElement,"gw_src", id);
+		id = ModelHelper.getGatewayId(selectedDstGw);
+		editAttribute(toEditElement,"gw_dst", id);
+	}
+
+
+	public static void editElementAttributes(Element toEditElement,
+			Map<String, String> attrMap) {
+		for (String attr: attrMap.keySet()){
+			editAttribute(toEditElement,attr,attrMap.get(attr));
+		}
+		
+	}
+	
+	private static void editAttribute(Element toEditElement, String attrName, String value){
+		if (toEditElement.getAttribute(attrName) != value){
+			toEditElement.setAttribute(attrName, value);
+		}
+	}
+	
+	
 /*******************************************/	
 /*****       ACCES FUNCTIONS          ******/
 /*******************************************/
@@ -347,16 +418,6 @@ public final class ModelHelper {
 		return e;
 	}
 	
-	public static List<Element> nodeListToElementList(NodeList toConvert){
-		List<Element> elemList = new LinkedList<Element>();
-		for (int i = 0; i < toConvert.getLength(); i++) {
-			if (toConvert.item(i) instanceof Element) {
-				elemList.add((Element) toConvert.item(i));
-			}
-		}
-		return elemList;
-	}
-
 	/**
 	 * return the node related to the route as a source
 	 */
@@ -393,16 +454,19 @@ public final class ModelHelper {
 		return getConnections(node,"dst");
 	}
 	
-//	public static List<String> getAttributeList(Element element) {
-//		List<String> l = new LinkedList<String>();
-//		if (element == null){
-//			return l;
-//		}
-//		for (int i=0; i<element.getAttributes().getLength(); i++){
-//			l.add(element.getAttributes().item(i).getNodeName());
-//		}
-//		return l;
-//	}
+	/*******************************************/	
+	/*****       UTILS FUNCTIONS          ******/
+	/*******************************************/
+	
+	public static List<Element> nodeListToElementList(NodeList toConvert){
+		List<Element> elemList = new LinkedList<Element>();
+		for (int i = 0; i < toConvert.getLength(); i++) {
+			if (toConvert.item(i) instanceof Element) {
+				elemList.add((Element) toConvert.item(i));
+			}
+		}
+		return elemList;
+	}
 	
 	@SuppressWarnings("unchecked")
 	public static StructuredSelection partToModelSelection(IStructuredSelection partSelection){
@@ -433,6 +497,18 @@ public final class ModelHelper {
 		 }
 		 return new StructuredSelection();
 	 }
+	
+
+	public static void addModelListener(IEditorInput input,
+			SimgridModelListener simgridModelListener) {
+		try{
+			IDOMModel model = ModelHelper.getDOMModel(input);
+			model.addModelStateListener(simgridModelListener);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	/*******************************************/	
 	/*****       PRIVATE UTILS            ******/
 	/*******************************************/
@@ -545,14 +621,4 @@ public final class ModelHelper {
 		return connected;
 	}
 
-	public static void addModelListener(IEditorInput input,
-			SimgridModelListener simgridModelListener) {
-		try{
-			IDOMModel model = ModelHelper.getDOMModel(input);
-			model.addModelStateListener(simgridModelListener);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }

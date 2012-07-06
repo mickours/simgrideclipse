@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wst.sse.core.internal.provisional.INodeAdapter;
 import org.eclipse.wst.sse.core.internal.provisional.INodeNotifier;
 import org.w3c.dom.Element;
@@ -13,6 +16,7 @@ import org.w3c.dom.Element;
 import simgrideclipseplugin.graphical.figures.AbstractConnectionFigure;
 import simgrideclipseplugin.graphical.policies.ConnectionDeleteEditPolicy;
 import simgrideclipseplugin.model.ModelHelper;
+import simgrideclipseplugin.wizards.EditElementWizard;
 
 @SuppressWarnings("restriction")
 public abstract class AbstConnectionEditPart extends AbstractConnectionEditPart implements INodeAdapter{
@@ -36,6 +40,17 @@ public abstract class AbstConnectionEditPart extends AbstractConnectionEditPart 
         installEditPolicy(EditPolicy.CONNECTION_ROLE, new ConnectionDeleteEditPolicy());
         installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
     }
+	
+	@Override
+	public void performRequest(Request req) {
+		if (req.getType().equals(REQ_OPEN)){
+			Shell shell = getViewer().getControl().getShell();
+			EditElementWizard wizard = new EditElementWizard((Element) getModel());
+			WizardDialog dialog = new WizardDialog(shell, wizard);
+	        dialog.create();
+	    	dialog.open();
+		}
+	}
 	
 	@Override
 	public void setSource(EditPart editPart) {

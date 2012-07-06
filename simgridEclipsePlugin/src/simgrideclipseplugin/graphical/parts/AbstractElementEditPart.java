@@ -13,6 +13,8 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wst.sse.core.internal.provisional.INodeNotifier;
 import org.w3c.dom.Element;
 
@@ -22,6 +24,7 @@ import simgrideclipseplugin.graphical.policies.ConnectionPolicy;
 import simgrideclipseplugin.graphical.policies.ElementComponentEditPolicy;
 import simgrideclipseplugin.model.ModelHelper;
 import simgrideclipseplugin.model.SimgridRules;
+import simgrideclipseplugin.wizards.EditElementWizard;
 
 @SuppressWarnings("restriction")
 public abstract class AbstractElementEditPart extends SimgridAbstractEditPart
@@ -65,6 +68,17 @@ public abstract class AbstractElementEditPart extends SimgridAbstractEditPart
 
 	public void setLocation(Point location) {
 		 ElementPositionMap.setPositionAndRefresh(this, location);
+	}
+	
+	@Override
+	public void performRequest(Request req) {
+		if (req.getType().equals(REQ_OPEN)){
+			Shell shell = getViewer().getControl().getShell();
+			EditElementWizard wizard = new EditElementWizard((Element) getModel());
+			WizardDialog dialog = new WizardDialog(shell, wizard);
+	        dialog.create();
+	    	dialog.open();
+		}
 	}
 	
 	@Override
