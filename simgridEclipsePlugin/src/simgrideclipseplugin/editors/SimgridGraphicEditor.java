@@ -42,6 +42,7 @@ import org.w3c.dom.Node;
 
 import simgrideclipseplugin.graphical.SimgridPaletteFactory;
 import simgrideclipseplugin.graphical.actions.AutoLayoutAction;
+import simgrideclipseplugin.graphical.actions.EditElementAction;
 import simgrideclipseplugin.graphical.actions.GoIntoAction;
 import simgrideclipseplugin.graphical.actions.GoOutAction;
 import simgrideclipseplugin.graphical.parts.SimgridEditPartFactory;
@@ -208,13 +209,18 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		action = new AutoLayoutAction(this);
 		ar.registerAction(action);
 		
+		action = new EditElementAction(this);
+		ar.registerAction(action);
+		getSelectionActions().add(action.getId());
+		
 		action = new GoIntoAction(this);
 		ar.registerAction(action);
 		getSelectionActions().add(action.getId());
 		
 		goOutAction = new GoOutAction(this);
 		ar.registerAction(goOutAction);
-		getSelectionActions().add(goOutAction.ID);
+		getSelectionActions().add(GoOutAction.ID);
+		
 	}
 
 	@Override

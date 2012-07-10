@@ -16,17 +16,17 @@ public class CreateElementWizard extends AbstractElementWizard {
 	public boolean performFinish() {
 		if (ElementList.isConnection(tagName)){
 			assert  sourceNode != null && targetNode != null;
-			createdElement = ModelHelper.createAndAddRoute(sourceNode, targetNode, tagName);
+			newElement = ModelHelper.createAndAddRoute(sourceNode, targetNode, tagName);
 			//create links
 			for (Object link : linkList){
-				ModelHelper.addLinkToRoute(createdElement, (Element) link);
+				ModelHelper.addLinkToRoute(newElement, (Element) link);
 			}
 			//create gateway 
 			if (SimgridRules.isASLikeConnection(tagName)){
-				ModelHelper.editRouteGateways(createdElement,selectedSrcGw, selectedDstGw);
+				ModelHelper.editRouteGateways(newElement,selectedSrcGw, selectedDstGw);
 			}
 		}else{
-			createdElement = ModelHelper.createElement(tagName, attrMap);
+			newElement = ModelHelper.createElement(tagName, attrMap);
 		}
 		return true;
 	}

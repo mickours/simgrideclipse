@@ -208,7 +208,7 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 	
 	private void update(){
 		//update data
-		((CreateElementWizard)getWizard()).linkList = routeList;
+		((AbstractElementWizard)getWizard()).linkList = routeList;
 		
 		//update UI
 		boolean isComplete = routeList.size() > 0;

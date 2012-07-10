@@ -40,7 +40,7 @@ public class ConnectionCreateCommand extends Command {
     	dialog.open();
     	isOk = dialog.getReturnCode()== Window.OK;
     	if (isOk){
-    		route = wizard.createdElement;
+    		route = wizard.newElement;
     	}
     }
 

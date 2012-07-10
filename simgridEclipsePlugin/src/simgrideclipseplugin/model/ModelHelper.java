@@ -144,7 +144,17 @@ public final class ModelHelper {
 		return newId;
 	}
 	
-	public static boolean isUniqueId(String newId, String tagName){
+	/**
+	 * return true if the newId is unique or equals with the oldId
+	 * @param newId
+	 * @param oldId
+	 * @param tagName
+	 * @return
+	 */
+	public static boolean isUniqueId(String newId, String oldId, String tagName){
+		if (newId.equals(oldId)){
+			return true;
+		}
 		List<Element> ndl = nodeListToElementList(model.getDocument().getElementsByTagName(tagName));
 		for(Element n : ndl){
 			if (n.getAttribute("id").equals(newId)){
@@ -154,15 +164,19 @@ public final class ModelHelper {
 		return true;
 	}
 	
-	public static boolean isUniqueId(Element element){
-		List<Element> ndl = nodeListToElementList(model.getDocument().getElementsByTagName(element.getTagName()));
-		for(Element n : ndl){
-			if (n.getAttribute("id").equals(getId(element)) && element != n){
-				return false;
-			}
-		}
-		return true;
+	public static boolean isUniqueId(String newId, String tagName){
+		return isUniqueId(newId,null,tagName);
 	}
+	
+//	public static boolean isUniqueId(Element element){
+//		List<Element> ndl = nodeListToElementList(model.getDocument().getElementsByTagName(element.getTagName()));
+//		for(Element n : ndl){
+//			if (n.getAttribute("id").equals(getId(element)) && element != n){
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
 	
 	/**
 	 * remove the element from the document

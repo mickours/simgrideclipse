@@ -9,6 +9,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
 
+import simgrideclipseplugin.graphical.actions.EditElementAction;
 import simgrideclipseplugin.graphical.actions.GoIntoAction;
 import simgrideclipseplugin.graphical.actions.GoOutAction;
 
@@ -49,10 +50,13 @@ public class SimgridContextMenuProvider extends ContextMenuProvider {
 					}
 				}
 			}
-			IAction action = actionRegistry.getAction(GoIntoAction.ID);
+			IAction action = actionRegistry.getAction(EditElementAction.ID);
+			menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+			action = actionRegistry.getAction(GoIntoAction.ID);
 			menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
 			action = actionRegistry.getAction(GoOutAction.ID);
 			menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
+			
 	  }
 	 
 	  public void setActionRegistry(ActionRegistry registry) { 

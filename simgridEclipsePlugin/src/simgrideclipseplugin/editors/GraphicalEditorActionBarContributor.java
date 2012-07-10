@@ -17,6 +17,8 @@ import org.eclipse.ui.actions.ActionFactory;
 
 import simgrideclipseplugin.graphical.actions.AutoLayoutAction;
 import simgrideclipseplugin.graphical.actions.AutoLayoutRetargetAction;
+import simgrideclipseplugin.graphical.actions.EditElementAction;
+import simgrideclipseplugin.graphical.actions.EditElementRetargetAction;
 import simgrideclipseplugin.graphical.actions.GoIntoAction;
 import simgrideclipseplugin.graphical.actions.GoIntoRetargetAction;
 import simgrideclipseplugin.graphical.actions.GoOutAction;
@@ -35,6 +37,7 @@ public class GraphicalEditorActionBarContributor extends ActionBarContributor {
 	    addRetargetAction(new AutoLayoutRetargetAction());
 	    addRetargetAction(new GoIntoRetargetAction());
 	    addRetargetAction(new GoOutRetargetAction());
+	    addRetargetAction(new EditElementRetargetAction());
 	}
 	
 	@Override
@@ -63,6 +66,8 @@ public class GraphicalEditorActionBarContributor extends ActionBarContributor {
 		IMenuManager editorMenu = new MenuManager("Simgrid &Menu");
 		manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS, editorMenu);
 		editorMenu.add(getAction(AutoLayoutAction.ID));
+		editorMenu.add(new Separator());
+		editorMenu.add(getAction(EditElementAction.ID));
 		editorMenu.add(new Separator());
 		editorMenu.add(getAction(GoIntoAction.ID));
 		editorMenu.add(getAction(GoOutAction.ID));

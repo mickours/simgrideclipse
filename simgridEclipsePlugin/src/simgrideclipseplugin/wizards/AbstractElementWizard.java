@@ -19,7 +19,7 @@ public abstract class AbstractElementWizard extends Wizard {
 	protected GatewaySelectionPage gwPage;
 	
 	public Map<String, String> attrMap;
-	public Element createdElement;
+	public Element newElement;
 	public List<Element> linkList;
 	public Element selectedSrcGw, selectedDstGw;
 	

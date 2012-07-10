@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.ElementPositionMap;
+import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
 import simgrideclipseplugin.model.SimgridRules;
 import simgrideclipseplugin.wizards.CreateElementWizard;
@@ -34,13 +35,24 @@ public class AddElementCommand extends Command {
 	        dialog.create();
 	    	dialog.open();
 	    	if (dialog.getReturnCode()== Window.OK){
-	    		newElem = wizard.createdElement;
+	    		newElem = wizard.newElement;
 	    	}
 		}
 		else{
 			newElem = parent.getOwnerDocument().createElement(type);
-			String newId = ModelHelper.createId(type);
-			newElem.setAttribute("id",newId);
+			//set default value
+			for (String attr:ElementList.getAttributesList(type)){
+				if (attr.equals("id")){
+					String newId = ModelHelper.createId(type);
+					newElem.setAttribute("id",newId);
+				}
+				else{
+					String defVal =  ElementList.getDefaultValue(type, attr);
+					if (defVal != null){
+						newElem.setAttribute(attr,defVal);
+					}
+				}
+			}
 		}
 		if (newElem != null){
 			ElementPositionMap.setPosition(newElem, position);

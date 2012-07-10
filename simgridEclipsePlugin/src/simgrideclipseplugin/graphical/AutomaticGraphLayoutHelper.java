@@ -1,5 +1,6 @@
 package simgrideclipseplugin.graphical;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class AutomaticGraphLayoutHelper {
 			layoutManager.compute();
 			i++;
 			//TODO the i limit must depends on the number of nodes
-		}while(layoutManager.getNodeMoved() != 0 && i < 500 );
+		}while(layoutManager.getNodeMoved() != 0 && i < 5000 );
 		double xmin = 0, ymin = 0;
 		//get the x and y min to translate
 		for (Node n : graph.getEachNode()) {
@@ -68,8 +69,8 @@ public class AutomaticGraphLayoutHelper {
 			// get (position,id) from graph
 			double pos[] = Toolkit.nodePosition(graph, n.getId());
 			//TODO assign position depending on object size
-			int x =  new Double((pos[0]+Math.abs(xmin))*50).intValue();
-			int y =  new Double((pos[1]+Math.abs(ymin))*50).intValue();
+			int x =  new Double((pos[0]+Math.abs(xmin))*25).intValue();
+			int y =  new Double((pos[1]+Math.abs(ymin))*25).intValue();
 			Point p = new Point(x, y);
 			// set position
 			ElementPositionMap.setPositionAndRefresh(editPartMap.get(n.getId()),p);
@@ -81,11 +82,25 @@ public class AutomaticGraphLayoutHelper {
 		if (node instanceof AbstractElementEditPart) {
 			editPartMap.put(id, (SimgridAbstractEditPart) node);
 			graph.addNode(id);
+			AbstractElementEditPart elem = (AbstractElementEditPart) node;
+			int value = elem.getSourceConnections().size()+elem.getTargetConnections().size();
+			graph.getNode(id).setAttribute("layout.weight",value);
+			if (elem.getSourceConnections().size() + elem.getTargetConnections().size() != 0) {
+			//TODO find a good way to add edge
+				
+//				List<?> l = new ArrayList(elem.getSourceConnections());
+//				l.addAll(elem.getTargetConnections());
+//				for (Object e :l){
+//					if (e instanceof EditPart){
+//						graph.addEdge(id, computeId(connection.getSource()), computeId(connection.getTarget()));
+//					}
+//				}
+//				AbstConnectionEditPart connection = (AbstConnectionEditPart) node;
+//				graph.addEdge(id, computeId(connection.getSource()), computeId(connection.getTarget()));
+//				graph.getEdge(id).setAttribute("layout.weight" , 0.01);
+			}
 		}
-		else if (node instanceof AbstConnectionEditPart) {
-			AbstConnectionEditPart connection = (AbstConnectionEditPart) node;
-			graph.addEdge(id, computeId(connection.getSource()), computeId(connection.getTarget()));
-		}
+		//TODO add edge in the list
 		List<?> l = node.getChildren();
 		for (Object elem : l) {
 			if (!(elem instanceof ErrorEditPart)){

@@ -7,13 +7,11 @@ import simgrideclipseplugin.model.ModelHelper;
 import simgrideclipseplugin.model.SimgridRules;
 
 
-public class EditElementWizard extends CreateElementWizard {
-
-	public Element toEditElement;
+public class EditElementWizard extends AbstractElementWizard {
 
 	public EditElementWizard(Element toEditElement) {
 		super(toEditElement.getTagName());
-		this.toEditElement = toEditElement;
+		this.newElement = toEditElement;
 		ModelHelper.setAttributeMap(toEditElement, attrMap);
 		if (ElementList.isConnection(tagName)){
 			route = toEditElement;
@@ -27,15 +25,15 @@ public class EditElementWizard extends CreateElementWizard {
 	public boolean performFinish() {
 		if (ElementList.isConnection(tagName)){
 			//assert  sourceNode != null && targetNode != null
-			ModelHelper.editRoute(toEditElement, sourceNode, targetNode);
+			ModelHelper.editRoute(newElement, sourceNode, targetNode);
 			//create links
-    		ModelHelper.editRouteLinks(toEditElement, linkList);
+    		ModelHelper.editRouteLinks(newElement, linkList);
 			//create gateway 
 			if (SimgridRules.isASLikeConnection(tagName)){
-				ModelHelper.editRouteGateways(toEditElement, selectedSrcGw, selectedDstGw);
+				ModelHelper.editRouteGateways(newElement, selectedSrcGw, selectedDstGw);
 			}
 		}else{
-			ModelHelper.editElementAttributes(toEditElement, attrMap);
+			ModelHelper.editElementAttributes(newElement, attrMap);
 		}
 		return true;
 	}

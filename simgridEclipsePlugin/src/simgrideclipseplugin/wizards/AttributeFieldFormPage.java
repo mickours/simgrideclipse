@@ -27,16 +27,13 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 	private String tagName;
 	private Map<String, Control> fieldMap;
 	private Map<String, Button> defaultMap;
-	private Element toEditElement;
+	private String oldId;
 	
 	public AttributeFieldFormPage(String tagName) {
 		super(tagName, tagName + " creation", SimgridIconProvider.getIconImageDescriptor(tagName));
 		this.tagName = tagName;
 		fieldMap = new HashMap<String, Control>();
 		defaultMap = new HashMap<String, Button>();
-		if (getWizard() instanceof EditElementWizard){
-			this.toEditElement = ((EditElementWizard)getWizard()).toEditElement;
-		}
 	}
 
 	@Override
@@ -76,13 +73,15 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 		}
 		sc.setMinSize(composite.computeSize(500, SWT.DEFAULT));
 		setControl(sc);
+		AbstractElementWizard wizard = (AbstractElementWizard) getWizard();
+		oldId = wizard.attrMap.get("id");
 		updateData();
 		setPageComplete(computeErrors() == null);
 	}
 
 	private void updateData(){
 		//save data
-		CreateElementWizard wizard = (CreateElementWizard) getWizard();
+		AbstractElementWizard wizard = (AbstractElementWizard) getWizard();
 		for (String field : fieldMap.keySet()){
 			String value = getField(field);
 			wizard.attrMap.put(field,value);
@@ -97,7 +96,7 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 		new Label (container, SWT.NONE).setText(fieldName+":");
 		List<String> valList = ElementList.getValueList(tagName, fieldName);
 		
-		CreateElementWizard wizard = (CreateElementWizard) getWizard();
+		AbstractElementWizard wizard = (AbstractElementWizard) getWizard();
 		String defVal = wizard.attrMap.get(fieldName);
 		if (defVal == null){
 			defVal =  ElementList.getDefaultValue(tagName, fieldName);
@@ -159,26 +158,19 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 	}
 	
 	private String computeErrors(){
-		String error = null;
+		String error = "";
 		for (String field : fieldMap.keySet()){
 			//show error if required fields are not set
 			if (getField(field).isEmpty() && ElementList.isRequieredField(tagName, field)){
-				if (error == null){
-					error = "";
-				}
 				error += ("The fields \""+field+"\" must be set\n");
 			}
 			//show error if the id is not unique
-			if (field.equals("id") && 
-					(toEditElement != null && !ModelHelper.isUniqueId(toEditElement)
-						|| !ModelHelper.isUniqueId(getField(field),tagName) )){
-				if (error == null){
-					error = "";
-				}
-				error += ("The id is not unique\n");
+
+			if (field.equals("id") && !ModelHelper.isUniqueId(getField(field),oldId,tagName)){
+				error += ("This id alredy exists\n");
 			}
 		}
-		return error;
+		return (error.isEmpty()) ? null: error;
 	}
 	
 	private String getField(String fieldName){

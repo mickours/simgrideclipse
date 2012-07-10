@@ -82,7 +82,7 @@ public class GatewaySelectionPage extends WizardPage implements ISelectionChange
 		setControl(composite);
 		
 		//Initialize selections
-		CreateElementWizard wizard = (CreateElementWizard) getWizard();
+		AbstractElementWizard wizard = (AbstractElementWizard) getWizard();
 		//Initialize source gateway
 		String gwSrc = wizard.attrMap.get("gw_src");
 		Element gwSrcElem = ModelHelper.getGatewayFromRouterName(gwSrc,srcList);
@@ -106,7 +106,7 @@ public class GatewaySelectionPage extends WizardPage implements ISelectionChange
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		IStructuredSelection sel = (StructuredSelection) event.getSelection();
-		CreateElementWizard wizard = (CreateElementWizard)getWizard();
+		AbstractElementWizard wizard = (AbstractElementWizard)getWizard();
 		if (event.getSource() == srcViewer){
 			wizard.selectedSrcGw = (Element) sel.getFirstElement();
 		}
@@ -117,7 +117,7 @@ public class GatewaySelectionPage extends WizardPage implements ISelectionChange
 	}
 	
 	private void updateUI(){
-		CreateElementWizard wizard = (CreateElementWizard)getWizard();
+		AbstractElementWizard wizard = (AbstractElementWizard)getWizard();
 		boolean isComplete = wizard.selectedSrcGw != null && wizard.selectedDstGw != null;
 
 		if(isComplete){
