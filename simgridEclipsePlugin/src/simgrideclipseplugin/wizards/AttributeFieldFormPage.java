@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 import simgrideclipseplugin.model.ElementList;
@@ -26,12 +27,16 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 	private String tagName;
 	private Map<String, Control> fieldMap;
 	private Map<String, Button> defaultMap;
+	private Element toEditElement;
 	
 	public AttributeFieldFormPage(String tagName) {
 		super(tagName, tagName + " creation", SimgridIconProvider.getIconImageDescriptor(tagName));
 		this.tagName = tagName;
 		fieldMap = new HashMap<String, Control>();
 		defaultMap = new HashMap<String, Button>();
+		if (getWizard() instanceof EditElementWizard){
+			this.toEditElement = ((EditElementWizard)getWizard()).toEditElement;
+		}
 	}
 
 	@Override
@@ -72,7 +77,7 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 		sc.setMinSize(composite.computeSize(500, SWT.DEFAULT));
 		setControl(sc);
 		updateData();
-		setPageComplete(computeErrors() != null);
+		setPageComplete(computeErrors() == null);
 	}
 
 	private void updateData(){
@@ -164,7 +169,9 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 				error += ("The fields \""+field+"\" must be set\n");
 			}
 			//show error if the id is not unique
-			if (field.equals("id") && !ModelHelper.isUniqueId(getField(field),tagName)){
+			if (field.equals("id") && 
+					(toEditElement != null && !ModelHelper.isUniqueId(toEditElement)
+						|| !ModelHelper.isUniqueId(getField(field),tagName) )){
 				if (error == null){
 					error = "";
 				}

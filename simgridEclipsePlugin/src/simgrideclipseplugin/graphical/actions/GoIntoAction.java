@@ -39,6 +39,7 @@ public class GoIntoAction extends SelectionAction{
 		//update selection
 		ISelection sel =new StructuredSelection(viewer.getRootEditPart().getContents());
 		getWorkbenchPart().getSite().getSelectionProvider().setSelection(sel);
+		
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package simgrideclipseplugin.editors;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.handlers.IHandlerService;
+import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -54,11 +56,8 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	private MultiPageSimgridEditor parent;
 	private static PaletteRoot palette;
 	private KeyHandler sharedKeyHandler;
-	
-	
-	public SimgridGraphicEditor(){
-		super.setEditDomain(new DefaultEditDomain(this));
-	}
+	private IPropertySource propertiesSource;
+	private GoOutAction goOutAction;
 	
 	public SimgridGraphicEditor(final MultiPageSimgridEditor parent) {
 		super.setEditDomain(new DefaultEditDomain(this));
@@ -123,15 +122,25 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		GraphicalViewer viewer = getGraphicalViewer();
 		Element platform = model.getDocument().getDocumentElement();
 		if (null != platform){
-			Element rootAs = ModelHelper.getNoConnectionChildren(platform).get(0);
-			if (null != rootAs){
+			int i = 0;
+			List<Element> childrens = ModelHelper.getNoConnectionChildren(platform);
+			while (i < childrens.size() 
+					&& !childrens.get(i).getTagName().equals(ElementList.AS)){
+				i++;
+			}
+			//if an AS was found select it as a container
+			if (i < childrens.size()){
+				Element rootAs = childrens.get(i);
 				viewer.setContents(rootAs);
-//				EditPart routAsEditPart = (EditPart) viewer.getRootEditPart().getContents();
-//				AutomaticGraphLayoutHelper.INSTANCE.init(routAsEditPart);
-//				AutomaticGraphLayoutHelper.INSTANCE.computeLayout();
+				//update action state
+				goOutAction.update();
 			}
 			else{
-				viewer.setContents(platform);
+				Map<String,String> attrMap = new HashMap<String,String>();
+				attrMap.put("id", "main");
+				attrMap.put("routing", "Full");
+				Element asMain = ModelHelper.createElement(ElementList.AS,attrMap);
+				ModelHelper.addElementChild(platform, asMain);
 			}
 		}
 		
@@ -203,8 +212,9 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		ar.registerAction(action);
 		getSelectionActions().add(action.getId());
 		
-		action = new GoOutAction(this);
-		ar.registerAction(action);
+		goOutAction = new GoOutAction(this);
+		ar.registerAction(goOutAction);
+		getSelectionActions().add(goOutAction.ID);
 	}
 
 	@Override
@@ -253,6 +263,10 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		if (type == ActionRegistry.class) {
 			return getActionRegistry();
 		}
+		if (type == IPropertySource.class) {
+			return propertiesSource;
+			//return ModelHelper.getPropertySource(getSite().getSelectionProvider().getSelection());
+		}
 		return super.getAdapter(type);
 	}
 
@@ -269,20 +283,21 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		 else if (selectedList.size() == 1){
 			
 			 Element selected = (Element) selectedList.get(0);
+			 //update properties
+			 propertiesSource = ModelHelper.getPropertySource(selected);
 			 Element toOpen = selected;
 			 while (!toOpen.getTagName().equals(ElementList.AS) && toOpen.getParentNode() instanceof Element){
 				 //|| ModelHelper.getChildren(toOpen).isEmpty()){
 				 toOpen = (Element) toOpen.getParentNode();
 			 }
-			 getGraphicalViewer().setContents(toOpen);
-//			 do{
-//				 toOpen = (Element) toOpen.getParentNode();
-//			 }
-//			 while (toOpen.getParentNode() instanceof Element && !ElementList.AS.equals(toOpen.getTagName()));
-//			 //change only if necessary
-//			 if (!ModelHelper.getChildren(toOpen).contains(selected)){
-//				 getGraphicalViewer().setContents(toOpen);
-//			 }
+			 if (!getGraphicalContents().getModel().equals(toOpen)){
+				 //avoid selection listener while changing content
+				 getSite().setSelectionProvider(null);
+				 getGraphicalViewer().setContents(toOpen);
+				 getSite().setSelectionProvider(getGraphicalViewer());
+				 //update action state
+				 goOutAction.update();
+			 }
 			 //update graphic viewer selection
 			 if (ElementList.isDrawable(selected.getTagName())){
 				 getSite().getSelectionProvider()

@@ -5,11 +5,13 @@ import org.eclipse.gef.ui.actions.WorkbenchPartAction;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IWorkbenchPart;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import simgrideclipseplugin.editors.SimgridGraphicEditor;
 import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
+import simgrideclipseplugin.model.ElementList;
 
-public class GoOutAction extends WorkbenchPartAction {
+public class GoOutAction extends WorkbenchPartAction{
 
 	public GoOutAction(IWorkbenchPart part) {
 		super(part);
@@ -44,8 +46,9 @@ public class GoOutAction extends WorkbenchPartAction {
 		if (content == null){
 			return false;
 		}
-		Element current = (Element) content.getModel();
-		return (current.getParentNode() instanceof Element);
+		Node parent = ((Element) content.getModel()).getParentNode();
+		return (parent instanceof Element
+					&& ((Element)parent).getTagName().equals(ElementList.AS));
 	}
 
 }

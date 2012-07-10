@@ -81,21 +81,24 @@ public class GatewaySelectionPage extends WizardPage implements ISelectionChange
 
 		setControl(composite);
 		
-		//FIXME init selection
+		//Initialize selections
 		CreateElementWizard wizard = (CreateElementWizard) getWizard();
+		//Initialize source gateway
 		String gwSrc = wizard.attrMap.get("gw_src");
-		String gwDst = wizard.attrMap.get("gw_dst");
-		if (gwSrc != null){
-			srcViewer.setSelection(new StructuredSelection(ModelHelper.getElementbyId(gwSrc)));
+		Element gwSrcElem = ModelHelper.getGatewayFromRouterName(gwSrc,srcList);
+		if (gwSrcElem != null){
+			srcViewer.setSelection(new StructuredSelection(gwSrcElem),true);
 		}
 		else if(srcList.size() >= 1){
-			srcViewer.setSelection(new StructuredSelection((srcList).get(0)));
+			srcViewer.setSelection(new StructuredSelection((srcList).get(0)),true);
 		}
-		
-		if (gwDst != null){
-			srcViewer.setSelection(new StructuredSelection(ModelHelper.getElementbyId(gwDst)));
+		//Initialize destination gateway
+		String gwDst = wizard.attrMap.get("gw_dst");
+		Element gwDstElem = ModelHelper.getGatewayFromRouterName(gwDst,dstList);
+		if (gwDstElem != null){
+			dstViewer.setSelection(new StructuredSelection(gwDstElem),true);
 		}else if (dstList.size() >= 1){
-			dstViewer.setSelection(new StructuredSelection((dstList).get(0)));
+			dstViewer.setSelection(new StructuredSelection((dstList).get(0)),true);
 		}
 		updateUI();
 	}

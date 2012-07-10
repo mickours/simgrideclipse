@@ -1,9 +1,12 @@
 package simgrideclipseplugin.graphical.commands;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.model.ModelHelper;
+import simgrideclipseplugin.wizards.EditElementWizard;
 
 public class ConnectionReconnectCommand extends Command {
 
@@ -68,17 +71,23 @@ public class ConnectionReconnectCommand extends Command {
 	@Override
 	public void execute() {
         if (newSourceNode != null) {
-            ModelHelper.reconnect(route, newSourceNode, oldTargetNode);
+            ModelHelper.editRoute(route, newSourceNode, newTargetNode);
         } else if (newTargetNode != null) {
-        	ModelHelper.reconnect(route, oldSourceNode, newTargetNode);
+        	ModelHelper.editRoute(route, oldSourceNode, newTargetNode);
         } else {
             throw new IllegalStateException("Should not happen");
         }
+		EditElementWizard wizard = new EditElementWizard(route);
+		WizardDialog dialog = new WizardDialog(null, wizard);
+        dialog.create();
+    	if (dialog.open() == Window.CANCEL){
+    		ModelHelper.editRoute(route, oldSourceNode, oldTargetNode);
+    	}
     }
    
 	@Override
     public void undo() {
-		ModelHelper.reconnect(route, oldSourceNode, oldTargetNode);
+		
     }
 
 }

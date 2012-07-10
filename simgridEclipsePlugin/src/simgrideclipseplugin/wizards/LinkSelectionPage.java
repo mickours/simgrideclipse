@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.w3c.dom.Element;
@@ -32,6 +33,8 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 	private List<Element> availableLinks;
 	private LinkedList<Element> routeList;
 	private Element refNode;
+	private boolean isMultilink;
+	
 	private Button toLeft;
 	private Button toRight;
 	private Button up;
@@ -39,9 +42,18 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 	private Button plus;
 	private Button edit;
 
-	public LinkSelectionPage(java.util.List<Element> list, Element refNode) {
+
+	/**
+	 * Construct the Link selection page with the available Links list and a reference node
+	 * that can can be a node in the current AS or the route to edit
+	 * @param availableLinks
+	 * @param refNode
+	 * @param isMultilink
+	 */
+	public LinkSelectionPage(List<Element> availableLinks, Element refNode, boolean isMultilink) {
 		super("Route editing", "Route editing", SimgridIconProvider.getIconImageDescriptor(ElementList.LINK_CTN));
-		availableLinks = list;
+		this.availableLinks = availableLinks;
+		this.isMultilink = isMultilink;
 		routeList = new LinkedList<Element>();
 		this.refNode = refNode;
 	}
@@ -122,9 +134,16 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 	    
 	    parent.pack();
 	    setControl(composite);
-	    setPageComplete(false);
+	    
 	    if (availableLinks.isEmpty()){
 	    	setErrorMessage("you must have at least one link in this container or in his descendants");
+	    }
+	    
+	    //initialize route List
+	    if (ElementList.isConnection(refNode.getTagName())){
+	    	routeList = ModelHelper.getRouteLinks(refNode);
+	    	availableLinks.removeAll(routeList);
+	    	update();
 	    }
 	}
 
@@ -136,19 +155,28 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 	        dialog.create();
 	    	dialog.open();
 	    	if (dialog.getReturnCode()== Window.OK){
-	    		Element link = ModelHelper.createLink( refNode, wizard.attrMap);
+	    		Element link = ModelHelper.createAndAddLink( refNode, wizard.attrMap);
 	    		availableLinks.add(link);
 	    	}
 		}
 		else if (event.widget == toLeft) {
-			IStructuredSelection sel = (StructuredSelection) availableLinkViewer
-					.getSelection();
-			if (!sel.isEmpty()) {
+			if(!isMultilink && routeList.size() == 1){
+				String routing = ((Element)refNode.getParentNode()).getAttribute("routing");
+				MessageBox mb = new MessageBox(getShell(),SWT.ICON_WARNING);
+				mb.setMessage("The route with multiple links is not allowed " +
+						"with the actual routing \""+routing+"\"");
+				mb.open();
+			}
+			else{
+				IStructuredSelection sel = (StructuredSelection) availableLinkViewer
+						.getSelection();
 				Element e = (Element) sel.getFirstElement();
-				routeList.addLast(e);
-				availableLinks.remove(e);
-				updateUI();
-				routeViewer.setSelection(new StructuredSelection(e));
+				if (!sel.isEmpty()) {
+					routeList.addLast(e);
+					availableLinks.remove(e);
+					update();
+					routeViewer.setSelection(new StructuredSelection(e));
+				}
 			}
 		} else if (!routeViewer.getSelection().isEmpty()) {
 			IStructuredSelection sel = (StructuredSelection) routeViewer
@@ -162,7 +190,7 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 			} else if (event.widget == toRight) {
 				routeList.remove(e);
 				availableLinks.add(e);
-				updateUI();
+				update();
 				availableLinkViewer.setSelection(new StructuredSelection(e));
 			} else if (event.widget == up && routeList.indexOf(e) > 0) {
 				int ind = routeList.indexOf(e);
@@ -175,8 +203,14 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 				routeList.add(ind+1, e);
 			}
 		}
+		update();
+	}
+	
+	private void update(){
+		//update data
 		((CreateElementWizard)getWizard()).linkList = routeList;
 		
+		//update UI
 		boolean isComplete = routeList.size() > 0;
 		if(isComplete){
 			setErrorMessage(null);
@@ -185,11 +219,7 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 			setErrorMessage("Your route must contains at least one link");
 		}
 		setPageComplete(isComplete);
-		updateUI();
-	}
-	
-	private void updateUI(){
-		//update UI
+		
 		routeViewer.setInput(routeList);
 		availableLinkViewer.setInput(availableLinks);
 	}

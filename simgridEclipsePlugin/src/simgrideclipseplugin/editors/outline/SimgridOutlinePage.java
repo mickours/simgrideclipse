@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
-import org.eclipse.wst.sse.core.internal.model.ModelLifecycleEvent;
+import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 
 import simgrideclipseplugin.editors.SimgridGraphicEditor;
@@ -24,17 +24,27 @@ public class SimgridOutlinePage extends ContentOutlinePage //implements IPropert
 	private LabelProvider outlineLabelProvider;
 	private StructuredTextEditor editor;
 
-	public SimgridOutlinePage(StructuredTextEditor editor, SimgridGraphicEditor graphEditor)
-	{
+	public SimgridOutlinePage(StructuredTextEditor editor,
+			SimgridGraphicEditor graphEditor) {
 		super();
 		this.editor = editor;
-		outlineContentProvider = new OutlineContentProvider(editor.getDocumentProvider());
-		//handle model changes
+		outlineContentProvider = new OutlineContentProvider(
+				editor.getDocumentProvider());
+		// handle model changes
 		ModelHelper.addModelListener(editor.getEditorInput(),
-				new SimgridModelListener(){
+				new SimgridModelListener() {
+					int updateIfZero = 0;
 					@Override
-					public void processPostModelEvent(ModelLifecycleEvent arg0) {
+					public void modelAboutToBeChanged(IStructuredModel model) {
+						updateIfZero++;
+					}
+
+					@Override
+					public void modelChanged(IStructuredModel model) {
+						updateIfZero--;
+						if (updateIfZero==0 ){
 							updateInput();
+						}
 					}
 		});
 		updateInput();
@@ -91,7 +101,7 @@ public class SimgridOutlinePage extends ContentOutlinePage //implements IPropert
 			{
 				control.setRedraw(false);
 				viewer.setInput(input);
-				viewer.expandAll();
+//				viewer.expandAll();
 				control.setRedraw(true);
 			}
 		}

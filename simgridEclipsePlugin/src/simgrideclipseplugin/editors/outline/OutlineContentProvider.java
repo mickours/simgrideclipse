@@ -60,21 +60,16 @@ public class OutlineContentProvider implements ITreeContentProvider {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	public Object[] getElements(Object inputElement) {
 		if (root == null)
 			return new Object[0];
-		List childrenDTDElements = ModelHelper.getNoConnectionChildren(root);
-		if (childrenDTDElements != null)
-			return childrenDTDElements.toArray();
-		return new Object[0];
+		return getChildren(root);
 	}
 
 	public void dispose() {
 	}
 
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-
 		if (oldInput != null) {
 			IDocument document = documentProvider.getDocument(oldInput);
 			if (document != null) {

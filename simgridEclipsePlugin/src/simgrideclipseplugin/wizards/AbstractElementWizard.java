@@ -25,6 +25,8 @@ public abstract class AbstractElementWizard extends Wizard {
 	
 	protected Element sourceNode;
 	protected Element targetNode;
+	protected Element route;
+
 	protected boolean multiLink;
 	
 	public AbstractElementWizard(String tagName) {
@@ -45,7 +47,8 @@ public abstract class AbstractElementWizard extends Wizard {
 				addPage(gwPage);
 			}
 			//set links
-			linkPage = new LinkSelectionPage(ModelHelper.getLinks(sourceNode), sourceNode);
+			Element refNode = (route != null) ?route : sourceNode;
+			linkPage = new LinkSelectionPage(ModelHelper.getLinks(sourceNode), refNode, multiLink);
 			addPage(linkPage);
 		}
 		else{

@@ -1,20 +1,45 @@
 package simgrideclipseplugin.model;
 
-import org.eclipse.wst.sse.core.internal.model.ModelLifecycleEvent;
-import org.eclipse.wst.sse.core.internal.provisional.IModelLifecycleListener;
+import org.eclipse.wst.sse.core.internal.provisional.IModelStateListener;
+import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 
 @SuppressWarnings("restriction")
-public abstract class SimgridModelListener implements IModelLifecycleListener{
+public abstract class SimgridModelListener implements IModelStateListener{
+
+		@Override
+	public void modelAboutToBeReinitialized(IStructuredModel arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+		
+	@Override
+	public void modelAboutToBeChanged(IStructuredModel model) {
+			// TODO Auto-generated method stub
+			
+	}
 
 	@Override
-	public void processPostModelEvent(ModelLifecycleEvent arg0) {
+	public void modelDirtyStateChanged(IStructuredModel arg0, boolean arg1) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void processPreModelEvent(ModelLifecycleEvent arg0) {
+	public void modelReinitialized(IStructuredModel arg0) {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void modelResourceDeleted(IStructuredModel arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modelResourceMoved(IStructuredModel arg0, IStructuredModel arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

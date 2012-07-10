@@ -27,11 +27,13 @@ import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.part.MultiPageEditorSite;
 import org.eclipse.ui.part.MultiPageSelectionProvider;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.contenttype.ContentTypeIdForXML;
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.editors.outline.SimgridOutlinePage;
+import simgrideclipseplugin.editors.properties.ElementPropertySource;
 import simgrideclipseplugin.model.ModelHelper;
 
 //import simgrideclipseplugin.editors.outline.SimgridOutlinePage;
@@ -93,7 +95,9 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 		}
 	};	
 
-	/**
+
+
+	private ElementPropertySource properties;	/**
 	 * Creates a multi-page editor example.
 	 */
 	public MultiPageSimgridEditor() {
@@ -155,15 +159,8 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 				else if (outline != null && event.getSource()== outline){
 					oldElementSelection = new StructuredSelection(sel.toList());
 					oldEditPartSelection = ModelHelper.modelToPartSelection(sel,graphEditor);
-					
-					Runnable doSelect = new Runnable() {
-						@Override
-						public void run() {
-							editor.getSelectionProvider().setSelection(oldElementSelection);
-							graphEditor.externalSelectionChanged(oldElementSelection);
-						}
-					};
-					getSite().getShell().getDisplay().asyncExec(doSelect);
+					editor.getSelectionProvider().setSelection(oldElementSelection);
+					graphEditor.externalSelectionChanged(oldElementSelection);
 				}
 			}
 		};
@@ -225,8 +222,8 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 	 * Creates and connect the pages of the multi-page editor.
 	 */
 	protected void createPages() {
-		createStructuredTextEditorPage();
 		createGraphicEditorPage();
+		createStructuredTextEditorPage();
 	}
 	
 	
@@ -319,8 +316,9 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 			}
 			return outline;
 		}
-		if (required == ZoomManager.class)
+		if (required == ZoomManager.class){
 			return graphEditor.getAdapter(ZoomManager.class);
+		}
 		return super.getAdapter(required);
 	}
 

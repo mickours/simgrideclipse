@@ -9,21 +9,17 @@ import simgrideclipseplugin.model.SimgridRules;
 
 public class EditElementWizard extends CreateElementWizard {
 
-	private Element toEditElement;
+	public Element toEditElement;
 
 	public EditElementWizard(Element toEditElement) {
 		super(toEditElement.getTagName());
 		this.toEditElement = toEditElement;
-		for (String attr : ElementList.getAttributesList(tagName)){
-			if (toEditElement.hasAttribute(attr)){
-				attrMap.put(attr, toEditElement.getAttribute(attr));
-			}
-		}
+		ModelHelper.setAttributeMap(toEditElement, attrMap);
 		if (ElementList.isConnection(tagName)){
+			route = toEditElement;
 			sourceNode = ModelHelper.getSourceNode(toEditElement);
 			targetNode = ModelHelper.getTargetNode(toEditElement);
 			multiLink = true;
-			//multiLink = SimgridRules.((Element) toEditElement.getParentNode()).getAttribute("r")
 		}
 	}
 

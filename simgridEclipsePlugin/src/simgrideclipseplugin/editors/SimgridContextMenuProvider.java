@@ -50,13 +50,9 @@ public class SimgridContextMenuProvider extends ContextMenuProvider {
 				}
 			}
 			IAction action = actionRegistry.getAction(GoIntoAction.ID);
-			if (action.isEnabled()){
-				menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
-			}
+			menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
 			action = actionRegistry.getAction(GoOutAction.ID);
-			if (action.isEnabled()){
-				menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
-			}
+			menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
 	  }
 	 
 	  public void setActionRegistry(ActionRegistry registry) { 
