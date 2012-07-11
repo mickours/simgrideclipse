@@ -7,9 +7,11 @@ import java.util.List;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPart;
 import org.graphstream.algorithm.Toolkit;
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.layout.springbox.SpringBox;
+import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.parts.AbstractElementEditPart;
 import simgrideclipseplugin.graphical.parts.ErrorEditPart;
@@ -32,8 +34,9 @@ public class AutomaticGraphLayoutHelper {
 		//positionMap = new HashMap<String, Point>();
 		editPartMap = new HashMap<String, SimgridAbstractEditPart>();
 		layoutManager = new SpringBox();
-		layoutManager.setStabilizationLimit(0.5);
+		//layoutManager.setStabilizationLimit(0);
 		graph = new GraphicGraph("id");
+		//graph.setStrict(true);
 		layoutManager.addSink(graph);
 		graph.addSink(layoutManager);
 	}
@@ -49,13 +52,28 @@ public class AutomaticGraphLayoutHelper {
 			return;
 		}
 		addNode((SimgridAbstractEditPart) root);
+		int nbEdge = 0;
+		for (Node node : graph.getEachNode()){
+			for (Edge edge : graph.getEachEdge()){
+				if (edge.getNode0().equals(node)){
+					for (Node otherNode : graph.getEachNode()){
+						if (edge.getNode1().equals(otherNode)){
+							nbEdge++;
+						}
+					}
+				}
+			}
+			if (nbEdge == 0){
+				node.setAttribute("layout.weight",0.05);
+			}
+		}
 		// compute layout
 		int i = 0;
 		do  {
 			layoutManager.compute();
 			i++;
 			//TODO the i limit must depends on the number of nodes
-		}while(layoutManager.getNodeMoved() != 0 && i < 5000 );
+		}while(layoutManager.getNodeMoved() != 0 && i < 200 );
 		double xmin = 0, ymin = 0;
 		//get the x and y min to translate
 		for (Node n : graph.getEachNode()) {
@@ -69,47 +87,56 @@ public class AutomaticGraphLayoutHelper {
 			// get (position,id) from graph
 			double pos[] = Toolkit.nodePosition(graph, n.getId());
 			//TODO assign position depending on object size
-			int x =  new Double((pos[0]+Math.abs(xmin))*25).intValue();
-			int y =  new Double((pos[1]+Math.abs(ymin))*25).intValue();
+			int x =  new Double((pos[0]+Math.abs(xmin))*200).intValue();
+			int y =  new Double((pos[1]+Math.abs(ymin))*200).intValue();
 			Point p = new Point(x, y);
 			// set position
 			ElementPositionMap.setPositionAndRefresh(editPartMap.get(n.getId()),p);
 		}		
 	}
 
+	@SuppressWarnings("unchecked")
 	private void addNode(EditPart node) {
-		String id = computeId(node);
-		if (node instanceof AbstractElementEditPart) {
-			editPartMap.put(id, (SimgridAbstractEditPart) node);
-			graph.addNode(id);
-			AbstractElementEditPart elem = (AbstractElementEditPart) node;
-			int value = elem.getSourceConnections().size()+elem.getTargetConnections().size();
-			graph.getNode(id).setAttribute("layout.weight",value);
-			if (elem.getSourceConnections().size() + elem.getTargetConnections().size() != 0) {
-			//TODO find a good way to add edge
-				
-//				List<?> l = new ArrayList(elem.getSourceConnections());
-//				l.addAll(elem.getTargetConnections());
-//				for (Object e :l){
-//					if (e instanceof EditPart){
-//						graph.addEdge(id, computeId(connection.getSource()), computeId(connection.getTarget()));
-//					}
-//				}
-//				AbstConnectionEditPart connection = (AbstConnectionEditPart) node;
-//				graph.addEdge(id, computeId(connection.getSource()), computeId(connection.getTarget()));
-//				graph.getEdge(id).setAttribute("layout.weight" , 0.01);
+		if (node instanceof AbstractElementEditPart){
+			String id = computeId(node);
+			//add the node if it is necessary
+			if (!editPartMap.containsKey(id)){
+				editPartMap.put(id, (SimgridAbstractEditPart) node);
+				graph.addNode(id);
+			}
+			//get connections in source
+			AbstractElementEditPart editPart = (AbstractElementEditPart) node;
+			int numberOfConnection = editPart.getSourceConnections().size();
+			//graph.getNode(id).setAttribute("layout.weight",(numberOfConnection*0.3)+0.1);
+			graph.getNode(id).setAttribute("layout.weight",0.3);
+			if (numberOfConnection != 0) {
+				//TODO add edges in the graph
+				List<?> l = new ArrayList<Object>();
+				l.addAll(editPart.getSourceConnections());
+				for (Object e :l){
+					if (e instanceof AbstConnectionEditPart){
+						AbstConnectionEditPart conn = (AbstConnectionEditPart) e;
+						AbstractElementEditPart newElem = (AbstractElementEditPart) conn.getTarget();
+						String id2 = computeId(newElem);
+						if (graph.getNode(id2) == null){
+							editPartMap.put(id2, (SimgridAbstractEditPart) newElem);
+							graph.addNode(id2);
+						}
+						Edge edge = graph.addEdge(computeId(conn),id,id2);
+						
+						//edge.setAttribute("layout.weight" , 1);
+					}
+				}
 			}
 		}
-		//TODO add edge in the list
 		List<?> l = node.getChildren();
 		for (Object elem : l) {
-			if (!(elem instanceof ErrorEditPart)){
-				addNode((SimgridAbstractEditPart)elem);
-			}
+			addNode((EditPart)elem);
 		}
 	}
 	
 	private String computeId(EditPart node){
-		return Integer.toString(node.hashCode());
+		//return Integer.toString(node.hashCode());
+		return node.getModel().toString();
 	}
 }
