@@ -40,8 +40,10 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import simgrideclipseplugin.graphical.AutomaticGraphLayoutHelper;
 import simgrideclipseplugin.graphical.SimgridPaletteFactory;
 import simgrideclipseplugin.graphical.actions.AutoLayoutAction;
+import simgrideclipseplugin.graphical.actions.EditASRouting;
 import simgrideclipseplugin.graphical.actions.EditElementAction;
 import simgrideclipseplugin.graphical.actions.GoIntoAction;
 import simgrideclipseplugin.graphical.actions.GoOutAction;
@@ -198,6 +200,17 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	}
 
 
+	public void doAutoLayout() {
+		final double zoomMax = 1.20;
+		AutomaticGraphLayoutHelper.INSTANCE.init(getGraphicalContents());
+		AutomaticGraphLayoutHelper.INSTANCE.computeLayout();
+		ScalableFreeformRootEditPart root =(ScalableFreeformRootEditPart)getGraphicalViewer().getRootEditPart();
+		root.getZoomManager().setZoomAsText(ZoomManager.FIT_ALL);
+		if (root.getZoomManager().getZoom() > zoomMax){
+			root.getZoomManager().setZoom(zoomMax);
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void createActions() {
@@ -210,6 +223,10 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		ar.registerAction(action);
 		
 		action = new EditElementAction(this);
+		ar.registerAction(action);
+		getSelectionActions().add(action.getId());
+		
+		action = new EditASRouting(this);
 		ar.registerAction(action);
 		getSelectionActions().add(action.getId());
 		
@@ -312,5 +329,6 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		 }
 		 
 	}
+
 
 }

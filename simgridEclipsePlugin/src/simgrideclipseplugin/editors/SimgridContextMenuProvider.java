@@ -6,9 +6,11 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
 
+import simgrideclipseplugin.graphical.actions.EditASRouting;
 import simgrideclipseplugin.graphical.actions.EditElementAction;
 import simgrideclipseplugin.graphical.actions.GoIntoAction;
 import simgrideclipseplugin.graphical.actions.GoOutAction;
@@ -52,10 +54,24 @@ public class SimgridContextMenuProvider extends ContextMenuProvider {
 			}
 			IAction action = actionRegistry.getAction(EditElementAction.ID);
 			menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+			
+			action = actionRegistry.getAction(EditASRouting.ID);
+			if (action.isEnabled()){
+				EditASRouting a = (EditASRouting) action;
+				// create sub menu
+		        MenuManager subMenu = new MenuManager(EditASRouting.TEXT, null);
+		        for (IAction subAction : a.getSubActions()){
+		        	subMenu.add(subAction);
+		        }
+				menu.appendToGroup(GEFActionConstants.GROUP_EDIT, subMenu);
+			}
+			
 			action = actionRegistry.getAction(GoIntoAction.ID);
 			menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
+			
 			action = actionRegistry.getAction(GoOutAction.ID);
 			menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
+			
 			
 	  }
 	 

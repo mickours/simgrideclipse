@@ -11,7 +11,6 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.layout.springbox.SpringBox;
-import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.parts.AbstractElementEditPart;
 import simgrideclipseplugin.graphical.parts.ErrorEditPart;
@@ -31,12 +30,9 @@ public class AutomaticGraphLayoutHelper {
 
 	public void init(EditPart root) {
 		this.root = root;
-		//positionMap = new HashMap<String, Point>();
 		editPartMap = new HashMap<String, SimgridAbstractEditPart>();
 		layoutManager = new SpringBox();
-		//layoutManager.setStabilizationLimit(0);
 		graph = new GraphicGraph("id");
-		//graph.setStrict(true);
 		layoutManager.addSink(graph);
 		graph.addSink(layoutManager);
 	}
@@ -44,7 +40,6 @@ public class AutomaticGraphLayoutHelper {
 	public void computeLayout() {
 		//clear old data
 		graph.clear();
-		//positionMap.clear();
 		editPartMap.clear();
 		// populate the graph
 		if (root instanceof ErrorEditPart){
@@ -84,7 +79,6 @@ public class AutomaticGraphLayoutHelper {
 		
 		// update position in the map
 		for (Node n : graph.getEachNode()) {
-			// get (position,id) from graph
 			double pos[] = Toolkit.nodePosition(graph, n.getId());
 			//TODO assign position depending on object size
 			int x =  new Double((pos[0]+Math.abs(xmin))*200).intValue();
@@ -107,10 +101,9 @@ public class AutomaticGraphLayoutHelper {
 			//get connections in source
 			AbstractElementEditPart editPart = (AbstractElementEditPart) node;
 			int numberOfConnection = editPart.getSourceConnections().size();
-			//graph.getNode(id).setAttribute("layout.weight",(numberOfConnection*0.3)+0.1);
-			graph.getNode(id).setAttribute("layout.weight",0.3);
+			graph.getNode(id).setAttribute("layout.weight",0.5);
 			if (numberOfConnection != 0) {
-				//TODO add edges in the graph
+				//add edges in the graph
 				List<?> l = new ArrayList<Object>();
 				l.addAll(editPart.getSourceConnections());
 				for (Object e :l){
@@ -122,9 +115,7 @@ public class AutomaticGraphLayoutHelper {
 							editPartMap.put(id2, (SimgridAbstractEditPart) newElem);
 							graph.addNode(id2);
 						}
-						Edge edge = graph.addEdge(computeId(conn),id,id2);
-						
-						//edge.setAttribute("layout.weight" , 1);
+						graph.addEdge(computeId(conn),id,id2);
 					}
 				}
 			}
@@ -136,7 +127,6 @@ public class AutomaticGraphLayoutHelper {
 	}
 	
 	private String computeId(EditPart node){
-		//return Integer.toString(node.hashCode());
 		return node.getModel().toString();
 	}
 }

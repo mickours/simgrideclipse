@@ -17,9 +17,9 @@ public class EditElementAction extends SelectionAction {
 		// TODO Auto-generated constructor stub
 	}
 
-	public static final String ID = "simgrideclipseplugin.EditASAction";
+	public static final String ID = "simgrideclipseplugin.EditElementAction";
 	public static final String TEXT = "Edit...";
-	public static final String TOOL_TIP = "Edit the selected AS";
+	public static final String TOOL_TIP = "Edit the selected element";
 
 	@Override
 	protected void init() {

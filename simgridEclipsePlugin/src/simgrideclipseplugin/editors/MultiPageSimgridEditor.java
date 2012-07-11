@@ -311,7 +311,7 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 	public Object getAdapter(Class required) {
 		if (required == IContentOutlinePage.class){
 			if (outline == null){
-				outline = new SimgridOutlinePage(editor, graphEditor);
+				outline = new SimgridOutlinePage(editor);
 				outline.addSelectionChangedListener(listener);
 			}
 			return outline;

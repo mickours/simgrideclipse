@@ -297,12 +297,10 @@ public final class ModelHelper {
 		
 	}
 	
-	private static void editAttribute(Element toEditElement, String attrName, String value){
+	public static void editAttribute(Element toEditElement, String attrName, String value){
 		if (toEditElement.getAttribute(attrName) != value){
 			if (toEditElement != null){
-				model.aboutToChangeModel();
 				toEditElement.setAttribute(attrName, value);
-				model.changedModel();
 			}
 		}
 	}

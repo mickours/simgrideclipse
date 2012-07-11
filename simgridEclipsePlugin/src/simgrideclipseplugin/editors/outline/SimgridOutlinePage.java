@@ -10,13 +10,12 @@ import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 
-import simgrideclipseplugin.editors.SimgridGraphicEditor;
 import simgrideclipseplugin.graphical.providers.ElementLabelProvider;
 import simgrideclipseplugin.model.ModelHelper;
 import simgrideclipseplugin.model.SimgridModelListener;
 
 @SuppressWarnings("restriction")
-public class SimgridOutlinePage extends ContentOutlinePage //implements IPropertyListener
+public class SimgridOutlinePage extends ContentOutlinePage
 {
 
 	private IEditorInput input;
@@ -24,8 +23,7 @@ public class SimgridOutlinePage extends ContentOutlinePage //implements IPropert
 	private LabelProvider outlineLabelProvider;
 	private StructuredTextEditor editor;
 
-	public SimgridOutlinePage(StructuredTextEditor editor,
-			SimgridGraphicEditor graphEditor) {
+	public SimgridOutlinePage(StructuredTextEditor editor) {
 		super();
 		this.editor = editor;
 		outlineContentProvider = new OutlineContentProvider(
