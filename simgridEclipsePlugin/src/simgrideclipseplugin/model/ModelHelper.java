@@ -186,15 +186,12 @@ public final class ModelHelper {
 		model.aboutToChangeModel();
 		Node parent = e.getParentNode();
 		parent.removeChild(e);
-		//FIXME : find node that doesn't contains anything and remove them
+		//find node that doesn't contains anything and remove them
 		Node child = parent.getFirstChild();
 		Node next;
 		while(child != null){
 			next = child.getNextSibling();
-			if (child instanceof TextImpl && 
-					//TODO find a good regexp
-					(child.getTextContent().startsWith("\n\t\n")
-							|| child.getTextContent().startsWith("\n\n"))){
+			if (child instanceof TextImpl && next instanceof TextImpl && (child.getTextContent().matches("\n+\t*"))){
 				parent.removeChild(child);
 			}
 			child = next;

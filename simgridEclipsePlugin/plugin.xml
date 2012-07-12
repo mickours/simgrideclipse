@@ -41,7 +41,8 @@
             category="simgridEclipsePlugin"
             class="simgrideclipseplugin.wizards.SimgridProjectWizard"
             id="simgrideclipseplugin.wizards.SimgridProjectWizard"
-            project="true">
+            project="true"
+            hasPages="true">
       </wizard>
       <wizard
             name="SimGrid Deployment File"

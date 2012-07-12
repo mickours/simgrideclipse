@@ -40,8 +40,8 @@ public class SimgridProjectWizardPage extends WizardPage implements Listener {
 		Composite container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
 		container.setLayout(layout);
-		layout.numColumns = 2;
-		layout.verticalSpacing = 9;
+		layout.numColumns = 3;
+		setControl(container);
 		//language
 		Label label = new Label(container, SWT.NULL);
 		label.setText("&Language:");
@@ -57,7 +57,7 @@ public class SimgridProjectWizardPage extends WizardPage implements Listener {
 		label = new Label(container, SWT.NULL);
 		label.setText("&Add functions:");
 		gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 2;
+		gd.horizontalSpan = 3;
 		label.setLayoutData(gd);
 		
 		funcContainer = new Composite(container, SWT.NONE);		
@@ -65,7 +65,7 @@ public class SimgridProjectWizardPage extends WizardPage implements Listener {
 		funcContainer.setLayout(layout);
 		
 		gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 2;
+		gd.horizontalSpan = 3;
 		funcContainer.setLayoutData(gd);
 		
 		createFunctionText();
@@ -81,8 +81,6 @@ public class SimgridProjectWizardPage extends WizardPage implements Listener {
 		moins.addListener(SWT.Selection, this);
 		
 		initialize();
-		setControl(container);
-		getShell().pack();
 	}
 	
 	private void initialize() {
@@ -92,6 +90,7 @@ public class SimgridProjectWizardPage extends WizardPage implements Listener {
 	private void createFunctionText(){
 		Text funcText = new Text(funcContainer, SWT.BORDER | SWT.SINGLE);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.widthHint = getControl().getParent().getSize().x - 40;
 		funcText.setLayoutData(gd);
 		funcText.addListener(SWT.KeyUp, this);
 		funcTextList.add(funcText);
@@ -99,6 +98,9 @@ public class SimgridProjectWizardPage extends WizardPage implements Listener {
 	
 	
 	private void updateStatus(String message) {
+		if (getLanguage().isEmpty()){
+			message += "you need to specify a language";
+		}
 		setErrorMessage(message);
 		setPageComplete(message == null);
 	}
@@ -121,6 +123,10 @@ public class SimgridProjectWizardPage extends WizardPage implements Listener {
 		//TODO handle errors
 		if (event.widget == plus){
 			createFunctionText();
+			int size = funcContainer.getChildren().length;
+			if (size > 4){
+				getShell().pack();
+			}
 		}
 		else if (event.widget == moins){
 			int size = funcContainer.getChildren().length;
@@ -129,9 +135,7 @@ public class SimgridProjectWizardPage extends WizardPage implements Listener {
 				funcTextList.removeLast();
 			}
 		}
-		funcContainer.layout();
 		getControl().pack();
-		getShell().pack();
 		updateStatus(message);
 	}
 

@@ -9,6 +9,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.IWorkbenchPart;
 import org.w3c.dom.Element;
 
+import simgrideclipseplugin.graphical.parts.ASContainerEditPart;
 import simgrideclipseplugin.graphical.parts.ASEditPart;
 import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 import simgrideclipseplugin.model.ElementList;
@@ -39,9 +40,10 @@ public class EditASRouting extends SelectionAction {
 	
 	@Override
 	protected boolean calculateEnabled() {
-		// we only want enabled if is single ASEditPart selection
+		// we only want enabled if is single AS selection
 	    if(getSelectedObjects().size() !=1
-	        || (!(getSelectedObjects().get(0) instanceof ASEditPart))){
+	        || (!(getSelectedObjects().get(0) instanceof ASEditPart) &&
+	        		!(getSelectedObjects().get(0) instanceof ASContainerEditPart))){
 	        return false;
 	    }
 	    return true;

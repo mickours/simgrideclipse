@@ -313,7 +313,7 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 				 //|| ModelHelper.getChildren(toOpen).isEmpty()){
 				 toOpen = (Element) toOpen.getParentNode();
 			 }
-			 if (!getGraphicalContents().getModel().equals(toOpen)){
+			 if (getGraphicalContents() != null && !getGraphicalContents().getModel().equals(toOpen)){
 				 //avoid selection listener while changing content
 				 getSite().setSelectionProvider(null);
 				 getGraphicalViewer().setContents(toOpen);
