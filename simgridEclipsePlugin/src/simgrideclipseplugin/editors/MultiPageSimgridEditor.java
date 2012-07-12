@@ -213,6 +213,7 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 		try {
 			graphicEditorIndex = addPage(graphEditor, getEditorInput());
 			setPageText(graphicEditorIndex, "Visual editor");
+			getSite().getId();
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}

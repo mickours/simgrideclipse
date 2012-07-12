@@ -18,7 +18,7 @@
             contributorClass="simgrideclipseplugin.editors.MultiPageSimgridEditorContributor"
             extensions="xml"
             icon="icons/SGicon16x16.gif"
-            id="simgrideclipseplugin.editors.MultiPageXMLEditor"
+            id="simgrideclipseplugin.editors.MultiPageSimgridEditor"
             name="Simgrid Editor">
       </editor>
    </extension>

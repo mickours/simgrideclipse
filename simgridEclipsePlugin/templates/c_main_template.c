@@ -5,11 +5,7 @@
 /* Create a log channel to have nice outputs. */
 #include "xbt/log.h"
 #include "xbt/asserts.h"
-XBT_LOG_NEW_DEFAULT_CATEGORY(msg_<PROJECT_NAME>,"Messages specific for this msg example");
-int sender(int argc, char *argv[]);
-int receiver(int argc, char *argv[]);
-msg_error_t test_all(const char *platform_file,
-const char *application_file);
+XBT_LOG_NEW_DEFAULT_CATEGORY(msg_<PROJECT_NAME>,"Messages specific for this simulation");
 
 <FUNCTIONS>
 
@@ -25,11 +21,11 @@ int main(int argc, char *argv[])
     msg_error_t res = MSG_OK;
     
     /* Simulation setting */
-    MSG_create_environment(platform_file);
+    MSG_create_environment(argv[1]);
     
     /* Application deployment */
     <FUNCTION_REGISTER>
-    MSG_launch_application(application_file);
+    MSG_launch_application(argv[2]);
     
     res = MSG_main();
     XBT_INFO("Simulation time %g", MSG_get_clock());

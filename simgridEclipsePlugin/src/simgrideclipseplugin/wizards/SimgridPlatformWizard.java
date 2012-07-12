@@ -115,7 +115,7 @@ public class SimgridPlatformWizard extends Wizard implements INewWizard {
 				IWorkbenchPage page =
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				try {
-					IDE.openEditor(page, file, true);
+					IDE.openEditor(page, file, "simgrideclipseplugin.editors.MultiPageSimgridEditor", true);
 				} catch (PartInitException e) {
 				}
 			}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/SimgridEclipseFeature_1.0.0.201207121808.jar" id="SimgridEclipseFeature" version="1.0.0.201207121808"/>
+</site>
