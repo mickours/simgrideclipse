@@ -7,12 +7,10 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ShortestPathConnectionRouter;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
-import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
-import org.w3c.dom.Element;
-
 import org.eclipse.wst.sse.core.internal.provisional.INodeNotifier;
+import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.figures.ContentPaneFigure;
 import simgrideclipseplugin.graphical.policies.SimgridXYLayoutEditPolicy;

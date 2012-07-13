@@ -22,20 +22,25 @@
             name="Simgrid Editor">
       </editor>
    </extension>
+   <!--
+   	 <extension
+	       point="org.eclipse.cdt.managedbuilder.ui.newWizardPages"
+	       id="simgrideclipseplugin.project.SimgridCProject"
+	       name="SimGrid MSG C Project">
+	       <wizardPage
+	       	ID="simgrideclipseplugin.wizards.SimgridProjectWizardPage"
+	       	pageClass="simgrideclipseplugin.wizards.SimgridProjectWizardPage"
+	       	operationClass="simgrideclipseplugin.wizards.SimgridProjectCreation">
+	       </wizardPage>
+	 </extension>
+   -->
    <extension
          point="org.eclipse.ui.newWizards">
       <category
             name="SimGrid"
             id="simgridEclipsePlugin">
       </category>
-      <wizard
-            name="SimGrid Platform Description File"
-            icon="icons/SGicon16x16.gif"
-            category="simgridEclipsePlugin"
-            class="simgrideclipseplugin.wizards.SimgridPlatformWizard"
-            id="simgrideclipseplugin.wizards.SimgridPlatformWizard">
-      </wizard>
-      <wizard
+            <wizard
             name="SimGrid MSG Project"
             icon="icons/SGicon16x16.gif"
             category="simgridEclipsePlugin"
@@ -45,6 +50,13 @@
             hasPages="true">
       </wizard>
       <wizard
+            name="SimGrid Platform Description File"
+            icon="icons/SGicon16x16.gif"
+            category="simgridEclipsePlugin"
+            class="simgrideclipseplugin.wizards.SimgridPlatformWizard"
+            id="simgrideclipseplugin.wizards.SimgridPlatformWizard">
+      </wizard>
+      <wizard
             name="SimGrid Deployment File"
             icon="icons/SGicon16x16.gif"
             category="simgridEclipsePlugin"
@@ -52,5 +64,14 @@
             id="simgrideclipseplugin.wizards.SimgridDeploymentWizard">
       </wizard>
    </extension>
+	<!--
+	<extension point="org.eclipse.ui.perspectives">
+   		<perspective
+         name="SimGrid Java"
+         class="simgrideclipseplugin.perspectives.SimgridJavaPerspective"
+         id="simgrideclipseplugin.perspectives.SimgridJavaPerspective">
+   		</perspective>
+	</extension>
+-->
 
 </plugin>

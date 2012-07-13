@@ -79,8 +79,8 @@ public class SimgridProjectWizardPage extends WizardPage implements Listener {
 		moins.setImage(PlatformUI.getWorkbench().getSharedImages().
 				getImageDescriptor(ISharedImages.IMG_ELCL_REMOVE).createImage());
 		moins.addListener(SWT.Selection, this);
-		
 		initialize();
+		updateStatus(null);
 	}
 	
 	private void initialize() {
@@ -99,6 +99,9 @@ public class SimgridProjectWizardPage extends WizardPage implements Listener {
 	
 	private void updateStatus(String message) {
 		if (getLanguage().isEmpty()){
+			if (message == null){
+				message = "";
+			}
 			message += "you need to specify a language";
 		}
 		setErrorMessage(message);

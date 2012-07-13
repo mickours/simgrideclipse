@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/SimgridEclipseFeature_1.0.0.201207121808.jar" id="SimgridEclipseFeature" version="1.0.0.201207121808"/>
+   <description name="SimGrid Eclipse Plug-In Update Site" url="http://simgrideclipse.forge.imag.fr/eclipse/">
+      Update Site for this plugin. It can be used in the site field in eclipse -&gt; help -&gt; Install new software to install and update your SimGrid Eclipse Plugin
+   </description>
+   <feature url="features/simgridEclipseFeature_0.1.0.alpha.jar" id="simgridEclipseFeature" version="0.1.0.alpha">
+      <category name="SimGrid"/>
+   </feature>
+   <category-def name="SimGrid" label="SimGrid">
+      <description>
+         SimGrid Eclipse Tools
+      </description>
+   </category-def>
 </site>

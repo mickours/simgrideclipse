@@ -17,8 +17,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
-import org.w3c.dom.Element;
-
 import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;

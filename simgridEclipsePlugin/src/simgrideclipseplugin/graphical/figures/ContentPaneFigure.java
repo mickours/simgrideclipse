@@ -1,9 +1,7 @@
 package simgrideclipseplugin.graphical.figures;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
-import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.TitleBarBorder;
 
 public class ContentPaneFigure extends FreeformLayer {

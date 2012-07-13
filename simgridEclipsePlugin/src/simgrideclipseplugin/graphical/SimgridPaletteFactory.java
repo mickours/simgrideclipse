@@ -66,7 +66,7 @@ public class SimgridPaletteFactory {
 		
 		//add creation Tools for platform
 		palette.add(createComponentDrawer("Platform"));
-		
+		palette.setVisible(true);
 		return palette;
 	}
 }

@@ -27,13 +27,13 @@ import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.part.MultiPageEditorSite;
 import org.eclipse.ui.part.MultiPageSelectionProvider;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-import org.eclipse.ui.views.properties.IPropertySource;
+//import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.contenttype.ContentTypeIdForXML;
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.editors.outline.SimgridOutlinePage;
-import simgrideclipseplugin.editors.properties.ElementPropertySource;
+//import simgrideclipseplugin.editors.properties.ElementPropertySource;
 import simgrideclipseplugin.model.ModelHelper;
 
 //import simgrideclipseplugin.editors.outline.SimgridOutlinePage;
@@ -97,7 +97,9 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 
 
 
-	private ElementPropertySource properties;	/**
+	//private ElementPropertySource properties;	
+	
+	/**
 	 * Creates a multi-page editor example.
 	 */
 	public MultiPageSimgridEditor() {

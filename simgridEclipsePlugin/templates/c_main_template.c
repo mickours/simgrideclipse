@@ -11,14 +11,14 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(msg_<PROJECT_NAME>,"Messages specific for this simu
 
 int main(int argc, char *argv[])
 {
-    msg_error_t res = MSG_OK;
     MSG_init(&argc, argv);
     if (argc < 3) {
         printf("Usage: %s platform_file deployment_file\n", argv[0]);
         printf("example: %s msg_platform.xml msg_deployment.xml\n", argv[0]);
         exit(1);
     }
-    msg_error_t res = MSG_OK;
+    
+    MSG_error_t res = MSG_OK;
     
     /* Simulation setting */
     MSG_create_environment(argv[1]);
