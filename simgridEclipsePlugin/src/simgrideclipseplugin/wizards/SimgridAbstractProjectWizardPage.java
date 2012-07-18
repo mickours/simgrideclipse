@@ -1,16 +1,16 @@
 package simgrideclipseplugin.wizards;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -19,19 +19,27 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
-public class SimgridProjectWizardPage extends WizardPage implements Listener {
+public abstract class SimgridAbstractProjectWizardPage extends WizardPage implements Listener {
 
 	private LinkedList<Text> funcTextList;
 	private Composite funcContainer;
-	private Combo cmbLanguage;
 	private Button plus;
 	private Button moins;
-	private final static String[] valList = {"C","Java"};
-
-	protected SimgridProjectWizardPage(String title) {
+	
+	/**
+	 * this map is used by the class that extends this to give
+	 * arguments to the <code>initializeNewProject</code> methods
+	 * in the parent wizard that must be a SimgridProjectWizard
+	 * @see SimgridAbstractProjectWizard SimgridProjectWizard
+	 */
+	protected Map<String, Object> argsMap;
+	protected String errorMessage;
+	
+	public SimgridAbstractProjectWizardPage(String title) {
 		super(title);
 		setTitle(title);
 		funcTextList = new LinkedList<Text>();
+		argsMap = new HashMap<String, Object>();
 	}
 
 	@Override
@@ -42,21 +50,13 @@ public class SimgridProjectWizardPage extends WizardPage implements Listener {
 		container.setLayout(layout);
 		layout.numColumns = 3;
 		setControl(container);
-		//language
-		Label label = new Label(container, SWT.NULL);
-		label.setText("&Language:");
 
-		cmbLanguage = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalAlignment = GridData.BEGINNING;
-		cmbLanguage.setLayoutData(gd);
-		cmbLanguage.setItems(valList);
-		cmbLanguage.addListener(SWT.Selection, this);
+		addProjectSpecificComposite(container);
 		
 		//functions
-		label = new Label(container, SWT.NULL);
+		Label label = new Label(container, SWT.NULL);
 		label.setText("&Add functions:");
-		gd = new GridData(GridData.FILL_HORIZONTAL);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 3;
 		label.setLayoutData(gd);
 		
@@ -80,10 +80,18 @@ public class SimgridProjectWizardPage extends WizardPage implements Listener {
 				getImageDescriptor(ISharedImages.IMG_ELCL_REMOVE).createImage());
 		moins.addListener(SWT.Selection, this);
 		initialize();
-		updateStatus(null);
+		setPageComplete(false);
 	}
 	
-	private void initialize() {
+	/**
+	 * should be override to add project specific visual settings
+	 */
+	protected abstract void addProjectSpecificComposite(Composite container);
+
+	/**
+	 * should be override to initialize project specific visual settings
+	 */
+	protected void initialize() {
 		funcTextList.get(0).setText("defaultFunction");
 	}
 
@@ -96,17 +104,18 @@ public class SimgridProjectWizardPage extends WizardPage implements Listener {
 		funcTextList.add(funcText);
 	}
 	
-	
-	private void updateStatus(String message) {
-		if (getLanguage().isEmpty()){
-			if (message == null){
-				message = "";
-			}
-			message += "you need to specify a language";
-		}
+	/**
+	 * set error message with the given message and update page complete status
+	 * if the message is empty or null reset error message and set page complete
+	 * @param message
+	 */
+	protected void updateStatus(String message) {
+		message = (message == null || message.isEmpty()) ? null: message;
 		setErrorMessage(message);
 		setPageComplete(message == null);
 	}
+	
+
 
 	public List<String> getFunctionNames() {
 		List<String> l = new ArrayList<String>(funcTextList.size());
@@ -115,15 +124,10 @@ public class SimgridProjectWizardPage extends WizardPage implements Listener {
 		}
 		return l;
 	}
-	
-	public String getLanguage() {
-		return cmbLanguage.getText();
-	}
 
 	@Override
 	public void handleEvent(Event event) {
-		String message = null;
-		//TODO handle errors
+		errorMessage = "";
 		if (event.widget == plus){
 			createFunctionText();
 			int size = funcContainer.getChildren().length;
@@ -138,8 +142,19 @@ public class SimgridProjectWizardPage extends WizardPage implements Listener {
 				funcTextList.removeLast();
 			}
 		}
+		//handle errors
+		else if (funcTextList.contains(event.widget)){
+			Text text = (Text) event.widget;
+			if (text.getText().isEmpty() || !text.getText().matches("[A-Za-z0-9_]+")){
+				errorMessage += "the function name must use only letters and numbers";
+			}
+		}
 		getControl().pack();
-		updateStatus(message);
+		updateStatus(errorMessage);
+	}
+
+	public Map<String, Object> getArgsMap() {
+		return argsMap;
 	}
 
 }

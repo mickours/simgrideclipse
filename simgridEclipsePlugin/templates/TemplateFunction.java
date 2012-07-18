@@ -14,11 +14,8 @@ public class <FUNCTION_NAME> extends Process {
    } 
     
    public void main(String[] args) throws MsgException {
-        
-      Msg.info("<FUNCTION_NAME> started");
-
-	// INSERT YOUR FUNCTION CODE HERE            
-
-      Msg.info("<FUNCTION_NAME> exit");
+        Msg.info("<FUNCTION_NAME> started");
+        //TODO INSERT YOUR FUNCTION CODE HERE            
+        Msg.info("<FUNCTION_NAME> exit");
     }
 }
