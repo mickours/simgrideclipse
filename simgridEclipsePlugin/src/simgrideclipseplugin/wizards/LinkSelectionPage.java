@@ -143,8 +143,8 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 	    if (ElementList.isConnection(refNode.getTagName())){
 	    	routeList = ModelHelper.getRouteLinks(refNode);
 	    	availableLinks.removeAll(routeList);
-	    	update();
 	    }
+    	update();
 	}
 
 	@Override

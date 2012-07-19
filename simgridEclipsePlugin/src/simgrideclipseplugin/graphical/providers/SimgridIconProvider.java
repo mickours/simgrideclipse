@@ -41,8 +41,8 @@ public class SimgridIconProvider {
 		
 		//add Element Icons
 		for (String tag : ElementList.getElementTagNameList()){
-			h.put(tag+"_small", tag+"_small.svg");
-			h.put(tag, tag+".svg");
+			h.put(tag+"_small", tag+"_small.png");
+			h.put(tag, tag+".png");
 		}
 		
 		//add Actions Icons

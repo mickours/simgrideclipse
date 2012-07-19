@@ -156,7 +156,7 @@ public class ProjectWizardsUtils {
 		}
 		
 
-		private void throwCoreException(String message) throws CoreException {
+		public static void throwCoreException(String message) throws CoreException {
 			IStatus status =
 				new Status(IStatus.ERROR, "simgridEclipsePlugin", IStatus.OK, message, null);
 			throw new CoreException(status);

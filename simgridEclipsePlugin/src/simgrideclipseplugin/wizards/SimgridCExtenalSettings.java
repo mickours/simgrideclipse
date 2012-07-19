@@ -3,10 +3,8 @@ package simgrideclipseplugin.wizards;
 import java.util.ArrayList;
 
 import org.eclipse.cdt.core.settings.model.CExternalSetting;
-import org.eclipse.cdt.core.settings.model.CIncludePathEntry;
 import org.eclipse.cdt.core.settings.model.CLibraryPathEntry;
 import org.eclipse.cdt.core.settings.model.ICConfigurationDescription;
-import org.eclipse.cdt.core.settings.model.ICIncludePathEntry;
 import org.eclipse.cdt.core.settings.model.ICLibraryPathEntry;
 import org.eclipse.cdt.core.settings.model.ICSettingEntry;
 import org.eclipse.cdt.core.settings.model.extension.CExternalSettingProvider;

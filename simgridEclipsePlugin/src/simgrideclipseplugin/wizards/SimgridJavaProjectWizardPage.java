@@ -1,7 +1,6 @@
 package simgrideclipseplugin.wizards;
 
 import java.io.File;
-import java.util.Arrays;
 
 import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.SWT;
@@ -37,7 +36,7 @@ public class SimgridJavaProjectWizardPage extends SimgridAbstractProjectWizardPa
 		locationText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		locationText.setLayoutData(gd);
-		locationText.addListener(SWT.FocusIn, this);
+		locationText.addListener(SWT.Modify, this);
 		Button button = new Button(container, SWT.PUSH);
 		button.setText("Browse...");
 		button.addSelectionListener(new SelectionAdapter() {
@@ -86,6 +85,12 @@ public class SimgridJavaProjectWizardPage extends SimgridAbstractProjectWizardPa
 			}
 		}
 		updateStatus(message);
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

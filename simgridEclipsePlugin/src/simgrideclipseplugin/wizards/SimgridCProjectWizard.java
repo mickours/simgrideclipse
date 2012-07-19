@@ -2,28 +2,15 @@ package simgrideclipseplugin.wizards;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.cdt.core.CCorePlugin;
 import org.eclipse.cdt.core.ICDescriptor;
-import org.eclipse.cdt.core.model.CoreModel;
-import org.eclipse.cdt.core.settings.model.CExternalSetting;
-import org.eclipse.cdt.core.settings.model.CIncludePathEntry;
-import org.eclipse.cdt.core.settings.model.ICConfigurationDescription;
-import org.eclipse.cdt.core.settings.model.ICIncludePathEntry;
-import org.eclipse.cdt.core.settings.model.ICProjectDescription;
-import org.eclipse.cdt.core.settings.model.ICProjectDescriptionManager;
-import org.eclipse.cdt.core.settings.model.ICSettingEntry;
-import org.eclipse.cdt.core.settings.model.extension.CExternalSettingProvider;
 import org.eclipse.cdt.managedbuilder.core.IConfiguration;
 import org.eclipse.cdt.managedbuilder.core.IManagedBuildInfo;
 import org.eclipse.cdt.managedbuilder.core.IManagedProject;
 import org.eclipse.cdt.managedbuilder.core.IProjectType;
-import org.eclipse.cdt.managedbuilder.core.IToolChain;
 import org.eclipse.cdt.managedbuilder.core.ManagedBuildManager;
 import org.eclipse.cdt.managedbuilder.core.ManagedCProjectNature;
 import org.eclipse.core.resources.IProject;
@@ -53,9 +40,7 @@ public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
 	public static final String LIB_PATH = "simgrid.project.C_library_path";
 
 	public static final String IS_38_OR_MORE = "simgrid.project.is38orMore";
-	
-	private Map<String,Object> args;
-	
+		
 	
 	public SimgridCProjectWizard() {
 		super(new SimgridCProjectWizardPage());
@@ -66,7 +51,6 @@ public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
 			List<String> funcL,
 			Map<String,Object> args,
 			IProgressMonitor monitor)throws CoreException {
-		this.args = args;
 		String projectName = project.getName();
 		String fileNameC = projectName+"_"+"main.c";
 		project = createNewCProject((String) args.get(TOOL_CHAIN),monitor);
@@ -93,7 +77,8 @@ public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
 				public void run(IProgressMonitor monitor) throws CoreException {
 					// Create the base project
 					IWorkspaceDescription workspaceDesc = workspace.getDescription();
-					//workspaceDesc.setAutoBuilding(false);
+					workspaceDesc.setAutoBuilding(false);
+					System.out.println("toto");
 					workspace.setDescription(workspaceDesc);
 					IProjectDescription description = workspace.newProjectDescription(project.getName());
 					if (location != null) {
@@ -105,14 +90,14 @@ public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
 
 					// Find the base project type definition
 					IProjectType projType = ManagedBuildManager.getProjectType(projectTypeId);
-					Assert.assertNotNull(projType);
+					if (projType == null)ProjectWizardsUtils.throwCoreException("projType is null");
 
 					// Create the managed-project (.cdtbuild) for our project that builds an executable.
 					IManagedProject newProject = null;
 					try {
 						newProject = ManagedBuildManager.createManagedProject(project, projType);
 					} catch (Exception e) {
-						Assert.fail("Failed to create managed project for: " + project.getName());
+						ProjectWizardsUtils.throwCoreException("Failed to create managed project for: " + project.getName());
 						return;
 					}
 					Assert.assertEquals(newProject.getName(), projType.getName());
@@ -141,7 +126,7 @@ public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
 			try {
 				workspace.run(runnable, root, IWorkspace.AVOID_UPDATE, monitor);
 			} catch (CoreException e2) {
-				Assert.fail(e2.getLocalizedMessage());
+				ProjectWizardsUtils.throwCoreException(e2.getLocalizedMessage());
 			}
 			// CDT opens the Project with BACKGROUND_REFRESH enabled which causes the
 			// refresh manager to refresh the project 200ms later.  This Job interferes
@@ -158,33 +143,33 @@ public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
 			// Initialize the path entry container
 			IStatus initResult = ManagedBuildManager.initBuildInfoContainer(project);
 			if (initResult.getCode() != IStatus.OK) {
-				Assert.fail("Initializing build information failed for: " + project.getName() + " because: " + initResult.getMessage());
+				ProjectWizardsUtils.throwCoreException("Initializing build information failed for: " + project.getName() + " because: " + initResult.getMessage());
 			}
 
-			//set additional Simgrid settings
-			ICProjectDescriptionManager mngr = CoreModel.getDefault().getProjectDescriptionManager();
-			ICProjectDescription desc = mngr.getProjectDescription(project);
-			ICConfigurationDescription conf = desc.getConfigurations()[0];
-			Assert.assertNotNull(conf);
-			LinkedHashSet<String> externalSettingsProviders = new LinkedHashSet<String>(Arrays.asList(conf.getExternalSettingsProviderIds()));
-			SimgridCExtenalSettings.lib_path = (String) args.get(LIB_PATH);
-			externalSettingsProviders.add(SimgridCExtenalSettings.ID);
-			conf.setExternalSettingsProviderIds(externalSettingsProviders.toArray(new String[0]));
-			conf.updateExternalSettingsProviders(new String[] {SimgridCExtenalSettings.ID});
+//			//set additional Simgrid settings
+//			ICProjectDescriptionManager mngr = CoreModel.getDefault().getProjectDescriptionManager();
+//			ICProjectDescription desc = mngr.getProjectDescription(project);
+//			ICConfigurationDescription conf = desc.getConfigurations()[0];
+//			Assert.assertNotNull(conf);
+//			LinkedHashSet<String> externalSettingsProviders = new LinkedHashSet<String>(Arrays.asList(conf.getExternalSettingsProviderIds()));
+//			SimgridCExtenalSettings.lib_path = (String) args.get(LIB_PATH);
+//			externalSettingsProviders.add(SimgridCExtenalSettings.ID);
+//			conf.setExternalSettingsProviderIds(externalSettingsProviders.toArray(new String[0]));
+//			conf.updateExternalSettingsProviders(new String[] {SimgridCExtenalSettings.ID});
 			return project;
 		}
 	
-	private void addManagedBuildNature (IProject project) {
+	private void addManagedBuildNature (IProject project) throws CoreException {
 		// Create the buildinformation object for the project
 		IManagedBuildInfo info = ManagedBuildManager.createBuildInfo(project);
-		Assert.assertNotNull(info);
+		if (info == null) ProjectWizardsUtils.throwCoreException("build info = null");
 
 		// Add the managed build nature
 		try {
 			ManagedCProjectNature.addManagedNature(project, new NullProgressMonitor());
 			ManagedCProjectNature.addManagedBuilder(project, new NullProgressMonitor());
 		} catch (CoreException e) {
-			Assert.fail("Test failed on adding managed build nature or builder: " + e.getLocalizedMessage());
+			ProjectWizardsUtils.throwCoreException("Test failed on adding managed build nature or builder: " + e.getLocalizedMessage());
 		}
 
 		// Associate the project with the managed builder so the clients can get proper information
@@ -194,13 +179,13 @@ public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
 			desc.remove(CCorePlugin.BUILD_SCANNER_INFO_UNIQ_ID);
 			desc.create(CCorePlugin.BUILD_SCANNER_INFO_UNIQ_ID, ManagedBuildManager.INTERFACE_IDENTITY);
 		} catch (CoreException e) {
-			Assert.fail("Test failed on adding managed builder as scanner info provider: " + e.getLocalizedMessage());
+			ProjectWizardsUtils.throwCoreException("Test failed on adding managed builder as scanner info provider: " + e.getLocalizedMessage());
 			return;
 		}
 		try {
 			desc.saveProjectData();
 		} catch (CoreException e) {
-			Assert.fail("Test failed on saving the ICDescriptor data: " + e.getLocalizedMessage());		}
+			ProjectWizardsUtils.throwCoreException("Test failed on saving the ICDescriptor data: " + e.getLocalizedMessage());		}
 		// Associate the project with the managed builder so the clients can get proper information
 //		ICConfigurationDescription  conf = null;
 //		ICProjectDescription desc = null;

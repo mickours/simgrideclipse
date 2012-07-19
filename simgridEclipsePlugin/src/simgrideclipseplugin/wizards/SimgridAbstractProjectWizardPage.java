@@ -79,10 +79,14 @@ public abstract class SimgridAbstractProjectWizardPage extends WizardPage implem
 		moins.setImage(PlatformUI.getWorkbench().getSharedImages().
 				getImageDescriptor(ISharedImages.IMG_ELCL_REMOVE).createImage());
 		moins.addListener(SWT.Selection, this);
-		initialize();
+		initializeComposite();
 		setPageComplete(false);
 	}
-	
+	/**
+	 * should be override to compute specific data before adding page
+	 * errorMessage should be set if an error occurred
+	 */
+	public abstract void init();
 	/**
 	 * should be override to add project specific visual settings
 	 */
@@ -91,7 +95,7 @@ public abstract class SimgridAbstractProjectWizardPage extends WizardPage implem
 	/**
 	 * should be override to initialize project specific visual settings
 	 */
-	protected void initialize() {
+	protected void initializeComposite() {
 		funcTextList.get(0).setText("defaultFunction");
 	}
 

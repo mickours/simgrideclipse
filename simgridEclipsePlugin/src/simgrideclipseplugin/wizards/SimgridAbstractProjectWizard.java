@@ -9,11 +9,11 @@ import java.util.Map;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 
 public abstract class  SimgridAbstractProjectWizard extends BasicNewProjectResourceWizard {
@@ -31,17 +31,29 @@ public abstract class  SimgridAbstractProjectWizard extends BasicNewProjectResou
 	
 	protected SimgridAbstractProjectWizardPage projectSpecWizardPage;
 	protected ProjectWizardsUtils projectUtils;
+	/**
+	 * must be set by the sub class if there is an error during initialization
+	 */
+	public String initErrorMessage;
 	
 	public SimgridAbstractProjectWizard(SimgridAbstractProjectWizardPage projectSpecWizardPage) {
 		super();
-		Assert.isNotNull(projectSpecWizardPage);
 		this.projectSpecWizardPage = projectSpecWizardPage;
 	}
 
 	@Override
 	public void addPages() {
 		super.addPages();
-		addPage(projectSpecWizardPage);
+		//maybe add an error WizardPage
+		projectSpecWizardPage.init();
+		if (initErrorMessage != null){
+			MessageBox mb = new MessageBox(getShell());
+			mb.setMessage(initErrorMessage);
+			mb.open();
+		}
+		else{
+			addPage(projectSpecWizardPage);
+		}
 	}
 
 	@Override
