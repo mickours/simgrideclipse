@@ -41,7 +41,12 @@ public final class SimgridRules {
 	 * @return
 	 */
 	public static boolean isAllowedElementAdd(Element parent, String childType) {
-		if (isASLike(childType)){
+		if (parent.getTagName().equals(ElementList.PLATFORM)){
+			if (!ModelHelper.getChildren(parent).isEmpty() || !childType.equals(ElementList.AS)){
+				return false;
+			}
+		}
+		else if (isASLike(childType)){
 			NodeList nl = parent.getChildNodes();
 			for (int i=0; i< nl.getLength(); i++){
 				Object n = nl.item(i);
@@ -97,10 +102,10 @@ public final class SimgridRules {
 	public static boolean parentDontAcceptRoute(Node element){
 		Element parent = (Element) element.getParentNode();
 		String routing = parent.getAttribute("routing");
-		return isAllowingRoute(routing);
+		return isNotAllowingRoute(routing);
 	}
 
-	public static boolean isAllowingRoute(String routing){
+	public static boolean isNotAllowingRoute(String routing){
 		if (routing.equals("None")
 	    		||routing.equals("Vivaldi")
 	    		||routing.equals("Cluster")

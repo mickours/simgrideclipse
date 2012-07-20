@@ -24,7 +24,7 @@ public abstract class SimgridAbstractProjectWizardPage extends WizardPage implem
 	private LinkedList<Text> funcTextList;
 	private Composite funcContainer;
 	private Button plus;
-	private Button moins;
+	private Map<Button,Text> delButtonMap;
 	
 	/**
 	 * this map is used by the class that extends this to give
@@ -40,6 +40,7 @@ public abstract class SimgridAbstractProjectWizardPage extends WizardPage implem
 		setTitle(title);
 		funcTextList = new LinkedList<Text>();
 		argsMap = new HashMap<String, Object>();
+		delButtonMap = new HashMap<Button, Text>();
 	}
 
 	@Override
@@ -62,6 +63,7 @@ public abstract class SimgridAbstractProjectWizardPage extends WizardPage implem
 		
 		funcContainer = new Composite(container, SWT.NONE);		
 		layout = new GridLayout();
+		layout.numColumns = 2;
 		funcContainer.setLayout(layout);
 		
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -75,10 +77,6 @@ public abstract class SimgridAbstractProjectWizardPage extends WizardPage implem
 				getImageDescriptor(ISharedImages.IMG_OBJ_ADD).createImage());
 		plus.addListener(SWT.Selection, this);
 		
-		moins =  new Button(container, SWT.PUSH );
-		moins.setImage(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(ISharedImages.IMG_ELCL_REMOVE).createImage());
-		moins.addListener(SWT.Selection, this);
 		initializeComposite();
 		setPageComplete(false);
 	}
@@ -101,11 +99,17 @@ public abstract class SimgridAbstractProjectWizardPage extends WizardPage implem
 
 	private void createFunctionText(){
 		Text funcText = new Text(funcContainer, SWT.BORDER | SWT.SINGLE);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.widthHint = getControl().getParent().getSize().x - 40;
+		GridData gd = new GridData(GridData.FILL,GridData.FILL,true,true);
+//		gd.widthHint = getControl().getParent().getSize().x - 40;
 		funcText.setLayoutData(gd);
 		funcText.addListener(SWT.KeyUp, this);
 		funcTextList.add(funcText);
+		
+		Button moins =  new Button(funcContainer, SWT.PUSH );
+		moins.setImage(PlatformUI.getWorkbench().getSharedImages().
+				getImageDescriptor(ISharedImages.IMG_ELCL_REMOVE).createImage());
+		moins.addListener(SWT.Selection, this);
+		delButtonMap.put(moins, funcText);
 	}
 	
 	/**
@@ -139,11 +143,15 @@ public abstract class SimgridAbstractProjectWizardPage extends WizardPage implem
 				getShell().pack();
 			}
 		}
-		else if (event.widget == moins){
+		else if (delButtonMap.containsKey(event.widget)){
 			int size = funcContainer.getChildren().length;
 			if (size > 1){
-				funcTextList.getLast().dispose();
-				funcTextList.removeLast();
+				Button b = (Button) event.widget;
+				Text t = delButtonMap.get(b);
+				funcTextList.remove(t);
+				delButtonMap.remove(b);
+				b.dispose();
+				t.dispose();
 			}
 		}
 		//handle errors

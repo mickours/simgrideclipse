@@ -42,7 +42,9 @@ public class SimgridJavaProjectWizard extends SimgridAbstractProjectWizard {
 		String pkgPath = projectUtils.createFolder(monitor, "src/"+projectName);
 		projectUtils.createFile(getMainJavaTemplate(projectName), fileNameJava, monitor, pkgPath);
 		for (String fun : funcL){
-			projectUtils.createFile(getFunctionJavaTemplate(fun,projectName), fun+".java", monitor, pkgPath);
+			if (!fun.isEmpty()){
+				projectUtils.createFile(getFunctionJavaTemplate(fun,projectName), fun+".java", monitor, pkgPath);
+			}
 		}
 		return project;
 	}

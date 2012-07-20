@@ -27,7 +27,7 @@ public class EditElementWizard extends AbstractElementWizard {
 			//assert  sourceNode != null && targetNode != null
 			ModelHelper.editRoute(newElement, sourceNode, targetNode);
 			//create links
-    		ModelHelper.editRouteLinks(newElement, linkList);
+    		ModelHelper.editRouteLinks(newElement, linkCtnList);
 			//create gateway 
 			if (SimgridRules.isASLikeConnection(tagName)){
 				ModelHelper.editRouteGateways(newElement, selectedSrcGw, selectedDstGw);

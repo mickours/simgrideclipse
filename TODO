@@ -1,0 +1,34 @@
+*****************
+*** TODO List ***
+*****************
+
+** BEFORE RELEASE **
+* make USER documentation
+    * JAVA 
+        * ld Library path (see simgrid Java)
+        * java.library.path in VM option
+        * deployement function <PKG>.<FUNCTION>
+    * C 
+        * -lsimgrid -L on linker
+        * deployement function <FUNCTION>
+* make DEV documentation
+* smart router deletion
+* test gnu C
+* look for SIMGRID_ROOT
+* look for SIMGRID_JAVA_ROOT
+
+** AFTER RELEASE **
+* add storage support
+* add cabinet support
+* add host_link support
+* make a delegate commandeStack to work on both editor
+
+************
+*** DONE ***
+************
+20/07
+* open palette by default
+* allow user to modify link ctn option
+* add a filter to available links field in the link selection wizard
+* add a remove buttun for each row in function wizard
+

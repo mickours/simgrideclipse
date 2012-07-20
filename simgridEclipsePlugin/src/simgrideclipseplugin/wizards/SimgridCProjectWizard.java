@@ -212,13 +212,18 @@ public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
 		
 		String functionsString ="";
 		for (String fun : functionsList){
-			functionsString += "int "+fun+"(int argc, char *argv[])\n{\n\t"+tips+"\treturn 0;\n"+"}\n";
+			if (!fun.isEmpty()){
+				functionsString += "int "+fun+"(int argc, char *argv[])\n{\n\t"+tips+"\treturn 0;\n"+"}\n";
+		
+			}
 		}
 		tmp = tmp.replaceAll("<FUNCTIONS>", functionsString);
 		
 		functionsString ="";
 		for (String fun : functionsList){
-			functionsString += "MSG_function_register(\""+fun+"\", "+fun+");\n\t";
+			if (!fun.isEmpty()){
+				functionsString += "MSG_function_register(\""+fun+"\", "+fun+");\n\t";
+			}
 		}
 		tmp = tmp.replaceAll("<FUNCTION_REGISTER>", functionsString);
 		

@@ -11,12 +11,18 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(msg_<PROJECT_NAME>,"Messages specific for this simu
 
 int main(int argc, char *argv[])
 {
-    MSG_global_init(&argc, argv);
-    if (argc < 3) {
-        printf("Usage: %s platform_file deployment_file\n", argv[0]);
-        printf("example: %s msg_platform.xml msg_deployment.xml\n", argv[0]);
+    /* check usage error and initilize with defaults */
+    if (argc == 1){
+        printf("** WARNING **\n using default values:\n<PROJECT_NAME>_platform.xml <PROJECT_NAME>_deployment.xml\n\n");
+        argv[1] = "<PROJECT_NAME>_platform.xml";
+        argv[2] = "<PROJECT_NAME>_deployment.xml";
+    }else if(argc != 3) {
+        printf("** ERROR **\nUsage:\n %s platform_file deployment_file\n", argv[0]);
+        printf("example:\n %s <PROJECT_NAME>_platform.xml <PROJECT_NAME>_deployment.xml\n", argv[0]);
         exit(1);
     }
+    
+    MSG_global_init(&argc, argv);
     
     MSG_error_t res = MSG_OK;
     

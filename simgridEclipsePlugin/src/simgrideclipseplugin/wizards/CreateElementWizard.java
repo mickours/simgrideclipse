@@ -18,7 +18,7 @@ public class CreateElementWizard extends AbstractElementWizard {
 			assert  sourceNode != null && targetNode != null;
 			newElement = ModelHelper.createAndAddRoute(sourceNode, targetNode, tagName);
 			//create links
-			for (Object link : linkList){
+			for (Object link : linkCtnList){
 				ModelHelper.addLinkToRoute(newElement, (Element) link);
 			}
 			//create gateway 

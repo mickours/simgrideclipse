@@ -126,6 +126,14 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.wst.sse.core" version="1.1.602" match="greaterOrEqual"/>
       <import plugin="org.eclipse.debug.ui" version="3.7.102" match="greaterOrEqual"/>
       <import plugin="org.eclipse.wst.xml.ui" version="1.1.202" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jdt.core" version="3.7.3" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jdt.launching" version="3.6.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.cdt" version="8.0.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.cdt.core" version="5.3.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.cdt.ui" version="5.3.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.cdt.managedbuilder.core" version="8.0.2" match="greaterOrEqual"/>
+      <import plugin="org.junit" version="3.8.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jdt.ui" version="3.7.2" match="greaterOrEqual"/>
    </requires>
 
    <plugin

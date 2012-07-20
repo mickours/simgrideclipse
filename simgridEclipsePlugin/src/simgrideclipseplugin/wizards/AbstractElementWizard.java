@@ -20,7 +20,8 @@ public abstract class AbstractElementWizard extends Wizard {
 	
 	public Map<String, String> attrMap;
 	public Element newElement;
-	public List<Element> linkList;
+	public List<Element> linkCtnList;
+	public List<String> linkCtnDirectionList;
 	public Element selectedSrcGw, selectedDstGw;
 	
 	protected Element sourceNode;

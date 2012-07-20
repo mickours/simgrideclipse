@@ -1,7 +1,6 @@
 package simgrideclipseplugin.editors;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +20,8 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
+import org.eclipse.gef.ui.palette.FlyoutPaletteComposite;
+import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.jface.action.IAction;
@@ -28,6 +29,7 @@ import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
@@ -102,6 +104,7 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 		initContents();
+		
 	}
 	
 	public EditPart getGraphicalContents() {
@@ -139,12 +142,17 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 				goOutAction.update();
 			}
 			else{
-				Map<String,String> attrMap = new HashMap<String,String>();
-				attrMap.put("id", "main");
-				attrMap.put("routing", "Full");
-				Element asMain = ModelHelper.createElement(ElementList.AS,attrMap);
-				ModelHelper.addElementChild(platform, asMain);
+				MessageBox mb = new MessageBox(parent.getSite().getShell());
+				mb.setMessage("This file does not seem to be a valid platform description (no root AS)");
+				mb.open();
+				viewer.setContents(platform);
 			}
+		}
+		else{
+			MessageBox mb = new MessageBox(parent.getSite().getShell());
+			mb.setMessage("This file does not seem to be a valid platform description (no root platform)");
+			mb.open();
+			viewer.setContents(null);
 		}
 		
 	}
@@ -270,6 +278,10 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	
 	@Override
 	protected PaletteRoot getPaletteRoot() {
+		//set palette preference
+		FlyoutPreferences pref = getPalettePreferences();
+		pref.setPaletteState(FlyoutPaletteComposite.STATE_PINNED_OPEN);
+		//initPalette content
 		if (palette == null) {
 			palette = SimgridPaletteFactory.createPalette();
 		}
@@ -309,11 +321,11 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 			 //update properties
 			 propertiesSource = ModelHelper.getPropertySource(selected);
 			 Element toOpen = selected;
-			 while (!toOpen.getTagName().equals(ElementList.AS) && toOpen.getParentNode() instanceof Element){
+			 while (!(toOpen.getTagName().equals(ElementList.AS) || toOpen.getTagName().equals(ElementList.AS)) && toOpen.getParentNode() instanceof Element){
 				 //|| ModelHelper.getChildren(toOpen).isEmpty()){
 				 toOpen = (Element) toOpen.getParentNode();
 			 }
-			 if (getGraphicalContents() != null && !getGraphicalContents().getModel().equals(toOpen)){
+			 if (getGraphicalContents() == null || !getGraphicalContents().getModel().equals(toOpen)){
 				 //avoid selection listener while changing content
 				 getSite().setSelectionProvider(null);
 				 getGraphicalViewer().setContents(toOpen);
