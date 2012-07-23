@@ -1,16 +1,21 @@
 package simgrideclipseplugin.wizards;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.cdt.core.CCorePlugin;
 import org.eclipse.cdt.core.ICDescriptor;
+import org.eclipse.cdt.managedbuilder.core.BuildException;
 import org.eclipse.cdt.managedbuilder.core.IConfiguration;
 import org.eclipse.cdt.managedbuilder.core.IManagedBuildInfo;
 import org.eclipse.cdt.managedbuilder.core.IManagedProject;
+import org.eclipse.cdt.managedbuilder.core.IOption;
 import org.eclipse.cdt.managedbuilder.core.IProjectType;
+import org.eclipse.cdt.managedbuilder.core.ITool;
+import org.eclipse.cdt.managedbuilder.core.IToolChain;
 import org.eclipse.cdt.managedbuilder.core.ManagedBuildManager;
 import org.eclipse.cdt.managedbuilder.core.ManagedCProjectNature;
 import org.eclipse.core.resources.IProject;
@@ -37,9 +42,9 @@ public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
 	private static final String mainCTemplatePath = "c_main_template.c";
 	private static final String oldMainCTemplatePath = "old_c_main_template.c";
 
-	public static final String LIB_PATH = "simgrid.project.C_library_path";
-
 	public static final String IS_38_OR_MORE = "simgrid.project.is38orMore";
+
+	public static final String SIMGRID_ROOT = "simgrid.project.simgridRoot";
 		
 	
 	public SimgridCProjectWizard() {
@@ -53,7 +58,7 @@ public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
 			IProgressMonitor monitor)throws CoreException {
 		String projectName = project.getName();
 		String fileNameC = projectName+"_"+"main.c";
-		project = createNewCProject((String) args.get(TOOL_CHAIN),monitor);
+		project = createNewCProject((String) args.get(TOOL_CHAIN),(String) args.get(SIMGRID_ROOT),monitor);
 		String template= null;
 		if ((Boolean) args.get(IS_38_OR_MORE)){
 			template = mainCTemplatePath;
@@ -65,7 +70,7 @@ public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
 		return project;
 	}
 	
-	private IProject createNewCProject(final String projectTypeId,IProgressMonitor monitor) throws CoreException {
+	private IProject createNewCProject(final String projectTypeId,final String simgriRoot,IProgressMonitor monitor) throws CoreException {
 			IProject newProjectHandle = getNewProject();
 			final IPath location = getNewProject().getLocation();
 			final String projectId = getNewProject().getName();
@@ -78,7 +83,6 @@ public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
 					// Create the base project
 					IWorkspaceDescription workspaceDesc = workspace.getDescription();
 					workspaceDesc.setAutoBuilding(false);
-					System.out.println("toto");
 					workspace.setDescription(workspaceDesc);
 					IProjectDescription description = workspace.newProjectDescription(project.getName());
 					if (location != null) {
@@ -118,8 +122,19 @@ public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
 					IConfiguration cfgs[] = newProject.getConfigurations();
 					for(int i = 0; i < cfgs.length; i++){
 						cfgs[i].setArtifactName(newProject.getDefaultArtifactName());
+						
 					}
-					
+					 IToolChain toolChain = cfgs[0].getToolChain();
+					 ITool[] tool = toolChain.getToolsBySuperClassId("cdt.managedbuild.tool.gnu.c.linker");
+					 IOption option = tool[0].getOptionById("gnu.c.link.option.libs");
+					 try {
+						 option.setValue(new String[]{"simgrid"});
+						 option = tool[0].getOptionById("gnu.c.link.option.paths");
+						 option.setValue(new String[]{simgriRoot+File.separator+"lib"});
+					} catch (BuildException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}					
 					ManagedBuildManager.getBuildInfo(project).setValid(true);
 				}
 			};

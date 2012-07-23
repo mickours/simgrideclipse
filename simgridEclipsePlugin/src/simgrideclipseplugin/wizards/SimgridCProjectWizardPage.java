@@ -1,26 +1,32 @@
 package simgrideclipseplugin.wizards;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.cdt.managedbuilder.core.IProjectType;
 import org.eclipse.cdt.managedbuilder.core.ManagedBuildManager;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 
 public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage {
 
 	
 	private static final String title = "Simgrid MSG C project";
 	private Combo cmbToolChain;
-//	private Text locationText;
+	private Text locationText;
 	private Button is38orMore;
-//	private static final String LIB_NAME = "libsimgrid.so";
+	private static final String LIB_NAME = "libsimgrid.so";
 	
 	/**
 	 * there is 1:1 correspondence between the to arrays
@@ -92,23 +98,23 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
 //		cmbToolChain.setItems(toolChainList.toArray(new String[0]));
 //		cmbToolChain.addListener(SWT.Selection, this);
 		
-//		label = new Label(container, SWT.NULL);
-//		label.setText("&Select your SimGrid librairies install location");
-//		gd = new GridData(GridData.FILL_HORIZONTAL);
-//		gd.horizontalSpan = 3;
-//		label.setLayoutData(gd);
-//		
-//		locationText = new Text(container, SWT.BORDER | SWT.SINGLE);
-//		gd = new GridData(GridData.FILL_HORIZONTAL);
-//		locationText.setLayoutData(gd);
-//		locationText.addListener(SWT.Modify, this);
-//		Button button = new Button(container, SWT.PUSH);
-//		button.setText("Browse...");
-//		button.addSelectionListener(new SelectionAdapter() {
-//			public void widgetSelected(SelectionEvent e) {
-//				handleBrowse();
-//			}
-//		});	
+		Label label = new Label(container, SWT.NULL);
+		label.setText("&Select your SimGrid librairies install location");
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 3;
+		label.setLayoutData(gd);
+		
+		locationText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		locationText.setLayoutData(gd);
+		locationText.addListener(SWT.Modify, this);
+		Button button = new Button(container, SWT.PUSH);
+		button.setText("Browse...");
+		button.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				handleBrowse();
+			}
+		});	
 		
 		is38orMore = new Button(container, SWT.CHECK);
 		is38orMore.setText("&Your SimGrid version is 3.8 or later");
@@ -123,6 +129,11 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
 	protected void initializeComposite() {
 		argsMap.put(SimgridCProjectWizard.IS_38_OR_MORE,false);
 		super.initializeComposite();
+		String s = System.getenv("SIMGRID_ROOT");
+		if (s != null){
+			locationText.setText(s);
+			setPageComplete(true);
+		}
 	}
 
 //	private String[] getToolChainList() {
@@ -144,29 +155,29 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
 //		return ret;
 //	}
 	
-//	private void handleBrowse() {
-//		DirectoryDialog dlg = new DirectoryDialog(getShell());
-//
-//        // Set the initial filter path according
-//        // to anything they've selected or typed in
-//        dlg.setFilterPath(locationText.getText());
-//
-//        // Change the title bar text
-//        dlg.setText("Select your SimGrid librairies install location");
-//
-//        // Customizable message displayed in the dialog
-//        dlg.setMessage("the directory must contains \""+LIB_NAME+"\"");
-//
-//        // Calling open() will open and run the dialog.
-//        // It will return the selected directory, or
-//        // null if user cancels
-//        String dir = dlg.open();
-//        if (dir != null) {
-//          // Set the text box to the new selection
-//        	locationText.setText(dir);
-//        	
-//        }
-//	}
+	private void handleBrowse() {
+		DirectoryDialog dlg = new DirectoryDialog(getShell());
+
+        // Set the initial filter path according
+        // to anything they've selected or typed in
+        dlg.setFilterPath(locationText.getText());
+
+        // Change the title bar text
+        dlg.setText("Select your SimGrid librairies install location");
+
+        // Customizable message displayed in the dialog
+        dlg.setMessage("the directory must contains \""+LIB_NAME+"\"");
+
+        // Calling open() will open and run the dialog.
+        // It will return the selected directory, or
+        // null if user cancels
+        String dir = dlg.open();
+        if (dir != null) {
+          // Set the text box to the new selection
+        	locationText.setText(dir);
+        	
+        }
+	}
 
 	@Override
 	public void handleEvent(Event event) {
@@ -182,17 +193,17 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
 //				argsMap.put(SimgridCProjectWizard.TOOL_CHAIN, projectIDList.get(index));
 //			}
 //		}
-//		else if (event.widget == locationText){
-//			String loc = locationText.getText();
-//			Path path = new Path(loc+File.separator+LIB_NAME);
-//			if (loc.isEmpty() || !new File(path.toOSString()).exists()){
-//				message += "You must select a valid path containing the \""+LIB_NAME+"\" file";
-//			}
-//			else{
-//				argsMap.put(SimgridCProjectWizard.LIB_PATH, loc);
-//			}
-//		}
-		if (event.widget == is38orMore){
+		if (event.widget == locationText){
+			String loc = locationText.getText();
+			Path path = new Path(loc+File.separator+"lib"+File.separator+LIB_NAME);
+			if (loc.isEmpty() || !new File(path.toOSString()).exists()){
+				message += "You must select a valid path containing the \""+LIB_NAME+"\" file";
+			}
+			else{
+				argsMap.put(SimgridCProjectWizard.SIMGRID_ROOT, loc);
+			}
+		}
+		else if (event.widget == is38orMore){
 			argsMap.put(SimgridCProjectWizard.IS_38_OR_MORE,is38orMore.getSelection());
 		}
 		updateStatus(message);

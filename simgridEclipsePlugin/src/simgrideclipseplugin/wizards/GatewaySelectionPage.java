@@ -85,7 +85,7 @@ public class GatewaySelectionPage extends WizardPage implements ISelectionChange
 		AbstractElementWizard wizard = (AbstractElementWizard) getWizard();
 		//Initialize source gateway
 		String gwSrc = wizard.attrMap.get("gw_src");
-		Element gwSrcElem = ModelHelper.getGatewayFromRouterName(gwSrc,srcList);
+		Element gwSrcElem = ModelHelper.getGatewayFromRouterId(gwSrc,srcList);
 		if (gwSrcElem != null){
 			srcViewer.setSelection(new StructuredSelection(gwSrcElem),true);
 		}
@@ -94,7 +94,7 @@ public class GatewaySelectionPage extends WizardPage implements ISelectionChange
 		}
 		//Initialize destination gateway
 		String gwDst = wizard.attrMap.get("gw_dst");
-		Element gwDstElem = ModelHelper.getGatewayFromRouterName(gwDst,dstList);
+		Element gwDstElem = ModelHelper.getGatewayFromRouterId(gwDst,dstList);
 		if (gwDstElem != null){
 			dstViewer.setSelection(new StructuredSelection(gwDstElem),true);
 		}else if (dstList.size() >= 1){

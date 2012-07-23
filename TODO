@@ -2,30 +2,38 @@
 *** TODO List ***
 *****************
 
+**BUGS
+* changed the routing should show warning if routes are not compatible
+* route not linked on view update
+
 ** BEFORE RELEASE **
+* test gnu C
+
 * make USER documentation
     * JAVA 
         * ld Library path (see simgrid Java)
-        * java.library.path in VM option
+        ?* java.library.path in VM option
         * deployement function <PKG>.<FUNCTION>
     * C 
         * -lsimgrid -L on linker
         * deployement function <FUNCTION>
-* make DEV documentation
-* smart router deletion
-* test gnu C
-* look for SIMGRID_ROOT
-* look for SIMGRID_JAVA_ROOT
 
 ** AFTER RELEASE **
+* make DEV documentation
 * add storage support
 * add cabinet support
 * add host_link support
-* make a delegate commandeStack to work on both editor
+* make a delegate commandeStack to work correcly on both editor
+* cut/past
+* right click -> add function on hosts
 
 ************
 *** DONE ***
 ************
+23/07
+* smart router deletion
+* look for SIMGRID_ROOT
+* look for SIMGRID_JAVA_ROOT
 20/07
 * open palette by default
 * allow user to modify link ctn option

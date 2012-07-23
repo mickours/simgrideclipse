@@ -2,7 +2,7 @@
 <feature
       id="simgridEclipseFeature"
       label="SimgridEclipseFeature"
-      version="0.1.12.beta">
+      version="0.1.13.beta">
 
    <description url="http://simgrideclipse.forge.imag.fr">
       The SimGrid Eclipse Plugin helps new users to get a first step

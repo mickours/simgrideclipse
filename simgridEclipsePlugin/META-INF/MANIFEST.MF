@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SimgridEclipsePlugin
 Bundle-SymbolicName: simgridEclipsePlugin; singleton:=true
-Bundle-Version: 0.1.12.beta
+Bundle-Version: 0.1.13.beta
 Bundle-Activator: simgrideclipseplugin.Activator
 Bundle-Vendor: Da SimGrid Team
 Export-Package: com.wutka.dtd,

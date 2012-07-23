@@ -114,4 +114,13 @@ public final class SimgridRules {
 		}
 		return false;
 	}
+	
+	public static boolean canBeAGateway(String tagName){
+		if (tagName.equals(ElementList.ROUTER)
+	    		||tagName.equals(ElementList.CLUSTER)
+	    		||tagName.equals(ElementList.PEER)){
+			return true;
+		}
+		return false;
+	}
 }

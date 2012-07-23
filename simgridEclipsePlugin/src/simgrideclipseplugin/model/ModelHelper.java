@@ -168,6 +168,35 @@ public final class ModelHelper {
 		return isUniqueId(newId,null,tagName);
 	}
 	
+	/**
+	 * this function his used to check if an element <code>toCheckElem</code> contains 
+	 * or is used as a gateway by routes
+	 * @return a map of couple <route,gateway> that contains the toChekElement including himself
+	 */
+	public static Map<Element, Element> isUsedOrContainsGateway(Element toCheckElem) {
+		model.aboutToChangeModel();
+		Map<Element,Element> gwMap = new HashMap<Element, Element>();
+		NodeList nl = model.getDocument().getElementsByTagName(ElementList.AS_ROUTE);
+		NodeList nlbp = model.getDocument().getElementsByTagName(ElementList.BYPASS_AS_ROUTE);
+		List<Element> ASRouteList = nodeListToElementList(nl);
+		ASRouteList.addAll(nodeListToElementList(nlbp));
+		List<Element> l = ModelHelper.getAllNoConnectionChildren(toCheckElem);
+		l.add(toCheckElem);
+		for (Element elem:l){
+			if (SimgridRules.canBeAGateway(elem.getTagName())){
+				for (Element route :ASRouteList){
+					Element src = ModelHelper.getSourceGateway(route);
+					Element trg = ModelHelper.getDestinationGateway(route);
+					if (elem.equals(src) || elem.equals(trg)){
+						gwMap.put(route,elem);
+					}
+				}
+			}
+		}
+		model.changedModel();
+		return gwMap;
+	}
+	
 //	public static boolean isUniqueId(Element element){
 //		List<Element> ndl = nodeListToElementList(model.getDocument().getElementsByTagName(element.getTagName()));
 //		for(Element n : ndl){
@@ -306,12 +335,30 @@ public final class ModelHelper {
 /*******************************************/	
 /*****       ACCES FUNCTIONS          ******/
 /*******************************************/
+	/**
+	 * return the children in direct sub level of <code>root</code>
+	 */
 	public static List<Element> getChildren(Element root) {
 		if (root != null){
 			return nodeListToElementList(root.getChildNodes());
 		}
 		return Collections.emptyList();
 	}
+	
+	/**
+	 * return all the children in the sub tree of <code>root</code>
+	 */
+	public static List<Element> getAllNoConnectionChildren(Element root){
+		List<Element> ret = getNoConnectionChildren(root);
+		List<Element> tmp = new LinkedList<Element>();
+		for (Element e : ret){
+			tmp.addAll(getAllNoConnectionChildren(e));
+		}
+		ret.addAll(tmp);
+		ret.add(root);
+		return ret;
+	}
+	
 
 	public static List<Element> getNoConnectionChildren(Element root) {
 		// return the model children without connections
@@ -375,10 +422,28 @@ public final class ModelHelper {
         return nodeListToElementList(l);
 	}
 	
+
+
+	/**
+	 * return the source gateway element for this route
+	 */
+	public static Element getSourceGateway(Element route) {
+		return getGateway(route, "gw_src");
+	}
+
+
+	/**
+	 * return the destination gateway element for this route
+	 */
+	public static Element getDestinationGateway(Element route) {
+		return getGateway(route,"gw_dst");
+	}
+	
 	/**
 	 * return the routers contained in the ASNode and in
 	 * the descendants
 	 */
+	//TODO use the SimgridRules to make this generic
 	public static List<Element> getRouters(Element ASNode) {
         NodeList rl = ASNode.getElementsByTagName(ElementList.ROUTER);
         NodeList cl = ASNode.getElementsByTagName(ElementList.CLUSTER);
@@ -392,6 +457,8 @@ public final class ModelHelper {
         }
         return l;
 	}
+	
+	
 	
 	/**
 	 * return the gateway router id according to the node type or null
@@ -428,7 +495,7 @@ public final class ModelHelper {
 	 * find and return the router corresponding to routerId in the toSearchInList
 	 * @return
 	 */
-	public static Element getGatewayFromRouterName(String routerId, List<Element> toSearchInList) {
+	public static Element getGatewayFromRouterId(String routerId, List<Element> toSearchInList) {
 		String gw = null;
 		for (Element node : toSearchInList){
 			if (node.getTagName().equals(ElementList.CLUSTER)){
@@ -701,7 +768,25 @@ public final class ModelHelper {
 		}
 		return connected;
 	}
-
-
+	
+	
+	private static Element getGateway(Element route, String type){
+		List<Element> toSearchIn = new LinkedList<Element>();
+		Element node = null;
+		if (type.endsWith("src")){
+			node = getSourceNode(route);
+			if (node != null){
+				toSearchIn.addAll(ModelHelper.getAllNoConnectionChildren(node));
+			}
+		}
+		else if (type.endsWith("dst")){
+			node = getTargetNode(route);
+			if (node != null){
+				toSearchIn.addAll(ModelHelper.getAllNoConnectionChildren(node));
+			}
+		}
+		
+		return getGatewayFromRouterId(route.getAttribute(type),toSearchIn);
+	}
 
 }

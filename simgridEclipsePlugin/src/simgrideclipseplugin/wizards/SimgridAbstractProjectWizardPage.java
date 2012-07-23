@@ -77,8 +77,8 @@ public abstract class SimgridAbstractProjectWizardPage extends WizardPage implem
 				getImageDescriptor(ISharedImages.IMG_OBJ_ADD).createImage());
 		plus.addListener(SWT.Selection, this);
 		
-		initializeComposite();
 		setPageComplete(false);
+		initializeComposite();
 	}
 	/**
 	 * should be override to compute specific data before adding page

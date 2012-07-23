@@ -26,6 +26,16 @@ public class SimgridJavaProjectWizardPage extends SimgridAbstractProjectWizardPa
 	}
 	
 	@Override
+	protected void initializeComposite() {
+		super.initializeComposite();
+		String javaRoot = System.getenv("SIMGRID_JAVA_ROOT");
+		if (javaRoot != null){
+			locationText.setText(javaRoot+ File.separator +"java");
+			setPageComplete(true);
+		}
+	}
+
+	@Override
 	protected void addProjectSpecificComposite(Composite container) {
 		Label label = new Label(container, SWT.NULL);
 		label.setText("&Your SimGrid Java libraries location:");
@@ -89,10 +99,7 @@ public class SimgridJavaProjectWizardPage extends SimgridAbstractProjectWizardPa
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
+		//nothing to do
+	}	
 	
 }
