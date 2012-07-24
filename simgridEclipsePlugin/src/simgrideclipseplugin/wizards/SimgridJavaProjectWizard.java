@@ -65,52 +65,53 @@ public class SimgridJavaProjectWizard extends SimgridAbstractProjectWizard {
 	
 
 	protected IProject createNewJavaProject(IProject newProject, Path lib,IProgressMonitor monitor) throws CoreException {
-		IProjectDescription description = newProject.getDescription();
-		String[] natures = description.getNatureIds();
-		String[] newNatures = new String[natures.length + 2];
-		System.arraycopy(natures, 0, newNatures, 0, natures.length);
-		newNatures[newNatures.length - 2] = org.eclipse.jdt.core.JavaCore.NATURE_ID;
-		newNatures[newNatures.length - 1] = "org.eclipse.wst.common.project.facet.core.nature";
-
-		// newNatures[natures.length] = "org.eclipse.cdt.core.cnature";
-		description.setNatureIds(newNatures);
-
-		ICommand[] commands = description.getBuildSpec();
-		ICommand[] newCommands = new ICommand[commands.length + 2];
-		ICommand newCommand = description.newCommand();
-		newCommand.setBuilderName("org.eclipse.jdt.core.javabuilder");
-		newCommands[newCommands.length - 2] = newCommand;
-		newCommand = description.newCommand();
-		newCommand
-				.setBuilderName("org.eclipse.wst.common.project.facet.core.builder");
-		newCommands[newCommands.length - 1] = newCommand;
-		System.arraycopy(commands, 0, newCommands, 0, commands.length);
-		description.setBuildSpec(newCommands);
-		
-		newProject.setDescription(description, monitor);
-		
-		//create folders
-		String srcPath = projectUtils.createFolder(monitor, "src");
-		IClasspathEntry src = JavaCore.newSourceEntry(new Path(srcPath));
-		//set JRE
-		IClasspathEntry jre = JavaCore.newContainerEntry(
-				new Path(JavaRuntime.JRE_CONTAINER),
-				new IAccessRule[0], 
-				new IClasspathAttribute[] 
-						{ JavaCore.newClasspathAttribute("owner.project.facets", "java")},
-				false);
-		IClasspathEntry path = JavaCore.newLibraryEntry(lib, null, null);
-		IClasspathEntry[] entries = new IClasspathEntry[] { src, jre, path };
-		//create Project
-		IJavaProject javaProject = JavaCore.create(newProject);
 		try {
+			IProjectDescription description = newProject.getDescription();
+			String[] natures = description.getNatureIds();
+			String[] newNatures = new String[natures.length + 2];
+			System.arraycopy(natures, 0, newNatures, 0, natures.length);
+			newNatures[newNatures.length - 2] = org.eclipse.jdt.core.JavaCore.NATURE_ID;
+			newNatures[newNatures.length - 1] = "org.eclipse.wst.common.project.facet.core.nature";
+	
+			// newNatures[natures.length] = "org.eclipse.cdt.core.cnature";
+			description.setNatureIds(newNatures);
+	
+			ICommand[] commands = description.getBuildSpec();
+			ICommand[] newCommands = new ICommand[commands.length + 2];
+			ICommand newCommand = description.newCommand();
+			newCommand.setBuilderName("org.eclipse.jdt.core.javabuilder");
+			newCommands[newCommands.length - 2] = newCommand;
+			newCommand = description.newCommand();
+			newCommand
+					.setBuilderName("org.eclipse.wst.common.project.facet.core.builder");
+			newCommands[newCommands.length - 1] = newCommand;
+			System.arraycopy(commands, 0, newCommands, 0, commands.length);
+			description.setBuildSpec(newCommands);
+			
+			newProject.setDescription(description, monitor);
+			
+			//create folders
+			String srcPath = projectUtils.createFolder(monitor, "src");
+			IClasspathEntry src = JavaCore.newSourceEntry(new Path(srcPath));
+			//set JRE
+			IClasspathEntry jre = JavaCore.newContainerEntry(
+					new Path(JavaRuntime.JRE_CONTAINER),
+					new IAccessRule[0], 
+					new IClasspathAttribute[] 
+							{ JavaCore.newClasspathAttribute("owner.project.facets", "java")},
+					false);
+			IClasspathEntry path = JavaCore.newLibraryEntry(lib, null, null);
+			IClasspathEntry[] entries = new IClasspathEntry[] { src, jre, path };
+			//create Project
+			IJavaProject javaProject = JavaCore.create(newProject);
+
 			javaProject.setRawClasspath(entries, newProject.getFullPath().append("bin"), monitor);
+			JavaCore.setClasspathVariable("java.library.path", lib, monitor);
+		
 		} catch (JavaModelException e1) {
-			// TODO Auto-generated catch block
+			ProjectWizardsUtils.throwCoreException(e1.toString());
 			e1.printStackTrace();
 		}
-		JavaCore.setClasspathVariable("java.library.path", lib, monitor);
-
 		return newProject;
 	}
 	

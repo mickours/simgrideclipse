@@ -1,9 +1,6 @@
 package simgrideclipseplugin.wizards;
 
 import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.eclipse.cdt.managedbuilder.core.IProjectType;
 import org.eclipse.cdt.managedbuilder.core.ManagedBuildManager;
 import org.eclipse.core.runtime.Path;
@@ -12,7 +9,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Event;
@@ -23,15 +19,16 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
 
 	
 	private static final String title = "Simgrid MSG C project";
-	private Combo cmbToolChain;
+//	private Combo cmbToolChain;
 	private Text locationText;
 	private Button is38orMore;
-	private static final String LIB_NAME = "libsimgrid.so";
+	private static final String LIB_NAME = File.separator+"lib"+File.separator+"libsimgrid";
+//	private static final String LIB_EXTENSION = initLibExtension();
 	
 	/**
 	 * there is 1:1 correspondence between the to arrays
 	 */
-	private List<String> projectIDList= new LinkedList<String>();
+//	private List<String> projectIDList= new LinkedList<String>();
 //	// = {
 //		"cdt.managedbuild.target.gnu.cygwin.exe",
 //		"cdt.managedbuild.target.gnu.mingw.exe", 
@@ -39,7 +36,7 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
 //		"cdt.managedbuild.target.macosx.exe",
 //		"cdt.managedbuild.target.gnu.exe", 
 //	};
-	private List<String>  toolChainList= new LinkedList<String>();
+//	private List<String>  toolChainList= new LinkedList<String>();
 //	= {
 //		"GNU cygwin",
 //		"GNU mingw",
@@ -54,12 +51,11 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
 	public SimgridCProjectWizardPage() {
 		super(title);
 	}
-	
-	
-	
+
+
+
 	@Override
-	public void init(){
-		SimgridAbstractProjectWizard wizard = (SimgridAbstractProjectWizard)getWizard();
+	public void init(SimgridAbstractProjectWizard wizard){
 		try{
 			projectTypes = ManagedBuildManager.getDefinedProjectTypes();
 			if (projectTypes == null || projectTypes.length == 0){
@@ -166,7 +162,7 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
         dlg.setText("Select your SimGrid librairies install location");
 
         // Customizable message displayed in the dialog
-        dlg.setMessage("the directory must contains \""+LIB_NAME+"\"");
+        dlg.setMessage("the directory must contains \""+LIB_NAME+"\" library file");
 
         // Calling open() will open and run the dialog.
         // It will return the selected directory, or
@@ -195,13 +191,13 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
 //		}
 		if (event.widget == locationText){
 			String loc = locationText.getText();
-			Path path = new Path(loc+File.separator+"lib"+File.separator+LIB_NAME);
-			if (loc.isEmpty() || !new File(path.toOSString()).exists()){
-				message += "You must select a valid path containing the \""+LIB_NAME+"\" file";
-			}
-			else{
+//			Path path = new Path(loc+LIB_NAME);
+//			if (loc.isEmpty() || !new File(path.toOSString()).exists()){
+//				message += "You must select a valid path containing the \""+LIB_NAME+"\" file";
+//			}
+//			else{
 				argsMap.put(SimgridCProjectWizard.SIMGRID_ROOT, loc);
-			}
+//			}
 		}
 		else if (event.widget == is38orMore){
 			argsMap.put(SimgridCProjectWizard.IS_38_OR_MORE,is38orMore.getSelection());

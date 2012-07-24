@@ -84,7 +84,7 @@ public abstract class SimgridAbstractProjectWizardPage extends WizardPage implem
 	 * should be override to compute specific data before adding page
 	 * errorMessage should be set if an error occurred
 	 */
-	public abstract void init();
+	public abstract void init(SimgridAbstractProjectWizard wizard);
 	/**
 	 * should be override to add project specific visual settings
 	 */

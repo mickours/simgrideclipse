@@ -45,7 +45,7 @@ public abstract class  SimgridAbstractProjectWizard extends BasicNewProjectResou
 	public void addPages() {
 		super.addPages();
 		//maybe add an error WizardPage
-		projectSpecWizardPage.init();
+		projectSpecWizardPage.init(this);
 		if (initErrorMessage != null){
 			MessageBox mb = new MessageBox(getShell());
 			mb.setMessage(initErrorMessage);
@@ -86,6 +86,7 @@ public abstract class  SimgridAbstractProjectWizard extends BasicNewProjectResou
 					project.open(IResource.BACKGROUND_REFRESH,monitor);
 			        projectUtils.openFile(toOpenFile, monitor);
 				} catch (CoreException e) {
+					System.err.println(e);
 					throw new InvocationTargetException(e);
 				} finally {
 					monitor.done();
@@ -96,7 +97,7 @@ public abstract class  SimgridAbstractProjectWizard extends BasicNewProjectResou
 			getContainer().run(true, false, op);
 		} catch (InvocationTargetException e) {
 			Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), "Error", realException.getMessage());
+			MessageDialog.openError(getShell(), "Error", realException.getMessage()+"\n"+e.getMessage());
 			return false;
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

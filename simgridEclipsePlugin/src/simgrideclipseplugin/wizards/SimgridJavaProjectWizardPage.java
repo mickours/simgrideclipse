@@ -98,7 +98,7 @@ public class SimgridJavaProjectWizardPage extends SimgridAbstractProjectWizardPa
 	}
 
 	@Override
-	public void init() {
+	public void init(SimgridAbstractProjectWizard wizard) {
 		//nothing to do
 	}	
 	

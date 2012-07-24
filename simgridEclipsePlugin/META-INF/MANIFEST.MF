@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SimgridEclipsePlugin
 Bundle-SymbolicName: simgridEclipsePlugin; singleton:=true
-Bundle-Version: 0.1.13.beta
+Bundle-Version: 0.1.20.RC6
 Bundle-Activator: simgrideclipseplugin.Activator
 Bundle-Vendor: Da SimGrid Team
 Export-Package: com.wutka.dtd,
@@ -191,14 +191,30 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.wst.sse.core;bundle-version="1.1.602",
  org.eclipse.debug.ui;bundle-version="3.7.102",
  org.eclipse.wst.xml.ui;bundle-version="1.1.202",
+ org.eclipse.jdt;bundle-version="3.7.2",
+ org.eclipse.jdt.ui;bundle-version="3.7.2",
  org.eclipse.jdt.core;bundle-version="3.7.3",
  org.eclipse.jdt.launching;bundle-version="3.6.1",
+ org.junit;bundle-version="3.8.2",
  org.eclipse.cdt;bundle-version="8.0.2",
  org.eclipse.cdt.core;bundle-version="5.3.2",
  org.eclipse.cdt.ui;bundle-version="5.3.2",
+ org.eclipse.cdt.codan.checkers;bundle-version="1.0.1",
+ org.eclipse.cdt.codan.checkers.ui;bundle-version="1.0.0",
+ org.eclipse.cdt.codan.core;bundle-version="2.0.0",
+ org.eclipse.cdt.codan.ui;bundle-version="2.0.1",
+ org.eclipse.cdt.doc.user;bundle-version="5.1.1",
+ org.eclipse.cdt.dsf;bundle-version="2.2.0",
+ org.eclipse.cdt.dsf.gdb;bundle-version="4.0.2",
+ org.eclipse.cdt.dsf.gdb.ui;bundle-version="2.2.1",
+ org.eclipse.cdt.dsf.ui;bundle-version="2.2.1",
+ org.eclipse.cdt.gdb;bundle-version="7.0.0",
+ org.eclipse.cdt.gdb.ui;bundle-version="7.0.0",
+ org.eclipse.cdt.launch;bundle-version="7.0.0",
+ org.eclipse.cdt.make.ui;bundle-version="7.1.2",
  org.eclipse.cdt.managedbuilder.core;bundle-version="8.0.2",
- org.junit;bundle-version="3.8.2",
- org.eclipse.jdt.ui;bundle-version="3.7.2"
+ org.eclipse.cdt.managedbuilder.ui;bundle-version="8.0.2",
+ org.eclipse.cdt.managedbuilder.gnu.ui;bundle-version="8.0.2"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
