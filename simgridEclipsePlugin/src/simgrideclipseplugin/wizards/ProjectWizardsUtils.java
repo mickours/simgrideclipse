@@ -22,6 +22,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -49,13 +51,13 @@ public class ProjectWizardsUtils {
 		return newProject;
 	}
 
-	public String openFileStream(String path) {
+	public String openFileStream(String path) throws CoreException{
 		StringBuffer fileData = new StringBuffer(1000);
 		BufferedReader reader = null;
 		try {
 			URI uri = FileLocator.toFileURL(
 					Platform.getBundle(Activator.PLUGIN_ID).getEntry(
-							"/templates/" + path)).toURI();
+							"/templates/"+ path)).toURI();
 			File file = new File(uri);
 
 			reader = new BufferedReader(new FileReader(file));
@@ -68,16 +70,17 @@ public class ProjectWizardsUtils {
 				buf = new char[1024];
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throwCoreException(e.getMessage());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throwCoreException(e.getMessage());
 		} finally {
 			try {
 				reader.close();
 			} catch (IOException e) {
 				// do nothing
+				throwCoreException(e.getMessage());
 			}
 		}
 		return fileData.toString();
@@ -93,6 +96,7 @@ public class ProjectWizardsUtils {
 						IDE.openEditor(page, fileToOpen, "simgrideclipseplugin.editors.MultiPageSimgridEditor", true);
 					} catch (PartInitException e) {
 						e.printStackTrace();
+						MessageDialog.openError(getShell(), "Error", e.getMessage());
 					}
 				}
 			});
@@ -126,8 +130,7 @@ public class ProjectWizardsUtils {
 				}
 				initContentStream.close();
 			} catch (IOException e) {
-				e.printStackTrace();
-			}
+				throwCoreException(e.getMessage());			}
 			monitor.worked(1);
 			return file;
 		}

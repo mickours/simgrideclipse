@@ -49,14 +49,14 @@ public class SimgridJavaProjectWizard extends SimgridAbstractProjectWizard {
 		return project;
 	}
 	
-	private InputStream getMainJavaTemplate(String projectName) {
+	private InputStream getMainJavaTemplate(String projectName) throws CoreException {
 		String tmp = projectUtils.openFileStream(mainJavaTemplatePath);
 		tmp = tmp.replaceAll("<PACKAGE_NAME>", projectName);
 		return new ByteArrayInputStream(tmp.getBytes());
 	}
 
 	
-	private InputStream getFunctionJavaTemplate(String functionName, String projectName) {
+	private InputStream getFunctionJavaTemplate(String functionName, String projectName) throws CoreException {
 		String tmp = projectUtils.openFileStream(functionJavaTemplatePath);
 		tmp = tmp.replaceAll("<PACKAGE_NAME>", projectName);
 		tmp = tmp.replaceAll("<FUNCTION_NAME>", functionName);

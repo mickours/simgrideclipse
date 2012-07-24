@@ -220,7 +220,7 @@ public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
 	
 	}
 	
-	private InputStream getMainCTemplate(List<String> functionsList, String projectName, String template) {
+	private InputStream getMainCTemplate(List<String> functionsList, String projectName, String template) throws CoreException {
 		String tmp = projectUtils.openFileStream(template);
 		
 		tmp = tmp.replaceAll("<PROJECT_NAME>", projectName);

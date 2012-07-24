@@ -5,9 +5,9 @@
 **BUGS
 * changed the routing should show warning if routes are not compatible
 * route not linked on view update
+* outline update slows everything down
 
 ** BEFORE RELEASE **
-* test gnu C
 
 * make USER documentation
     * JAVA 
@@ -17,6 +17,7 @@
     * C 
         * -lsimgrid -L on linker
         * deployement function <FUNCTION>
+        * for windows install "make"
 
 ** AFTER RELEASE **
 * make DEV documentation
@@ -30,6 +31,8 @@
 ************
 *** DONE ***
 ************
+24/07
+* test gnu C
 23/07
 * smart router deletion
 * look for SIMGRID_ROOT

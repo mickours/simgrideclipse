@@ -80,7 +80,9 @@ public abstract class  SimgridAbstractProjectWizard extends BasicNewProjectResou
 					IProject project = null;
 					//create xml
 					projectUtils.createFile(getDeploymentTemplate(), depFileName, monitor);
+					System.err.println("createFile 1 finish");
 					IFile toOpenFile = projectUtils.createFile(getPlatformTemplate(), platFileName, monitor);
+					System.err.println("createFile 2 finish");
 					//create code template
 					project = initializeNewProject(newProject, funcL,args, monitor);
 					project.open(IResource.BACKGROUND_REFRESH,monitor);
@@ -96,8 +98,9 @@ public abstract class  SimgridAbstractProjectWizard extends BasicNewProjectResou
 		try {
 			getContainer().run(true, false, op);
 		} catch (InvocationTargetException e) {
+			e.printStackTrace();
 			Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), "Error", realException.getMessage()+"\n"+e.getMessage());
+			MessageDialog.openError(getShell(), "Error", "Error while loading project.\n"+realException.getMessage());
 			return false;
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -106,11 +109,11 @@ public abstract class  SimgridAbstractProjectWizard extends BasicNewProjectResou
 		return true;
 	}
 	
-	private InputStream getDeploymentTemplate() {
+	private InputStream getDeploymentTemplate() throws CoreException {
 		return new ByteArrayInputStream(projectUtils.openFileStream(deploymentTemplatePath).getBytes());
 	}
 
-	private InputStream getPlatformTemplate() {
+	private InputStream getPlatformTemplate() throws CoreException {
 		return new ByteArrayInputStream(projectUtils.openFileStream(platformTemplatePath).getBytes());
 	}
 	

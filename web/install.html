@@ -36,6 +36,7 @@
 
 <tbody><tr><td width="75%" valign="top">
 <h1>Installation</h1>
+<h2>Install it into Eclipse</h2>
 <p>
 SimGrid Eclipse plug-in can be installed as any normal plug-in. 
 
@@ -48,7 +49,39 @@ The comlete process is quite simple:
 </ol>
 Note that the SimGrid Eclipse Plugin is independent from SimGrid distribution. In order to use and compile your code, you have to install SimGrid. You can retrieve SimGrid distribution for your favorite OS on the <a href="http://simgrid.gforge.inria.fr/">SimGrid Website</a>.
 </p>
+<h2>Requirements</h2>
+This plugin was tested on the folowing Eclipse version and operating systems (OS).
+<p>
+Eclipse version:
+<ul>
+<li>Eclipse Indigo (3.7)</li>
+<li>Eclipse Juno (4.2)</li>
+</ul>
+OS:
+<ul>
+<li>Linux</li>
+<li>Windows XP</li>
+<li>MacOSX</li>
+</ul>
+</p>
 
+<h2>WARNING</h2>
+<p>Make sure that you have install ALL the dependencies for SimGrid depending on your OS. See <a href="http://simgrid.gforge.inria.fr/simgrid/3.8/user_guide/html/install.html">SimGrid install instructions</a>
+</p>
+<p>Make sure that you have set ALL the following ENVIRONMENT VARIABLES:
+<ul>
+<li><b>SIMGRID_ROOT</b>: your SimGrid root install directory</li>
+<li><b>SIMGRID_JAVA_ROOT (only if you are using java bindings)</b>: your SimGrid Java root install directory</li>
+<li>This variable is OS dependent, it contains paths for the needed libraries
+    <ul>
+    <li><b>LD_LIBRARY_PATH (Linux)</b></li>
+    <li><b>DYLD_LIBRARY_PATH (MacOSX)</b></li>
+    <li><b>PATH (Windows)</b></li>
+    </ul>
+</li>
+</ul>
+</p>
+</p>
 </td>
 </tr>
 </tbody></table>
