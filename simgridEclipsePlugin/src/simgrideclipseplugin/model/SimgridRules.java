@@ -38,7 +38,6 @@ public final class SimgridRules {
 	 * return true if the element of tag name </code>childType</code> can be
 	 * added to this parent element
 	 * @param childType the tag name of the child @see "ElementList"
-	 * @return
 	 */
 	public static boolean isAllowedElementAdd(Element parent, String childType) {
 		if (parent.getTagName().equals(ElementList.PLATFORM)){

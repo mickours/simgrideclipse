@@ -145,11 +145,7 @@ public final class ModelHelper {
 	}
 	
 	/**
-	 * return true if the newId is unique or equals with the oldId
-	 * @param newId
-	 * @param oldId
-	 * @param tagName
-	 * @return
+	 * return true if the newId is unique in the file or equals with the oldId
 	 */
 	public static boolean isUniqueId(String newId, String oldId, String tagName){
 		if (newId.equals(oldId)){
@@ -413,8 +409,6 @@ public final class ModelHelper {
 	/**
 	 * return the links contained in the same AS as aNode and in
 	 * the descendants
-	 * @param aNode
-	 * @return
 	 */
 	public static List<Element> getLinks(Element aNode){
 		Element parent = (Element)aNode.getParentNode();
@@ -470,7 +464,6 @@ public final class ModelHelper {
 	 *  <li>ROUTER</li>
 	 *  </ul>
 	 *  @see ElementList ElementList to find the node types
-	 * @return
 	 */
 	public static String getGatewayRouterId(Element node) {
 		String gw = null;
@@ -493,7 +486,6 @@ public final class ModelHelper {
 	
 	/**
 	 * find and return the router corresponding to routerId in the toSearchInList
-	 * @return
 	 */
 	public static Element getGatewayFromRouterId(String routerId, List<Element> toSearchInList) {
 		String gw = null;
@@ -542,9 +534,6 @@ public final class ModelHelper {
 	/**
 	 * return the ordered links from the availableLinks list 
 	 * and contains in this route 
-	 * @param refNode
-	 * @param availableLinks
-	 * @return
 	 */
 	public static LinkedList<Element> getRouteLinks(Element route) {
 		LinkedList<Element> routeLinks = new LinkedList<Element>();

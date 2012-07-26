@@ -36,8 +36,6 @@ public class SimgridPlatformWizardPage extends WizardPage {
 
 	/**
 	 * Constructor for SampleNewWizardPage.
-	 * 
-	 * @param pageName
 	 */
 	public SimgridPlatformWizardPage(ISelection selection) {
 		super("wizardPage");
@@ -46,9 +44,6 @@ public class SimgridPlatformWizardPage extends WizardPage {
 		this.selection = selection;
 	}
 
-	/**
-	 * @see IDialogPage#createControl(Composite)
-	 */
 	@Override
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);

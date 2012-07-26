@@ -33,7 +33,6 @@ public class AutoLayoutAction extends EditorPartAction{
 	
 	@Override
 	protected boolean calculateEnabled() {
-		//FIXME activate only if necessary
 		return true;
 	}
 }

@@ -122,7 +122,6 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 
 	/**
 	 * Initialize the view to display the inside of the root AS
-	 * @param viewer
 	 */
 	public void initContents() {
 		GraphicalViewer viewer = getGraphicalViewer();

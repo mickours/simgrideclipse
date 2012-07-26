@@ -84,8 +84,6 @@ public class SimgridOutlinePage extends ContentOutlinePage
 
 	/**
 	 * The editor is saved, so we should refresh representation
-	 * 
-	 * @param tableNamePositions
 	 */
 	public void update()
 	{
