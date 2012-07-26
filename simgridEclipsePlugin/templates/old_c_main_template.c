@@ -11,28 +11,40 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(msg_<PROJECT_NAME>,"Messages specific for this simu
 
 int main(int argc, char *argv[])
 {
+    char * platform;
+    char * deployement;
     /* check usage error and initialize with defaults */
     if (argc == 1){
-        argv = malloc(3);
-        printf("** WARNING **\nusing default values:\n<PROJECT_NAME>_platform.xml <PROJECT_NAME>_deployment.xml\n\n");
-        argv[1] = "<PROJECT_NAME>_platform.xml";
-        argv[2] = "<PROJECT_NAME>_deployment.xml";
-    }else if(argc != 3) {
-        printf("** ERROR **\nUsage:\n %s platform_file deployment_file\n", argv[0]);
-        printf("example:\n %s <PROJECT_NAME>_platform.xml <PROJECT_NAME>_deployment.xml\n", argv[0]);
+        printf("** WARNING **\n using default values:\n<PROJECT_NAME>_platform.xml <PROJECT_NAME>_deployment.xml\n\n");
+        char* default_args[] =
+        {
+            [0] = argv[0],
+            [1] = "<PROJECT_NAME>_platform.xml",
+            [2] = "<PROJECT_NAME>_deployment.xml"
+        };
+        int nb = 3;
+        MSG_global_init(&nb, default_args);
+        platform = default_args[1];
+        deployement = default_args[2];
+    }else if(argc == 3) {
+        MSG_global_init(&argc, argv);
+        platform = argv[1];
+        deployement = argv[2];
+    }else {
+        printf("** ERROR **\n");
+        printf("Usage:\n %s platform_file deployment_file\n", argv[0]);
+        printf("Example:\n %s <PROJECT_NAME>_platform.xml <PROJECT_NAME>_deployment.xml\n", argv[0]);
         exit(1);
     }
-    
-    MSG_global_init(&argc, argv);
     
     MSG_error_t res = MSG_OK;
     
     /* Simulation setting */
-    MSG_create_environment(argv[1]);
+    MSG_create_environment(platform);
     
     /* Application deployment */
     <FUNCTION_REGISTER>
-    MSG_launch_application(argv[2]);
+    MSG_launch_application(deployement);
     
     res = MSG_main();
     XBT_INFO("Simulation time %g", MSG_get_clock());

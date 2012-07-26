@@ -52,6 +52,7 @@ public class MultiPageSimgridEditorContributor extends MultiPageEditorActionBarC
 	}
 	
 
+	@Override
 	public void setActivePage(IEditorPart part) {
 		activeEditorPart = part;
 		if (activeEditorPart instanceof SimgridGraphicEditor) {
@@ -80,7 +81,7 @@ public class MultiPageSimgridEditorContributor extends MultiPageEditorActionBarC
 					};
 				ActionRegistry actionRegistry = (ActionRegistry) activeEditorPart.getAdapter(ActionRegistry.class);
 				for (ActionFactory af : actionList){
-					IAction action = (IAction) actionRegistry.getAction(af.getId());
+					IAction action = actionRegistry.getAction(af.getId());
 					if (action != null){
 						actionBars.setGlobalActionHandler(action.getId(),action);
 					}
@@ -91,7 +92,7 @@ public class MultiPageSimgridEditorContributor extends MultiPageEditorActionBarC
 						GoOutAction.ID,
 				};
 				for (String id : simgridActions){
-					IAction action = (IAction) actionRegistry.getAction(id);
+					IAction action = actionRegistry.getAction(id);
 					if (action != null){
 						actionBars.setGlobalActionHandler(id,action);
 					}

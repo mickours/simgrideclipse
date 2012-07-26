@@ -148,6 +148,7 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 	/**
 	 * @see Listener#handleEvent(Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 	    String error = computeErrors();
 		setErrorMessage(error);

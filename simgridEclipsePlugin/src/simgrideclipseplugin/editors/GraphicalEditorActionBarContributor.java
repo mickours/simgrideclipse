@@ -62,6 +62,7 @@ public class GraphicalEditorActionBarContributor extends ActionBarContributor {
 
 	}
 	
+	@Override
 	public void contributeToMenu(IMenuManager manager) {
 		IMenuManager editorMenu = new MenuManager("Simgrid &Menu");
 		manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS, editorMenu);

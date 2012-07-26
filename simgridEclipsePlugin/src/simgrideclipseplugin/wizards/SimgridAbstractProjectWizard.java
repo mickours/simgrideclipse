@@ -75,6 +75,7 @@ public abstract class  SimgridAbstractProjectWizard extends BasicNewProjectResou
 		projectUtils = new ProjectWizardsUtils(getShell(), getNewProject());
 		
 		IRunnableWithProgress op = new IRunnableWithProgress() {
+			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException {
 				
 				try {

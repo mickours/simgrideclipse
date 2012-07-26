@@ -48,6 +48,7 @@ public class SimgridOutlinePage extends ContentOutlinePage
 		updateInput();
 	}
 
+	@Override
 	public void createControl(Composite parent)
 	{
 		super.createControl(parent);
@@ -77,7 +78,7 @@ public class SimgridOutlinePage extends ContentOutlinePage
 	 */
 	public void updateInput()
 	{
-		this.input = (IEditorInput)editor.getEditorInput();
+		this.input = editor.getEditorInput();
 		update();
 	}
 

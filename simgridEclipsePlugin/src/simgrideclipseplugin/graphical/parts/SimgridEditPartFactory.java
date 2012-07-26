@@ -46,7 +46,7 @@ public class SimgridEditPartFactory implements EditPartFactory {
 			}
 		}
 		//throw new RuntimeException("Can't create part for model element: "+ name);
-		return (EditPart) new ErrorEditPart();
+		return new ErrorEditPart();
 	}
 	
 }

@@ -71,6 +71,7 @@ public class SubActionBarsExt extends SubActionBars2 {
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.SubActionBars#getToolBarManager()
 	 */
+	@Override
 	public IToolBarManager getToolBarManager() {
 		if (myToolBarManager == null) {
 			ICoolBarManager parentCoolBarManager = getTopCoolBarManager();
@@ -205,6 +206,7 @@ public class SubActionBarsExt extends SubActionBars2 {
 		/* (non-Javadoc)
 		 * @see org.eclipse.ui.IPartListener#partActivated(org.eclipse.ui.IWorkbenchPart)
 		 */
+		@Override
 		public void partActivated(IWorkbenchPart part) {
 			if (part instanceof IEditorPart) {
 				IEditorPart editorPart = (IEditorPart) part;
@@ -219,6 +221,7 @@ public class SubActionBarsExt extends SubActionBars2 {
 		/* (non-Javadoc)
 		 * @see org.eclipse.ui.IPartListener#partBroughtToTop(org.eclipse.ui.IWorkbenchPart)
 		 */
+		@Override
 		public void partBroughtToTop(IWorkbenchPart part) {
 			// not required
 		}
@@ -226,6 +229,7 @@ public class SubActionBarsExt extends SubActionBars2 {
 		/* (non-Javadoc)
 		 * @see org.eclipse.ui.IPartListener#partClosed(org.eclipse.ui.IWorkbenchPart)
 		 */
+		@Override
 		public void partClosed(IWorkbenchPart part) {
 			// not required
 		}
@@ -233,6 +237,7 @@ public class SubActionBarsExt extends SubActionBars2 {
 		/* (non-Javadoc)
 		 * @see org.eclipse.ui.IPartListener#partDeactivated(org.eclipse.ui.IWorkbenchPart)
 		 */
+		@Override
 		public void partDeactivated(IWorkbenchPart part) {
 			// not required
 		}
@@ -240,6 +245,7 @@ public class SubActionBarsExt extends SubActionBars2 {
 		/* (non-Javadoc)
 		 * @see org.eclipse.ui.IPartListener#partOpened(org.eclipse.ui.IWorkbenchPart)
 		 */
+		@Override
 		public void partOpened(IWorkbenchPart part) {
 			// not required
 		}

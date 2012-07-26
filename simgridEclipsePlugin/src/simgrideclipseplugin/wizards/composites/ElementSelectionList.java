@@ -29,14 +29,17 @@ public class ElementSelectionList extends TableViewer {
 	    setContentProvider(new IStructuredContentProvider() {
 
 	    	
-	      public Object[] getElements(Object inputElement) {
+	      @Override
+		public Object[] getElements(Object inputElement) {
 	        return ((List<?>) inputElement).toArray();
 	      }
 
-	      public void dispose() {
+	      @Override
+		public void dispose() {
 	      }
 
-	      public void inputChanged(Viewer viewer, Object oldInput,
+	      @Override
+		public void inputChanged(Viewer viewer, Object oldInput,
 	          Object newInput) {
 	    	  
 	      }

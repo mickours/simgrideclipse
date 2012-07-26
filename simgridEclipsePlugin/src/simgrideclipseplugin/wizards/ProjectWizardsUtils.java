@@ -88,6 +88,7 @@ public class ProjectWizardsUtils {
 	 public void openFile(final IFile fileToOpen, IProgressMonitor monitor ){
 			monitor.setTaskName("Opening file for editing...");
 			getShell().getDisplay().asyncExec(new Runnable() {
+				@Override
 				public void run() {
 					IWorkbenchPage page =
 						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();

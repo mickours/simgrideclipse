@@ -17,18 +17,19 @@ public class SimgridCExtenalSettings extends CExternalSettingProvider {
 	public static String lib_path;
 
 	/** {@inheritDoc} */
+	@Override
 	public CExternalSetting[] getSettings(final IProject pr_Project,
 			final ICConfigurationDescription pr_Config) {
 		if (lib_path != null){
 		// supply a simple macro entry
 		ArrayList<ICSettingEntry> pathEntries = new ArrayList<ICSettingEntry>();
-		ICLibraryPathEntry include = new CLibraryPathEntry(lib_path, CLibraryPathEntry.ALL);
+		ICLibraryPathEntry include = new CLibraryPathEntry(lib_path, ICSettingEntry.ALL);
 		pathEntries.add(include);
 
 		// ICMacroEntry macro = new CMacroEntry("MY_DEFINE", "\"my_value\"", 0);
 		// pathEntries.add(macro);
 
-		ICSettingEntry[] settings = (ICSettingEntry[]) pathEntries
+		ICSettingEntry[] settings = pathEntries
 				.toArray(new ICSettingEntry[pathEntries.size()]);
 		return new CExternalSetting[] { new CExternalSetting(null, null, null,
 				settings) };

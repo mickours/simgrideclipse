@@ -28,6 +28,7 @@ public class GoIntoAction extends SelectionAction{
 		setSelectionProvider(getWorkbenchPart().getSite().getSelectionProvider());
 	}
 
+	@Override
 	public void run() {
 		ASEditPart asEP  = (ASEditPart)getSelectedObjects().get(0);
 		doGoInto(asEP);

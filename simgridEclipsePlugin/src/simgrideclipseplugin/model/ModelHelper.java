@@ -531,7 +531,7 @@ public final class ModelHelper {
 					.getAdapterFor(IPropertySource.class);
 			if (propertySource == null) {
 				propertySource = new XMLPropertySource(
-						(INodeNotifier) source);
+						source);
 				return new ElementPropertySource(propertySource);
 			}
 		}

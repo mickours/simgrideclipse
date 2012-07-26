@@ -50,6 +50,7 @@ public class SimgridJavaProjectWizardPage extends SimgridAbstractProjectWizardPa
 		Button button = new Button(container, SWT.PUSH);
 		button.setText("Browse...");
 		button.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleBrowse();
 			}

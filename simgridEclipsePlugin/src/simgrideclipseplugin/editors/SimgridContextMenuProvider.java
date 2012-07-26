@@ -25,7 +25,8 @@ public class SimgridContextMenuProvider extends ContextMenuProvider {
 	    setActionRegistry(registry); 
 	  } 
 	 
-	  public void buildContextMenu(IMenuManager menu) { 
+	  @Override
+	public void buildContextMenu(IMenuManager menu) { 
 		  menu.removeAll();
 		  menu.add(new Separator(GEFActionConstants.GROUP_UNDO));
 			menu.add(new Separator(GEFActionConstants.GROUP_COPY));
@@ -42,7 +43,7 @@ public class SimgridContextMenuProvider extends ContextMenuProvider {
 				 ActionFactory.CUT,
 				};
 			for (ActionFactory af : actionList){
-				IAction action = (IAction) actionRegistry.getAction(af.getId());
+				IAction action = actionRegistry.getAction(af.getId());
 				if (action != null){
 					if (action.getId().equals(ActionFactory.UNDO.getId()) || action.getId().equals(ActionFactory.REDO.getId())){
 						menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);

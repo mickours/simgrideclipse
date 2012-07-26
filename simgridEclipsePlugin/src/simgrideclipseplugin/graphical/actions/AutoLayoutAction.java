@@ -24,6 +24,7 @@ public class AutoLayoutAction extends EditorPartAction{
 		setImageDescriptor(SimgridIconProvider.getIconImageDescriptor(ID));
 	}
 
+	@Override
 	public void run() {
 		SimgridGraphicEditor editor = (SimgridGraphicEditor)getEditorPart();
 		editor.doAutoLayout();

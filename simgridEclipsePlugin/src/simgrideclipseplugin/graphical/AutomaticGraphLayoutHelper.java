@@ -9,6 +9,7 @@ import org.eclipse.gef.EditPart;
 import org.graphstream.algorithm.Toolkit;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
+import org.graphstream.ui.graphicGraph.GraphPosLengthUtils;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.layout.springbox.SpringBox;
 
@@ -46,7 +47,7 @@ public class AutomaticGraphLayoutHelper {
 			//there is an Error in the model
 			return;
 		}
-		addNode((SimgridAbstractEditPart) root);
+		addNode(root);
 		int nbEdge = 0;
 		for (Node node : graph.getEachNode()){
 			for (Edge edge : graph.getEachEdge()){
@@ -72,14 +73,14 @@ public class AutomaticGraphLayoutHelper {
 		double xmin = 0, ymin = 0;
 		//get the x and y min to translate
 		for (Node n : graph.getEachNode()) {
-			double pos[] = Toolkit.nodePosition(graph, n.getId());
+			double pos[] = GraphPosLengthUtils.nodePosition(graph, n.getId());
 			xmin = Math.min(pos[0], xmin);
 			ymin = Math.min(pos[1], ymin);
 		}
 		
 		// update position in the map
 		for (Node n : graph.getEachNode()) {
-			double pos[] = Toolkit.nodePosition(graph, n.getId());
+			double pos[] = GraphPosLengthUtils.nodePosition(graph, n.getId());
 			//TODO assign position depending on object size
 			int x =  new Double((pos[0]+Math.abs(xmin))*200).intValue();
 			int y =  new Double((pos[1]+Math.abs(ymin))*200).intValue();
@@ -112,7 +113,7 @@ public class AutomaticGraphLayoutHelper {
 						AbstractElementEditPart newElem = (AbstractElementEditPart) conn.getTarget();
 						String id2 = computeId(newElem);
 						if (graph.getNode(id2) == null){
-							editPartMap.put(id2, (SimgridAbstractEditPart) newElem);
+							editPartMap.put(id2, newElem);
 							graph.addNode(id2);
 						}
 						graph.addEdge(computeId(conn),id,id2);

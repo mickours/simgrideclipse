@@ -29,6 +29,7 @@ public class GoOutAction extends WorkbenchPartAction{
 		setImageDescriptor(SimgridIconProvider.getIconImageDescriptor(ID));
 	}
 
+	@Override
 	public void run() {
 		SimgridGraphicEditor graphEditor = (SimgridGraphicEditor)getWorkbenchPart();
 		EditPart content = graphEditor.getGraphicalContents();

@@ -73,23 +73,28 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 	
 	/** part Listener to handle part activation changes **/
 	protected IPartListener partListener = new IPartListener() {
+		@Override
 		public void partActivated(IWorkbenchPart p) {
 			if (p instanceof IEditorPart)
 			((IEditorPart) p).getEditorSite().getActionBarContributor().setActiveEditor((IEditorPart)p);
 		}
 
+		@Override
 		public void partBroughtToTop(IWorkbenchPart p) {
 			// Ignore.
 		}
 
+		@Override
 		public void partClosed(IWorkbenchPart p) {
 			// Ignore.
 		}
 
+		@Override
 		public void partDeactivated(IWorkbenchPart p) {
 			// Ignore.
 		}
 
+		@Override
 		public void partOpened(IWorkbenchPart p) {
 			// Ignore.
 		}
@@ -114,6 +119,7 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 	 * The <code>MultiPageEditorExample</code> implementation of this method
 	 * checks that the input is an instance of <code>IFileEditorInput</code>.
 	 */
+	@Override
 	public void init(IEditorSite site, IEditorInput editorInput)
 			throws PartInitException {
 		if (!(editorInput instanceof IFileEditorInput)){
@@ -128,6 +134,7 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 			private IStructuredSelection oldEditPartSelection = new StructuredSelection();
 			private IStructuredSelection oldElementSelection = new StructuredSelection();
 			
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				IStructuredSelection sel = (IStructuredSelection) event.getSelection();
 				//avoid loop
@@ -174,10 +181,12 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 	/**
 	 * @see org.eclipse.ui.part.MultiPageEditorPart#createSite(org.eclipse.ui.IEditorPart)
 	 */
+	@Override
 	protected IEditorSite createSite(IEditorPart page) {
 		IEditorSite site = null;
 		if (page == editor) {
 			site = new MultiPageEditorSite(this, page) {
+				@Override
 				public String getId() {
 					// Sets this ID so nested editor is configured for XML
 					// source
@@ -224,6 +233,7 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 	/**
 	 * Creates and connect the pages of the multi-page editor.
 	 */
+	@Override
 	protected void createPages() {
 		createGraphicEditorPage();
 		createStructuredTextEditorPage();
@@ -245,6 +255,7 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 	 * <code>IWorkbenchPart</code> method disposes all nested editors.
 	 * Subclasses may extend.
 	 */
+	@Override
 	public void dispose() {
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
 		super.dispose();
@@ -281,6 +292,7 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 	/*
 	 * (non-Javadoc) Method declared on IEditorPart.
 	 */
+	@Override
 	public boolean isSaveAsAllowed() {
 		return editor.isSaveAsAllowed();
 	}
@@ -288,9 +300,11 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 	/**
 	 * Closes all project files on project close.
 	 */
+	@Override
 	public void resourceChanged(final IResourceChangeEvent event) {
 		if (event.getType() == IResourceChangeEvent.PRE_CLOSE) {
 			Display.getDefault().asyncExec(new Runnable() {
+				@Override
 				public void run() {
 					IWorkbenchPage[] pages = getSite().getWorkbenchWindow()
 							.getPages();

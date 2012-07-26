@@ -95,6 +95,7 @@ public abstract class AbstractElementEditPart extends SimgridAbstractEditPart
 		((INodeNotifier) model).removeAdapter(this);
 	}
 
+	@Override
 	protected List<?> getModelSourceConnections() {
 		if(SimgridRules.parentDontAcceptRoute((Element) getModel())){
 			return Collections.emptyList();
@@ -102,6 +103,7 @@ public abstract class AbstractElementEditPart extends SimgridAbstractEditPart
 		return ModelHelper.getSouceConnections((Element)getModel());
 	}
 	
+	@Override
 	protected List<?> getModelTargetConnections() { 
 		if(SimgridRules.parentDontAcceptRoute((Element) getModel())){
 			return Collections.emptyList();

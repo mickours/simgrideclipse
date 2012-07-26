@@ -2,6 +2,7 @@ package simgrideclipseplugin.wizards;
 
 import java.io.File;
 import org.eclipse.cdt.managedbuilder.core.IProjectType;
+import org.eclipse.cdt.managedbuilder.core.ManagedBuildManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -33,21 +34,21 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
 
 	@Override
 	public void init(SimgridAbstractProjectWizard wizard){
-//		try{
-//			projectTypes = ManagedBuildManager.getDefinedProjectTypes();
-//			if (projectTypes == null || projectTypes.length == 0){
-//				wizard.initErrorMessage = "You don't have any tool chain install for C compilation";
-//			}
-//			for (int i = 0; i< projectTypes.length; i++){
-//				if (projectTypes[i].isSupported() && projectTypes[i].getId().equals("cdt.managedbuild.target.gnu.exe")){
-//					argsMap.put(SimgridCProjectWizard.TOOL_CHAIN,  projectTypes[i].getId());
-//					return;
-//				}
-//
-//			}
-//		}catch(Exception e){
-//			wizard.initErrorMessage ="You need to install the C/C++ Developement Tools to create a SimGrid C project";
-//		}
+		try{
+			projectTypes = ManagedBuildManager.getDefinedProjectTypes();
+			if (projectTypes == null || projectTypes.length == 0){
+				wizard.initErrorMessage = "You don't have any tool chain install for C compilation";
+			}
+			for (int i = 0; i< projectTypes.length; i++){
+				if (projectTypes[i].isSupported() && projectTypes[i].getId().equals("cdt.managedbuild.target.gnu.exe")){
+					argsMap.put(SimgridCProjectWizard.TOOL_CHAIN,  projectTypes[i].getId());
+					return;
+				}
+
+			}
+		}catch(Exception e){
+			wizard.initErrorMessage ="You need to install the C/C++ Developement Tools to create a SimGrid C project";
+		}
 	}
 
 
@@ -67,6 +68,7 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
 		Button button = new Button(container, SWT.PUSH);
 		button.setText("Browse...");
 		button.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleBrowse();
 			}

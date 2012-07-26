@@ -149,13 +149,13 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 		    new ColumnLabelProvider(){
 		    	@Override
 		    	public Image getImage(Object element) {
-		    		Element elem = (Element)((LinkCtn) element).getLink();
+		    		Element elem = ((LinkCtn) element).getLink();
 		    		return SimgridIconProvider.getIcon(elem.getTagName()+"_small");
 		    	}
 	
 		    	@Override
 		    	public String getText(Object element) {
-		    		Element elem = (Element)((LinkCtn) element).getLink();
+		    		Element elem = ((LinkCtn) element).getLink();
 		    		String desc = elem.getTagName();
 		    		NamedNodeMap nm = elem.getAttributes();
 		    		for (int i=0; i< nm.getLength(); i++){
@@ -213,7 +213,8 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 		//table filter
 	    final ElementIdFilter filter = new ElementIdFilter();
  		searchText.addKeyListener(new KeyAdapter() {
- 			public void keyReleased(KeyEvent ke) {
+ 			@Override
+			public void keyReleased(KeyEvent ke) {
  				filter.setSearchText(searchText.getText());
  				availableLinkViewer.refresh();
  			}
@@ -298,7 +299,7 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 			IStructuredSelection sel = (StructuredSelection) routeViewer
 					.getSelection();
 			LinkCtn l = (LinkCtn)sel.getFirstElement();
-			Element e = (Element)l.getLink();
+			Element e = l.getLink();
 			if (event.widget == edit){
 				EditElementWizard wizard = new EditElementWizard(e);
 				WizardDialog dialog = new WizardDialog(getShell(), wizard);

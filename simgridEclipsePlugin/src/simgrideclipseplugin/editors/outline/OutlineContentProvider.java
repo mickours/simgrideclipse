@@ -29,6 +29,7 @@ public class OutlineContentProvider implements ITreeContentProvider {
 		this.documentProvider = provider;
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement == input) {
@@ -46,12 +47,14 @@ public class OutlineContentProvider implements ITreeContentProvider {
 		return new Object[0];
 	}
 
+	@Override
 	public Object getParent(Object element) {
 		if (element instanceof Element)
 			return ((Element) element).getParentNode();
 		return null;
 	}
 
+	@Override
 	public boolean hasChildren(Object element) {
 		if (element == input)
 			return true;
@@ -60,15 +63,18 @@ public class OutlineContentProvider implements ITreeContentProvider {
 		}
 	}
 
+	@Override
 	public Object[] getElements(Object inputElement) {
 		if (root == null)
 			return new Object[0];
 		return getChildren(root);
 	}
 
+	@Override
 	public void dispose() {
 	}
 
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		if (oldInput != null) {
 			IDocument document = documentProvider.getDocument(oldInput);

@@ -30,6 +30,7 @@ public class EditElementAction extends SelectionAction {
 		setSelectionProvider(getWorkbenchPart().getSite().getSelectionProvider());
 	}
 
+	@Override
 	public void run() {
 		EditPart asEP = (EditPart)getSelectedObjects().get(0);
 		Shell shell = asEP.getViewer().getControl().getShell();
