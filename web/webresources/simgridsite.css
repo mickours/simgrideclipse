@@ -170,7 +170,18 @@ display:none;
     margin-top: 5px;
 }
 .tablecontent {background:#d7f3f7;
-		color:#007fc6;
+	color:#007fc6;
 }
+
+/*** ADDED by Michael Mercier ***/
+div.warning {
+    padding-left:10px;
+    padding-right:10px;
+    border-color: #CCCCCC;
+    border-width: 1px;
+    border-style: solid;
+    background-color: #f9ece5; 
+}
+
 
 

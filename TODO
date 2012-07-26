@@ -2,35 +2,31 @@
 *** TODO List ***
 *****************
 
-**BUGS
+* make DEV documentation
+* right click -> add function on hosts
+* add cabinet support
+* add backbone support
+* add host_link support
+* add storage support
+* cut/past
+
+* make a delegate commandeStack to work correcly on both editor
+* wheel click -> go out
+
+
+************
+*** BUGS ***
+************
+
 * changed the routing should show warning if routes are not compatible
 * route not linked on view update
 * outline update slows everything down
 
-** BEFORE RELEASE **
-
-* make USER documentation
-    * JAVA 
-        * ld Library path (see simgrid Java)
-        ?* java.library.path in VM option
-        * deployement function <PKG>.<FUNCTION>
-    * C 
-        * -lsimgrid -L on linker
-        * deployement function <FUNCTION>
-        * for windows install "make"
-
-** AFTER RELEASE **
-* make DEV documentation
-* add storage support
-* add cabinet support
-* add host_link support
-* make a delegate commandeStack to work correcly on both editor
-* cut/past
-* right click -> add function on hosts
-
 ************
 *** DONE ***
 ************
+26/07
+* make USER documentation
 24/07
 * test gnu C
 23/07

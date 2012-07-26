@@ -185,6 +185,7 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		// mouse support
 		viewer.setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1),
 				MouseWheelZoomHandler.SINGLETON);
+		
 		//key support
 		GraphicalViewerKeyHandler handler = new GraphicalViewerKeyHandler(viewer);
 		handler.setParent(getCommonKeyHandler());

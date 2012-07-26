@@ -1,0 +1,39 @@
+#toc
+{
+	border: 1px solid #bba;
+	background-color: #f7f8ff;
+	padding: 1em;
+	font-size: 90%;
+	text-align: center;
+	width:22em;
+}
+
+#toc-header
+{
+	display: inline;
+	padding: 0;
+	font-size: 100%;
+	font-weight: bold;
+}
+
+#toc ol
+{
+/*	list-style-type: none;*/
+	margin-left: 1.5em;
+	padding-left: 0;
+	text-align: left;
+}
+
+#toc div.warning{
+    display:none;
+}
+
+/*.toc3*/
+/*{*/
+/*	margin-left: 1em;*/
+/*}*/
+
+/*.toc4*/
+/*{*/
+/*	margin-left: 2em;*/
+/*}*/

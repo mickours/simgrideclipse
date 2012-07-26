@@ -35,7 +35,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import simgrideclipseplugin.graphical.providers.ElementLabelProvider;
 import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;

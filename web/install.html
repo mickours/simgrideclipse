@@ -1,63 +1,35 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<!-- saved from url=(0031)http://simgrid.gforge.inria.fr/ -->
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	
-	<link rel="stylesheet" type="text/css" href="./webresources/simgridsite.css">
-	<link rel="stylesheet" type="text/css" href="./webresources/simgridsitetabs.css">
- 	
-	<title>SimGrid Eclipse Plug-In: a plugin Eclipse for Simgrid</title>
-	<meta name="keywords" content="eclipse, plugin, scalable, simulation, distributed systems, grid, peer-to-peer"> 
-
-</head>
-
-<body>
-<div id="header">
-<table width="100%">
-	<tbody><tr>
-		<td width="22%">			
-				<img src="./webresources/simgrid_logo_2011.png" width="100%" alt="SimGrid Eclipse Plug-In: a plugin Eclipse for Simgrid">		
-		</td>
-		<td valign="middle" align="left">
-			<h2 class="header"><i class="subtitle">SimGrid Eclipse Plug-In: a Eclipse Plugin for Simgrid</i></h2>
-		</td>
-	</tr>
-</tbody></table>
-</div>
- <div id="navrow1" class="tabs" align="center">
-    <ul class="tablist">
-      <li><a href="./index.html"><span>Home</span></a></li>
-      <li><a href="./download.html"><span>Download</span></a></li>
-      <li><a href="./documentation.html"><span>Documentation</span></a></li>
-      <li class="current"><a href="./install.html"><span>Installation</span></a></li>
-      <li><a href="http://simgrid.gforge.inria.fr/"><span>SimGrid Website</span></a></li>
-    </ul>
-  </div>
-<table width="80%" cellpadding="0" cellspacing="0" border="0" align="center" class="indexmain">
-
-<tbody><tr><td width="75%" valign="top">
 <h1>Installation</h1>
 <h2>Install it into Eclipse</h2>
 <p>
 SimGrid Eclipse plug-in can be installed as any normal plug-in. 
 
-The comlete process is quite simple:
+The complete process is quite simple:
 <ol>
-<li>Select Help > Install New Software. The install dialog will appear.</li>
-<li>Type <b>http://simgrideclipse.forge.imag.fr/eclipse/</b> in the "work with:" field</li>
-<li>Select the plugin</li>
-<li>Click on next until finished</li>
+<li>select Help > Install New Software. The install dialog will appear.</li>
+<li>type <b>http://simgrideclipse.forge.imag.fr/eclipse/</b> in the "work with:" field</li>
+<li>select the plugin</li>
+<li>click on next until the installation begins</li>
+<li>you will be warn that the plug-in is not signed, click OK</li>
+<li>restart Eclipse and it works!</li>
 </ol>
-Note that the SimGrid Eclipse Plugin is independent from SimGrid distribution. In order to use and compile your code, you have to install SimGrid. You can retrieve SimGrid distribution for your favorite OS on the <a href="http://simgrid.gforge.inria.fr/">SimGrid Website</a>.
+Note that the SimGrid Eclipse Plug-in is independent from SimGrid distribution. In order to use and compile your code, you have to install SimGrid. You can retrieve SimGrid distribution for your favorite OS on the <a href="http://simgrid.gforge.inria.fr/">SimGrid Website</a>.
 </p>
 <h2>Requirements</h2>
-This plugin was tested on the folowing Eclipse version and operating systems (OS).
+To make this plug-in works you need an operating systems (OS) with Java 1.6 or later and Eclipse installed.
+You can <a href="http://www.eclipse.org/downloads/">download Eclipse here</a>.
+This plug-in was tested on the following Eclipse version and OS.
+<h3>Eclipse version</h3>
 <p>
-Eclipse version:
 <ul>
 <li>Eclipse Indigo (3.7)</li>
 <li>Eclipse Juno (4.2)</li>
 </ul>
-OS:
+<div class="warning">
+<h3>WARNING</h3>
+<p>For each Eclipse version you need to have the official Eclipse Update Site in your "Available Software Site" (http://download.eclipse.org/releases/indigo/ or http://download.eclipse.org/releases/juno/).
+</p>
+</div>
+<h3>OS</h3>
 <ul>
 <li>Linux</li>
 <li>Windows XP</li>
@@ -65,8 +37,9 @@ OS:
 </ul>
 </p>
 
-<h2>WARNING</h2>
-<p>Make sure that you have install ALL the dependencies for SimGrid depending on your OS. See <a href="http://simgrid.gforge.inria.fr/simgrid/3.8/user_guide/html/install.html">SimGrid install instructions</a>
+<div class="warning">
+<h3>WARNING</h3>
+<p>Make sure that you have install ALL the dependencies for SimGrid depending on your OS. See <a href="http://simgrid.gforge.inria.fr/simgrid/3.8/user_guide/html/install.html">SimGrid install instructions</a>.
 </p>
 <p>Make sure that you have set ALL the following ENVIRONMENT VARIABLES:
 <ul>
@@ -74,22 +47,37 @@ OS:
 <li><b>SIMGRID_JAVA_ROOT (only if you are using java bindings)</b>: your SimGrid Java root install directory</li>
 <li>This variable is OS dependent, it contains paths for the needed libraries
     <ul>
-    <li><b>LD_LIBRARY_PATH (Linux)</b></li>
+    <li><b>LD_LIBRARY_PATH   (Linux)</b></li>
     <li><b>DYLD_LIBRARY_PATH (MacOSX)</b></li>
-    <li><b>PATH (Windows)</b></li>
+    <li><b>PATH              (Windows)</b></li>
     </ul>
 </li>
 </ul>
-</p>
-</p>
-</td>
-</tr>
-</tbody></table>
-<div id="footer" align="center">
-<ul class="footerlogos">	           
-	<li><a href="http://www.cnrs.fr/"><img align="center" src="./webresources/cnrs.png" alt="CNRS"></a>	
-	<li><a href="http://www.polytech-grenoble.fr/"><img align="center" src="./webresources/logo_pg2009.png" width="100%" alt="UJF/Polytech"></a>	
-	</li>	
-</ul>	
+<h3>on Linux and MacOSX</h3>
+To set these variables on UNIX-Like OS (Linux, MacOSX), it is recommended to edit the  <b>".profile"</b> file in your home folder. Create it if it does not exists and add the following lines. Be careful, the path <b>"/usr/local"</b> is the default but you must change it if you have used a custom location.
+<h4>on Linux</h4>
+<div class="fragment">
+<pre class="fragment">
+export SIMGRID_ROOT="/usr/local"
+export SIMGRID_JAVA_ROOT="/usr/local"
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SIMGRID_ROOT/lib:$SIMGRID_JAVA_ROOT/java
+</pre>
 </div>
-</body></html>
+<h4>on MacOSX</h4>
+<div class="fragment">
+<pre class="fragment">
+export SIMGRID_ROOT="/usr/local"
+export SIMGRID_JAVA_ROOT="/usr/local"
+export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$SIMGRID_ROOT/lib:$SIMGRID_JAVA_ROOT/java
+</pre>
+</div>
+
+<h3>on Windows</h3>
+<ol>
+    <li>from the Desktop, right-click on <b>My Computer</b> and select <b>Properties</b> OR in the <b>Configuration Panel</b> go into <b>System</b></li>
+	<li>click on <b>Advanced System Settings</b> tab</li>
+    <li>in the System Properties window click on <b>Environment Variables</b>
+    <li>set the SIMGRID_ROOT, SIMGRID_JAVA_ROOT and PATH as the SimGrid installer said</li>
+</ol>
+</p>
+</div>

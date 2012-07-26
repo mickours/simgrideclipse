@@ -2,8 +2,6 @@ package simgrideclipseplugin.wizards;
 
 import java.io.File;
 import org.eclipse.cdt.managedbuilder.core.IProjectType;
-import org.eclipse.cdt.managedbuilder.core.ManagedBuildManager;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -19,31 +17,10 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
 
 	
 	private static final String title = "Simgrid MSG C project";
-//	private Combo cmbToolChain;
 	private Text locationText;
 	private Button is38orMore;
 	private static final String LIB_NAME = File.separator+"lib"+File.separator+"libsimgrid";
-//	private static final String LIB_EXTENSION = initLibExtension();
-	
-	/**
-	 * there is 1:1 correspondence between the to arrays
-	 */
-//	private List<String> projectIDList= new LinkedList<String>();
-//	// = {
-//		"cdt.managedbuild.target.gnu.cygwin.exe",
-//		"cdt.managedbuild.target.gnu.mingw.exe", 
-//		"cdt.managedbuild.target.gnu.solaris.exe", 
-//		"cdt.managedbuild.target.macosx.exe",
-//		"cdt.managedbuild.target.gnu.exe", 
-//	};
-//	private List<String>  toolChainList= new LinkedList<String>();
-//	= {
-//		"GNU cygwin",
-//		"GNU mingw",
-//		"GNU solaris",
-//		"macosx",
-//		"GNU Unix",
-//	};
+
 	
 	IProjectType[] projectTypes;
 
@@ -56,44 +33,27 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
 
 	@Override
 	public void init(SimgridAbstractProjectWizard wizard){
-		try{
-			projectTypes = ManagedBuildManager.getDefinedProjectTypes();
-			if (projectTypes == null || projectTypes.length == 0){
-				wizard.initErrorMessage = "You don't have any tool chain install for C compilation";
-			}
-			for (int i = 0; i< projectTypes.length; i++){
-//				if (projectTypes[i].isSupported() && projectTypes[i].getId().endsWith(".exe")){
-//					projectIDList.add(projectTypes[i].getId());
-//					toolChainList.add(projectTypes[i].getId());
+//		try{
+//			projectTypes = ManagedBuildManager.getDefinedProjectTypes();
+//			if (projectTypes == null || projectTypes.length == 0){
+//				wizard.initErrorMessage = "You don't have any tool chain install for C compilation";
+//			}
+//			for (int i = 0; i< projectTypes.length; i++){
+//				if (projectTypes[i].isSupported() && projectTypes[i].getId().equals("cdt.managedbuild.target.gnu.exe")){
+//					argsMap.put(SimgridCProjectWizard.TOOL_CHAIN,  projectTypes[i].getId());
+//					return;
 //				}
-				if (projectTypes[i].isSupported() && projectTypes[i].getId().equals("cdt.managedbuild.target.gnu.exe")){
-					argsMap.put(SimgridCProjectWizard.TOOL_CHAIN,  projectTypes[i].getId());
-					return;
-				}
-
-			}
-		}catch(Exception e){
-			wizard.initErrorMessage ="You need to install the C/C++ Developement Tools to create a SimGrid C project";
-		}
+//
+//			}
+//		}catch(Exception e){
+//			wizard.initErrorMessage ="You need to install the C/C++ Developement Tools to create a SimGrid C project";
+//		}
 	}
 
 
 
 	@Override
 	protected void addProjectSpecificComposite(Composite container) {
-//		Label label = new Label(container, SWT.NULL);
-//		label.setText("&Select your project toolchain:");
-//		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-//		gd.horizontalSpan = 3;
-//		label.setLayoutData(gd);
-//		
-//		cmbToolChain = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
-//		gd = new GridData(GridData.FILL_HORIZONTAL);
-//		gd.horizontalAlignment = GridData.BEGINNING;
-//		cmbToolChain.setLayoutData(gd);
-//		cmbToolChain.setItems(toolChainList.toArray(new String[0]));
-//		cmbToolChain.addListener(SWT.Selection, this);
-		
 		Label label = new Label(container, SWT.NULL);
 		label.setText("&Select your SimGrid librairies install location");
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -119,8 +79,6 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
 
 	}
 	
-	
-
 	@Override
 	protected void initializeComposite() {
 		argsMap.put(SimgridCProjectWizard.IS_38_OR_MORE,false);
@@ -131,25 +89,6 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
 			setPageComplete(true);
 		}
 	}
-
-//	private String[] getToolChainList() {
-//		String os = System.getProperty("os.name");
-//		if (os.startsWith("windows")){
-//			String[] ret = {toolChainList[0],toolChainList[1] };
-//			return ret;
-//		}
-//		if (os.startsWith("solaris")){
-//			String[] ret = {toolChainList[2]};
-//			return ret;
-//		}
-//		if (os.startsWith("mac")){
-//			String[] ret = {toolChainList[3]};
-//			return ret;
-//		}
-//		//guess it's an UNIX like
-//		String[] ret = {toolChainList[4]};
-//		return ret;
-//	}
 	
 	private void handleBrowse() {
 		DirectoryDialog dlg = new DirectoryDialog(getShell());
@@ -179,25 +118,9 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
 	public void handleEvent(Event event) {
 		super.handleEvent(event);
 		String message = errorMessage;
-//		if (event.widget == cmbToolChain){
-//			String tc = cmbToolChain.getText();
-//			if (tc.isEmpty()){
-//				message += "You must select a tool chain";
-//			}
-//			else{
-//				int index = toolChainList.indexOf(tc);
-//				argsMap.put(SimgridCProjectWizard.TOOL_CHAIN, projectIDList.get(index));
-//			}
-//		}
 		if (event.widget == locationText){
 			String loc = locationText.getText();
-//			Path path = new Path(loc+LIB_NAME);
-//			if (loc.isEmpty() || !new File(path.toOSString()).exists()){
-//				message += "You must select a valid path containing the \""+LIB_NAME+"\" file";
-//			}
-//			else{
-				argsMap.put(SimgridCProjectWizard.SIMGRID_ROOT, loc);
-//			}
+			argsMap.put(SimgridCProjectWizard.SIMGRID_ROOT, loc);
 		}
 		else if (event.widget == is38orMore){
 			argsMap.put(SimgridCProjectWizard.IS_38_OR_MORE,is38orMore.getSelection());

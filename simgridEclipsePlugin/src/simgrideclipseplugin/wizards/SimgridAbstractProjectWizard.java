@@ -31,6 +31,7 @@ public abstract class  SimgridAbstractProjectWizard extends BasicNewProjectResou
 	
 	protected SimgridAbstractProjectWizardPage projectSpecWizardPage;
 	protected ProjectWizardsUtils projectUtils;
+	
 	/**
 	 * must be set by the sub class if there is an error during initialization
 	 */
@@ -80,9 +81,7 @@ public abstract class  SimgridAbstractProjectWizard extends BasicNewProjectResou
 					IProject project = null;
 					//create xml
 					projectUtils.createFile(getDeploymentTemplate(), depFileName, monitor);
-					System.err.println("createFile 1 finish");
 					IFile toOpenFile = projectUtils.createFile(getPlatformTemplate(), platFileName, monitor);
-					System.err.println("createFile 2 finish");
 					//create code template
 					project = initializeNewProject(newProject, funcL,args, monitor);
 					project.open(IResource.BACKGROUND_REFRESH,monitor);
