@@ -58,8 +58,7 @@ public class GraphicalEditorActionBarContributor extends ActionBarContributor {
 
 	@Override
 	protected void declareGlobalActionKeys() {
-		// TODO Auto-generated method stub
-
+		//add nothing
 	}
 	
 	@Override

@@ -1,0 +1,133 @@
+This is the SimGrid Eclipse Plug-In Developer Documentation. It contains the 
+bases to understand how this plug-in works and how to improve it. If you have 
+any request, questions or changes to submit, ask the team:
+* Laurent Bobelin <laurent.bobelin@imag.fr>
+* Michael Mercier <michael.mercier@imag.fr>
+The best way to understand the code is to follow the HowTo's provided by this 
+wiki and look at the code itself to get concretes examples in the same time.
+
+== Get the source code ==
+You can clone the Git repository:
+ git clone https://forge.imag.fr/anonscm/git/simgrideclipse/simgrideclipse.git
+Now that you have the sources you can import the Eclipse Plug-in project into 
+your own Eclipse.
+This plug-in is developed under Eclipse Indigo 3.7, so it's recommended to use 
+same or later Eclipse version.
+
+== Javadoc ==
+You can find all the API in the [[http://simgrideclipse.forge.imag.fr/javadoc/ javadoc]].
+
+== File hierarchy ==
+=== src ===
+The typical source folder.
+
+=== templates ===
+Contains the file templates for SimGrid MSG Project creation with markup tag
+like <PROJECT_NAME> that is replace during runtime to generate a proper file.
+
+=== libs ===
+This folder contains the Java libraries dependencies that can't be found in the 
+available bundle list. All containing Jar file must be added to the "Classpath" in 
+the "plugin.xml" Runtime tab and each folders must be checked in the "Binary Build" 
+section of the Build tab.
+ 
+=== model ===
+Contains the "simgrid.dtd" file. This file is used by the plug-in, 
+when the user's host is offline, to find the attributes lists for each element.
+It is not used if an internet connection is on.
+
+=== icons ===
+These icons are found by the plug-in using a reflection on the DTD Element name.
+Each drawable element has to png icons to represent it, a big one 32x32 named 
+"elementName.png" and a small one 16x16 named "elementName_small.png".
+An example, for the "host" element:
+* host.png (32x32)
+* host_small.png (16x16)
+Be careful about the word case, it must be exactly the same as the DTD Element.
+
+
+== How to add a new graphical component ==
+=== Update the DTD ===
+First of all if the DTD file has change you have to update the "model/simgrid.dtd" 
+file. This file is used by the plug-in, when the user's host is offline, to find 
+the attributes lists for each element. It is not used if an Internet connection 
+is on.
+
+=== Update the model ===
+You also need to add your new element name as a constant String in the 
+simgrideclipseplugin.model.ElementList class and add it to the tag list of this 
+same class.
+
+Now you must check all the functions in simgrideclipseplugin.model.SimgridRules 
+and modify them (if necessary) to make the rules fit with your new element.
+
+=== Add visual ===
+Then go to simgrideclipseplugin.graphical.parts package and create a new Class 
+named exactly like your element but with the first letter in upper case and 
+"EditPart" at the end (it's using reflection to find the class).
+An example, for the "host" element:
+HostEditPart
+
+*if your element is connection your new class have to extends 
+'''simgrideclipseplugin.graphical.parts.AbstConnectionEditPart'''
+*else it will extends '''simgrideclipseplugin.graphical.parts.AbstractElementEditPart'''
+You must ovverride the '"createFigure()"' method to returns the related Figure that 
+will graphically represents your element. 
+If it's a connection you should extends 
+'''simgrideclipseplugin.graphical.figures.AbstractConnectionFigure'''
+else you can directly use '''simgrideclipseplugin.graphical.figures.ElementFigure'''
+but if you want custom appearance you'll have to extends it.
+
+If you want your new element to be '''add to the palette''', you can add it to the the 
+isASLike or isHostLike method in SimgridRules but it implies some functional 
+logic (see the methods javadoc).
+To fit your needs exactly you can customize the palette in the 
+'''createComponentDrawer''' method of the 
+'''simgrideclipseplugin.graphical.SimgridPaletteFactory''' class.
+
+Don't forget to add icons for your new element. It's all explained in [[#icons]].
+
+== How to add a new Project type ==
+To add a new project you have to complete these simple steps:
+#create an new wizard class that extends 
+'''simgrideclipseplugin.wizards.SimgridAbstractProjectWizard'''
+#create a wizard page class that extends 
+'''simgrideclipseplugin.wizards.SimgridAbstractProjectWizardPage'''
+#in your new wizard constructor give your new wizard page to the super constructor 
+#override all the abstracts methods in this two classes to do the specific job
+to initialize your project properly
+#in the '''plugin.xml''' file you must add a wizard section in the 
+org.eclipse.ui.newWizards extension point
+
+That's it you have create a new project type! Don't forget to use the existing 
+projects as examples.
+
+
+== How to add a new Action ==
+We will take the simgrideclipseplugin.graphical.actions.GoIntoAction as example 
+to understand the selection actions witch are the more complicated ones.
+
+#create a new class that extends '''SelectionAction''' let's name it '''myAction'''
+#add some constant string field like:
+ public static final String ID = "simgrideclipseplugin.actions.myAction";
+ public static final String MESSAGE = "action name";
+ public static final String TOOL_TIP = "Do something on selected element";
+#override these methods
+ @Override
+ protected void init() {
+	setId(ID);
+	setText(MESSAGE);
+	setToolTipText(TOOL_TIP);
+	setImageDescriptor(SimgridIconProvider.getIconImageDescriptor(ID));
+	setSelectionProvider(getWorkbenchPart().getSite().getSelectionProvider());
+ }
+ 
+ @Override
+ public void run() {
+	EditPart ep  = (EditPart)getSelectedObjects().get(0);
+	doSomethingWithIt(asEP);
+ }
+#add your action in the action register of the SimgridGraphicEditor. 
+
+
+

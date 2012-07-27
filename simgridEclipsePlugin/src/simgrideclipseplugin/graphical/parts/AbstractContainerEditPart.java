@@ -14,7 +14,6 @@ import org.w3c.dom.Element;
 
 import simgrideclipseplugin.graphical.figures.ContentPaneFigure;
 import simgrideclipseplugin.graphical.policies.SimgridXYLayoutEditPolicy;
-import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
 import simgrideclipseplugin.model.SimgridRules;
 
@@ -37,10 +36,10 @@ public abstract class AbstractContainerEditPart extends SimgridAbstractEditPart 
 		// TODO: update UI can be optimized
 		// update links if necessary
 		Element e = null;
-		if (newValue instanceof Element && ElementList.isConnection(((Element) newValue).getTagName())) {
+		if (newValue instanceof Element && SimgridRules.isConnection(((Element) newValue).getTagName())) {
 			e = (Element) newValue;
 		}
-		else if(oldValue instanceof Element && ElementList.isConnection(((Element) oldValue).getTagName())){
+		else if(oldValue instanceof Element && SimgridRules.isConnection(((Element) oldValue).getTagName())){
 			e = (Element) oldValue;
 		}
 		if (e != null ){
@@ -48,7 +47,7 @@ public abstract class AbstractContainerEditPart extends SimgridAbstractEditPart 
 		}
 		else if(eventType == INodeNotifier.CHANGE && changedFeature.toString().equals("routing")){
 			Element my = (Element) getModel();
-			List<String> l = ElementList.getConnectionList();
+			List<String> l = SimgridRules.getConnectionList();
 			boolean changed = false;
 			for(String name : l){
 				//TODO can be optimized

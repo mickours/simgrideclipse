@@ -18,7 +18,6 @@ public class EditASRouting extends SelectionAction {
 
 	public EditASRouting(IWorkbenchPart part) {
 		super(part);
-		// TODO Auto-generated constructor stub
 	}
 	public static final String ID = "simgrideclipseplugin.EditASRouting";
 	public static final String TEXT = "Edit \"routing\"";
@@ -32,11 +31,6 @@ public class EditASRouting extends SelectionAction {
 		setImageDescriptor(SimgridIconProvider.getIconImageDescriptor(ID));
 		setSelectionProvider(getWorkbenchPart().getSite().getSelectionProvider());
 	}
-
-//	public void run() {
-//		EditPart asEP = (EditPart)getSelectedObjects().get(0);
-//		
-//	}
 	
 	@Override
 	protected boolean calculateEnabled() {

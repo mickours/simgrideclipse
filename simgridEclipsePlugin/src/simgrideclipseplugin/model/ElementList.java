@@ -8,14 +8,12 @@ import java.util.Map;
 
 /**
  * Contains the Element static constant names,
- * and some function concerning the Elements and their Attributes
+ * and some access methods for the Elements and their Attributes
  * @author Michael Mercier 
  *
  */
 public class ElementList {
 	private static List<String> tagNameList = createTagList();
-	private static List<String> connectionList = createConnectionList();
-	private static List<String> notDrawableList = createNotDrawableList();
 	private static Map<String,String> defaultValueMap = new HashMap<String, String>();
 	
 	public static final String PLATFORM = "platform";
@@ -30,25 +28,11 @@ public class ElementList {
 	public static final String LINK_CTN = "link_ctn";
 	public static final String BYPASS_AS_ROUTE = "bypassASroute";
 	public static final String BYPASS_ROUTE = "bypassRoute";
+	public static final String CABINET = "cabinet";
+	
 	
 	public static List<String> getElementTagNameList() {
 		return new ArrayList<String>(tagNameList);
-	}
-	
-	public static boolean isConnection(String tagName){
-		return connectionList.contains(tagName);
-	}
-	
-	public static List<String> getConnectionList(){
-		return new ArrayList<String>(connectionList);
-	}
-	
-	public static boolean isBypass(String tagName){
-		return tagName.equals(BYPASS_ROUTE) || tagName.equals(BYPASS_AS_ROUTE);
-	}
-	
-	public static boolean isDrawable(String tagName){
-		return !notDrawableList.contains(tagName);
 	}
 	
 	public static List<String> getAttributesList(String tagName){
@@ -79,23 +63,12 @@ public class ElementList {
 		defaultValueMap.put(tagName+"."+fieldName,value);
 	}
 	
-	/** PRIVATE **/
+	/* PRIVATE */
 
-	private static List<String> createConnectionList() {
-		String[] tags = {
-				ROUTE,BYPASS_ROUTE,
-				AS_ROUTE,BYPASS_AS_ROUTE,
-		};
-		return Arrays.asList(tags);
-	}
-	
-	private static List<String> createNotDrawableList() {
-		String[] tags = {
-				LINK,LINK_CTN,
-		};
-		return Arrays.asList(tags);
-	}
-
+	/**
+	 * This function create a list of all the tags that the plug-in understand.
+	 * If you want to add new elements you must add it to this list. 
+	 */
 	private static List<String> createTagList() {
 		String[] tags = {
 				AS,CLUSTER,PEER,
@@ -103,7 +76,8 @@ public class ElementList {
 				HOST,ROUTER,
 				ROUTE,BYPASS_ROUTE,
 				LINK,LINK_CTN,
-				//TODO to complete
+				CABINET,
+				//TODO to complete with the new elements
 		};
 		return Arrays.asList(tags);
 	}

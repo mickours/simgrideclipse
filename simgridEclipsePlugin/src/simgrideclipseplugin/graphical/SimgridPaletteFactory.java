@@ -24,7 +24,7 @@ public class SimgridPaletteFactory {
 		PaletteDrawer asDrawer = new PaletteDrawer("AS like");
 		List<String> l = ElementList.getElementTagNameList();
 		for (String tagName: l){
-			if (ElementList.isDrawable(tagName) && SimgridRules.isASLike(tagName)){
+			if (SimgridRules.isDrawable(tagName) && SimgridRules.isASLike(tagName)){
 				addComponent(asDrawer,tagName);
 			}
 		}
@@ -37,7 +37,7 @@ public class SimgridPaletteFactory {
 		PaletteDrawer hostDrawer = new PaletteDrawer("Host like");
 		hostDrawer.add(new PaletteSeparator());
 		for (String tagName: l){
-			if (ElementList.isDrawable(tagName) && SimgridRules.isHostLike(tagName)){
+			if (SimgridRules.isDrawable(tagName) && SimgridRules.isHostLike(tagName)){
 				addComponent(hostDrawer,tagName);
 			}
 		}

@@ -18,7 +18,7 @@ import simgrideclipseplugin.graphical.parts.AbstConnectionEditPart;
 import simgrideclipseplugin.graphical.parts.SimgridAbstractEditPart;
 
 public class AutomaticGraphLayoutHelper {
-	//private HashMap<String, Point> positionMap;
+
 	private HashMap<String, SimgridAbstractEditPart> editPartMap;
 
 	private SpringBox layoutManager;
@@ -67,7 +67,6 @@ public class AutomaticGraphLayoutHelper {
 		do  {
 			layoutManager.compute();
 			i++;
-			//TODO the i limit must depends on the number of nodes
 		}while(layoutManager.getNodeMoved() != 0 && i < 200 );
 		double xmin = 0, ymin = 0;
 		//get the x and y min to translate

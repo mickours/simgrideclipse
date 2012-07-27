@@ -7,7 +7,6 @@ import java.util.Map;
 import org.eclipse.jface.wizard.Wizard;
 import org.w3c.dom.Element;
 
-import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
 import simgrideclipseplugin.model.SimgridRules;
 
@@ -39,7 +38,7 @@ public abstract class AbstractElementWizard extends Wizard {
 	@Override
 	public void addPages() {
 		
-		if (ElementList.isConnection(tagName)){
+		if (SimgridRules.isConnection(tagName)){
 			//set gateway 
 			if (SimgridRules.isASLikeConnection(tagName)){
 				List<Element> srcRouter = ModelHelper.getRouters(sourceNode);

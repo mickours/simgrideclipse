@@ -38,6 +38,7 @@ import org.w3c.dom.Node;
 import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
+import simgrideclipseplugin.model.SimgridRules;
 import simgrideclipseplugin.wizards.composites.ElementSelectionList;
 
 public class LinkSelectionPage extends WizardPage implements Listener {
@@ -112,6 +113,7 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 			protected void setValue(Object element, Object value) {
 				((LinkCtn)element).setDir(valList[(Integer) value]);
 				getViewer().refresh();
+				update();
 			}
 			
 			@Override
@@ -257,9 +259,9 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 	    }
 	    
 	    //initialize route List
-	    if (ElementList.isConnection(refNode.getTagName())){
-	    	routeList.setRoute(ModelHelper.getRouteLinks(refNode));
-	    	availableLinks.removeAll(routeList);
+	    if (SimgridRules.isConnection(refNode.getTagName())){
+	    	ModelHelper.fillRouteLinksList(refNode,routeList);
+	    	availableLinks.removeAll(routeList.getLinkList());
 	    }
     	update();
 	}
@@ -360,10 +362,8 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 		}
 	}
 	
-	private class LinkCtnList extends java.util.LinkedList<LinkCtn>{
-		/**
-		 * 
-		 */
+	public class LinkCtnList extends java.util.LinkedList<LinkCtn>{
+
 		private static final long serialVersionUID = 1L;
 
 		public void setRoute(List<Element> l){
@@ -407,7 +407,7 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 		}
 	}
 	
-	private class LinkCtn{
+	public class LinkCtn{
 		private Element link;
 		private String dir = ElementList.getDefaultValue(ElementList.LINK_CTN, "direction");
 		

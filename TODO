@@ -12,12 +12,12 @@
 
 * make a delegate commandeStack to work correcly on both editor
 * wheel click -> go out
-
+* create a dedicated perspective
 
 ************
 *** BUGS ***
 ************
-
+* when editing route the available contains the selected
 * changed the routing should show warning if routes are not compatible
 * route not linked on view update
 * outline update slows everything down

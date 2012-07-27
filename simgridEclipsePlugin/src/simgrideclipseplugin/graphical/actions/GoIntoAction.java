@@ -16,13 +16,13 @@ public class GoIntoAction extends SelectionAction{
 	}
 
 	public static final String ID = "simgrideclipseplugin.GoInto";
-	public static final String TEXT = "Go into";
+	public static final String MESSAGE = "Go into";
 	public static final String TOOL_TIP = "Go into the selected AS";
 
 	@Override
 	protected void init() {
 		setId(ID);
-		setText(TEXT);
+		setText(MESSAGE);
 		setToolTipText(TOOL_TIP);
 		setImageDescriptor(SimgridIconProvider.getIconImageDescriptor(ID));
 		setSelectionProvider(getWorkbenchPart().getSite().getSelectionProvider());

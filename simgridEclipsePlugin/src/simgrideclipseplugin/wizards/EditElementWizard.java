@@ -2,7 +2,6 @@ package simgrideclipseplugin.wizards;
 
 import org.w3c.dom.Element;
 
-import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
 import simgrideclipseplugin.model.SimgridRules;
 
@@ -13,7 +12,7 @@ public class EditElementWizard extends AbstractElementWizard {
 		super(toEditElement.getTagName());
 		this.newElement = toEditElement;
 		ModelHelper.setAttributeMap(toEditElement, attrMap);
-		if (ElementList.isConnection(tagName)){
+		if (SimgridRules.isConnection(tagName)){
 			route = toEditElement;
 			sourceNode = ModelHelper.getSourceNode(toEditElement);
 			targetNode = ModelHelper.getTargetNode(toEditElement);
@@ -23,11 +22,11 @@ public class EditElementWizard extends AbstractElementWizard {
 
 	@Override
 	public boolean performFinish() {
-		if (ElementList.isConnection(tagName)){
+		if (SimgridRules.isConnection(tagName)){
 			//assert  sourceNode != null && targetNode != null
 			ModelHelper.editRoute(newElement, sourceNode, targetNode);
 			//create links
-    		ModelHelper.editRouteLinks(newElement, linkCtnList);
+    		ModelHelper.editRouteLinks(newElement, linkCtnList, linkCtnDirectionList);
 			//create gateway 
 			if (SimgridRules.isASLikeConnection(tagName)){
 				ModelHelper.editRouteGateways(newElement, selectedSrcGw, selectedDstGw);

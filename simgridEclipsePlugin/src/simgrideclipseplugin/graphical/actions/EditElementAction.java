@@ -14,7 +14,6 @@ public class EditElementAction extends SelectionAction {
 
 	public EditElementAction(IWorkbenchPart part) {
 		super(part);
-		// TODO Auto-generated constructor stub
 	}
 
 	public static final String ID = "simgrideclipseplugin.EditElementAction";

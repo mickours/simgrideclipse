@@ -103,8 +103,7 @@ public abstract class  SimgridAbstractProjectWizard extends BasicNewProjectResou
 			MessageDialog.openError(getShell(), "Error", "Error while loading project.\n"+realException.getMessage());
 			return false;
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException("Error while loading project.\n"+e.getMessage());
 		}
 		return true;
 	}
@@ -119,9 +118,9 @@ public abstract class  SimgridAbstractProjectWizard extends BasicNewProjectResou
 	
 	/**
 	 * initialize and return the new project already created by the first Wizard page
-	 * @param project: the new project already created by the first Wizard page
-	 * @param funcL: the user function to add to the templates
-	 * @param args: a map of argument depending on the project type
+	 * @param project the new project already created by the first Wizard page
+	 * @param funcL the user function to add to the templates
+	 * @param args a map of argument depending on the project type
 	 */
 	protected abstract IProject initializeNewProject(
 			IProject project,

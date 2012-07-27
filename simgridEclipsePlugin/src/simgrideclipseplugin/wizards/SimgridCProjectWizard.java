@@ -30,8 +30,11 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.junit.Assert;
+
+import simgrideclipseplugin.Activator;
 
 @SuppressWarnings("deprecation")
 public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
@@ -132,8 +135,8 @@ public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
 						 option = tool[0].getOptionById("gnu.c.link.option.paths");
 						 option.setValue(new String[]{simgriRoot+File.separator+"lib"});
 					} catch (BuildException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						throw new CoreException(new Status(Status.ERROR, Activator.PLUGIN_ID,
+								"Error while building project:\n"+e.getMessage()));
 					}					
 					ManagedBuildManager.getBuildInfo(project).setValid(true);
 				}
@@ -160,17 +163,6 @@ public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
 			if (initResult.getCode() != IStatus.OK) {
 				ProjectWizardsUtils.throwCoreException("Initializing build information failed for: " + project.getName() + " because: " + initResult.getMessage());
 			}
-
-//			//set additional Simgrid settings
-//			ICProjectDescriptionManager mngr = CoreModel.getDefault().getProjectDescriptionManager();
-//			ICProjectDescription desc = mngr.getProjectDescription(project);
-//			ICConfigurationDescription conf = desc.getConfigurations()[0];
-//			Assert.assertNotNull(conf);
-//			LinkedHashSet<String> externalSettingsProviders = new LinkedHashSet<String>(Arrays.asList(conf.getExternalSettingsProviderIds()));
-//			SimgridCExtenalSettings.lib_path = (String) args.get(LIB_PATH);
-//			externalSettingsProviders.add(SimgridCExtenalSettings.ID);
-//			conf.setExternalSettingsProviderIds(externalSettingsProviders.toArray(new String[0]));
-//			conf.updateExternalSettingsProviders(new String[] {SimgridCExtenalSettings.ID});
 			return project;
 		}
 	
@@ -200,24 +192,8 @@ public class SimgridCProjectWizard extends SimgridAbstractProjectWizard {
 		try {
 			desc.saveProjectData();
 		} catch (CoreException e) {
-			ProjectWizardsUtils.throwCoreException("Test failed on saving the ICDescriptor data: " + e.getLocalizedMessage());		}
-		// Associate the project with the managed builder so the clients can get proper information
-//		ICConfigurationDescription  conf = null;
-//		ICProjectDescription desc = null;
-//		try {
-//			desc = CoreModel.getDefault().getProjectDescription(project, true);
-//			conf = desc.getConfiguration();
-//			conf.remove(CCorePlugin.BUILD_SCANNER_INFO_UNIQ_ID);
-//			conf.create(CCorePlugin.BUILD_SCANNER_INFO_UNIQ_ID, ManagedBuildManager.INTERFACE_IDENTITY);
-//		} catch (CoreException e) {
-//			Assert.fail("Test failed on adding managed builder as scanner info provider: " + e.getLocalizedMessage());
-//			return;
-//		}
-//		try {
-//			CoreModel.getDefault().setProjectDescription(project, desc);
-//		} catch (CoreException e) {
-//			Assert.fail("Test failed on saving the ICDescriptor data: " + e.getLocalizedMessage());		}
-	
+			ProjectWizardsUtils.throwCoreException("Test failed on saving the ICDescriptor data: " + e.getLocalizedMessage());		
+		}	
 	}
 	
 	private InputStream getMainCTemplate(List<String> functionsList, String projectName, String template) throws CoreException {

@@ -29,6 +29,7 @@ import org.w3c.dom.NodeList;
 
 import simgrideclipseplugin.editors.SimgridGraphicEditor;
 import simgrideclipseplugin.editors.properties.ElementPropertySource;
+import simgrideclipseplugin.wizards.LinkSelectionPage.LinkCtnList;
 
 //import simgrideclipseplugin.editors.properties.ElementPropertySource;
 
@@ -47,8 +48,7 @@ public final class ModelHelper {
 /*******************************************/
 	
 	/**
-	 * add the child in the write place
-	 * 
+	 * add the child in the parent element at the right place
 	 */
 	public static void addElementChild(Node parent, Element newChild){
 		model.aboutToChangeModel();
@@ -113,10 +113,11 @@ public final class ModelHelper {
 	/**
 	 * add the link to the route by creating a link_ctn node into the route
 	 */
-	public static void addLinkToRoute(Element route, Element link){
+	public static void addLinkToRoute(Element route, Element link, String direction){
 		Element linkCtn = route.getOwnerDocument().createElement(ElementList.LINK_CTN);
 		linkCtn.setAttribute("id", link.getAttribute("id"));
-		addElementChild(route,linkCtn);
+		linkCtn.setAttribute("direction", direction);
+		insertAtLast(route,linkCtn);
 		
 	}
 	
@@ -285,20 +286,15 @@ public final class ModelHelper {
 	
 
 	public static void editRouteLinks(Element toEditElement,
-			List<Element> linkList) {
+			List<Element> linkList, List<String> dirList) {
 		//remove old nodes
-		int nb = toEditElement.getChildNodes().getLength();
-		for (int i=0; i<nb; i++){
-			Node e =  toEditElement.getChildNodes().item(i);
-			if (e instanceof Element && !linkList.contains(e))
-			toEditElement.removeChild(e);
+		for (Element e: getChildren(toEditElement)){
+			assert (!linkList.contains(e));
+			removeElement( e);
 		}
 		//add new nodes
-		for (Element link:linkList){
-			List<Element> oldNodes = nodeListToElementList(toEditElement.getChildNodes());
-			if (!oldNodes.contains(link)){
-				addLinkToRoute(toEditElement, link);
-			}
+		for (int j=0; j<linkList.size(); j++){
+			addLinkToRoute(toEditElement,linkList.get(j), dirList.get(j));
 		}
 	}
 
@@ -361,7 +357,7 @@ public final class ModelHelper {
 		List<Element> l = getChildren(root);
 		List<Element> tmp = new ArrayList<Element>(l);
 		for (Element e : tmp){
-			if (ElementList.isConnection(e.getTagName())){
+			if (SimgridRules.isConnection(e.getTagName())){
 				l.remove(e);
 			}
 		}
@@ -437,16 +433,16 @@ public final class ModelHelper {
 	 * return the routers contained in the ASNode and in
 	 * the descendants
 	 */
-	//TODO use the SimgridRules to make this generic
 	public static List<Element> getRouters(Element ASNode) {
-        NodeList rl = ASNode.getElementsByTagName(ElementList.ROUTER);
-        NodeList cl = ASNode.getElementsByTagName(ElementList.CLUSTER);
-        NodeList pl = ASNode.getElementsByTagName(ElementList.PEER);
-        List<Element> l = nodeListToElementList(rl);
-        l.addAll(nodeListToElementList(cl));
-        l.addAll(nodeListToElementList(pl));
-        if (ASNode.getTagName().equals(ElementList.CLUSTER) 
-        		|| ASNode.getTagName().equals(ElementList.PEER) ){
+		List<Element> l = new LinkedList<Element>();
+		for (String tag: ElementList.getElementTagNameList()){
+			if (SimgridRules.canBeAGateway(tag)){
+				NodeList nl = ASNode.getElementsByTagName(tag);
+				l.addAll(nodeListToElementList(nl));
+			}
+		}
+		//add himself as a possible gateway
+        if (SimgridRules.canBeAGateway(ASNode.getTagName())){
         	l.add(ASNode);
         }
         return l;
@@ -471,6 +467,7 @@ public final class ModelHelper {
 			gw = getClusterRouterId(node);
 		}else if (node.getTagName().equals(ElementList.PEER)){
 			//TODO add the peer gateway
+			throw new RuntimeException("not implemented PEER gateweway");
 		}
 		else if (node.getTagName().equals(ElementList.AS)){
 			List<Element> routers = ModelHelper.getRouters(node);
@@ -494,7 +491,7 @@ public final class ModelHelper {
 				gw = getClusterRouterId(node);
 			}else if (node.getTagName().equals(ElementList.PEER)){
 				//TODO add the peer gateway
-				System.err.println("PEER gateweway");
+				throw new RuntimeException("not implemented PEER gateweway");
 			}
 			else if (node.getTagName().equals(ElementList.ROUTER)){
 				gw = node.getAttribute("id");
@@ -532,18 +529,16 @@ public final class ModelHelper {
 
 
 	/**
-	 * return the ordered links from the availableLinks list 
-	 * and contains in this route 
+	 * fill the routeLinks with the ordered links contains in this route 
 	 */
-	public static LinkedList<Element> getRouteLinks(Element route) {
-		LinkedList<Element> routeLinks = new LinkedList<Element>();
+	public static void fillRouteLinksList(Element route, LinkCtnList routeLinks) {
 		for (int i=0; i< route.getChildNodes().getLength(); i++){
 			if (route.getChildNodes().item(i) instanceof Element){
 				Element linkCtn = (Element) route.getChildNodes().item(i);
 				routeLinks.addLast(getSubElementbyId((Element)route.getParentNode(),getId(linkCtn)));
+				routeLinks.getLast().setDir(linkCtn.getAttribute("direction"));
 			}
 		}
-		return routeLinks;
 	}
 	
 	
@@ -553,8 +548,7 @@ public final class ModelHelper {
 		try {
 			e = getDOMModel(input).getDocument().getDocumentElement();
 		} catch (Exception ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
+			throw new RuntimeException("Error while loading document\n"+ex.getMessage());
 		}
 		return e;
 	}
@@ -647,11 +641,10 @@ public final class ModelHelper {
 	public static void addModelListener(IEditorInput input,
             SimgridModelListener simgridModelListener) {
     try{
-            IDOMModel model = ModelHelper.getDOMModel(input);
-            model.addModelStateListener(simgridModelListener);
+        IDOMModel model = ModelHelper.getDOMModel(input);
+        model.addModelStateListener(simgridModelListener);
     } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        throw new RuntimeException("Error while loading document model\n"+e.getMessage());
     }
 }
 

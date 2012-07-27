@@ -52,6 +52,7 @@ import simgrideclipseplugin.graphical.actions.GoOutAction;
 import simgrideclipseplugin.graphical.parts.SimgridEditPartFactory;
 import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
+import simgrideclipseplugin.model.SimgridRules;
 
 @SuppressWarnings("restriction")
 public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
@@ -334,7 +335,7 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 				 goOutAction.update();
 			 }
 			 //update graphic viewer selection
-			 if (ElementList.isDrawable(selected.getTagName())){
+			 if (SimgridRules.isDrawable(selected.getTagName())){
 				 getSite().getSelectionProvider()
 			 		.setSelection(ModelHelper.modelToPartSelection(modelSelection, this));
 			 }

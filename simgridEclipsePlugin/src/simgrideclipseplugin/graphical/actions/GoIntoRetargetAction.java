@@ -8,7 +8,7 @@ import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 public class GoIntoRetargetAction extends RetargetAction {
 
 	public GoIntoRetargetAction(){
-		super(GoIntoAction.ID,GoIntoAction.TEXT);
+		super(GoIntoAction.ID,GoIntoAction.MESSAGE);
 		setToolTipText(GoIntoAction.TOOL_TIP);
 		setImageDescriptor(SimgridIconProvider.getIconImageDescriptor(GoIntoAction.ID));
 	}
