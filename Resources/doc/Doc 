@@ -3,6 +3,15 @@ bases to understand how this plug-in works and how to improve it. If you have
 any request, questions or changes to submit, ask the team:
 * Laurent Bobelin <laurent.bobelin@imag.fr>
 * Michael Mercier <michael.mercier@imag.fr>
+As an Eclipse Plug-In this project needs knowledge about Eclipse libraries to 
+be understandable. It is based on :
+*Graphical Editing Framwork (GEF) for the graphical editor
+*Web Tools Platform (WTP) for the text editor
+*C/C++ Development Tools (CDT) for the C projects
+*Java Development Tools (JDT) for the Java projects
+It is also using the [http://graphstream-project.org/ GraphStream libraries]
+to provide auto layouts on the graphs.
+
 The best way to understand the code is to follow the HowTo's provided by this 
 wiki and look at the code itself to get concretes examples in the same time.
 
@@ -15,7 +24,7 @@ This plug-in is developed under Eclipse Indigo 3.7, so it's recommended to use
 same or later Eclipse version.
 
 == Javadoc ==
-You can find all the API in the [[http://simgrideclipse.forge.imag.fr/javadoc/ javadoc]].
+You can find all the API in the [http://simgrideclipse.forge.imag.fr/javadoc/ javadoc].
 
 == File hierarchy ==
 === src ===
@@ -89,45 +98,51 @@ Don't forget to add icons for your new element. It's all explained in [[#icons]]
 
 == How to add a new Project type ==
 To add a new project you have to complete these simple steps:
-#create an new wizard class that extends 
-'''simgrideclipseplugin.wizards.SimgridAbstractProjectWizard'''
-#create a wizard page class that extends 
-'''simgrideclipseplugin.wizards.SimgridAbstractProjectWizardPage'''
+#create an new wizard class that extends '''simgrideclipseplugin.wizards.SimgridAbstractProjectWizard'''
+#create a wizard page class that extends '''simgrideclipseplugin.wizards.SimgridAbstractProjectWizardPage'''
 #in your new wizard constructor give your new wizard page to the super constructor 
-#override all the abstracts methods in this two classes to do the specific job
-to initialize your project properly
-#in the '''plugin.xml''' file you must add a wizard section in the 
-org.eclipse.ui.newWizards extension point
+#override all the abstracts methods in this two classes to do the specific job to initialize your project properly
+#in the '''plugin.xml''' file you must add a wizard section in the org.eclipse.ui.newWizards extension point
 
 That's it you have create a new project type! Don't forget to use the existing 
 projects as examples.
 
 
 == How to add a new Action ==
-We will take the simgrideclipseplugin.graphical.actions.GoIntoAction as example 
-to understand the selection actions witch are the more complicated ones.
+You can take the simgrideclipseplugin.graphical.actions.GoIntoAction as example 
+to understand the selection actions witch are the most complicated ones.
 
-#create a new class that extends '''SelectionAction''' let's name it '''myAction'''
-#add some constant string field like:
- public static final String ID = "simgrideclipseplugin.actions.myAction";
+*create a new class that extends '''SelectionAction''' let's name it '''MyAction'''
+*add some constant string field like:
+ public static final String ID = "simgrideclipseplugin.actions.MyAction";
  public static final String MESSAGE = "action name";
  public static final String TOOL_TIP = "Do something on selected element";
-#override these methods
+*override these methods:
  @Override
  protected void init() {
-	setId(ID);
-	setText(MESSAGE);
-	setToolTipText(TOOL_TIP);
-	setImageDescriptor(SimgridIconProvider.getIconImageDescriptor(ID));
-	setSelectionProvider(getWorkbenchPart().getSite().getSelectionProvider());
+ 	setId(ID);
+ 	setText(MESSAGE);
+ 	setToolTipText(TOOL_TIP);
+ 	setImageDescriptor(SimgridIconProvider.getIconImageDescriptor(ID));
+ 	setSelectionProvider(getWorkbenchPart().getSite().getSelectionProvider());
  }
  
  @Override
  public void run() {
-	EditPart ep  = (EditPart)getSelectedObjects().get(0);
-	doSomethingWithIt(asEP);
+ 	EditPart ep  = (EditPart)getSelectedObjects().get(0);
+ 	doSomethingWithIt(ep);
  }
-#add your action in the action register of the SimgridGraphicEditor. 
-
-
+*add your action in the action register of the SimgridGraphicEditor. To do this add some lines to the '''createActions()''' method and don't forget to add it to the selectionActions so the editor will initialize it properly.
+*create a '''retarget action'''. It's a kind of reference to your actual action that is given to menus and action bars. The code is really simple :
+ public class MyRetargetAction extends RetargetAction {
+ 
+ 	public MyRetargetAction(){
+ 		super(MyAction.ID,MyAction.MESSAGE);
+ 		setToolTipText(MyAction.TOOL_TIP);
+ 		setImageDescriptor(SimgridIconProvider.getIconImageDescriptor(MyAction.ID));
+ 	}
+ }
+*now you must link your action to Eclipse. Go to the '''GraphicalEditorActionBarContributor''' class and in the '''buildActions()''' method, add this line:
+ addRetargetAction(new MyRetargetAction());
+*you can finally add your new action wherever you want to the Menu or the Tool bar by adding the action ID to the manager in the right place.
 

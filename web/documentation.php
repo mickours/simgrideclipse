@@ -121,3 +121,13 @@ Here is a simple way to do this:
 <li>right-click on your platform file and select <b>Open With > SimGrid Editor</b></li>
 </ol>
 </p>
+
+<h2><a name="F.A.Q">F.A.Q</a></h3>
+<h3>Why my routes does not appear?</h3>
+<p>If the routing you are using in the current AS does not allows routes, they 
+are not drawn.</p>
+<h3>Why I can't create a new element or a new route (a cross appear)?</h3>
+<p>If you can't create a new element or a new route, it 'is because this 
+creation does not respect the SinGrid rules. You can't mix the AS and host for 
+exemple. Please, check the the routing you are using, the problem oftenlly comes
+ this.</p>

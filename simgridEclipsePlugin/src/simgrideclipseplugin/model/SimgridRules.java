@@ -135,6 +135,9 @@ public final class SimgridRules {
 				}
 			}
 		}
+		else if (childType.equals(ElementList.PEER) && !(parent.getAttribute("routing").equals("Vivaldi"))){
+			return false;
+		}
 		return true;
 	}
 	
@@ -147,8 +150,7 @@ public final class SimgridRules {
 	 */
 	public static boolean isASLike(String tag){
 		return (tag.equals(ElementList.AS) ||
-				tag.equals(ElementList.CLUSTER) ||
-				tag.equals(ElementList.PEER));
+				tag.equals(ElementList.CLUSTER));
 	}
 	
 	/**
@@ -220,8 +222,7 @@ public final class SimgridRules {
 	 */
 	public static boolean canBeAGateway(String tagName){
 		if (tagName.equals(ElementList.ROUTER)
-	    		||tagName.equals(ElementList.CLUSTER)
-	    		||tagName.equals(ElementList.PEER)){
+	    		||tagName.equals(ElementList.CLUSTER)){
 			return true;
 		}
 		return false;

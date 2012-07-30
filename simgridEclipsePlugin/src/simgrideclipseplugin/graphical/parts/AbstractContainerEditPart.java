@@ -67,7 +67,6 @@ public abstract class AbstractContainerEditPart extends SimgridAbstractEditPart 
 				mb.open();
 			}
 		}
-		
 		super.notifyChanged(notifier, eventType, changedFeature, oldValue, newValue, pos);
 	}
 

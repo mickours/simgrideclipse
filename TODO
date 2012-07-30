@@ -2,11 +2,10 @@
 *** TODO List ***
 *****************
 
-* make DEV documentation
-* right click -> add function on hosts
-* add cabinet support
-* add backbone support
-* add host_link support
+?* (right click -> add function on hosts)
+* add include of Msg in GCC
+* add cabinet,backbone support
+
 * add storage support
 * cut/past
 
@@ -25,6 +24,12 @@
 ************
 *** DONE ***
 ************
+30/07
+* add FAQ
+* add "routing" to the container title  
+* modify peer rules
+27/07
+* make DEV documentation
 26/07
 * make USER documentation
 24/07

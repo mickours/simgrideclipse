@@ -21,7 +21,7 @@ public class SimgridPaletteFactory {
 		PaletteGroup grp = new PaletteGroup(title);
 		
 		// Creation tool for ASLike Element
-		PaletteDrawer asDrawer = new PaletteDrawer("AS like");
+		PaletteDrawer asDrawer = new PaletteDrawer("Meta element");
 		List<String> l = ElementList.getElementTagNameList();
 		for (String tagName: l){
 			if (SimgridRules.isDrawable(tagName) && SimgridRules.isASLike(tagName)){
@@ -31,10 +31,12 @@ public class SimgridPaletteFactory {
 		asDrawer.add(new PaletteSeparator());
 		addComponent(asDrawer,ElementList.AS_ROUTE);
 		addComponent(asDrawer,ElementList.BYPASS_AS_ROUTE);
+		asDrawer.add(new PaletteSeparator());
+		addComponent(asDrawer,ElementList.PEER);
 		grp.add(asDrawer);
 
 		// Creation tool for HostLike Element
-		PaletteDrawer hostDrawer = new PaletteDrawer("Host like");
+		PaletteDrawer hostDrawer = new PaletteDrawer("Concrete element");
 		hostDrawer.add(new PaletteSeparator());
 		for (String tagName: l){
 			if (SimgridRules.isDrawable(tagName) && SimgridRules.isHostLike(tagName)){

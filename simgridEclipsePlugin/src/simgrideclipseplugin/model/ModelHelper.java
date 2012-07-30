@@ -465,9 +465,6 @@ public final class ModelHelper {
 		String gw = null;
 		if (node.getTagName().equals(ElementList.CLUSTER)){
 			gw = getClusterRouterId(node);
-		}else if (node.getTagName().equals(ElementList.PEER)){
-			//TODO add the peer gateway
-			throw new RuntimeException("not implemented PEER gateweway");
 		}
 		else if (node.getTagName().equals(ElementList.AS)){
 			List<Element> routers = ModelHelper.getRouters(node);
@@ -489,9 +486,6 @@ public final class ModelHelper {
 		for (Element node : toSearchInList){
 			if (node.getTagName().equals(ElementList.CLUSTER)){
 				gw = getClusterRouterId(node);
-			}else if (node.getTagName().equals(ElementList.PEER)){
-				//TODO add the peer gateway
-				throw new RuntimeException("not implemented PEER gateweway");
 			}
 			else if (node.getTagName().equals(ElementList.ROUTER)){
 				gw = node.getAttribute("id");

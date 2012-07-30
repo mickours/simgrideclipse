@@ -14,8 +14,10 @@ public class ASContainerEditPart extends AbstractContainerEditPart {
 	protected void refreshVisuals() {
 		ContentPaneFigure f = (ContentPaneFigure) getFigure();
 		Element node = (Element)getModel();
-		f.setTitle(ElementList.AS+" id=\""+node.getAttribute("id")+"\"");
+		f.setTitle(ElementList.AS+" id=\""+node.getAttribute("id")
+				+"\" routing=\""+node.getAttribute("routing")+"\"");
 		super.refreshVisuals();
+		getFigure().repaint();
 	}
 
 	@Override
