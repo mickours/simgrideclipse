@@ -12,6 +12,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -139,9 +140,10 @@ public abstract class SimgridAbstractProjectWizardPage extends WizardPage implem
 		if (event.widget == plus){
 			createFunctionText();
 			int size = funcContainer.getChildren().length;
-			if (size > 4){
-				getShell().pack();
-			}
+////			if (size > 4){
+//				getShell().layout();
+////			}
+			funcContainer.layout();
 		}
 		else if (delButtonMap.containsKey(event.widget)){
 			int size = funcContainer.getChildren().length;
@@ -152,6 +154,7 @@ public abstract class SimgridAbstractProjectWizardPage extends WizardPage implem
 				delButtonMap.remove(b);
 				b.dispose();
 				t.dispose();
+				funcContainer.layout();
 			}
 		}
 		//handle errors
@@ -161,7 +164,8 @@ public abstract class SimgridAbstractProjectWizardPage extends WizardPage implem
 				errorMessage += "the function name must use only letters and numbers";
 			}
 		}
-		getControl().pack();
+		((Composite)getControl()).layout();
+		getShell().layout();
 		updateStatus(errorMessage);
 	}
 

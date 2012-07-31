@@ -56,13 +56,14 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
 	@Override
 	protected void addProjectSpecificComposite(Composite container) {
 		Label label = new Label(container, SWT.NULL);
-		label.setText("&Select your SimGrid librairies install location");
+		label.setText("&Select your SimGrid root install location");
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 3;
 		label.setLayoutData(gd);
 		
 		locationText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
 		locationText.setLayoutData(gd);
 		locationText.addListener(SWT.Modify, this);
 		Button button = new Button(container, SWT.PUSH);
@@ -75,6 +76,9 @@ public class SimgridCProjectWizardPage extends SimgridAbstractProjectWizardPage 
 		});	
 		
 		is38orMore = new Button(container, SWT.CHECK);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 3;
+		is38orMore.setLayoutData(gd);
 		is38orMore.setText("&Your SimGrid version is 3.8 or later");
 		is38orMore.addListener(SWT.Selection, this);
 		

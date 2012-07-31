@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Text;
 public class SimgridJavaProjectWizardPage extends SimgridAbstractProjectWizardPage {
 	
 	private static final String title = "Simgrid MSG Java project";
-	private static final String LIB_NAME = "simgrid.jar";
+	private static final String LIB_NAME = "java"+File.separator+"simgrid.jar";
 	
 	private Text locationText;
 	
@@ -30,15 +30,14 @@ public class SimgridJavaProjectWizardPage extends SimgridAbstractProjectWizardPa
 		super.initializeComposite();
 		String javaRoot = System.getenv("SIMGRID_JAVA_ROOT");
 		if (javaRoot != null){
-			locationText.setText(javaRoot+ File.separator +"java");
-			setPageComplete(true);
+			locationText.setText(javaRoot);
 		}
 	}
 
 	@Override
 	protected void addProjectSpecificComposite(Composite container) {
 		Label label = new Label(container, SWT.NULL);
-		label.setText("&Your SimGrid Java libraries location:");
+		label.setText("&Your SimGrid Java install location:");
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 3;
 		label.setLayoutData(gd);
@@ -85,15 +84,13 @@ public class SimgridJavaProjectWizardPage extends SimgridAbstractProjectWizardPa
 	public void handleEvent(Event event) {
 		super.handleEvent(event);
 		String message = errorMessage;
-		if (event.widget == locationText){
-			String loc = locationText.getText();
-			Path path = new Path(loc+File.separator+LIB_NAME);
-			if (loc.isEmpty() || !new File(path.toOSString()).exists()){
-				message += "You must select a valid path containing the \""+LIB_NAME+"\" file";
-			}
-			else{
-				argsMap.put(SimgridJavaProjectWizard.LIB_LOCATION, path);
-			}
+		String loc = locationText.getText();
+		Path path = new Path(loc+File.separator+LIB_NAME);
+		if (loc.isEmpty() || !new File(path.toOSString()).exists()){
+			message += "You must select a valid path containing the \""+LIB_NAME+"\" file";
+		}
+		else{
+			argsMap.put(SimgridJavaProjectWizard.LIB_LOCATION, path);
 		}
 		updateStatus(message);
 	}

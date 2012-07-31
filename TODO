@@ -5,7 +5,10 @@
 ?* (right click -> add function on hosts)
 * add include of Msg in GCC
 * add cabinet,backbone support
-
+    -> add a wizard to create a cluster:
+        * a list of cabinet and router with 2 add button
+        * a button to add a backbone
+* give a better error message to the user when creating a project and the name already exists
 * add storage support
 * cut/past
 
@@ -24,6 +27,8 @@
 ************
 *** DONE ***
 ************
+31/07
+* fix 
 30/07
 * add FAQ
 * add "routing" to the container title  

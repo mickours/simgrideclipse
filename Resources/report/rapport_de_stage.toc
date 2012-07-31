@@ -1,0 +1,41 @@
+\select@language {french}
+\contentsline {section}{\numberline {1}Pr\IeC {\'e}sentation du projet}{2}{section.1}
+\contentsline {subsection}{\numberline {1.1}Pr\IeC {\'e}sentation de Qemu}{2}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Pr\IeC {\'e}sentation de la carte STM32L-Discovery}{2}{subsection.1.2}
+\contentsline {section}{\numberline {2}Travail r\IeC {\'e}alis\IeC {\'e}}{2}{section.2}
+\contentsline {subsection}{\numberline {2.1}Composants \IeC {\'e}mul\IeC {\'e}s}{2}{subsection.2.1}
+\contentsline {subsubsection}{\numberline {2.1.1}Les GPIOs}{2}{subsubsection.2.1.1}
+\contentsline {subsubsection}{\numberline {2.1.2}Les LEDs}{2}{subsubsection.2.1.2}
+\contentsline {subsubsection}{\numberline {2.1.3}Les Boutons}{2}{subsubsection.2.1.3}
+\contentsline {subsubsection}{\numberline {2.1.4}Le RCC}{3}{subsubsection.2.1.4}
+\contentsline {subsection}{\numberline {2.2}L'interface}{3}{subsection.2.2}
+\contentsline {section}{\numberline {3}Utilisation}{3}{section.3}
+\contentsline {subsection}{\numberline {3.1}Qemu}{3}{subsection.3.1}
+\contentsline {subsubsection}{\numberline {3.1.1}Installation}{3}{subsubsection.3.1.1}
+\contentsline {subsubsection}{\numberline {3.1.2}Assemblage}{3}{subsubsection.3.1.2}
+\contentsline {subsubsection}{\numberline {3.1.3}M\IeC {\'e}moire}{5}{subsubsection.3.1.3}
+\contentsline {subsubsection}{\numberline {3.1.4}Compilation et lancement du programme \IeC {\'e}mul\IeC {\'e}}{5}{subsubsection.3.1.4}
+\contentsline {paragraph}{Cross compilation\\}{5}{section*.2}
+\contentsline {paragraph}{Emulation \\}{5}{section*.3}
+\contentsline {subsubsection}{\numberline {3.1.5}Qemu et GDB}{5}{subsubsection.3.1.5}
+\contentsline {paragraph}{Lancement en mode debug \\}{5}{section*.4}
+\contentsline {paragraph}{Connexion avec GDB \\}{5}{section*.5}
+\contentsline {subsubsection}{\numberline {3.1.6}CharDev}{5}{subsubsection.3.1.6}
+\contentsline {paragraph}{Pr\IeC {\'e}sentation \\}{5}{section*.6}
+\contentsline {paragraph}{Impl\IeC {\'e}mentation \\}{6}{section*.7}
+\contentsline {paragraph}{Utilisation \\}{6}{section*.8}
+\contentsline {subsection}{\numberline {3.2}Module STM32}{6}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}Fichiers}{6}{subsubsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2}Composants \IeC {\'e}mul\IeC {\'e}s}{6}{subsubsection.3.2.2}
+\contentsline {paragraph}{Processeur et M\IeC {\'e}moire \\}{6}{section*.9}
+\contentsline {paragraph}{Processeur et M\IeC {\'e}moire \\}{6}{section*.10}
+\contentsline {paragraph}{P\IeC {\'e}riph\IeC {\'e}riques \\}{6}{section*.11}
+\contentsline {paragraph}{Exemple \\}{7}{section*.12}
+\contentsline {section}{\numberline {4}Difficult\IeC {\'e}s rencontr\IeC {\'e}es et solutions apport\IeC {\'e}es}{8}{section.4}
+\contentsline {subsection}{\numberline {4.1}Programmes de test sur la carte}{9}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Reset and Clock Control}{9}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Les interruptions}{9}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Compr\IeC {\'e}hension iterative}{9}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Adressage de la m\IeC {\'e}moire}{9}{subsection.4.5}
+\contentsline {subsection}{\numberline {4.6}Gestion des threads en python}{9}{subsection.4.6}
+\contentsline {section}{\numberline {5}Bilan}{10}{section.5}
