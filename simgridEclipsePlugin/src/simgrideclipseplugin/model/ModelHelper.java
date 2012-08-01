@@ -87,6 +87,15 @@ public final class ModelHelper {
 		return newElem;
 	}
 	
+	public static Element createCluster(List<Element>content){
+		Element newCluster = model.getDocument().createElement(ElementList.AS);
+		newCluster.setAttribute("id", createId(ElementList.AS));
+		for (Element e : content){
+			newCluster.appendChild(e);
+		}
+		return newCluster;
+	}
+	
 	public static Element createAndAddRoute(Element sourceNode, Element targetNode,
 			String routeType) {
 		model.aboutToChangeModel();

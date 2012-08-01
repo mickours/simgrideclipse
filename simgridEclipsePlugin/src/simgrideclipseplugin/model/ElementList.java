@@ -29,6 +29,7 @@ public class ElementList {
 	public static final String BYPASS_AS_ROUTE = "bypassASroute";
 	public static final String BYPASS_ROUTE = "bypassRoute";
 	public static final String CABINET = "cabinet";
+	public static final String BACKBONE = "backbone";
 	
 	
 	public static List<String> getElementTagNameList() {
@@ -76,7 +77,7 @@ public class ElementList {
 				HOST,ROUTER,
 				ROUTE,BYPASS_ROUTE,
 				LINK,LINK_CTN,
-				CABINET,
+				CABINET,BACKBONE
 				//TODO to complete with the new elements
 		};
 		return Arrays.asList(tags);

@@ -44,6 +44,7 @@ public class ElementSelectionList extends TableViewer {
 	    	  
 	      }
 	    });
+	    getTable().setLinesVisible(true);
 	  }
 
 	public int getItemHeight() {

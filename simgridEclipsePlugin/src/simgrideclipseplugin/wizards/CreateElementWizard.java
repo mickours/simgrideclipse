@@ -1,5 +1,6 @@
 package simgrideclipseplugin.wizards;
 
+import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
 import simgrideclipseplugin.model.SimgridRules;
 
@@ -22,6 +23,8 @@ public class CreateElementWizard extends AbstractElementWizard {
 			if (SimgridRules.isASLikeConnection(tagName)){
 				ModelHelper.editRouteGateways(newElement,selectedSrcGw, selectedDstGw);
 			}
+		}else if(tagName.equals(ElementList.CLUSTER) && clusterContent != null){
+			newElement = ModelHelper.createCluster(clusterContent);
 		}else{
 			newElement = ModelHelper.createElement(tagName, attrMap);
 		}
