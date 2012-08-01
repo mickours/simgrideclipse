@@ -49,30 +49,31 @@
 	 Ce stage stage de fin de 4ème année d'Ecole d'ingénieur à Polytech Grenoble s'est effectuer dans le Laboratoire d'Informatique de Grenoble (LIG) au sein de l'équipe MESCAL (Middleware Efficiently SCALable). Cette équipe est composée de membres provenant de laboratoires, d'ecoles superieur et d'Universités (CNRS, INPG, INRIA et UJF). Le laboratoire du LIG est situé à Monbonnot-Saint-Martin près de Grenoble dans le pôle d'activité Inovallée.
 	 Mon maître de stage, Laurent Bobelin est membre de l'équipe MESCAL et travail essentiellement sur un le logiciel de simulation développé par cette équipe: SimGrid.
 	\subsection{SimGrid}
-	SimGrid est une boîte à outils fournissant un noyau de simulation pour les systèmes distribués dans un environnement distribué hétérogène. Le but de ce projet est de facilité la recherche dans le domaine du parallélisme et des systèmes distribués à grandes échelles. Il est à la fois précis dans ses résultats et performant car il permet de simuler jusqu'à 2 millions de machines sur un seul ordinateur.
+	SimGrid est une boîte à outils fournissant un noyau de simulation pour les systèmes distribués dans un environnement distribué hétérogène. Le but de ce projet est de facilité la recherche dans le domaine du parallélisme et des systèmes distribués à grande échelle. Il est à la fois précis dans ses résultats et performant car il permet de simuler jusqu'à 2 millions de machines sur un seul ordinateur.
 	Les principale force de ce projet sont:
 	\begin{description}
-		\item[Passage à l'échelle] Comme expliqué plus haut il peut simulé de très large système mais fonctionnent aussi très bien sur de tout petits.
+		\item[Le passage à l'échelle] Comme expliqué plus haut il peut simulé de très large système mais fonctionnent aussi très bien sur de tout petits.
 		\item[Un modèle validé] Dans la simulation la cohérence des résultats dépend entièrement du modèle utilisé. Celui de SimGrid a été validé théoriquement et expérimentalement.
-		\item[Portable] Utilisable sur Linux, MacOS et Windows, SimGrid permet aussi aux utilisateurs d'utiliser plusieurs langages: C et Java.
-		\item[Open source] SimGrid est distribué sous la licence LGPL. Il est donc librement utilisable et modifiable.
+		\item[La portablilité] Utilisable sur Linux, MacOS et Windows, SimGrid permet aussi aux utilisateurs d'utiliser plusieurs langages: C et Java.
+		\item[Du code Open source] SimGrid est distribué sous la licence LGPL. Il est donc librement utilisable et modifiable.
 	\end{description}
 	Le projet SimGrid à démarré en 2010 et est toujours très actif. Depuis sa création plus de 100 publication scientifique sont basées sur SimGrid. Enfin, plusieurs outils venant de différent  contributeurs permette d'augmenter les fonctionnalités de SimGrid. 
-	Cependant, l'utilisation de SimGrid passe par l'édition de fichiers textes décrivant les entrées du simulateur. Cette édition pouvant être laborieuse et peu intuitive, il avait donc un besoin pour un créateur de configuration et un éditeur simplifiant la création des fichiers. Le sujet du stage est née de ce besoin.
+	Cependant, l'utilisation de SimGrid passe par l'édition de fichiers textes décrivant les entrées du simulateur. Cette édition pouvant être laborieuse et peu intuitive, il y avait donc un besoin pour un créateur de configuration et un éditeur simplifiant la création de ces fichiers. Le sujet du stage est née de ce besoin.
 
 	\subsection{Sujet du stage}
-		Le sujet de mon stage est créer, sur la base d'un plug-in Eclipse (voir ci-dessous), une application permettant de:
+		Le sujet de mon stage est de créer, sur la base d'un plug-in Eclipse (voir ci-dessous), une application comprenant les éléments suivants:
 		\begin{itemize}
 	 		\item un éditeur de graphique pour les fichiers XML (eXtensible Markup Language) décrivant la plate-forme du réseau utilisée par SimGrid pour la simulation. Ce fichier décrit topologie ainsi que le routage du réseau à l'aide de balise décrite dans un fichier de grammaire de type DTD (Document Type Definition).
-	 		\item créer un assistant de création de projet afin de générer tous les fichiers ainsi que la configuration nécessaire à l'utilisation de SimGrid.
+	 		\item un assistant de création de projet afin de générer tous les fichiers ainsi que la configuration nécessaire à l'utilisation de SimGrid.
 		\end{itemize}
 	Cet outils est destiné à visualiser et éditer des plate-formes existantes, à permettre une prise en main rapide de SimGrid et à faciliter son utilisation pour tout les d'utilisateurs.
 	\subsubsection{Eclipse}
-		\begin{figure}[h]
-		  \centering
-		  \includegraphics[scale=0.4]{img/logo_eclipse.jpeg}
+		\begin{figure}[!h]
+		  \raggedright
+		  \includegraphics[scale=0.3]{img/logo_eclipse.jpeg}
 		  \caption{logo Eclipse}
+		  \label{logo_eclipse}
 		\end{figure}
-		Eclipse (\ref{•})est un Environnement de Développement Intégré (EDI), c'est à dire un outil permettant l'édition la compilation et le lancement de code source. Il à la particularité de permettre son extension par un système de plug-in inter-dépendants. Il est donc possible d'étendre les fonctionnalités de plug-in existants et d'offrir des extensions au autre plug-in. C'est ce mécanisme qui est utilisé par l'application développer lors de ce stage.
+		Eclipse (Figure~\ref{logo_eclipse})est un Environnement de Développement Intégré (EDI). C'est un outil permettant l'édition la compilation et le lancement de code source. Il à la particularité de permettre son extension par un système de plug-in inter-dépendants. Il est donc possible d'étendre les fonctionnalités de plug-in existants et d'offrir des extensions pour les autre plug-in. C'est ce mécanisme qui est utilisé par l'application développer lors de ce stage.
 
 \end{document}

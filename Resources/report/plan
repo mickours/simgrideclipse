@@ -1,0 +1,74 @@
+***** PLAN *****
+
+*Contexte du stage
+    description structure
+    **Simgrid
+    **Sujet du stage
+        ***Etude des besoin déja réaliser
+        ***Outils à préciser
+            ****Eclipse
+            ****EMF/GEF?
+            
+*Travail réalisé
+    **decouverte des différents framework
+    **decouverte du Multipage Editor et du XML Editor
+    **choix de GEF avec DOMModel
+    **ajout de l'action auto layout avec graphstream
+    **utilisation Model MVC de GEF
+    **Création du noyau fonctionnel
+        ***ModelHelper
+        ***ElementList
+        ***SimgridRules
+        ***DTDParser
+    **gestion de la creation et edition d'element graphique
+        ***création générique des elements graphiques
+        ***utilisation de la palette
+        ***gestion de la persistance des position
+
+        ***création d'assitant "wizard" générique de création/edition d'élément
+            *default values
+        ***wizard de création/edition route
+            ****links
+            ****Gateways
+    **implémentation des policies et des commande
+        ***undo/redo delete move
+    **integration dans eclipse
+        ***synchronization de la selection
+        ***gestion des action
+            ****bar d'outils
+            ****menu
+        ***gestion des properties
+        ***creation d'une outline
+    **Création de projet assisté
+        ***génération des fichiers à partir de template
+        ***Projects Java et C 
+    **Documentation
+        ***Site User
+        ***Wiki developpeur
+
+*Difficulté rencontré
+    **prise en main des API d'eclipse
+        ***OSGI
+        ***GEF
+    **SWT et les wizard
+    **création des projets
+        ***dependance
+        ***environnement
+        
+*Interêt et apréciation
+    **Une gestion adaptée
+        ***Projet complet et réalisable dans le temps impartit
+    **Environement de travail: Labo
+        ***Conférence à Lyon
+    **Bilan Pour le Projet
+        ***realease avec feedback positif
+        ***demande de nouvelle fonctionnalités
+        
+*Bilan personnel
+    **perfectionnement en Java
+        ***SWT , OSGI, GEF
+    **Amélioration de l'anglais technique
+        ***ecriture/lecture de doc en Anglais
+    **Découverte du milieu scientifique
+        ***conférence de lyon
+    
