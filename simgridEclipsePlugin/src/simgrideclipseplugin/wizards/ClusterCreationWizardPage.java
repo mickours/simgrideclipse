@@ -8,16 +8,19 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
+import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 import simgrideclipseplugin.model.ElementList;
 
-public class ClusterWizardPage extends WizardPage {
+public class ClusterCreationWizardPage extends WizardPage {
 	
 	private Button simpleCluster;
 	private Button advancedCluster;
-	private WizardPage wizardPage;
 	
-	protected ClusterWizardPage() {
+	protected ClusterCreationWizardPage() {
 		super("Cluster wizard");
+		setTitle("Cluster creation");
+		setDescription("The advanced Cluster allows you to have severals host sets and routers");
+		setImageDescriptor(SimgridIconProvider.getIconImageDescriptor(ElementList.CLUSTER));
 	}
 	
 
@@ -35,25 +38,28 @@ public class ClusterWizardPage extends WizardPage {
 		advancedCluster = new Button(container,SWT.RADIO);
 		advancedCluster.setText("Create an advanced cluster");
 		setControl(container);
-	}
-	
-	public boolean canFlipToNextPage(){
-		return true;
+		
+		//initialize
+		setPageComplete(true);
 	}
 
 	@Override
 	public IWizardPage getNextPage() {
-		WizardPage wizardPage;
+		WizardPage wizardPage = null;
 		if (simpleCluster.getSelection()){
-			wizardPage = ((AbstractElementWizard)getWizard()).simplePage;
+			wizardPage = ((CreateElementWizard)getWizard()).simplePage;
+			((CreateElementWizard)getWizard()).advancedPage.setPageComplete(true);
 		}
-		else{
+		if (advancedCluster.getSelection()){
 			//TODO remove the page if necessary
-			wizardPage = ((AbstractElementWizard)getWizard()).advancedPage;
+			wizardPage = ((CreateElementWizard)getWizard()).advancedPage;
+			((CreateElementWizard)getWizard()).simplePage.setPageComplete(true);
 		}
-		return wizardPage;
+		if (wizardPage != null){
+			((Wizard) getWizard()).addPage(wizardPage);
+			wizardPage.setPageComplete(false);
+			return wizardPage;
+		}
+		return null;
 	}
-	
-	
-
 }

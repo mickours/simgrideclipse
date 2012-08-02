@@ -44,7 +44,7 @@ public final class SimgridRules {
 	 */
 	private static List<String> createNotDrawableList() {
 		String[] tags = {
-				ElementList.LINK,ElementList.LINK_CTN,ElementList.BACKBONE,
+				ElementList.LINK,ElementList.LINK_CTN,
 		};
 		return Arrays.asList(tags);
 	}

@@ -1,12 +1,12 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.7.10)  1 AUG 2012 09:44
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.8.1)  2 AUG 2012 09:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **rapport_de_stage.tex
 (./rapport_de_stage.tex
 LaTeX2e <2011/06/27>
-Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, lo
-aded.
+Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, fr
+ench, basque, loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
@@ -376,12 +376,6 @@ File: babel.def 2008/07/08 v3.8m Babel common definitions
 \babel@savecnt=\count97
 \U@D=\dimen106
 )
-
-Package babel Warning: No hyphenation patterns were loaded for
-(babel)                the language `French'
-(babel)                I will use the patterns loaded for \language=0 instead.
-
-\l@french = a dialect from \language0
 Package babel Info: Making : an active character on input line 234.
 Package babel Info: Making ; an active character on input line 235.
 Package babel Info: Making ! an active character on input line 236.
@@ -390,6 +384,7 @@ Package babel Info: Making ? an active character on input line 237.
 \std@mcc=\count98
 \dec@mcc=\count99
 \parindentFFN=\dimen108
+
 *************************************
 * Local config file frenchb.cfg used
 *
@@ -773,7 +768,7 @@ ABD: EveryShipout initializing macros
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-<img/logo_pg2009.png, id=23, 155.1396pt x 48.18pt>
+<img/logo_pg2009.png, id=244, 155.1396pt x 48.18pt>
 File: img/logo_pg2009.png Graphic file (type png)
  <use img/logo_pg2009.png>
 Package pdftex.def Info: img/logo_pg2009.png used on input line 25.
@@ -787,41 +782,45 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 3.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 3.
-)
-\tf@toc=\write5
-\openout5 = `rapport_de_stage.toc'.
-
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.47 \newpage
-              [1] <img/logo_eclipse.jpeg, id=42, 200.75pt x 200.75pt>
+l.54 ...mberline {6}Bilan personnel}{5}{section.6}
+                                                   [1])
+\tf@toc=\write5
+\openout5 = `rapport_de_stage.toc'.
+
+ [2]
+<img/logo_eclipse.jpeg, id=322, 200.75pt x 200.75pt>
 File: img/logo_eclipse.jpeg Graphic file (type jpg)
 
 <use img/logo_eclipse.jpeg>
-Package pdftex.def Info: img/logo_eclipse.jpeg used on input line 74.
+Package pdftex.def Info: img/logo_eclipse.jpeg used on input line 73.
 (pdftex.def)             Requested size: 60.22545pt x 60.22545pt.
- [2 <./img/logo_eclipse.jpeg>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 80.
- [3]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 80.
+ [3 <./img/logo_eclipse.jpeg>]
 
-(./rapport_de_stage.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 80.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 80.
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 98.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 144.
+[4] [5]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 144.
+ (./rapport_de_stage.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 144.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 144.
 Package rerunfilecheck Info: File `rapport_de_stage.out' has not changed.
-(rerunfilecheck)             Checksum: 81465A5E21E9EA593D85BEFD83879C86;237.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 80.
+(rerunfilecheck)             Checksum: 5AF9E38DA8BFB8F5EAC854C90CFC38F9;4678.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 144.
  ) 
 Here is how much of TeX's memory you used:
- 14702 strings out of 495059
- 256776 string characters out of 3182030
- 336766 words of memory out of 3000000
- 17631 multiletter control sequences out of 15000+200000
+ 14813 strings out of 495030
+ 258677 string characters out of 3180762
+ 345824 words of memory out of 3000000
+ 17694 multiletter control sequences out of 15000+200000
  10481 words of font info for 23 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
- 56i,7n,55p,527b,554s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 56i,7n,55p,526b,554s stack positions out of 5000i,500n,10000p,200000b,50000s
  </home/mmercier/.texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1000.600pk> </hom
 e/mmercier/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/mmerci
 er/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk> </home/mmercier/.texm
@@ -829,10 +828,10 @@ f-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </home/mmercier/.texmf-var/fo
 nts/pk/ljfour/jknappen/ec/ecrm1000.600pk> </home/mmercier/.texmf-var/fonts/pk/l
 jfour/jknappen/ec/ecrm1440.600pk> </home/mmercier/.texmf-var/fonts/pk/ljfour/jk
 nappen/ec/ecbx2488.600pk>
-Output written on rapport_de_stage.pdf (4 pages, 113855 bytes).
+Output written on rapport_de_stage.pdf (6 pages, 154861 bytes).
 PDF statistics:
- 255 PDF objects out of 1000 (max. 8388607)
- 74 compressed objects within 1 object stream
- 10 named destinations out of 1000 (max. 500000)
- 55 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 652 PDF objects out of 1000 (max. 8388607)
+ 367 compressed objects within 4 object streams
+ 67 named destinations out of 1000 (max. 500000)
+ 495 words of extra memory for PDF output out of 10000 (max. 10000000)
 

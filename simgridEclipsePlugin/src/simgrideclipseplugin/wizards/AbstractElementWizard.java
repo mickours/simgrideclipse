@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.jface.wizard.WizardPage;
 import org.w3c.dom.Element;
 
-import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
 import simgrideclipseplugin.model.SimgridRules;
 
@@ -28,8 +26,8 @@ public abstract class AbstractElementWizard extends Wizard {
 	
 	public List<Element>clusterContent;
 	public Element backbone;
-	public WizardPage simplePage;
-	public WizardPage advancedPage;
+	public String clusterId;
+
 	
 	protected Element sourceNode;
 	protected Element targetNode;
@@ -58,14 +56,6 @@ public abstract class AbstractElementWizard extends Wizard {
 			Element refNode = (route != null) ?route : sourceNode;
 			LinkSelectionPage linkPage = new LinkSelectionPage(ModelHelper.getLinks(sourceNode), refNode, multiLink);
 			addPage(linkPage);
-		}
-		else if(tagName.equals(ElementList.CLUSTER)){
-			ClusterWizardPage clusterPage = new ClusterWizardPage();
-			addPage(clusterPage);
-			simplePage = new AttributeFieldFormPage(ElementList.CLUSTER);
-			addPage(simplePage);
-			advancedPage = new AdvancedClusterWizardPage();
-			addPage(advancedPage);
 		}
 		else{
 			AttributeFieldFormPage fieldPage = new AttributeFieldFormPage(tagName);

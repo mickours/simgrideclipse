@@ -2,3 +2,58 @@
 \BOOKMARK [2][-]{subsection.1.1}{SimGrid}{section.1}% 2
 \BOOKMARK [2][-]{subsection.1.2}{Sujet du stage}{section.1}% 3
 \BOOKMARK [3][-]{subsubsection.1.2.1}{Eclipse}{subsection.1.2}% 4
+\BOOKMARK [3][-]{subsubsection.1.2.2}{EMF/GEF?}{subsection.1.2}% 5
+\BOOKMARK [1][-]{section.2}{Travail r\351alis\351}{}% 6
+\BOOKMARK [2][-]{subsection.2.1}{decouverte des diff\351rents framework}{section.2}% 7
+\BOOKMARK [2][-]{subsection.2.2}{decouverte du Multipage Editor et du XML Editor}{section.2}% 8
+\BOOKMARK [2][-]{subsection.2.3}{choix de GEF avec DOMModel}{section.2}% 9
+\BOOKMARK [2][-]{subsection.2.4}{ajout de l'action auto layout avec graphstream}{section.2}% 10
+\BOOKMARK [2][-]{subsection.2.5}{utilisation Model MVC de GEF}{section.2}% 11
+\BOOKMARK [2][-]{subsection.2.6}{Cr\351ation du noyau fonctionnel}{section.2}% 12
+\BOOKMARK [3][-]{subsubsection.2.6.1}{ModelHelper}{subsection.2.6}% 13
+\BOOKMARK [3][-]{subsubsection.2.6.2}{ElementList}{subsection.2.6}% 14
+\BOOKMARK [3][-]{subsubsection.2.6.3}{SimgridRules}{subsection.2.6}% 15
+\BOOKMARK [3][-]{subsubsection.2.6.4}{DTDParser}{subsection.2.6}% 16
+\BOOKMARK [2][-]{subsection.2.7}{gestion de la creation et edition d'element graphique}{section.2}% 17
+\BOOKMARK [3][-]{subsubsection.2.7.1}{cr\351ation g\351n\351rique des elements graphiques}{subsection.2.7}% 18
+\BOOKMARK [3][-]{subsubsection.2.7.2}{utilisation de la palette}{subsection.2.7}% 19
+\BOOKMARK [3][-]{subsubsection.2.7.3}{gestion de la persistance des position}{subsection.2.7}% 20
+\BOOKMARK [3][-]{subsubsection.2.7.4}{cr\351ation d'assitant "wizard" g\351n\351rique de cr\351ation/edition d'\351l\351ment}{subsection.2.7}% 21
+\BOOKMARK [1][-]{section.3}{default values}{}% 22
+\BOOKMARK [2][-]{subsubsection.3.0.5}{wizard de cr\351ation/edition route}{section.3}% 23
+\BOOKMARK [2][-]{subsection.3.1}{impl\351mentation des policies et des commande}{section.3}% 24
+\BOOKMARK [3][-]{subsubsection.3.1.1}{undo/redo delete move}{subsection.3.1}% 25
+\BOOKMARK [2][-]{subsection.3.2}{integration dans eclipse}{section.3}% 26
+\BOOKMARK [3][-]{subsubsection.3.2.1}{synchronization de la selection}{subsection.3.2}% 27
+\BOOKMARK [3][-]{subsubsection.3.2.2}{gestion des action}{subsection.3.2}% 28
+\BOOKMARK [3][-]{subsubsection.3.2.3}{gestion des properties}{subsection.3.2}% 29
+\BOOKMARK [3][-]{subsubsection.3.2.4}{creation d'une outline}{subsection.3.2}% 30
+\BOOKMARK [2][-]{subsection.3.3}{Cr\351ation de projet assist\351}{section.3}% 31
+\BOOKMARK [3][-]{subsubsection.3.3.1}{g\351n\351ration des fichiers \340 partir de template}{subsection.3.3}% 32
+\BOOKMARK [3][-]{subsubsection.3.3.2}{Projects Java et C }{subsection.3.3}% 33
+\BOOKMARK [2][-]{subsection.3.4}{Documentation}{section.3}% 34
+\BOOKMARK [3][-]{subsubsection.3.4.1}{Site User}{subsection.3.4}% 35
+\BOOKMARK [3][-]{subsubsection.3.4.2}{Wiki developpeur}{subsection.3.4}% 36
+\BOOKMARK [1][-]{section.4}{Difficult\351 rencontr\351}{}% 37
+\BOOKMARK [2][-]{subsection.4.1}{prise en main des API d'eclipse}{section.4}% 38
+\BOOKMARK [3][-]{subsubsection.4.1.1}{OSGI}{subsection.4.1}% 39
+\BOOKMARK [3][-]{subsubsection.4.1.2}{GEF}{subsection.4.1}% 40
+\BOOKMARK [2][-]{subsection.4.2}{SWT et les wizard}{section.4}% 41
+\BOOKMARK [2][-]{subsection.4.3}{cr\351ation des projets}{section.4}% 42
+\BOOKMARK [3][-]{subsubsection.4.3.1}{dependance}{subsection.4.3}% 43
+\BOOKMARK [3][-]{subsubsection.4.3.2}{environnement}{subsection.4.3}% 44
+\BOOKMARK [1][-]{section.5}{Inter\352t et apr\351ciation}{}% 45
+\BOOKMARK [2][-]{subsection.5.1}{Une gestion adapt\351e}{section.5}% 46
+\BOOKMARK [3][-]{subsubsection.5.1.1}{Projet complet et r\351alisable dans le temps impartit}{subsection.5.1}% 47
+\BOOKMARK [2][-]{subsection.5.2}{Environement de travail: Labo}{section.5}% 48
+\BOOKMARK [3][-]{subsubsection.5.2.1}{Conf\351rence \340 Lyon}{subsection.5.2}% 49
+\BOOKMARK [2][-]{subsection.5.3}{Bilan Pour le Projet}{section.5}% 50
+\BOOKMARK [3][-]{subsubsection.5.3.1}{realease avec feedback positif}{subsection.5.3}% 51
+\BOOKMARK [3][-]{subsubsection.5.3.2}{demande de nouvelle fonctionnalit\351s}{subsection.5.3}% 52
+\BOOKMARK [1][-]{section.6}{Bilan personnel}{}% 53
+\BOOKMARK [2][-]{subsection.6.1}{perfectionnement en Java}{section.6}% 54
+\BOOKMARK [3][-]{subsubsection.6.1.1}{SWT , OSGI, GEF}{subsection.6.1}% 55
+\BOOKMARK [2][-]{subsection.6.2}{Am\351lioration de l'anglais technique}{section.6}% 56
+\BOOKMARK [3][-]{subsubsection.6.2.1}{ecriture/lecture de doc en Anglais}{subsection.6.2}% 57
+\BOOKMARK [2][-]{subsection.6.3}{D\351couverte du milieu scientifique}{section.6}% 58
+\BOOKMARK [3][-]{subsubsection.6.3.1}{conf\351rence de lyon}{subsection.6.3}% 59

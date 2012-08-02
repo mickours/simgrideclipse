@@ -75,5 +75,76 @@
 		  \label{logo_eclipse}
 		\end{figure}
 		Eclipse (Figure~\ref{logo_eclipse})est un Environnement de Développement Intégré (EDI). C'est un outil permettant l'édition la compilation et le lancement de code source. Il à la particularité de permettre son extension par un système de plug-in inter-dépendants. Il est donc possible d'étendre les fonctionnalités de plug-in existants et d'offrir des extensions pour les autres plug-in. C'est ce mécanisme qui est utilisé par l'application développer lors de ce stage.
+	\subsubsection{EMF/GEF?}
+	Le sujet du stage ne défini pas avec quelle outils le plug-in doit être réalisé à l'intérieur d'Eclipse. Cependant il suggère l'utilisation de la combinaison de deux framework Eclipse fortement combiné ensemble: Eclipse Modeling Framework (EMF) et Graphical Editing Framework (GEF). EMF est utiliser pour générer un modèle de donnée à partir des donnée passer en paramètre (un fichier de Grammaire XML Schema par exemple). Ce modèle est ensuite utilisé par GEF pour la création d'un éditeur graphique. Bien que ces deux framework soit souvent utilisé ensemble, GEF accepte tous type de modèle. L'utilisation de ce couple d'outils doit donc être déterminé lors du stage.
+
+\section{Travail réalisé}
+    \subsection{Découverte des différents frameworks}
+    	Le choix des outils n'étant pas prédéterminé, il a fallut passé par une phase de découverte des différent frameworks que propose Eclipse pour développer des plug-in. L'utilisation de GEF semble être indispensable mais, comme expliqué plus haut, le choix du modèle reste à déterminé. De plus il existe d'autre outils plus haut niveau, comme Graphiti basé sur EMF/GEF qui génère très rapidement un éditeur graphique utilisable mais peu configurable. Il est apparu que cet outils était en phase d'incubation, donc peu fiable, et qu'il ne permettait pas un configuration suffisante pour implémenter toute les fonctionnalités nécessaires.
+    \subsection{Choix du model}
+    Le problème du choix du modèle utilisé est complexe. Le framework EMF permet de générer un modèle à partir d'un fichier de grammaire XML schema or SimGrid utilise le format DTD. Une conversion est malheureusement impossible car le format XML schema est moins permissif et l'accepte pas ce qui est autorisé dans la DTD de SimGrid.
+    Nous avons ensuite penser à l'utilisation de JAXB qui un outils permettant la génération et la liaison d'un modèle java avec un fichier XML. Mais notre éditeur de plate-forme doit aussi comporter un éditeur texte XML, qui maintien lui aussi une structure de données lié au fichier. L'accès à ce modèle étant possible, son utilisation pour l'éditeur graphique permet de ne maintenir qu'un seul modèle qui est de plus déjà intégrer dans l'environnement d'Eclipse et maintenu par le l'éditeur texte.
+    Le choix s'est finalement porté sur une implémentation direct avec GEF en utilisant le modèle de l'éditeur de texte nommé DOMModel.
+    \subsection{L'éditeur multi-page}
+    
+    \subsection{ajout de l'action auto layout avec graphstream}
+    \subsection{utilisation Model MVC de GEF}
+    \subsection{Création du noyau fonctionnel}
+        \subsubsection{ModelHelper}
+        \subsubsection{ElementList}
+        \subsubsection{SimgridRules}
+        \subsubsection{DTDParser}
+    \subsection{gestion de la creation et edition d'element graphique}
+        \subsubsection{création générique des elements graphiques}
+        \subsubsection{utilisation de la palette}
+        \subsubsection{gestion de la persistance des position}
+
+        \subsubsection{création d'assitant "wizard" générique de création/edition d'élément}
+            \section{default values}
+        \subsubsection{wizard de création/edition route}
+            links
+            Gateways
+    \subsection{implémentation des policies et des commande}
+        \subsubsection{undo/redo delete move}
+    \subsection{integration dans eclipse}
+        \subsubsection{synchronization de la selection}
+        \subsubsection{gestion des action}
+            bar d'outils
+            menu
+        \subsubsection{gestion des properties}
+        \subsubsection{creation d'une outline}
+    \subsection{Création de projet assisté}
+        \subsubsection{génération des fichiers à partir de template}
+        \subsubsection{Projects Java et C }
+    \subsection{Documentation}
+        \subsubsection{Site User}
+        \subsubsection{Wiki developpeur}
+
+\section{Bilan et perspectives}
+    \subsection{prise en main des API d'eclipse}
+        \subsubsection{OSGI}
+        \subsubsection{GEF}
+    \subsection{SWT et les wizard}
+    \subsection{création des projets}
+        \subsubsection{dependance}
+        \subsubsection{environnement}
+        
+\section{Interêt et apréciation}
+    \subsection{Une gestion adaptée}
+        \subsubsection{Projet complet et réalisable dans le temps impartit}
+    \subsection{Environement de travail: Labo}
+        \subsubsection{Conférence à Lyon}
+    \subsection{Bilan Pour le Projet}
+        \subsubsection{realease avec feedback positif}
+        \subsubsection{demande de nouvelle fonctionnalités}
+        
+\section{Bilan personnel}
+    \subsection{perfectionnement en Java}
+        \subsubsection{SWT , OSGI, GEF}
+    \subsection{Amélioration de l'anglais technique}
+        \subsubsection{ecriture/lecture de doc en Anglais}
+    \subsection{Découverte du milieu scientifique}
+        \subsubsection{conférence de lyon}
+    
 
 \end{document}
