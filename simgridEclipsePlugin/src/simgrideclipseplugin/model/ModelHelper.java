@@ -138,6 +138,8 @@ public final class ModelHelper {
 		}
 		int idNum = numIDMap.get(tagName);
 		newId = tagName+idNum;
+		//increment 
+		numIDMap.put(tagName,++idNum);
 		
 		//verify uniqueness of id for this type
 		String saveId;

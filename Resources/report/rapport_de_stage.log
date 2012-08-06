@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.8.1)  2 AUG 2012 09:20
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.8.6)  6 AUG 2012 17:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -768,7 +768,7 @@ ABD: EveryShipout initializing macros
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-<img/logo_pg2009.png, id=244, 155.1396pt x 48.18pt>
+<img/logo_pg2009.png, id=228, 155.1396pt x 48.18pt>
 File: img/logo_pg2009.png Graphic file (type png)
  <use img/logo_pg2009.png>
 Package pdftex.def Info: img/logo_pg2009.png used on input line 25.
@@ -786,52 +786,68 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.54 ...mberline {6}Bilan personnel}{5}{section.6}
+l.54 ...de doc en Anglais}{7}{subsubsection.5.2.1}
                                                    [1])
 \tf@toc=\write5
 \openout5 = `rapport_de_stage.toc'.
 
  [2]
-<img/logo_eclipse.jpeg, id=322, 200.75pt x 200.75pt>
+<img/logo_eclipse.jpeg, id=302, 200.75pt x 200.75pt>
 File: img/logo_eclipse.jpeg Graphic file (type jpg)
 
 <use img/logo_eclipse.jpeg>
 Package pdftex.def Info: img/logo_eclipse.jpeg used on input line 73.
 (pdftex.def)             Requested size: 60.22545pt x 60.22545pt.
- [3 <./img/logo_eclipse.jpeg>]
-
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 98.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 144.
-[4] [5]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 144.
+ [3 <./img/logo_eclipse.jpeg>] [4] [5] [6]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 175.
+ [7]
+[8]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 175.
  (./rapport_de_stage.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 144.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 144.
-Package rerunfilecheck Info: File `rapport_de_stage.out' has not changed.
-(rerunfilecheck)             Checksum: 5AF9E38DA8BFB8F5EAC854C90CFC38F9;4678.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 144.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 175.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 175.
+
+
+Package rerunfilecheck Warning: File `rapport_de_stage.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `rapport_de_stage.out':
+(rerunfilecheck)             Before: 8A9F7D84343989F017840E01A77C04F4;4354
+(rerunfilecheck)             After:  8C654BDD68A6F38CB1AA52942F39448A;4174.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 175.
  ) 
 Here is how much of TeX's memory you used:
- 14813 strings out of 495030
- 258677 string characters out of 3180762
- 345824 words of memory out of 3000000
- 17694 multiletter control sequences out of 15000+200000
+ 14810 strings out of 495030
+ 258620 string characters out of 3180762
+ 345891 words of memory out of 3000000
+ 17691 multiletter control sequences out of 15000+200000
  10481 words of font info for 23 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
- 56i,7n,55p,526b,554s stack positions out of 5000i,500n,10000p,200000b,50000s
- </home/mmercier/.texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1000.600pk> </hom
-e/mmercier/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/mmerci
-er/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk> </home/mmercier/.texm
-f-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </home/mmercier/.texmf-var/fo
-nts/pk/ljfour/jknappen/ec/ecrm1000.600pk> </home/mmercier/.texmf-var/fonts/pk/l
-jfour/jknappen/ec/ecrm1440.600pk> </home/mmercier/.texmf-var/fonts/pk/ljfour/jk
-nappen/ec/ecbx2488.600pk>
-Output written on rapport_de_stage.pdf (6 pages, 154861 bytes).
+ 56i,7n,55p,763b,554s stack positions out of 5000i,500n,10000p,200000b,50000s
+pdfTeX warning (dest): name{subsubsection.2.6.2} has been referenced but does
+ not exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsubsection.2.5.5} has been referenced but does n
+ot exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsubsection.2.5.4} has been referenced but does n
+ot exist, replaced by a fixed one
+
+ </home/mmercier/.texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1000.600pk> </home/
+mmercier/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/mmercier
+/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk> </home/mmercier/.texmf-
+var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </home/mmercier/.texmf-var/font
+s/pk/ljfour/jknappen/ec/ecrm1000.600pk> </home/mmercier/.texmf-var/fonts/pk/ljf
+our/jknappen/ec/ecrm1440.600pk> </home/mmercier/.texmf-var/fonts/pk/ljfour/jkna
+ppen/ec/ecbx2488.600pk>
+Output written on rapport_de_stage.pdf (9 pages, 161421 bytes).
 PDF statistics:
- 652 PDF objects out of 1000 (max. 8388607)
- 367 compressed objects within 4 object streams
+ 642 PDF objects out of 1000 (max. 8388607)
+ 360 compressed objects within 4 object streams
  67 named destinations out of 1000 (max. 500000)
- 495 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 463 words of extra memory for PDF output out of 10000 (max. 10000000)
 

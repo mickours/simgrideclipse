@@ -1,14 +1,1 @@
-simgrideclipseplugin
-simgrideclipseplugin.editors
-simgrideclipseplugin.editors.outline
-simgrideclipseplugin.editors.properties
-simgrideclipseplugin.graphical
-simgrideclipseplugin.graphical.actions
-simgrideclipseplugin.graphical.commands
-simgrideclipseplugin.graphical.figures
-simgrideclipseplugin.graphical.parts
-simgrideclipseplugin.graphical.policies
-simgrideclipseplugin.graphical.providers
 simgrideclipseplugin.model
-simgrideclipseplugin.wizards
-simgrideclipseplugin.wizards.composites
