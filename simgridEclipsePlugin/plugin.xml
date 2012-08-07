@@ -53,14 +53,4 @@
             id="simgrideclipseplugin.wizards.SimgridDeploymentWizard">
       </wizard>
    </extension>
-   
-  <extension
-         id="simgrideclipse.external_settings"
-         name="simgrid external settings"
-         point="org.eclipse.cdt.core.externalSettingsProvider">
-         <provider
-         	class="simgrideclipseplugin.wizards.SimgridCExtenalSettings">
-         </provider>
-   </extension>
-
 </plugin>
