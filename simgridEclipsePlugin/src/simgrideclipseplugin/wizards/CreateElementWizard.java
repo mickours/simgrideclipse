@@ -1,12 +1,31 @@
 package simgrideclipseplugin.wizards;
 
+import org.eclipse.jface.wizard.WizardPage;
+
+import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
 import simgrideclipseplugin.model.SimgridRules;
 
 public class CreateElementWizard extends AbstractElementWizard {
+	
+	public WizardPage simplePage;
+	public WizardPage advancedPage;
 
 	public CreateElementWizard(String tagName) {
 		super(tagName);
+	}
+	@Override
+	public void addPages() {
+		if(tagName.equals(ElementList.CLUSTER)){
+			ClusterCreationWizardPage clusterPage = new ClusterCreationWizardPage();
+			addPage(clusterPage);
+			simplePage = new AttributeFieldFormPage(ElementList.CLUSTER);
+			addPage(simplePage);
+			advancedPage = new AdvancedClusterWizardPage();
+			addPage(advancedPage);
+		}else{
+			super.addPages();
+		}
 	}
 
 	@Override
@@ -22,6 +41,8 @@ public class CreateElementWizard extends AbstractElementWizard {
 			if (SimgridRules.isASLikeConnection(tagName)){
 				ModelHelper.editRouteGateways(newElement,selectedSrcGw, selectedDstGw);
 			}
+		}else if(tagName.equals(ElementList.CLUSTER) && clusterContent != null && !clusterContent.isEmpty()){
+			newElement = ModelHelper.createCluster(clusterContent, clusterId);
 		}else{
 			newElement = ModelHelper.createElement(tagName, attrMap);
 		}

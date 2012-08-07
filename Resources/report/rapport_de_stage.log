@@ -1,12 +1,12 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.7.10)  31 JUL 2012 10:22
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.8.6)  6 AUG 2012 17:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **rapport_de_stage.tex
 (./rapport_de_stage.tex
 LaTeX2e <2011/06/27>
-Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, lo
-aded.
+Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, fr
+ench, basque, loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
@@ -376,12 +376,6 @@ File: babel.def 2008/07/08 v3.8m Babel common definitions
 \babel@savecnt=\count97
 \U@D=\dimen106
 )
-
-Package babel Warning: No hyphenation patterns were loaded for
-(babel)                the language `French'
-(babel)                I will use the patterns loaded for \language=0 instead.
-
-\l@french = a dialect from \language0
 Package babel Info: Making : an active character on input line 234.
 Package babel Info: Making ; an active character on input line 235.
 Package babel Info: Making ! an active character on input line 236.
@@ -390,6 +384,7 @@ Package babel Info: Making ? an active character on input line 237.
 \std@mcc=\count98
 \dec@mcc=\count99
 \parindentFFN=\dimen108
+
 *************************************
 * Local config file frenchb.cfg used
 *
@@ -670,7 +665,7 @@ Package: geometry 2010/09/12 v5.6 Page Geometry
 \Gm@layoutvoffset=\dimen161
 \Gm@dimlist=\toks26
 )
-No file rapport_de_stage.aux.
+(./rapport_de_stage.aux)
 \openout1 = `rapport_de_stage.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
@@ -689,6 +684,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 21.
 LaTeX Font Info:    ... okay on input line 21.
 \AtBeginShipoutBox=\box35
 Package hyperref Info: Link coloring OFF on input line 21.
+
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2010/04/30 v2.40 Cross-referencing by name of section
 
@@ -700,6 +696,8 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 21.
 LaTeX Info: Redefining \pageref on input line 21.
 LaTeX Info: Redefining \nameref on input line 21.
+
+(./rapport_de_stage.out) (./rapport_de_stage.out)
 \@outlinefile=\write4
 \openout4 = `rapport_de_stage.out'.
 
@@ -770,7 +768,7 @@ ABD: EveryShipout initializing macros
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-<img/logo_pg2009.png, id=7, 155.1396pt x 48.18pt>
+<img/logo_pg2009.png, id=228, 155.1396pt x 48.18pt>
 File: img/logo_pg2009.png Graphic file (type png)
  <use img/logo_pg2009.png>
 Package pdftex.def Info: img/logo_pg2009.png used on input line 25.
@@ -779,138 +777,35 @@ Package pdftex.def Info: img/logo_pg2009.png used on input line 25.
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./img/logo_pg2009.png (PNG
- copy)>]
-\tf@toc=\write5
-\openout5 = `rapport_de_stage.toc'.
-
+ copy)>] (./rapport_de_stage.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 3.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 3.
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.47 \newpage
-              [1]
-Underfull \hbox (badness 10000) in paragraph at lines 53--59
+l.54 ...de doc en Anglais}{7}{subsubsection.5.2.1}
+                                                   [1])
+\tf@toc=\write5
+\openout5 = `rapport_de_stage.toc'.
 
- []
+ [2]
+<img/logo_eclipse.jpeg, id=302, 200.75pt x 200.75pt>
+File: img/logo_eclipse.jpeg Graphic file (type jpg)
 
-
-LaTeX Warning: File `img/stm32l_discovery.jpg' not found on input line 67.
-
-
-! Package pdftex.def Error: File `img/stm32l_discovery.jpg' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.67 ...phics[scale=0.3]{img/stm32l_discovery.jpg}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 67.
-(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
-File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-)
-
-LaTeX Warning: Reference `RCC' on page 2 undefined on input line 91.
-
-[2]
-
-LaTeX Warning: File `img/STM32qemu.jpeg' not found on input line 97.
-
-
-! Package pdftex.def Error: File `img/STM32qemu.jpeg' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.97 ...udegraphics[scale=0.6]{img/STM32qemu.jpeg}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `img/UICapture.png' not found on input line 112.
-
-
-! Package pdftex.def Error: File `img/UICapture.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.112 ...udegraphics[scale=0.6]{img/UICapture.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 186--188
-
- []
-
-
-Overfull \hbox (23.55745pt too wide) in paragraph at lines 208--208
-[]\T1/cmtt/m/n/10 iomemtype = cpu_register_io_memory(readHandler, writeHandler,
- deviceData, NATIVE_ENDIAN);[] 
- []
-
-[4]
-Underfull \hbox (badness 10000) in paragraph at lines 242--243
-
- []
-
-[5]
-Overfull \hbox (28.80617pt too wide) in paragraph at lines 271--271
-[]    \T1/cmtt/m/n/10 chr_add_handlers(chrdev, canReceiveHandler, receiveHandle
-r, eventHandler, deviceData);[] 
- []
-
-
-Overfull \hbox (259.74977pt too wide) in paragraph at lines 290--290
-[]\T1/cmtt/m/n/10 ./src/arm-softmmu/qemu-system-arm -M stm32l152rbt6 -nographic
- -chardev socket,id=B,port=4242,host=localhost,nodelay -kernel ./main.bin[] 
- []
-
-
-Overfull \hbox (18.30873pt too wide) in paragraph at lines 313--313
-[]\T1/cmtt/m/n/10 pic = armv7m_init(address_space_mem, flash_size, sram_size, k
-ernel_filename, cpu_model);[] 
- []
-
-[6] [7]
-Overfull \hbox (6.59425pt too wide) in paragraph at lines 399--401
-[]\T1/cmr/m/n/10 Elle est passée en paramètre à la fonc-tion sys-bus_register_w
-ithprop elle même passée en paramètre
- []
-
-
-Overfull \hbox (91.79079pt too wide) in paragraph at lines 431--431
-[]   \T1/cmtt/m/n/10 iomemtype = cpu_register_io_memory(stm32_gpio_readfn, stm3
-2_gpio_writefn, s, DEVICE_NATIVE_ENDIAN);[] 
- []
-
+<use img/logo_eclipse.jpeg>
+Package pdftex.def Info: img/logo_eclipse.jpeg used on input line 73.
+(pdftex.def)             Requested size: 60.22545pt x 60.22545pt.
+ [3 <./img/logo_eclipse.jpeg>] [4] [5] [6]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 175.
+ [7]
 [8]
-Underfull \hbox (badness 10000) in paragraph at lines 504--508
-
- []
-
-[9]
-Underfull \hbox (badness 10000) in paragraph at lines 510--514
-
- []
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 515.
-[10]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 515.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 175.
  (./rapport_de_stage.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 515.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 515.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 175.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 175.
 
 
 Package rerunfilecheck Warning: File `rapport_de_stage.out' has changed.
@@ -918,37 +813,41 @@ Package rerunfilecheck Warning: File `rapport_de_stage.out' has changed.
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `rapport_de_stage.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  DD4C3CE74C490060FCE6123405ED372C;2041.
-
-LaTeX Warning: There were undefined references.
-
+(rerunfilecheck)             Before: 8A9F7D84343989F017840E01A77C04F4;4354
+(rerunfilecheck)             After:  8C654BDD68A6F38CB1AA52942F39448A;4174.
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 515.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 175.
  ) 
 Here is how much of TeX's memory you used:
- 14750 strings out of 495059
- 257577 string characters out of 3182030
- 339584 words of memory out of 3000000
- 17634 multiletter control sequences out of 15000+200000
- 11480 words of font info for 25 fonts, out of 3000000 for 9000
+ 14810 strings out of 495030
+ 258620 string characters out of 3180762
+ 345891 words of memory out of 3000000
+ 17691 multiletter control sequences out of 15000+200000
+ 10481 words of font info for 23 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
- 56i,7n,55p,469b,554s stack positions out of 5000i,500n,10000p,200000b,50000s
- </home/mmercier/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1000.600pk> </hom
-e/mmercier/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk> </home/mmerci
-er/.texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1000.600pk> </home/mmercier/.texm
-f-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600pk> </home/mmercier/.texmf-var/fo
-nts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/mmercier/.texmf-var/fonts/pk/l
-jfour/jknappen/ec/ecbx1440.600pk> </home/mmercier/.texmf-var/fonts/pk/ljfour/jk
-nappen/ec/ecrm1000.600pk> </home/mmercier/.texmf-var/fonts/pk/ljfour/jknappen/e
-c/ecrm1440.600pk> </home/mmercier/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx24
-88.600pk>
-Output written on rapport_de_stage.pdf (11 pages, 169899 bytes).
+ 56i,7n,55p,763b,554s stack positions out of 5000i,500n,10000p,200000b,50000s
+pdfTeX warning (dest): name{subsubsection.2.6.2} has been referenced but does
+ not exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsubsection.2.5.5} has been referenced but does n
+ot exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsubsection.2.5.4} has been referenced but does n
+ot exist, replaced by a fixed one
+
+ </home/mmercier/.texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1000.600pk> </home/
+mmercier/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/mmercier
+/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk> </home/mmercier/.texmf-
+var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </home/mmercier/.texmf-var/font
+s/pk/ljfour/jknappen/ec/ecrm1000.600pk> </home/mmercier/.texmf-var/fonts/pk/ljf
+our/jknappen/ec/ecrm1440.600pk> </home/mmercier/.texmf-var/fonts/pk/ljfour/jkna
+ppen/ec/ecbx2488.600pk>
+Output written on rapport_de_stage.pdf (9 pages, 161421 bytes).
 PDF statistics:
- 479 PDF objects out of 1000 (max. 8388607)
- 135 compressed objects within 2 object streams
- 55 named destinations out of 1000 (max. 500000)
- 18 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 642 PDF objects out of 1000 (max. 8388607)
+ 360 compressed objects within 4 object streams
+ 67 named destinations out of 1000 (max. 500000)
+ 463 words of extra memory for PDF output out of 10000 (max. 10000000)
 

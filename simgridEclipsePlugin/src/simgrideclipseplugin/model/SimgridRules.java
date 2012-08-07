@@ -76,7 +76,7 @@ public final class SimgridRules {
 	
 	/**
 	 * return true if the element that has this tagName is a bypass.
-	 * @param tag the tag name from the {@link ElementList}
+	 * @param tagName the tag name from the {@link ElementList}
 	 */
 	public static boolean isBypass(String tagName){
 		return tagName.equals(ElementList.BYPASS_ROUTE) 
@@ -188,7 +188,8 @@ public final class SimgridRules {
 	public static boolean needEdition(String tag) {
 		return (tag.equals(ElementList.HOST) ||
 				tag.equals(ElementList.CLUSTER) ||
-				tag.equals(ElementList.PEER));
+				tag.equals(ElementList.PEER) ||
+				tag.equals(ElementList.RULE_BASED_ROUTE));
 	}
 	
 	/**

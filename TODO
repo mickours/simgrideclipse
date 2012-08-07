@@ -2,7 +2,7 @@
 *** TODO List ***
 *****************
 
-?* (right click -> add function on hosts)
+
 * add include of Msg in GCC
 * add cabinet,backbone support
     -> add a wizard to create a cluster:
@@ -11,24 +11,23 @@
 * give a better error message to the user when creating a project and the name already exists
 * add storage support
 * cut/past
-
 * make a delegate commandeStack to work correcly on both editor
 * wheel click -> go out
 * create a dedicated perspective
+* right click -> add function on hosts
 
 ************
 *** BUGS ***
 ************
-* when editing route the available contains the selected
 * changed the routing should show warning if routes are not compatible
-* route not linked on view update
 * outline update slows everything down
 
 ************
 *** DONE ***
 ************
 31/07
-* fix 
+* add cabinet support
+* improve project wizards 
 30/07
 * add FAQ
 * add "routing" to the container title  

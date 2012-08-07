@@ -31,13 +31,13 @@ public class RuleBasedASRouteWizard extends AbstractElementWizard {
 	@Override
 	public void addPages() {			
 		// default field page (must modify it to ensure linkkList is not corrupted.
-		fieldPage = new RuleBasedASRouteAttributesWizardPage(getEditPart());
+		RuleBasedASRouteAttributesWizardPage fieldPage = new RuleBasedASRouteAttributesWizardPage(getEditPart());
 		addPage(fieldPage);
 		String src = attrMap.get("src");
 		String dst = attrMap.get("dst");
 		String gw_src = attrMap.get("gw_src");
 		String gw_dst = attrMap.get("gw_dst");
-		linkPage = new RuleBasedLinkSelectionPage(newElement, getEditPart(), 
+		RuleBasedLinkSelectionPage linkPage = new RuleBasedLinkSelectionPage(newElement, getEditPart(), 
 				src, dst, gw_src, gw_dst);
 		addPage(linkPage);
 //			fieldPage = new AttributeFieldFormPage(tagName);			

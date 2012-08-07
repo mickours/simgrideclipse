@@ -87,9 +87,19 @@ public final class ModelHelper {
 		}
 		return newElem;
 	}
-
-	public static Element createAndAddRoute(Element sourceNode,
-			Element targetNode, String routeType) {
+	
+	public static Element createCluster(List<Element>content, String id){
+		Element newCluster = model.getDocument().createElement(ElementList.AS);
+		newCluster.setAttribute("id", id);
+		newCluster.setAttribute("routing", "Cluster");
+		for (Element e : content){
+			newCluster.appendChild(e);
+		}
+		return newCluster;
+	}
+	
+	public static Element createAndAddRoute(Element sourceNode, Element targetNode,
+			String routeType) {
 		model.aboutToChangeModel();
 		// create a route
 		Element route = sourceNode.getOwnerDocument().createElement(routeType);
@@ -132,9 +142,11 @@ public final class ModelHelper {
 			numIDMap.put(tagName, 0);
 		}
 		int idNum = numIDMap.get(tagName);
-		newId = tagName + idNum;
-
-		// verify uniqueness of id for this type
+		newId = tagName+idNum;
+		//increment 
+		numIDMap.put(tagName,++idNum);
+		
+		//verify uniqueness of id for this type
 		String saveId;
 		List<Element> ndl = nodeListToElementList(model.getDocument()
 				.getElementsByTagName(tagName));

@@ -45,471 +45,129 @@
 \tableofcontents
 
 \newpage
-\section{Présentation du projet}
-	 Le but de ce projet est d'ajouter le support de la carte STM32L-Discovery dans le logiciel de virtualisation Qemu. 
-	 Il fait suite au projet de l'année dernière basé lui aussi sur Qemu mais portant sur la carte Stellaris Luminary Lm3s6965.
-	 
-	 \subsection{Présentation de Qemu}
-		Qemu (Quick EMUlator), est un émulateur libre de processeur basé sur un système de translation binaire dynamique. En plus de 
-		l'émulation de processeurs, Qemu offre un grand nombre de fichiers permettant l'émulation de composants matériels, comme le 
-		processeur ARM Cortex-M3. \\
-		Pour de plus amples informations, vous pouvez vous référer à la page wikipédia de Qemu : \\ http://en.wikipedia.org/wiki/QEMU \\
-		\\
-		Qemu propose également une API, appelée chardev, permettant de dialoguer avec le système émulé.
-	 
-	 \subsection{Présentation de la carte STM32L-Discovery}
-		La carte STM32L-Discovery est une carte à très basse consommation permettant de découvrir la gamme STM32L 
-		des microcontrolleurs de STMicroelectronics. Elle est basée sur le microcontrôleur STM32L152RBT6 et comporte un kit STlink/V2,
-		un écran LCD, des LEDs, des boutons pressoirs et un touchpad.\\
-		Elle est principalement composée d'un processeur ARM Cortex-M3 de 32bits, et de 6 ports GPIOs.\\
-		\begin{figure}[h]
-		  \centering
-		  \includegraphics[scale=0.3]{img/stm32l_discovery.jpg}
-		  \caption{Carte STM32L-Discovery}
-		\end{figure}
+\section{Contexte du stage}
+	 Ce stage stage de fin de 4ème année d'école d'ingénieur à Polytech Grenoble s'est effectuer dans le Laboratoire d'Informatique de Grenoble (LIG) au sein de l'équipe MESCAL (Middleware Efficiently SCALable). Cette équipe est composée de membres provenant de laboratoires, d'écoles supérieur et d'Universités (CNRS, INPG, INRIA et UJF). Le laboratoire du LIG est situé à Monbonnot-Saint-Martin près de Grenoble dans le pôle d'activité Inovallée.
+	 Mon maître de stage, Laurent Bobelin est membre de l'équipe MESCAL et travail essentiellement sur un le logiciel de simulation développé par cette équipe: SimGrid.
+	\subsection{SimGrid}
+	SimGrid est une boîte à outils fournissant un noyau de simulation pour les systèmes distribués dans un environnement distribué hétérogène. Le but de ce projet est de facilité la recherche dans le domaine du parallélisme et des systèmes distribués à grande échelle. Il est à la fois précis dans ses résultats et performant car il permet de simuler jusqu'à 2 millions de machines sur un seul ordinateur.
+	Les principale force de ce projet sont:
+	\begin{description}
+		\item[Le passage à l'échelle] Comme expliqué plus haut il peut simulé de très large système mais fonctionnent aussi très bien sur de tout petits.
+		\item[Un modèle validé] Dans la simulation la cohérence des résultats dépend entièrement du modèle utilisé. Celui de SimGrid a été validé théoriquement et expérimentalement.
+		\item[La portablilité] Utilisable sur Linux, MacOS et Windows, SimGrid permet aussi aux utilisateurs d'utiliser plusieurs langages: C et Java.
+		\item[Du code Open source] SimGrid est distribué sous la licence LGPL. Il est donc librement utilisable et modifiable.
+	\end{description}
+	Le projet SimGrid à démarré en 2010 et est toujours très actif. Depuis sa création plus de 100 publication scientifique sont basées sur SimGrid. Enfin, plusieurs outils venant de différent contributeurs permettent d'augmenter les fonctionnalités de SimGrid. 
+	Cependant, l'utilisation de SimGrid passe par l'édition de fichiers textes décrivant les entrées du simulateur. Cette édition pouvant être laborieuse et peu intuitive, il y avait donc un besoin pour un créateur de configuration et un éditeur simplifiant la création de ces fichiers. Le sujet du stage est née de ce besoin.
 
-		
+	\subsection{Sujet du stage}
+		Le sujet de mon stage est de créer, sur la base d'un plug-in Eclipse (voir ci-dessous), une application comprenant les éléments suivants:
+		\begin{itemize}
+	 		\item un éditeur de graphique pour les fichiers XML (eXtensible Markup Language) décrivant la plate-forme du réseau utilisée par SimGrid pour la simulation. Ce fichier décrit topologie ainsi que le routage du réseau à l'aide de balise décrite dans un fichier de grammaire de type DTD (Document Type Definition).
+	 		\item un assistant de création de projet afin de générer tous les fichiers ainsi que la configuration nécessaire à l'utilisation de SimGrid.
+		\end{itemize}
+	Cet outils est destiné à visualiser et éditer des plate-formes existantes, à permettre une prise en main rapide de SimGrid et à faciliter son utilisation pour tout les d'utilisateurs.
+	\subsubsection{Eclipse}
+		\begin{figure}[!h]
+		  \raggedright
+		  \includegraphics[scale=0.3]{img/logo_eclipse.jpeg}
+		  \caption{logo Eclipse}
+		  \label{logo_eclipse}
+		\end{figure}
+		Eclipse (Figure~\ref{logo_eclipse})est un Environnement de Développement Intégré (EDI). C'est un outil permettant l'édition la compilation et le lancement de code source. Il à la particularité de permettre son extension par un système de plug-in inter-dépendants. Il est donc possible d'étendre les fonctionnalités de plug-in existants et d'offrir des extensions pour les autres plug-in. C'est ce mécanisme qui est utilisé par l'application développer lors de ce stage.
+	\subsubsection{EMF/GEF?}
+	Le sujet du stage ne défini pas avec quelle outils le plug-in doit être réalisé à l'intérieur d'Eclipse. Cependant il suggère l'utilisation de la combinaison de deux framework Eclipse fortement combiné ensemble: Eclipse Modeling Framework (EMF) et Graphical Editing Framework (GEF). EMF est utiliser pour générer un modèle de donnée à partir des donnée passer en paramètre (un fichier de Grammaire XML Schema par exemple). Ce modèle est ensuite utilisé par GEF pour la création d'un éditeur graphique. Bien que ces deux framework soit souvent utilisé ensemble, GEF accepte tous type de modèle. L'utilisation de ce couple d'outils doit donc être déterminé lors du stage.
+
 \section{Travail réalisé}
-	La plus grande difficulté du projet aura été de bien comprendre le fonctionnement de la carte et de Qemu. Nous avons donc passé 
-	une grande partie du temps dévolu à lire de la documentation sur la carte et le processeur, et à comprendre le fonctionnement du projet de l'an 
-	passé.
-	Nous avons ensuite émulé différents composants de la carte, puis utilisé l'API chardev afin d'observer le fonctionnement des fichiers
-	réalisés. Enfin, pour rendre le projet plus facile d'utilisation, nous avons réalisé une interface.
-	
-	\subsection{Composants émulés}
-		\subsubsection{Les GPIOs}
-			L'émulation des GPIOs se fait à l'aide du fichier stm32\_gpio.c. En effet, nous avons dû recréer un fichier intégralement,
-			car aucun de ceux fourni avec Qemu ne correspondait à l'implémentation des GPIOs de la carte STM32L-Discovery.
-			C'est le composant principale de notre projet d'émulation de la carte STM32L-Discovery. 
-		\subsubsection{Les LEDs}
-			L'émulation des LEDs réalisée dans le fichier stm32\_led.c, sert essentiellement à connecter la sortie du GPIO à l'interface utilisateur
-			via l'utilisation de CharDev.
-		\subsubsection{Les Boutons}
-			Le fichier stm32\_button.c permet l'émulation de boutons en transmettant les signaux reçus par l'interface CharDev à une entrée de GPIO.
-			C'est grossièrement l'inverse du composant LED.
-		\subsubsection{Le RCC}
-			Le module RCC n'a été que très partiellement implémenté pour des raisons décrites dans la section \ref{RCC}: seule l'écriture et la lecture des registres, 
-			sans aucune verification sont fonctionnelles bien que non complètement testées.
-			
-	\begin{figure}
-	  \caption{Schéma global}
-	  \centering
-	 \includegraphics[scale=0.6]{img/STM32qemu.jpeg}
-	\end{figure}
-
-			
-	\subsection{L'interface}
-		Nous avons réalisé une interface permettant de visualiser les composants émulés. L'observation se fait grâce à une communication
-		via des sockets ce qui permet, entre autre, d'observer l'émulation à distance.\\
-		Nous avons choisi de développer cette interface en python qui est un langage de haut niveau, portable, et qui nous a semblé 
-		relativement simple. Nous avons utilisé la bibliothèque graphique d'origine de python Tkinter, et qui est disponible sur 
-		la plupart des distributions Unix.\\
-		L'interface est faite pour être utilisée avec python 2.7. Nous avons choisi d'utiliser cette version dans un soucis de 
-		cohérence avec Qemu qui recquiert l'utilisation de cette version.
-		
-		\begin{figure}[h]
-		  \centering
-		  \includegraphics[scale=0.6]{img/UICapture.png}
-		  \caption{Interface utilisateur}
-		\end{figure}
-
-\section{Utilisation}	
-	\subsection{Qemu}
-		\subsubsection{Installation}
-			 \begin{itemize}
-				\item Récuperer la dernière version de qemu sur http://wiki.qemu.org/Download (v1.0 lors de la rédaction de cet article) 
-				\item Décompresser le dossier Qemu-x.xtar.gz 
-				\item Configuration de compilation 
-			\end{itemize}
-			Dans le dossier extrait, taper la commande : 
-			\begin{verbatim}
-				./configure --target-list=arm-softmmu --python=/usr/bin/python2.7
-			\end{verbatim}
-			La première option permet de compiler qemu uniquement pour l'émulation de programmes destinés à une architecture ARM. La deuxième 
-			option permet de forcer l'utilisation de la version 2.7 de python. 
-			 \begin{itemize}
-				\item Compiler les sources 
-			\end{itemize}
-			Executer la commande :
-			\begin{verbatim}
-				make
-			\end{verbatim}
-			Le résultat de la compilation sera placé dans un sous-répertoire en fonction des options utilisées dans la configuation 
-			(Ex: arm-softmmu) 
-			
-		\subsubsection{Assemblage}
-			Qemu est un programme modulaire. Chaque fichier présent dans le dossier hardware (src/hw) représente l'émulation d'un ou plusieurs 
-			périphériques. On trouve par exemple dans src/hw/ les fichiers suivants : 
-			\begin{itemize}
-				\item pl022.c : Port série synchrone
-				\item pl050.c : Interface clavier
-				\item pl061.c : GPIO 
-			\end{itemize}
-			Pour émuler un système complet, il faut donc le constituer composant par composant. Chaque composant est crée grâce à la fonction : 
-			\begin{verbatim}
-				DeviceState *sysbus_create_simple(const char *name,
-                                             target_phys_addr_t addr,
-                                             qemu_irq irq)
-			\end{verbatim}
-			ou, s'il y plusieurs irq : 
-			\begin{verbatim}
-				DeviceState *sysbus_create_varargs(const char *name,
-                                target_phys_addr_t addr, ...);
-			\end{verbatim}
-			Un composant est représenté dans Qemu par la structure suivante contenant les liens avec les autres composants et les zones de 
-			la mémoire émulée qu'il utilise: 
-			\begin{verbatim}
-				struct SysBusDevice {
-   DeviceState qdev;
-   int num_irq;
-   qemu_irq irqs[QDEV_MAX_IRQ];
-   qemu_irq *irqp[QDEV_MAX_IRQ];
-   int num_mmio;
-   struct {
-       target_phys_addr_t addr;
-       target_phys_addr_t size;
-       mmio_mapfunc cb;
-       mmio_mapfunc unmap;
-       ram_addr_t iofunc;
-       MemoryRegion *memory;
-   } mmio[QDEV_MAX_MMIO];
-   int num_pio;
-   pio_addr_t pio[QDEV_MAX_PIO];
-};
-			\end{verbatim}
-			Cette structure contient une autre structure appelée qdev gérant le lien avec les autres composants. C'est au
-			travers de l'api définie dans qdev.h que ces liens sont définis : 
-			\begin{verbatim}
-				qemu_irq qdev_get_gpio_in(DeviceState *dev, int n);
-void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin);
-			\end{verbatim}
-			\textit{Remarque :} L'appel à cette API devrait disparaitre dans les prochaines versions de qemu au profit d'un fichier de 
-			configuration définissant le composant ainsi que ses connexions avec les autres composants.\\
-
-			Un lecteur attentif aura remarqué l'utilisation de la structure de données qemu\_irq dans les fonctions précédentes. Une qemu\_irq est 
-			en fait la représentation d'une interruption matériel à l’intérieur de Qemu, mais elle est couramment utilisée pour envoyer des signaux 
-			entre les différents composants. Elle est de la forme suivante : 
-			\begin{verbatim}
-				typedef struct IRQState *qemu_irq;
-struct IRQState {
-   qemu_irq_handler handler;
-   void *opaque;
-   int n;
-};
-			\end{verbatim}
-			
-		\subsubsection{Mémoire}
-			Pour fonctionner, un composant peut avoir besoin d'utiliser une zone de la mémoire fournie par le système. L'adresse de cette zone est 
-			définie lors de l'appel des fonction sysbus\_create. Une fonction d'initialisation dans le composant est alors chargée de contacter Qemu 
-			afin qu'il lui délègue la gestion de cette zone. 
-			\begin{verbatim}
-				iomemtype = cpu_register_io_memory(readHandler, writeHandler, deviceData, NATIVE_ENDIAN);
-sysbus_init_mmio(dev, 0x1000, iomemtype);
-			\end{verbatim}
-			Où 0x1000 est la taille réservée en mémoire pour le composant. 
-			
-		\subsubsection{Compilation et lancement du programme émulé}
-			\paragraph{Cross compilation\\}
-			Dans le cas où le système émulé n'a pas la même architecture que le système hôte, il est nécessaire d'utiliser un utilitaire de 
-			cross-compilation à la place de l'utilitaire de compilation standard de l'hôte. 
-			
-			\paragraph{Emulation \\}
-			\begin{itemize}
-				\item Compiler les sources du programme (dans le cas ou l'architecture du système hôte est 
-				différente de celle du système cible, voir la rubrique: cross compilation) 
-				\item Lancement de Qemu (dans le cas d'une cible ARM) 
-			\end{itemize}
-			\begin{verbatim}
-				./qemu-system-arm -M stm32l152rbt6 -nographic -kernel ./main.bin
-			\end{verbatim}
-			Options : 
-			\begin{itemize}
-				\item -M xxxx : Sélection de la machine émulée 
-				\item -nographic : désactive les entrées/sorties (I/O) graphiques et redirige les I/O séries vers la console
-				\item -kernel xxxx : Programme à émuler 
-			\end{itemize}
-			La liste d'options peut être retrouvée grâce à l'option --help 
-			
-		\subsubsection{Qemu et GDB}
-			\paragraph{Lancement en mode debug \\}
-			Il est possible de lier Qemu à GDB. Ainsi, il sera aisé de suivre le déroulement du programme émulé. 
-			\begin{verbatim}
-				./qemu-system-arm -M stm32l152rbt6 -nographic -kernel ./main.bin -S -gdb tcp::51234
-			\end{verbatim}
-			Options :
-			\begin{itemize}
-				\item -S : Active le mode debug 
-				\item -gdb tcp::<port> : Spécifie l'interface de débbogage \\
-			\end{itemize}
-			\textit{Remarque :} Il faut également que le programme éxécuté par l'émulateur ai été compilé avec les options de débogage 
-			\paragraph{Connexion avec GDB  \\}
-			Il suffit maintenant de connecter gdb à qemu. 
-			\begin{verbatim}
-				arm-none-eabi-gdb
-target remote localhost:51234
-load ./main.elf
-continue
-			\end{verbatim}
-			
-		\subsubsection{CharDev}
-			\paragraph{Présentation \\}
-			Qemu offre un système de communication avec l'environnement extérieur: les char devices. Ce sont des flux offerts
-			par Qemu sur lesquels un composant peut lire ou écrire. Lors du lancement de l'émulation, il sera possible de connecter
-			ces flux à des structure informatique (telnet, socket, fichier, ...). D'un coté il faudra implémenter le chardev dans 
-			un composant de Qemu, puis de l'autre coté il faudra fournir au démarrage de l'application les connexions nécessaires 
-			aux chardev. 
-			
-			\paragraph{Implémentation \\}
-			\begin{itemize}
-				\item Initialisation du chardev
-			\end{itemize}
-			\begin{verbatim}
-			chrdev = qemu_chr_find("idCharDev");
-if (s->chr) {
-    chr_add_handlers(chrdev, canReceiveHandler, receiveHandler, eventHandler, deviceData);
-}
-			\end{verbatim}
-			\begin{itemize}
-				\item Envoi de caractères dans le chardev. Le buffer est un tableau de uint8\_t 
-			\end{itemize}
-			\begin{verbatim}
-			qemu_chr_fe_write(chrdev, buffer, bufferSize);
-			\end{verbatim}
-			\begin{itemize}
-				\item La réception des données se fait de la même manière à travers la fonction receiveHandler de type void 
-				IOReadHandler définie par la signature suivante:  
-			\end{itemize}
-			\begin{verbatim}
-			void IOReadHandler(void *opaque, const uint8_t *buf, int size);
-			\end{verbatim}
-			
-			\paragraph{Utilisation \\}
-			Il suffit de lancer Qemu avec l'option -chardev. Voici un exemple d'utilisation: 
-			\begin{verbatim}
-			./src/arm-softmmu/qemu-system-arm -M stm32l152rbt6 -nographic -chardev socket,id=B,port=4242,host=localhost,nodelay -kernel ./main.bin
-			\end{verbatim}
-			La documentation de Qemu expose les différentes options à passer pour connecter les chardev: UserDoc
-
-			
-			
-	\subsection{Module STM32}
-		\subsubsection{Fichiers}
-			Afin d'émuler la carte STM32L-Discovery les fichiers suivant ont été ajoutés au dossier src/hw de Qemu : 
-			\begin{itemize}
-				\item stm32.c pour décrire la carte dans son ensemble
-				\item stm32\_gpio.c pour les GPIOs
-				\item stm32\_button.c pour les boutons
-				\item stm32\_led.c pour les LEDs
-				\item stm32\_rcc.c pour le module RCC (ce module n'est que très partiellement émulé et donc non fonctionnel) 
-			\end{itemize}
-		
-		\subsubsection{Composants émulés}
-			\paragraph{Processeur et Mémoire \\}
-			Le processeur utilisé par la carte est un processeur Cortex-M3 r1p1 (doc) déjà supporté par Qemu.\\
-			Pour initialiser celui-ci, il est nécessaire d'utiliser la fonction 
-			\begin{verbatim}
-			MemoryRegion *address_space_mem = get_system_memory();
-pic = armv7m_init(address_space_mem, flash_size, sram_size, kernel_filename, cpu_model);
-			\end{verbatim}
-			où pic est un tableau de qemu\_irq (voir Qemu\#Assemblage) correspondant aux fils d'entrée dans
-			le processeur. Dans notre cas les tailles des différentes mémoires sont : 
-			\begin{itemize}
-				\item RAM: 16 KBits 
-				\item Flash: 128 Kbits
-			\end{itemize}
-			
-			\paragraph{Processeur et Mémoire \\}
-			L'émulation des GPIOs est gérée par le fichier stm32\_gpio.c. Les GPIOs sont les connecteurs de
-			base de la carte. Ils permettent de communiquer avec le bouton USER 0 et les LEDs.
-			
-			\paragraph{Périphériques \\}
-			L'émulation ne porte pour l'instant que sur les deux LEDs (stm32\_led.c) et le bouton USER0 (stm32\_button.c) 
-			qui communiquent avec l'extérieur de Qemu grâçe à chardev.
-			
-			\paragraph{Exemple \\}
-			Nous allons détailler la composition d'un composant à partir de l'exemple de stm32\_gpio
-			\begin{itemize}
-				\item Tout d'abord il faut inclure sysbus 
-			\end{itemize}
-			\begin{verbatim}
-			#include "sysbus.h"
-			\end{verbatim}
-			\begin{itemize}
-				\item Les registres utilisés par le composant sont ensuite placés dans une structure :  
-			\end{itemize}
-			\begin{verbatim}
-			typedef struct {
-   SysBusDevice busdev;
-
-   /* Registres GPIO (Reference Manual p119 */
-   uint32_t mode; /* Mode */
-   uint16_t otype; /* Output type */
-   uint32_t ospeed; /* Output speed */
-   uint32_t pupd; /* Pull-up/Pull-down */
-   uint16_t ind; /* Input data */
-   uint16_t outd; /* Output data register */
-   uint16_t outd_old; /* Output data register */
-   uint32_t bsr; /* Bit set/reset */
-   uint32_t lck; /* Lock */
-   uint32_t afrl; /* Alternate function low */
-   uint32_t afrh; /* Alternate function high */
-   
-   qemu_irq irq_out[NB_PIN];
-   unsigned char id;
-} stm32_gpio_state;
-			\end{verbatim}
-			\begin{itemize}
-				\item Cette structure est décrite sous la forme d'une VMStateDescription permettant à Qemu de l'enregistrer correctement 
-			\end{itemize}
-			\begin{verbatim}
-			static const VMStateDescription vmstate_stm32_gpio = {
-   .name = "stm32_gpio",
-   .version_id = 1,
-   .minimum_version_id = 1,
-   .fields = (VMStateField[])
-   {
-       VMSTATE_UINT32(mode, stm32_gpio_state),
-       VMSTATE_UINT16(otype, stm32_gpio_state),
-       VMSTATE_UINT32(ospeed, stm32_gpio_state),
-       VMSTATE_UINT32(pupd, stm32_gpio_state),
-       VMSTATE_UINT16(ind, stm32_gpio_state),
-       VMSTATE_UINT16(outd, stm32_gpio_state),
-       VMSTATE_UINT16(outd_old, stm32_gpio_state),
-       VMSTATE_UINT32(bsr, stm32_gpio_state),
-       VMSTATE_UINT32(lck, stm32_gpio_state),
-       VMSTATE_UINT32(afrl, stm32_gpio_state),
-       VMSTATE_UINT32(afrh, stm32_gpio_state),
-       VMSTATE_END_OF_LIST()
-   }
-};
-			\end{verbatim}
-			\begin{itemize}
-				\item Une structure SysBusDeviceInfo renseigne la fonction d'initialisation, 
-				le nom, la taille de la structure des registres ainsi que la VMStateDescription. 
-			\end{itemize}
-			\begin{verbatim}
-			static SysBusDeviceInfo stm32_gpioA_info = {
-   .init = stm32_gpio_init_A,
-   .qdev.name = "stm32_gpio_A",
-   .qdev.size = sizeof (stm32_gpio_state),
-   .qdev.vmsd = &vmstate_stm32_gpio,
-};
-			\end{verbatim}
-			\begin{itemize}
-				\item     Elle est passée en paramètre à la fonction sysbus\_register\_withprop elle 
-				même passée en paramètre de la macro device\_init 
-			\end{itemize}
-			\begin{verbatim}
-			static void stm32_gpio_register_devices(void) {
-   sysbus_register_withprop(&stm32_gpioA_info);
-}
-device_init(stm32_gpio_register_devices)
-			\end{verbatim}
-			\begin{itemize}
-				\item Voici la fonction d'initialisation du composant : 
-			\end{itemize}
-			\begin{verbatim}
-			static int stm32_gpio_init(SysBusDevice *dev, const unsigned char id) {
-   int iomemtype;
-   stm32_gpio_state *s = FROM_SYSBUS(stm32_gpio_state, dev);
-   s->id = id;
-   
-   //Initialisation de la plage mémoire
-   iomemtype = cpu_register_io_memory(stm32_gpio_readfn, stm32_gpio_writefn, s, DEVICE_NATIVE_ENDIAN);
-   sysbus_init_mmio(dev, 0x24, iomemtype);
-
-   //Initialisation des pins
-   qdev_init_gpio_in(&dev->qdev, stm32_gpio_in_recv, NB_PIN);
-   qdev_init_gpio_out(&dev->qdev, s->irq_out, NB_PIN);
-
-   //Initialisation
-   stm32_gpio_reset(s);
-   vmstate_register(&dev->qdev, -1, &vmstate_stm32_gpio, s);
-
-   return 0;
-}
-			\end{verbatim}
-			les structures stm32\_gpio\_readfn et stm32\_gpio\_writefn sont respectivement une 
-			CPUReadMemoryFunc et une CPUWriteMemoryFunc et contiennent les fonctions de lecture
-			et d'écriture sur les registres déclarés dans le stm32\_gpio\_state. Ces fonctions sont de la forme : 
-			\begin{verbatim}
-			static uint32_t stm32_gpio_read(void *opaque, target_phys_addr_t offset) {
-   stm32_gpio_state *s = (stm32_gpio_state *) opaque;
-
-   switch (offset) {
-       case 0x00: /* Mode */
-           return s->mode;
-       case 0x04: /* oType */
-           return s->otype;
-       case 0x08: /* oSpeed */
-           return s->ospeed;
-       ...
-			\end{verbatim}
+    \subsection{Découverte des différents frameworks}
+    	Le choix des outils n'étant pas prédéterminé, il a fallut passé par une phase de découverte des différents frameworks que propose Eclipse pour développer des plug-in. L'utilisation de GEF semble être indispensable mais, comme expliqué plus haut, le choix du modèle reste à déterminer. De plus il existe d'autre outils plus haut niveau, comme Graphiti basé sur EMF/GEF qui génère très rapidement un éditeur graphique utilisable mais peu configurable. Il est apparu que cet outils était en phase d'incubation, donc peu fiable, et qu'il ne permettait pas un configuration suffisante pour implémenter toute les fonctionnalités nécessaires.
+    \subsubsection{Choix du modèle}
+    Le problème du choix du modèle utilisé est complexe. Le framework EMF permet de générer un modèle à partir d'un fichier de grammaire XML schema or SimGrid utilise le format DTD. Une conversion est malheureusement impossible car le format XML Schema est moins permissif et l'accepte pas ce qui est autorisé dans la DTD de SimGrid.
+    Nous avons ensuite penser à l'utilisation de JAXB qui un outils permettant la génération et la liaison d'un modèle java avec un fichier XML. Mais notre éditeur de plate-forme doit aussi comporter un éditeur texte XML, qui maintien lui aussi une structure de données lié au fichier. L'accès à ce modèle étant possible, son utilisation pour l'éditeur graphique permet de ne maintenir qu'un seul modèle qui est de plus déjà intégrer dans l'environnement d'Eclipse et maintenu par le l'éditeur texte.
+    Le choix s'est finalement porté sur une implémentation direct avec GEF en utilisant le modèle de l'éditeur de texte nommé DOMModel.
+    \subsubsection{Utilisation modèle MVC de GEF}
+    Le framework GEF est basé, comme beaucoup d'outils permettant de faire des interfaces graphiques, sur le concept de Modèle Vue Contrôleur (MVC). Cela permet la séparation de la couche Modèle qui contiens les données, les Vues qui représente l'affichage, et les Contrôleurs qui gèrent les actions de l'utilisateur et du programme. Le modèle à été décrit au-dessus, et dans GEF les contrôleurs sont des "EditParts" organiser en hiérarchie dans le "GraphicalViewer" lui même contenue dans l'éditeur graphique.
+    \subsection{Création du noyau fonctionnel}
+    	Le noyau fonctionnel, c'est à dire les fonctions de bases permettant toute la gestion du modèle ainsi que des règles métiers internes de l'application. Le modèle n'étant pas directement détenu par notre plug-in il n'a pas été possible d'étendre les classes du modèle afin d'ajouter les fonctionnalités qui nous sont nécessaires.
+        \subsubsection{ModelHelper}
+        Une bibliothèque de méthodes statiques permettant l'accès, l'ajout, la suppression et l'édition d'éléments nommé "ModelHelper" à donc été créé. Elle est utilisée comme utilitaire par les contrôleurs pour centraliser les accès au modèle: cela limite les dépendances au modèle modèle extérieur et seul cette classe devra être modifiée en cas de changement de celui-ci.
+        \subsubsection{SimgridRules}
+        Cette classe contient toute les règles métiers de SimGrid. L'accès à ces règles se fait au travers de méthodes statique revoyant vrai ou faux.
+        \subsubsection{ElementList}
+        Cette classe est un singleton, c'est à dire qu'elle est instanciée une seul fois. Elle contient toutes les constantes correspondant au noms des différents éléments ainsi que des méthodes d'accès aux attributs de chacun de ces éléments à l'aide d'un parseur de DTD.
+    \subsection{Gestion de la création et édition d'éléments graphiques}
+        \subsubsection{Création générique des éléments graphiques}
+        La création des élément graphique se fait selon les principe de GEF à travers une classe usine qui génère les élément en fonction du modèle et de contexte. J'ai donc crée une classe usine qui récupère l'étiquette de la balise XML afin d'inférer la classe de l'"EditPart" associé. Si la classe est trouvé l'élément est crée, sinon il est ignoré. Cela permet de rajouter simplement des élément en ajoutant simplement une classe ayant le bon nom dans le bon package, sans avoir à toucher à l'usine.
+        \subsubsection{Création des liens}
+        
+        \subsubsection{Gestion de la position}
+		GEF utilise le modèle pour se mettre à jour. Or la position des éléments graphiques n'étant pas contenue dans ce modèle il a fallut implémenter un classe reliant chaque élément du modèle à sa position. C'est un singleton qui conserve les positions tout au long de la session. Ces position ne sont pourtant pas persistante d'une session à l'autre pour évité l'incohérence si le fichier XML est éditer en dehors du plug-in.
+	    Une fois la persistance de la position des éléments, il faut les mettre en page correctement. (\textbf{fiche suivie 1})Ajout de l'action auto-layout avec graphstream
+        \subsubsection{Création d'assistant de création/édition d'élément}
+        Pour les éléments complexes, nécessitant plus qu'un simple glisser-déposer pour leurs créations, j'ai développé un ensemble de fenêtres assistants l'utilisateur dans cette tâche. L'assistant est générique et ajoute les pages nécessaires en fonction du type d'élément. La création des routes et des clusters en particulier a nécessité l'implémentation d'assistant de plusieurs pages. Vous pouvez voir ces pages en annexe.
+%            default values
+%        \subsubsection{wizard de création/edition route}
+%            links
+%            Gateways
+    \subsection{Implémentation des politiques de gestion des commandes}
+    	Dans le framework GEF chaque contrôleur implémente une politique de gestion des commandes. Cette politique définie de quelle manière l'élément associer à ce contrôleur doit réagir au demande envoyer par l'utilisateur ou par le programme lui-même, lors d'une mise à jour par exemple. Elle interdit ou autorise la création de commandes. Ces commandes envoyées dans la pile de commande de l'éditeur puis exécutées dans l'ordre de leurs arrivées. Chaque commande contient une méthode "execute()" qui effectue des modifications sur le modèle qui sont ensuite répercutées sur la vue. Ces commande contiennent aussi les méthodes "undo()" et "redo()" qui permet à l'utilisateur naviguer dans la pile de commande.
+    \subsection{intégration dans Eclipse}
+    	\subsubsection{OSGi}
+    	Eclipse à plusieurs mécanismes internes qui permettent d'étendre ces fonctionnalités. La base du mécanisme de fonctionnement des plug-in est le framework OSGi (Open Services Gateway initiative). Il gère le cycle de vie et les dépendances des plug-in à l'intérieur d'Eclipse. Chaque plug-in est encapsulé dans un composant nommé "bundle". Un "bundle", requière et expose des dépendances avec d'autres "bundles" qu'il à fallut gérer correctement pour qu'il fonctionne lors du déploiement. Les bibliothèques qui n'était pas des "bundles" qui ont été intégrer au plug-in, ont elles aussi nécessité une configuration particulière.
+        
+        \subsubsection{Création d'un aperçu}
+        Eclipse contient par default plusieurs vue destiné à aider le navigateur dans son utilisation des éditeurs. Pour une bonne intégration dans Eclipse, il faut implémenter certaines de ces vues. C'est pourquoi la vue "aperçu" contenant une arborescence de la plate-forme réseau à été ajoutée. Elle permet à la fois d'apercevoir la structure du réseau et de facilité la navigation en permettant la sélection des éléments.
+    \subsubsection{Synchronisation de la sélection}
+        La synchronisation de la sélection en fonction des différentes vue est une partie très délicate. Elle est traité plus en détails dans dans la partie \pageref{selection}.
+%        \subsubsection{Les actions}
+%        
+%            bar d'outils
+%            menu
+%        \subsubsection{gestion des properties}
+    \subsection{Création de projet assisté}
+    Afin que le plug-in soit complet il se devait de gérer des projet dédiés à SimGrid contenant tous les fichiers nécessaires, et étant configuré pour une utilisation simple.
+        \subsubsection{Projets Java et C }
+        Deux type de projet SimGrid ont été implémentés. Ils
+comprennent le fichier de plate-forme relié à l'éditeur ainsi que des fichiers qui sont générés en fonction de l'environnement de programmation et du langage choisi par l'utilisateur pour coder sa propre simulation au dessus de SimGrid. Deux langages sont disponibles : C et Java. La génération de ces fichiers est relativement simple, et la complexité de cette tache s'est retrouvée dans la création et la configuration du projet lui-même : Comprendre les structures internes qui représentent chacun des types de projets (C et Java) pour pouvoir les configurer correctement pour l'utilisation de SimGrid quelque soit le système d'exploitation, la version d'Eclipse et la version du simulateur lui-même.
+    \subsection{Documentation}
+    Tout projet se voulant utilisable et maintenable contient une documentation utilisateur et développeur.
+        \subsubsection{Site utilisateur}
+        Le choix à été pris de faire un site permettant à l'utilisateur de trouver l'outil et la documentation pour apprendre à l'installer et à l'utiliser 
+        \subsubsection{Wiki développeur}
+        La documentation à pris la forme d'un wiki. C'est la forme la plus adapter pour une documentation destiné au développeur, car elle permet à tout les contributeurs (ce projet étant Open Source) de participer à son évolution. Il contient un lien vers la traditionnelle Javadoc qui est généré à partir des sources dont toute l'API public à été clairement commenté.
+    \subsection{Site de dépôt}
+    J'ai finalement mise en place un dépôt public sous forme d'un site de mise a jour Eclipse pour permette aux utilisateurs d'installer et de mettre à jour le plug-in facilement. Des tests on été effectué sur différent système et différente version d'Eclipse pour s'assurer du bon fonctionnement du Plug-in.
 
 
-\section{Difficultés rencontrées et solutions apportées}
-	Commme dit dans le paragraphe précédent, la plus grande difficulté aura été de bien comprendre le fonctionnement de la carte et de l'émulation.
-	Au départ, nous avons employé notre temps à la lecture de la documentation, au sujet de Qemu, au sujet de la carte STML-Discovery et aussi du 
-	processeur ARM Cortex-M3. \\
-	Il nous a également fallu nous approprier un vocabulaire que nous n'avions pas (GPIOs, RCC, ...).
-	
-	
-	\subsection{Programmes de test sur la carte}
-		Pour vérifier notre émulation, il nous fallait un programme simple de test sur la carte. Cependant n'ayant aucune connaissance en
-		éléctronique, nous avons avancé en tatonnant. Bien que la conférence avec les reprsentants de STMicroelectronics nous ai permis
-		de comprendre un peu mieux le focntionnement de cette dernière, leur programme de base était trop compliqué pour que l'on puisse
-		l'utiliser pour notre projet.
-		Bien que le projet Stlink de texane sur github donne un exemple de code utilisable sur notre carte, nous n'avions pas connaissance 
-		de tous les fichiers nécessaires au focntionnement de celui-ci. Par exemple au début nous n'avions pas noté que le fichier startup 
-		codé en ARM était nécessaire. C'est seulement en tatonant à partir de l'exercice de ST que nous avons réalisé la nécessité de fournir
-		ce fichier startup. 
-		!!Programmes de test sur la carte pour tester emulation => manque de connaissance elec... finalement utilisation du startup!!
-		
-	\subsection{Reset and Clock Control}\label{RCC}
-		Au cours du projet nous avons compris que le module Reset and Clock Control(RCC) est necessaire à l'utilisation des GPIOs. 
-		Ce module permet, entre autre, l'activation des horloges associées aux GPIOs qui enclenchent regulièrement la lecture des registres de 
-		données. Cependant, un programme n'activant pas cette horloge fonctionne correctement dans Qemu car la lecture des registres 
-		de données est directe. Ce composant a donc été crée afin de permettre la lecture et l'ecriture dans les registres de contrôles mais 
-		n'a aucune fonction réélle lors de l'émulation.
-	
-	\subsection{Les interruptions}
-		 Le fontionnement des interruptions dans la carte STM32 était assez obscure pour nous au démarrage du projet. Or, dans Qemu une 
-		 interruption est représentée par une structure nommée \textbf{qemu\_irq} qui sert à toutes les liaisons entre les composants et contient 
-		 à la fois le lien et le handler d'interruption ce qui porte à confusion. Nous avons fini par mieux apréhender le problème 
-		 mais nous n'avons pas eu le temps de développer les modules nécessaires au fonctionnement des interruptions.
-
-	\subsection{Compréhension iterative}
-		 La compréhension à la fois de Qemu et du matériel de la carte STM32 s'est faite de manière iterative. C'est à dire qu'il à fallu 
-		 lire et navigué dans le code de Qemu (peu, voir pas commenté ni documenté) en se servant de l'exemple de la carte Stellaris pour 
-		 apréhender les APIs ainsi que les conceptes sous-jacents. N'ayant que quelques notions d'électronique, il à aussi été difficile de 
-		 comprendre le vocabulaire des documentations techniques et le fonctionnement de la carte.
-		 Ces aprentissages se sont fait pas à pas, ce qui à conduit au développement de plusieurs versions intermédiaire de programme de test
-		 afin de comprendre un concepte pour pouvoir passer au suivant.
-		 
-	\subsection{Adressage de la mémoire}
-		 Dans Qemu, l'adressage de la mémoire utilisée par l'implémentation existante du processeur ARM Cortex M3 est différente de l'adressage
-		 par default dans la carte STM32L-Discovery: La mémoire Flash se situe à l'adresse 0x0000 0000 pour Qemu alors qu'elle se situe
-		 à l'adresse 0x0800 0000 sur la carte. Il est cepeandant possible de configurer la carte pour que l'adressage soit conforme à Qemu à l'aide
-		 d'un cavalier ou d'un registre système.
-	
-	\subsection{Gestion des threads en python}
-		Après avoir réalisé une première interface, nous nous sommes aperçus que les actions lancées par celles-ci n'etaient pas 
-		automatiquement multi-threadées. En effet les exemples que nous avons vu d'inetrface en python ne nécessitaient pas d'être 
-		multi-thread du fait de leur simplicité. Cependant pour notre application nous avons besoin de pouvoir lancer des exécutions en parallèle.
-		La compréhension des threads en python nous a pris un certain temps. En effet, python dispose de deux façon de gérer les threads 
-		qui ne nous sont pas familières.\\
-		Nous avons finalement opté pour la méthode plus poussée ``threading'' qui permet de rattacher un thread à un event.
-
-\section{Bilan}
-	Bien qu'ayant mis du temps à pouvoir commencer à coder, nous sommes globalement satisfaits de ce que nous avons réalisé. Nous avons émulé
-	plusieurs parties essentielles de la carte (les ports GPIOs notament) et ce de façon très fléxible ce qui permettrait de facilement continuer.
-	D'autre part l'utilisation de chardev permet une grande fléxibilité quant au moyen d'interagir avec le matériel émulé, et laisse donc le choix
-	à l'utilisateur de réaliser son propre système d'interraction si notre interface ne lui convenait pas.\\
-	
-	
-	Le gros point noir aura été le temps que l'on a mis à bien comprendre le fonctionnement de Qemu ainsi que de la carte. En effet, si nous avions eu 
-	les quelques connaissances de base nécessaires au démarrage du projet, nous aurions pu émuler plus de composants. \\
-	Dans l'idée où quelqu'un prendrait la suite du projet, nous avons expliqué tout ce que nous avons compris et fait sur la page wiki de
-	la salle air, ce qui permet de s'approprier les notions nécessaires à la compréhension du projet beaucoup plus rapidement. \\
+\section{Bilan et perspectives}
+    \subsection{prise en main des APIs d'eclipse}
+        \subsubsection{GEF}
+        Les différence entre la façon dont GEF gère le modèle de donné fait que une connexion graphique entre deux éléments est mis à jour lors de la modification d'un de ces éléments. Or le modèle de SimGrid représente une connexion par un élément tierce. Cette différence modèle/affichage a donc été gérer par l'ajout d'une fonction de mise à jour de ces lien lors de la modification de l'élément de connexion lui-même.
+    	\subsubsection{synchronisation de la sélection}
+    		\label{selection}
+    Ce plug-in utilise comme conteneur pour les deux éditeurs (graphique et textuel) un éditeur multi-page. Une des difficultés majeur rencontrées est synchronisation de la sélection entre les deux éditeurs au sein d'un « multi-éditeur », ainsi que la mise à jour des action disponibles en fonction de cette sélection. Ceci est du au faite que l'utilisation du « multi-éditeur » est mal documentée et reconnue pour son fonctionnement complexe et une grande difficulté d'utilisation.
+    \subsection{SWT et les wizard}
+    Une des difficultés rencontrées, a été la création de de fenêtres d'assistances (« Wizard ») pour la création/suppression/modification d'éléments ainsi que la création de projets SimGrid. Il m'a fallu passé par l'apprentissage de la bibliothèque graphique SWT utilisé par Eclipse qui est assez complexe, notamment au niveau des « layout » qui permettent la gestion de la mise en page.
+    \subsection{création des projets}
+    	Le manque d'exemple et de documentation pour la partie CDT (C Developement Tools) a nécessité l'exploration approfondit du code. La configuration correct du projet C n'a pu aboutir que par tâtonnement à l'aide des outils de Debug.
+        
+\section{Interêt et apréciation}
+    \subsection{Une gestion adaptée}
+    
+        \subsubsection{Projet complet et réalisable dans le temps impartit}
+    \subsection{Environement de travail: Labo}
+        \subsubsection{Conférence à Lyon}
+    \subsection{Bilan Pour le Projet}
+        \subsubsection{realease avec feedback positif}
+        \subsubsection{demande de nouvelle fonctionnalités}
+        
+\section{Bilan personnel}
+    \subsection{perfectionnement en Java}
+        \subsubsection{SWT , OSGI, GEF}
+    \subsection{Amélioration de l'anglais technique}
+        \subsubsection{ecriture/lecture de doc en Anglais}
+    \subsection{Découverte du milieu scientifique}
+        \subsubsection{conférence de lyon}
+    
 
 \end{document}

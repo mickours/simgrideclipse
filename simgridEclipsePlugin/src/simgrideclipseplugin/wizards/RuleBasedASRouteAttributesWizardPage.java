@@ -114,6 +114,12 @@ public class RuleBasedASRouteAttributesWizardPage extends RuleBasedAttributeFiel
 	}	
 	
 	
+	@Override
+	public boolean canFlipToNextPage() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 	protected void addField(String fieldName, Composite container){
 		
 		new Label (container, SWT.NONE).setText(fieldName+":");

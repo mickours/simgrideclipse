@@ -100,7 +100,6 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 	    routeViewer = new ElementSelectionList(composite);
 	    final Table table = routeViewer.getTable();
 	    table.setHeaderVisible(true);
-	    table.setLinesVisible(true); 
 	    // First column is for link_ctn property
 	    TableViewerColumn col = new TableViewerColumn(routeViewer, SWT.NONE);
 	    col.getColumn().setWidth(70);

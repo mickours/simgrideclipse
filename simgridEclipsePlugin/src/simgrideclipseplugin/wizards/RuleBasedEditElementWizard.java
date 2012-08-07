@@ -18,7 +18,7 @@ public class RuleBasedEditElementWizard extends EditElementWizard {
 
 	@Override
 	public void addPages() {
-		fieldPage = new RuleBasedAttributeFieldFormPage(tagName);
+		RuleBasedAttributeFieldFormPage fieldPage = new RuleBasedAttributeFieldFormPage(tagName);
 		addPage(fieldPage);
 	}
 

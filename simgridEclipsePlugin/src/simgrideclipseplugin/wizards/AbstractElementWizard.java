@@ -13,15 +13,21 @@ import simgrideclipseplugin.model.SimgridRules;
 public abstract class AbstractElementWizard extends Wizard {
 	protected String tagName;
 	
-	protected AttributeFieldFormPage fieldPage;
-	protected LinkSelectionPage linkPage;
-	protected GatewaySelectionPage gwPage;
+//	protected AttributeFieldFormPage fieldPage;
+//	protected LinkSelectionPage linkPage;
+//	protected GatewaySelectionPage gwPage;
 	
 	public Map<String, String> attrMap;
 	public Element newElement;
+	
 	public List<Element> linkCtnList;
 	public List<String> linkCtnDirectionList;
 	public Element selectedSrcGw, selectedDstGw;
+	
+	public List<Element>clusterContent;
+	public Element backbone;
+	public String clusterId;
+
 	
 	protected Element sourceNode;
 	protected Element targetNode;
@@ -43,16 +49,16 @@ public abstract class AbstractElementWizard extends Wizard {
 			if (SimgridRules.isASLikeConnection(tagName)){
 				List<Element> srcRouter = ModelHelper.getRouters(sourceNode);
 				List<Element> dstRouter = ModelHelper.getRouters(targetNode);
-				gwPage = new GatewaySelectionPage(srcRouter,dstRouter);
+				GatewaySelectionPage gwPage = new GatewaySelectionPage(srcRouter,dstRouter);
 				addPage(gwPage);
 			}
 			//set links
 			Element refNode = (route != null) ?route : sourceNode;
-			linkPage = new LinkSelectionPage(ModelHelper.getLinks(sourceNode), refNode, multiLink);
+			LinkSelectionPage linkPage = new LinkSelectionPage(ModelHelper.getLinks(sourceNode), refNode, multiLink);
 			addPage(linkPage);
 		}
 		else{
-			fieldPage = new AttributeFieldFormPage(tagName);
+			AttributeFieldFormPage fieldPage = new AttributeFieldFormPage(tagName);
 			addPage(fieldPage);
 		}
 	}

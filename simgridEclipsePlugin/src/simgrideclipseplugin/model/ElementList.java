@@ -29,9 +29,12 @@ public class ElementList {
 	public static final String BYPASS_AS_ROUTE = "bypassASroute";
 	public static final String BYPASS_ROUTE = "bypassRoute";
 	public static final String CABINET = "cabinet";
+	public static final String BACKBONE = "backbone";
+
 	// handling rule-based routes 
 	public static final String RULE_BASED_ROUTE = "regexpRoute";
 	public static final String NON_EDITABLE_AS_ROUTE = "(regexp)";	
+	
 	
 	public static List<String> getElementTagNameList() {
 		return new ArrayList<String>(tagNameList);
@@ -77,9 +80,10 @@ public class ElementList {
 				AS_ROUTE,BYPASS_AS_ROUTE,
 				HOST,ROUTER,
 				ROUTE,BYPASS_ROUTE,
-				LINK,LINK_CTN,
+				LINK,LINK_CTN,				
+				RULE_BASED_ROUTE,
 				CABINET,
-				RULE_BASED_ROUTE
+				BACKBONE
 				//TODO to complete with the new elements
 		};
 		return Arrays.asList(tags);

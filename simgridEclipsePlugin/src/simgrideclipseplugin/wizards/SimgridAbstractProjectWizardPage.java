@@ -12,7 +12,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -139,10 +138,6 @@ public abstract class SimgridAbstractProjectWizardPage extends WizardPage implem
 		errorMessage = "";
 		if (event.widget == plus){
 			createFunctionText();
-			int size = funcContainer.getChildren().length;
-////			if (size > 4){
-//				getShell().layout();
-////			}
 			funcContainer.layout();
 		}
 		else if (delButtonMap.containsKey(event.widget)){

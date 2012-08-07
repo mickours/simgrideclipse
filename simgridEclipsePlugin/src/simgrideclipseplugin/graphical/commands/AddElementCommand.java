@@ -11,7 +11,9 @@ import simgrideclipseplugin.graphical.ElementPositionMap;
 import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
 import simgrideclipseplugin.model.SimgridRules;
+import simgrideclipseplugin.wizards.AbstractElementWizard;
 import simgrideclipseplugin.wizards.CreateElementWizard;
+import simgrideclipseplugin.wizards.RuleBasedASRouteWizard;
 
 public class AddElementCommand extends Command {
 	private Element newElem;
@@ -30,7 +32,14 @@ public class AddElementCommand extends Command {
 	@Override
 	public void execute() {
 		if (SimgridRules.needEdition(type)){
-			CreateElementWizard wizard = new CreateElementWizard(type);
+			//TODO: add here a ruleBased creator.
+			AbstractElementWizard wizard ;
+//			if (type.equals(ElementList.RULE_BASED_ROUTE)) {
+//				wizard = new RuleBasedASRouteWizard(); 
+//				//TODO: move regexp related functions from editPart to
+//				// ModelHelper in order to get rid of editPart refs. 
+//			}
+			wizard = new CreateElementWizard(type);
 			WizardDialog dialog = new WizardDialog(shell, wizard);
 	        dialog.create();
 	    	dialog.open();

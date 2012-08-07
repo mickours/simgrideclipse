@@ -2,7 +2,7 @@
 <?php TableOfContents(3,__FILE__); ?>
 
 <h2><a name="Installation">Installation</a></h2>
-<p>see <a href="./install.html">Installation page</a></p>
+<p>see <a href="./index.php?page=install.html">Installation page</a></p>
 
 <h2><a name="Features overview">Features overview</a></h2>
 <p>
@@ -24,7 +24,7 @@ Here are the steps to create a SimGrid project:
 <li>select the <b>SimGrid</b> category</li>
 <li><b>select</b> the project for your favorite <b>language</b></li>
 <li>enter your <b>project name</b></li>
-<li>at this step <b>IF you have install SimGrid properly (see <a href="./install.html">Installation page</a>)</b></li>
+<li>at this step <b>IF you have install SimGrid properly (see <a href="./index.php?page=install.html">Installation page</a>)</b></li>
     <ul>
         <li>you could (see <b>WARNINGS</b>) click on <b>finish</b> and you have your default new project</li>
         <li><b>OR</b> you could click <b>next</b> and set <b>Custom Parameters</b></li>
@@ -36,7 +36,7 @@ Here are the steps to create a SimGrid project:
 <h3>WARNINGS</h3>
 <ul>
     <li>if you choose the <b>SimGrid MSG C Project</b> and you are using SimGrid 3.8 or later you <b>MUST</b> go to <b>Custom Parameters</b> page and check the button that ask this</li>
-    <li>it is <b>NOT RECOMMENDED to chose manually the libraries paths</b> that are required, they should be taken from the environments variables (see <a href="./install.html">Installation page</a>)</li>
+    <li>it is <b>NOT RECOMMENDED to chose manually the libraries paths</b> that are required, they should be taken from the environments variables (see <a href="./index.php?page=install.html">Installation page</a>)</li>
 </ul>
 </div>
 

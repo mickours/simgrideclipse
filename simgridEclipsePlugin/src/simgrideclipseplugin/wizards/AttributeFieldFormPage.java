@@ -33,6 +33,14 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 		fieldMap = new HashMap<String, Control>();
 		defaultMap = new HashMap<String, Button>();
 	}
+	
+	@Override
+	public boolean canFlipToNextPage() {
+		//little trick to make the cluster wizard wors
+		return false;
+	}
+
+
 
 	@Override
 	public void createControl(Composite parent) {
