@@ -4,10 +4,6 @@
 
 
 * add include of Msg in GCC
-* add cabinet,backbone support
-    -> add a wizard to create a cluster:
-        * a list of cabinet and router with 2 add button
-        * a button to add a backbone
 * give a better error message to the user when creating a project and the name already exists
 * add storage support
 * cut/past
@@ -25,6 +21,10 @@
 ************
 *** DONE ***
 ************
+* add cabinet,backbone support
+    -> add a wizard to create a cluster:
+        * a list of cabinet and router with 2 add button
+        * a button to add a backbone
 31/07
 * add cabinet support
 * improve project wizards 

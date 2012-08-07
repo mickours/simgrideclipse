@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="30cm" height="17cm" viewBox="104 39 587 333" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <g>
+      <rect style="fill: #90ee90" x="502" y="279" width="188" height="92"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="502" y="279" width="188" height="92"/>
+    </g>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="548" y="328">
+      <tspan x="548" y="328">Editeur Textuel</tspan>
+    </text>
+  </g>
+  <g>
+    <g>
+      <ellipse style="fill: #add8e6" cx="207.5" cy="135.5" rx="91.5" ry="41.5"/>
+      <ellipse style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" cx="207.5" cy="135.5" rx="91.5" ry="41.5"/>
+    </g>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="167" y="141">
+      <tspan x="167" y="141">Model JAXB</tspan>
+    </text>
+  </g>
+  <g>
+    <g>
+      <ellipse style="fill: #90ee90" cx="206.9" cy="325.4" rx="91.5" ry="41.5"/>
+      <ellipse style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" cx="206.9" cy="325.4" rx="91.5" ry="41.5"/>
+    </g>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="167.4" y="329.9">
+      <tspan x="167.4" y="329.9">Model DOM</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" x1="310.4" y1="325.376" x2="490" y2="325.024"/>
+    <polygon style="fill: #000000" points="310.39,320.376 300.4,325.396 310.41,330.376 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" points="310.39,320.376 300.4,325.396 310.41,330.376 "/>
+    <polygon style="fill: #000000" points="490.01,330.024 500,325.004 489.99,320.024 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" points="490.01,330.024 500,325.004 489.99,320.024 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" x1="207.433" y1="189" x2="206.967" y2="271.9"/>
+    <polygon style="fill: #000000" points="212.433,189.028 207.489,179 202.433,188.972 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" points="212.433,189.028 207.489,179 202.433,188.972 "/>
+    <polygon style="fill: #000000" points="201.967,271.872 206.911,281.9 211.967,271.928 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" points="201.967,271.872 206.911,281.9 211.967,271.928 "/>
+  </g>
+  <g>
+    <g>
+      <rect style="fill: #add8e6" x="498.4" y="89.9" width="188" height="92"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="498.4" y="89.9" width="188" height="92"/>
+    </g>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="533" y="143">
+      <tspan x="533" y="143">Editeur Graphique</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" x1="311" y1="135.524" x2="486.4" y2="135.876"/>
+    <polygon style="fill: #000000" points="311.01,130.524 301,135.504 310.99,140.524 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" points="311.01,130.524 301,135.504 310.99,140.524 "/>
+    <polygon style="fill: #000000" points="486.39,140.876 496.4,135.896 486.41,130.876 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" points="486.39,140.876 496.4,135.896 486.41,130.876 "/>
+  </g>
+  <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #ff0000" x1="105" y1="74" x2="427" y2="176.75"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #ff0000" x1="139" y1="266" x2="436" y2="39.75"/>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #ff0000" x1="282.319" y1="290.66" x2="487.681" y2="187.295"/>
+    <polygon style="fill: #ff0000" points="280.071,286.194 273.387,295.156 284.567,295.126 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #ff0000" points="280.071,286.194 273.387,295.156 284.567,295.126 "/>
+    <polygon style="fill: #ff0000" points="489.929,191.761 496.614,182.799 485.433,182.829 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #ff0000" points="489.929,191.761 496.614,182.799 485.433,182.829 "/>
+  </g>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="343" y="345.25">
+    <tspan x="343" y="345.25">Synchronization :</tspan>
+    <tspan x="343" y="361.25">      NodeNotifier</tspan>
+  </text>
+  <text font-size="12.7998" style="fill: #ff0000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="400.2" y="325.2">
+    <tspan x="400.2" y="325.2"></tspan>
+  </text>
+  <text font-size="12.7998" style="fill: #1e90ff;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="373" y="329">
+    <tspan x="373" y="329"></tspan>
+  </text>
+  <text font-size="12.7998" style="fill: #1e90ff;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="369" y="301">
+    <tspan x="369" y="301"></tspan>
+  </text>
+  <text font-size="12.7998" style="fill: #ff0000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="273" y="218.25">
+    <tspan x="273" y="218.25">Synchronization :</tspan>
+    <tspan x="273" y="234.25">      NodeNotifier</tspan>
+  </text>
+</svg>
