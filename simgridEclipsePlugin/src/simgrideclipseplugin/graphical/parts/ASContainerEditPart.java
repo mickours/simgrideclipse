@@ -39,7 +39,7 @@ public class ASContainerEditPart extends AbstractContainerEditPart {
 		if (nbInZero > 1){
 			AutomaticGraphLayoutHelper.INSTANCE.init(this);
 			AutomaticGraphLayoutHelper.INSTANCE.computeLayout();
-		}
+		}		
 	}
 	
 	

@@ -15,6 +15,7 @@ import org.graphstream.ui.layout.springbox.SpringBox;
 import simgrideclipseplugin.graphical.parts.AbstractElementEditPart;
 import simgrideclipseplugin.graphical.parts.ErrorEditPart;
 import simgrideclipseplugin.graphical.parts.AbstConnectionEditPart;
+import simgrideclipseplugin.graphical.parts.RuleBasedASRouteEditPart;
 import simgrideclipseplugin.graphical.parts.SimgridAbstractEditPart;
 
 public class AutomaticGraphLayoutHelper {
@@ -24,7 +25,7 @@ public class AutomaticGraphLayoutHelper {
 	private SpringBox layoutManager;
 	private GraphicGraph graph;
 	private EditPart root;
-
+	
 	// define as a singleton
 	public static final AutomaticGraphLayoutHelper INSTANCE = new AutomaticGraphLayoutHelper();
 
@@ -100,10 +101,18 @@ public class AutomaticGraphLayoutHelper {
 			//get connections in source
 			AbstractElementEditPart editPart = (AbstractElementEditPart) node;
 			int numberOfConnection = editPart.getSourceConnections().size();
+			if (editPart instanceof RuleBasedASRouteEditPart)
+			{
+				numberOfConnection = ((RuleBasedASRouteEditPart) editPart).getConnectionList().size();
+			}
 			graph.getNode(id).setAttribute("layout.weight",0.5);
 			if (numberOfConnection != 0) {
 				//add edges in the graph
 				List<?> l = new ArrayList<Object>();
+				if (editPart instanceof RuleBasedASRouteEditPart)
+				{					
+					l.addAll(((RuleBasedASRouteEditPart) editPart).getConnectionList());
+				}
 				l.addAll(editPart.getSourceConnections());
 				for (Object e :l){
 					if (e instanceof AbstConnectionEditPart){
@@ -128,4 +137,5 @@ public class AutomaticGraphLayoutHelper {
 	private String computeId(EditPart node){
 		return node.getModel().toString();
 	}
+	
 }

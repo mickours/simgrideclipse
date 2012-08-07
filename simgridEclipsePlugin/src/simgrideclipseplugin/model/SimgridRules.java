@@ -28,7 +28,7 @@ public final class SimgridRules {
 	private static List<String> createConnectionList() {
 		String[] tags = {
 				ElementList.ROUTE,ElementList.BYPASS_ROUTE,
-				ElementList.AS_ROUTE,ElementList.BYPASS_AS_ROUTE,
+				ElementList.AS_ROUTE,ElementList.BYPASS_AS_ROUTE				
 		};
 		return Arrays.asList(tags);
 	}
@@ -93,7 +93,7 @@ public final class SimgridRules {
 	 * @see ElementList ElementList to find the connection type
 	 */
 	public static boolean isAllowedConnection(Element element, String connType) {
-		if (parentDontAcceptRoute(element)){
+		if (parentDontAcceptEditingRoute(element)){
 			return false;
 		}
 		String node = element.getTagName();
@@ -188,23 +188,33 @@ public final class SimgridRules {
 	public static boolean needEdition(String tag) {
 		return (tag.equals(ElementList.HOST) ||
 				tag.equals(ElementList.CLUSTER) ||
-				tag.equals(ElementList.PEER));
+				tag.equals(ElementList.PEER) ||
+				tag.equals(ElementList.RULE_BASED_ROUTE));
 	}
 	
 	/**
-	 * return true if the parent of this <code>element</code> is NOT allowing
-	 * routes regarding to his routing attribute.
+	 * return true if the parent of this <code>element</code> is NOT allowing 
+	 * editing routes regarding to his routing attribute.
 	 */
-	public static boolean parentDontAcceptRoute(Node element){
+	public static boolean parentDontAcceptEditingRoute(Node element){
 		Element parent = (Element) element.getParentNode();
 		String routing = parent.getAttribute("routing");
-		return isNotAllowingRoute(routing);
+		return isNotAllowingEditingRoute(routing);
+	}
+	/**
+	 * return true if the parent of this <code>element</code> is NOT allowing 
+	 * showing routes regarding to his routing attribute.
+	 */
+	public static boolean parentDontAcceptShowingRoute(Node element){
+		Element parent = (Element) element.getParentNode();
+		String routing = parent.getAttribute("routing");
+		return isNotAllowingShowingRoute(routing);
 	}
 
 	/**
-	 * return true if this <code>routing</code> type is NOT allowing routes.
+	 * return true if this <code>routing</code> type is NOT allowing editing routes.
 	 */
-	public static boolean isNotAllowingRoute(String routing){
+	public static boolean isNotAllowingEditingRoute(String routing){
 		if (routing.equals("None")
 	    		||routing.equals("Vivaldi")
 	    		||routing.equals("Cluster")
@@ -213,7 +223,17 @@ public final class SimgridRules {
 		}
 		return false;
 	}
-	
+	/**
+	 * return true if this <code>routing</code> type is NOT allowing editing routes.
+	 */
+	public static boolean isNotAllowingShowingRoute(String routing){
+		if (routing.equals("None")
+	    		||routing.equals("Vivaldi")
+	    		||routing.equals("Cluster")){
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * return true if the element that has this <code>tagName</code>
 	 * can be a gateway for an ASLikeConnection 

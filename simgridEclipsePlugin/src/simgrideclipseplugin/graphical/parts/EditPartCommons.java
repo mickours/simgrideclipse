@@ -19,7 +19,7 @@ public class EditPartCommons {
 		//inform end points that a link concerns them
 		Map<?, ?> reg = anyEditPart.getViewer().getEditPartRegistry();
 		Element src = ModelHelper.getSourceNode(connection);
-		AbstractElementEditPart srcEP = (AbstractElementEditPart) reg.get(src);
+		AbstractElementEditPart srcEP = (AbstractElementEditPart) reg.get(src);		
 		if (srcEP != null){
 			srcEP.refresh();
 		}

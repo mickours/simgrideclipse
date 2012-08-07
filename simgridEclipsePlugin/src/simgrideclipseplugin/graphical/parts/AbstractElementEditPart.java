@@ -97,7 +97,7 @@ public abstract class AbstractElementEditPart extends SimgridAbstractEditPart
 
 	@Override
 	protected List<?> getModelSourceConnections() {
-		if(SimgridRules.parentDontAcceptRoute((Element) getModel())){
+		if(SimgridRules.parentDontAcceptEditingRoute((Element) getModel())){
 			return Collections.emptyList();
 		}
 		return ModelHelper.getSouceConnections((Element)getModel());
@@ -105,7 +105,7 @@ public abstract class AbstractElementEditPart extends SimgridAbstractEditPart
 	
 	@Override
 	protected List<?> getModelTargetConnections() { 
-		if(SimgridRules.parentDontAcceptRoute((Element) getModel())){
+		if(SimgridRules.parentDontAcceptEditingRoute((Element) getModel())){
 			return Collections.emptyList();
 		}
 		return ModelHelper.getTargetConnections((Element)getModel());

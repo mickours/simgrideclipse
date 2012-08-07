@@ -44,7 +44,7 @@ public abstract class AbstractElementWizard extends Wizard {
 	@Override
 	public void addPages() {
 		
-		if (SimgridRules.isConnection(tagName)){
+		if (SimgridRules.isConnection(tagName) && !(newElement!= null && ((Element)newElement.getParentNode())!=null && ((Element)newElement.getParentNode()).getAttribute("routing").equals("RuleBased"))){
 			//set gateway 
 			if (SimgridRules.isASLikeConnection(tagName)){
 				List<Element> srcRouter = ModelHelper.getRouters(sourceNode);

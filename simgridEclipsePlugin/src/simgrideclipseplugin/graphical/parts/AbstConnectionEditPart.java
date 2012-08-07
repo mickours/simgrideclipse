@@ -24,7 +24,11 @@ public abstract class AbstConnectionEditPart extends AbstractConnectionEditPart 
 	@Override
 	protected void refreshVisuals() {
 		AbstractConnectionFigure connection = (AbstractConnectionFigure)getFigure();
-		String sim = ((Element)getModel()).getAttribute("symmetrical");
+		String sim = "";
+		if (getModel() instanceof Element) {
+		 sim = ((Element)getModel()).getAttribute("symmetrical");
+		}
+		
 		if ( sim.isEmpty() || sim.equals("YES")){
 	        connection.setSourceDecoration();
 		}else{
@@ -59,9 +63,12 @@ public abstract class AbstConnectionEditPart extends AbstractConnectionEditPart 
 				((AbstractElementEditPart)getSource()).removeConnection(getModel());
 			}
 			if (editPart != null){
-				((AbstractElementEditPart)editPart).addConnection(getModel());
+				((AbstractElementEditPart)editPart).addConnection(getModel());				
 			}
 		}
+		super.setSource(editPart);
+	}
+	public void superSetSource(EditPart editPart) {		
 		super.setSource(editPart);
 	}
 
@@ -80,7 +87,7 @@ public abstract class AbstConnectionEditPart extends AbstractConnectionEditPart 
 
 	//Coming from SimgridAbstractEditPart (no multiple heritage)
 	@Override
-	public List<?> getModelChildren() {
+	public List<?> getModelChildren() {		
 		return ModelHelper.getNoConnectionChildren((Element) getModel());
 	}
 
@@ -105,7 +112,7 @@ public abstract class AbstConnectionEditPart extends AbstractConnectionEditPart 
 	@Override
 	public void notifyChanged(INodeNotifier notifier, int eventType,
 			Object changedFeature, Object oldValue, Object newValue, int pos) {
-		// TODO: update UI can be optimized
+		// TODO: update UI can be optimized		
 		EditPartCommons.updateLinks((Element) getModel(),this);
 		refresh();
 	}
@@ -114,4 +121,5 @@ public abstract class AbstConnectionEditPart extends AbstractConnectionEditPart 
 	public boolean isAdapterForType(Object type) {
 		return type.equals(Element.class);
 	}
+	
 }

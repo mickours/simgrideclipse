@@ -32,6 +32,8 @@ public class SimgridPaletteFactory {
 		addComponent(asDrawer,ElementList.AS_ROUTE);
 		addComponent(asDrawer,ElementList.BYPASS_AS_ROUTE);
 		asDrawer.add(new PaletteSeparator());
+		addComponent(asDrawer,ElementList.RULE_BASED_ROUTE);		
+		asDrawer.add(new PaletteSeparator());
 		addComponent(asDrawer,ElementList.PEER);
 		grp.add(asDrawer);
 
