@@ -22,8 +22,8 @@ import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
 
 public class AttributeFieldFormPage extends WizardPage implements Listener {
-	private String tagName;
-	private Map<String, Control> fieldMap;
+	protected String tagName;
+	protected Map<String, Control> fieldMap;
 	private Map<String, Button> defaultMap;
 	private String oldId;
 	
@@ -58,14 +58,14 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 		List<String> attrList = ElementList.getAttributesList(tagName);
 		//add required fields
 		for (String field: attrList){
-			if (ElementList.isRequieredField(tagName, field)){
+			if (ElementList.isRequiredField(tagName, field)){
 				addField(field, composite);
 			}
 		}
 		createLine(composite, ncol);
 		//add others
 		for (String field: attrList){
-			if (!ElementList.isRequieredField(tagName, field)){
+			if (!ElementList.isRequiredField(tagName, field)){
 				addField(field, composite);
 			}
 		}
@@ -77,7 +77,7 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 		setPageComplete(computeErrors() == null);
 	}
 
-	private void updateData(){
+	protected void updateData(){
 		//save data
 		AbstractElementWizard wizard = (AbstractElementWizard) getWizard();
 		for (String field : fieldMap.keySet()){
@@ -89,7 +89,7 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 		}
 	}
 
-	private void addField(String fieldName, Composite container){
+	protected void addField(String fieldName, Composite container){
 		
 		new Label (container, SWT.NONE).setText(fieldName+":");
 		List<String> valList = ElementList.getValueList(tagName, fieldName);
@@ -110,7 +110,7 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 			}
 			text.addListener(SWT.KeyUp, this);
 			ctr = text;
-
+			
 		}
 		else{
 			//it's a combo box
@@ -142,7 +142,11 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 	}	
 	
 	public boolean isDefault(String tag){
+		if (defaultMap.get(tag) != null)			
+		{
 		return defaultMap.get(tag).getSelection();
+		}
+		return false;
 	}
 	
 	/**
@@ -156,23 +160,23 @@ public class AttributeFieldFormPage extends WizardPage implements Listener {
 		updateData();
 	}
 	
-	private String computeErrors(){
+	protected String computeErrors(){
 		String error = "";
 		for (String field : fieldMap.keySet()){
 			//show error if required fields are not set
-			if (getField(field).isEmpty() && ElementList.isRequieredField(tagName, field)){
+			if (getField(field).isEmpty() && ElementList.isRequiredField(tagName, field)){
 				error += ("The fields \""+field+"\" must be set\n");
 			}
 			//show error if the id is not unique
 
 			if (field.equals("id") && !ModelHelper.isUniqueId(getField(field),oldId,tagName)){
-				error += ("This id alredy exists\n");
+				error += ("This id already exists\n");
 			}
 		}
 		return (error.isEmpty()) ? null: error;
 	}
 	
-	private String getField(String fieldName){
+	protected String getField(String fieldName){
 		Control c = fieldMap.get(fieldName);
 		if (c instanceof Combo){
 			Combo combo = (Combo)c;

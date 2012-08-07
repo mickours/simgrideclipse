@@ -5,7 +5,9 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IWorkbenchPart;
+import org.w3c.dom.Element;
 
+import simgrideclipseplugin.editors.SimgridGraphicEditor;
 import simgrideclipseplugin.graphical.parts.ASEditPart;
 import simgrideclipseplugin.graphical.providers.SimgridIconProvider;
 
@@ -36,7 +38,8 @@ public class GoIntoAction extends SelectionAction{
 	
 	public void doGoInto(ASEditPart asEP){
 		EditPartViewer viewer = asEP.getViewer();
-		viewer.setContents(asEP.getModel());
+		//viewer.setContents(asEP.getModel());
+		((SimgridGraphicEditor) getWorkbenchPart()).setGraphicalContents((Element) asEP.getModel());
 		//update selection
 		ISelection sel =new StructuredSelection(viewer.getRootEditPart().getContents());
 		getWorkbenchPart().getSite().getSelectionProvider().setSelection(sel);

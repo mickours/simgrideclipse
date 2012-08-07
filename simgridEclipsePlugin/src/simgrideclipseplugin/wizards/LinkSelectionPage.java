@@ -43,19 +43,19 @@ import simgrideclipseplugin.wizards.composites.ElementSelectionList;
 
 public class LinkSelectionPage extends WizardPage implements Listener {
 
-	private ElementSelectionList routeViewer;
-	private ElementSelectionList availableLinkViewer;
-	private List<Element> availableLinks;
-	private LinkCtnList routeList;
-	private Element refNode;
-	private boolean isMultilink;
+	protected ElementSelectionList routeViewer;
+	protected ElementSelectionList availableLinkViewer;
+	protected List<Element> availableLinks;
+	protected LinkCtnList routeList;
+	protected Element refNode;
+	protected boolean isMultilink;
 	
 	private Button toLeft;
 	private Button toRight;
-	private Button up;
-	private Button down;
-	private Button plus;
-	private Button edit;
+	protected Button up;
+	protected Button down;
+	protected Button plus;
+	protected Button edit;
 
 
 	/**
@@ -322,7 +322,7 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 		update();
 	}
 	
-	private void update(){
+	protected void update(){
 		//update data
 		((AbstractElementWizard)getWizard()).linkCtnList = routeList.getLinkList();
 		((AbstractElementWizard)getWizard()).linkCtnDirectionList = routeList.getDirListList();
@@ -340,7 +340,7 @@ public class LinkSelectionPage extends WizardPage implements Listener {
 		availableLinkViewer.setInput(availableLinks);
 	}
 	
-	private class ElementIdFilter extends ViewerFilter{
+	protected class ElementIdFilter extends ViewerFilter{
     	private String searchString;
 
     	public void setSearchText(String s) {

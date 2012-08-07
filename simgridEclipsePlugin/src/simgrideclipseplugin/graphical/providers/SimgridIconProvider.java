@@ -49,6 +49,10 @@ public class SimgridIconProvider {
 		h.put(AutoLayoutAction.ID, "auto_layout.png");
 		h.put(GoIntoAction.ID, "go-down.png");
 		h.put(GoOutAction.ID, "go-up.png");
+		//add warning and error
+		h.put("error", "error.png");
+		h.put("warning", "warning.png");
+		
 		return h;
 	}
 

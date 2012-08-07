@@ -13,14 +13,40 @@ public class SimgridEditPartFactory implements EditPartFactory {
 	@Override
 	public EditPart createEditPart(EditPart context, Object modelElement) {
 		EditPart part;
-		//check if it's the container
+		if (modelElement instanceof String && ((String) modelElement).startsWith(ElementList.NON_EDITABLE_AS_ROUTE))
+		{
+			part = new NonEditableASrouteEditPart();
+			part.setModel(modelElement);
+			return part;
+		}
+		//check if it's the container		
 		if (context == null && ((Element)modelElement).getTagName().equals(ElementList.AS)){
 			part = new ASContainerEditPart();
-		}
+		} // rule-based routes must be displayed as elements.
+			else if (
+					((Element)modelElement).getParentNode().getNodeName().equals(ElementList.AS)
+					&&										
+			       ((Element)modelElement).getParentNode().getAttributes().getNamedItem("routing").getNodeValue().equals("RuleBased"))
+			{
+				if ((((Element)modelElement).getTagName().equals(ElementList.AS_ROUTE)))
+				{
+					part = new RuleBasedASRouteEditPart();	
+				}
+				else if (((Element)modelElement).getTagName().equals(ElementList.ROUTE)) 
+				{
+					//TODO: create RuleBasedRouteEditPart instead
+					part = new RuleBasedASRouteEditPart();
+				}
+				else {
+					
+					 part = getPartForElement(modelElement);
+					
+					}				
+			}
 		else{
 			// get EditPart for model element
 			part = getPartForElement(modelElement);
-		}
+		} 		
 		// store model element in EditPart
 		part.setModel(modelElement);
 		return part;

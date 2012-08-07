@@ -34,4 +34,8 @@ public class ElementFigure extends Figure {
 	public void setId(String id) {
 		this.idLabel.setText("id: "+id);
 	}
+	public void setIcon(String name)
+	{
+		icon.setImage(SimgridIconProvider.getIcon(name));
+	}
 }

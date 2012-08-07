@@ -1,6 +1,7 @@
 package simgrideclipseplugin.graphical.parts;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.IFigure;
@@ -43,7 +44,7 @@ public abstract class AbstractContainerEditPart extends SimgridAbstractEditPart 
 			e = (Element) oldValue;
 		}
 		if (e != null ){
-			EditPartCommons.updateLinks(e, this);
+			EditPartCommons.updateLinks(e, this);			
 		}
 		else if(eventType == INodeNotifier.CHANGE && changedFeature.toString().equals("routing")){
 			Element my = (Element) getModel();
@@ -51,6 +52,7 @@ public abstract class AbstractContainerEditPart extends SimgridAbstractEditPart 
 			boolean changed = false;
 			for(String name : l){
 				//TODO can be optimized
+				//TODO LBO handle moving from rulebased to anything else
 				List<Element> le = ModelHelper.nodeListToElementList(my.getElementsByTagName(name));
 				for (Element elem : le){
 					if (elem.getParentNode().equals(my)){
@@ -59,12 +61,16 @@ public abstract class AbstractContainerEditPart extends SimgridAbstractEditPart 
 					}
 				}
 			}
-			if (changed && SimgridRules.parentDontAcceptRoute(my.getFirstChild())){
+			if (changed && SimgridRules.parentDontAcceptShowingRoute(my.getFirstChild())){
 				MessageBox mb = new MessageBox(getViewer().getControl().getShell(),SWT.ICON_WARNING);
 				mb.setText("Invalid Routing");
 				mb.setMessage("Routes are not graphically editable when using routing \""+newValue+"\".\n" +
 						"Consequently routes will not be drawn in this AS but they are NOT actually removed");
 				mb.open();
+			}
+			else if (changed && SimgridRules.parentDontAcceptEditingRoute(my.getFirstChild())){
+				// LBO Switched to rule based routing. Need to draw connections.
+				
 			}
 		}
 		super.notifyChanged(notifier, eventType, changedFeature, oldValue, newValue, pos);

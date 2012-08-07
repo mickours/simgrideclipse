@@ -49,6 +49,7 @@ import simgrideclipseplugin.graphical.actions.EditASRouting;
 import simgrideclipseplugin.graphical.actions.EditElementAction;
 import simgrideclipseplugin.graphical.actions.GoIntoAction;
 import simgrideclipseplugin.graphical.actions.GoOutAction;
+import simgrideclipseplugin.graphical.parts.RuleBasedASRouteEditPart;
 import simgrideclipseplugin.graphical.parts.SimgridEditPartFactory;
 import simgrideclipseplugin.model.ElementList;
 import simgrideclipseplugin.model.ModelHelper;
@@ -64,7 +65,7 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	private KeyHandler sharedKeyHandler;
 	private IPropertySource propertiesSource;
 	private GoOutAction goOutAction;
-	
+
 	public SimgridGraphicEditor(final MultiPageSimgridEditor parent) {
 		super.setEditDomain(new DefaultEditDomain(this));
 		this.parent = parent;
@@ -80,8 +81,6 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		super.init(site, input);
 		setPartName(input.getName());
 	}
-	
-	
 
 	@Override
 	protected void setInput(IEditorInput input) {
@@ -105,21 +104,28 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 		initContents();
-		
+
 	}
-	
+
 	public EditPart getGraphicalContents() {
 		return getGraphicalViewer().getContents();
 	}
-	
+
 	public void setGraphicalContents(Node parentNode) {
+		if (((Element) getGraphicalViewer().getContents().getModel())
+				.getAttribute("routing").equals("RuleBased")) {
+			for (Object o : getGraphicalViewer().getContents().getChildren()) {
+				if (o instanceof RuleBasedASRouteEditPart) {
+					((RuleBasedASRouteEditPart) o).reset();
+				}
+			}
+		}
 		getGraphicalViewer().setContents(parentNode);
 	}
-	
-	public Map<?,?> getEditPartRegistry(){
+
+	public Map<?, ?> getEditPartRegistry() {
 		return getGraphicalViewer().getEditPartRegistry();
 	}
-	
 
 	/**
 	 * Initialize the view to display the inside of the root AS
@@ -127,47 +133,46 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	public void initContents() {
 		GraphicalViewer viewer = getGraphicalViewer();
 		Element platform = model.getDocument().getDocumentElement();
-		if (null != platform){
+		if (null != platform) {
 			int i = 0;
-			List<Element> childrens = ModelHelper.getNoConnectionChildren(platform);
-			while (i < childrens.size() 
-					&& !childrens.get(i).getTagName().equals(ElementList.AS)){
+			List<Element> childrens = ModelHelper
+					.getNoConnectionChildren(platform);
+			while (i < childrens.size()
+					&& !childrens.get(i).getTagName().equals(ElementList.AS)) {
 				i++;
 			}
-			//if an AS was found select it as a container
-			if (i < childrens.size()){
+			// if an AS was found select it as a container
+			if (i < childrens.size()) {
 				Element rootAs = childrens.get(i);
 				viewer.setContents(rootAs);
-				//update action state
+				// update action state
 				goOutAction.update();
-			}
-			else{
+			} else {
 				MessageBox mb = new MessageBox(parent.getSite().getShell());
 				mb.setMessage("This file does not seem to be a valid platform description (no root AS)");
 				mb.open();
 				viewer.setContents(platform);
 			}
-		}
-		else{
+		} else {
 			MessageBox mb = new MessageBox(parent.getSite().getShell());
 			mb.setMessage("This file does not seem to be a valid platform description (no root platform)");
 			mb.open();
 			viewer.setContents(null);
 		}
-		
+
 	}
 
 	@Override
 	protected void configureGraphicalViewer() {
 		super.configureGraphicalViewer();
 		GraphicalViewer viewer = getGraphicalViewer();
-		
+
 		viewer.setEditPartFactory(SimgridEditPartFactory.INSTANCE);
-		
+
 		ScalableFreeformRootEditPart rootEditPart = new ScalableFreeformRootEditPart();
 		viewer.setRootEditPart(rootEditPart);
-		
-		//add actions...
+
+		// add actions...
 		IHandlerService service = (IHandlerService) getSite().getService(
 				IHandlerService.class);
 		// add zooming support
@@ -180,42 +185,46 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		IAction zoomOut = new ZoomOutAction(rootEditPart.getZoomManager());
 		getActionRegistry().registerAction(zoomIn);
 		getActionRegistry().registerAction(zoomOut);
-		service.activateHandler(GEFActionConstants.ZOOM_IN, new ActionHandler(zoomIn));
-		service.activateHandler(GEFActionConstants.ZOOM_OUT, new ActionHandler(zoomOut));
+		service.activateHandler(GEFActionConstants.ZOOM_IN, new ActionHandler(
+				zoomIn));
+		service.activateHandler(GEFActionConstants.ZOOM_OUT, new ActionHandler(
+				zoomOut));
 		// mouse support
 		viewer.setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1),
 				MouseWheelZoomHandler.SINGLETON);
-		
-		//key support
-		GraphicalViewerKeyHandler handler = new GraphicalViewerKeyHandler(viewer);
+
+		// key support
+		GraphicalViewerKeyHandler handler = new GraphicalViewerKeyHandler(
+				viewer);
 		handler.setParent(getCommonKeyHandler());
 		viewer.setKeyHandler(handler);
-		//context menu
-		ContextMenuProvider provider = new SimgridContextMenuProvider(viewer, getActionRegistry());
+		// context menu
+		ContextMenuProvider provider = new SimgridContextMenuProvider(viewer,
+				getActionRegistry());
 		viewer.setContextMenu(provider);
-		getSite().registerContextMenu( 
-			      "simgrideclipse.graphical.contextmenu", //$NON-NLS-1$ 
-			      provider, getGraphicalViewer());
-	}
-	
-	protected KeyHandler getCommonKeyHandler() { 
-		  if (sharedKeyHandler == null) { 
-		    sharedKeyHandler = new KeyHandler(); 
-		    sharedKeyHandler 
-		        .put(KeyStroke.getPressed(SWT.DEL, 127, 0), 
-		            getActionRegistry().getAction(ActionFactory.DELETE.getId())); 
-		  } 
-		  return sharedKeyHandler; 
+		getSite().registerContextMenu("simgrideclipse.graphical.contextmenu", //$NON-NLS-1$ 
+				provider, getGraphicalViewer());
 	}
 
+	protected KeyHandler getCommonKeyHandler() {
+		if (sharedKeyHandler == null) {
+			sharedKeyHandler = new KeyHandler();
+			sharedKeyHandler
+					.put(KeyStroke.getPressed(SWT.DEL, 127, 0),
+							getActionRegistry().getAction(
+									ActionFactory.DELETE.getId()));
+		}
+		return sharedKeyHandler;
+	}
 
 	public void doAutoLayout() {
 		final double zoomMax = 1.20;
 		AutomaticGraphLayoutHelper.INSTANCE.init(getGraphicalContents());
 		AutomaticGraphLayoutHelper.INSTANCE.computeLayout();
-		ScalableFreeformRootEditPart root =(ScalableFreeformRootEditPart)getGraphicalViewer().getRootEditPart();
+		ScalableFreeformRootEditPart root = (ScalableFreeformRootEditPart) getGraphicalViewer()
+				.getRootEditPart();
 		root.getZoomManager().setZoomAsText(ZoomManager.FIT_ALL);
-		if (root.getZoomManager().getZoom() > zoomMax){
+		if (root.getZoomManager().getZoom() > zoomMax) {
 			root.getZoomManager().setZoom(zoomMax);
 		}
 	}
@@ -224,36 +233,36 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	@Override
 	protected void createActions() {
 		super.createActions();
-		
+
 		ActionRegistry ar = getActionRegistry();
 		IAction action;
-		
+
 		action = new AutoLayoutAction(this);
 		ar.registerAction(action);
-		
+
 		action = new EditElementAction(this);
 		ar.registerAction(action);
 		getSelectionActions().add(action.getId());
-		
+
 		action = new EditASRouting(this);
 		ar.registerAction(action);
 		getSelectionActions().add(action.getId());
-		
+
 		action = new GoIntoAction(this);
 		ar.registerAction(action);
 		getSelectionActions().add(action.getId());
-		
+
 		goOutAction = new GoOutAction(this);
 		ar.registerAction(goOutAction);
 		getSelectionActions().add(GoOutAction.ID);
-		
+
 	}
 
 	@Override
 	public boolean isDirty() {
 		return model.isDirty();
 	}
-	
+
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		try {
@@ -263,26 +272,26 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		}
 	}
 
-	 @Override
-	 public void dispose() {
-	 	super.dispose();
-	 }
-	
+	@Override
+	public void dispose() {
+		super.dispose();
+	}
+
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		// If not the active editor, ignore selection changed.
-		if (part == parent && parent.getActivePageEditor() == this){			
-			//update available action 
+		if (part == parent && parent.getActivePageEditor() == this) {
+			// update available action
 			super.updateActions(super.getSelectionActions());
-		} 
+		}
 	}
-	
+
 	@Override
 	protected PaletteRoot getPaletteRoot() {
-		//set palette preference
+		// set palette preference
 		FlyoutPreferences pref = getPalettePreferences();
 		pref.setPaletteState(FlyoutPaletteComposite.STATE_PINNED_OPEN);
-		//initPalette content
+		// initPalette content
 		if (palette == null) {
 			palette = SimgridPaletteFactory.createPalette();
 		}
@@ -292,7 +301,7 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class type) {
-		if (type == ZoomManager.class){
+		if (type == ZoomManager.class) {
 			return getGraphicalViewer().getProperty(
 					ZoomManager.class.toString());
 		}
@@ -301,47 +310,50 @@ public class SimgridGraphicEditor extends GraphicalEditorWithFlyoutPalette {
 		}
 		if (type == IPropertySource.class) {
 			return propertiesSource;
-			//return ModelHelper.getPropertySource(getSite().getSelectionProvider().getSelection());
+			// return
+			// ModelHelper.getPropertySource(getSite().getSelectionProvider().getSelection());
 		}
 		return super.getAdapter(type);
 	}
 
 	/**
 	 * handle external selection change
+	 * 
 	 * @param modelSelection
 	 */
 	public void externalSelectionChanged(IStructuredSelection modelSelection) {
-		 //show the appropriate AS container
-		 List<?> selectedList = modelSelection.toList();
-		 if (selectedList.isEmpty()){
-			 initContents();
-		 }
-		 else if (selectedList.size() == 1){
-			
-			 Element selected = (Element) selectedList.get(0);
-			 //update properties
-			 propertiesSource = ModelHelper.getPropertySource(selected);
-			 Element toOpen = selected;
-			 while (!(toOpen.getTagName().equals(ElementList.AS) || toOpen.getTagName().equals(ElementList.AS)) && toOpen.getParentNode() instanceof Element){
-				 //|| ModelHelper.getChildren(toOpen).isEmpty()){
-				 toOpen = (Element) toOpen.getParentNode();
-			 }
-			 if (getGraphicalContents() == null || !getGraphicalContents().getModel().equals(toOpen)){
-				 //avoid selection listener while changing content
-				 getSite().setSelectionProvider(null);
-				 getGraphicalViewer().setContents(toOpen);
-				 getSite().setSelectionProvider(getGraphicalViewer());
-				 //update action state
-				 goOutAction.update();
-			 }
-			 //update graphic viewer selection
-			 if (SimgridRules.isDrawable(selected.getTagName())){
-				 getSite().getSelectionProvider()
-			 		.setSelection(ModelHelper.modelToPartSelection(modelSelection, this));
-			 }
-		 }
-		 
-	}
+		// show the appropriate AS container
+		List<?> selectedList = modelSelection.toList();
+		if (selectedList.isEmpty()) {
+			initContents();
+		} else if (selectedList.size() == 1) {
 
+			Element selected = (Element) selectedList.get(0);
+			// update properties
+			propertiesSource = ModelHelper.getPropertySource(selected);
+			Element toOpen = selected;
+			while (!(toOpen.getTagName().equals(ElementList.AS) || toOpen
+					.getTagName().equals(ElementList.AS))
+					&& toOpen.getParentNode() instanceof Element) {
+				// || ModelHelper.getChildren(toOpen).isEmpty()){
+				toOpen = (Element) toOpen.getParentNode();
+			}
+			if (getGraphicalContents() == null
+					|| !getGraphicalContents().getModel().equals(toOpen)) {
+				// avoid selection listener while changing content
+				getSite().setSelectionProvider(null);
+				getGraphicalViewer().setContents(toOpen);
+				getSite().setSelectionProvider(getGraphicalViewer());
+				// update action state
+				goOutAction.update();
+			}
+			// update graphic viewer selection
+			if (SimgridRules.isDrawable(selected.getTagName())) {
+				getSite().getSelectionProvider().setSelection(
+						ModelHelper.modelToPartSelection(modelSelection, this));
+			}
+		}
+
+	}
 
 }

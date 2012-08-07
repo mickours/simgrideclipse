@@ -29,7 +29,9 @@ public class ElementList {
 	public static final String BYPASS_AS_ROUTE = "bypassASroute";
 	public static final String BYPASS_ROUTE = "bypassRoute";
 	public static final String CABINET = "cabinet";
-	
+	// handling rule-based routes 
+	public static final String RULE_BASED_ROUTE = "regexpRoute";
+	public static final String NON_EDITABLE_AS_ROUTE = "(regexp)";	
 	
 	public static List<String> getElementTagNameList() {
 		return new ArrayList<String>(tagNameList);
@@ -39,7 +41,7 @@ public class ElementList {
 		return DtdParser.INSTANCE.getAttributesList(tagName);
 	}
 	
-	public static boolean isRequieredField(String tagName, String fieldName){
+	public static boolean isRequiredField(String tagName, String fieldName){
 		return DtdParser.INSTANCE.isRequieredField(tagName, fieldName);
 	}
 	
@@ -77,6 +79,7 @@ public class ElementList {
 				ROUTE,BYPASS_ROUTE,
 				LINK,LINK_CTN,
 				CABINET,
+				RULE_BASED_ROUTE
 				//TODO to complete with the new elements
 		};
 		return Arrays.asList(tags);

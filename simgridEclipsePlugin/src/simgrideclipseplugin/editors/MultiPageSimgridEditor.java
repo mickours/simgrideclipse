@@ -33,6 +33,7 @@ import org.eclipse.wst.xml.core.internal.provisional.contenttype.ContentTypeIdFo
 import org.w3c.dom.Element;
 
 import simgrideclipseplugin.editors.outline.SimgridOutlinePage;
+import simgrideclipseplugin.graphical.parts.NonEditableASrouteEditPart;
 //import simgrideclipseplugin.editors.properties.ElementPropertySource;
 import simgrideclipseplugin.model.ModelHelper;
 
@@ -137,6 +138,10 @@ public class MultiPageSimgridEditor extends MultiPageEditorPart implements
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				IStructuredSelection sel = (IStructuredSelection) event.getSelection();
+				
+				if (sel.getFirstElement() instanceof NonEditableASrouteEditPart) {
+					return;
+				}
 				//avoid loop
 				if (sel.equals(oldEditPartSelection) || sel.equals(oldElementSelection) ){
 					return;
