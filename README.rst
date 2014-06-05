@@ -13,7 +13,7 @@ see <http://simgrideclipse.forge.imag.fr/> for more information
 
 Contributor
 -----------
-    * Michael Mercier <michael.mercier@imag.fr>
-    * Laurent Bobelin <laurent.bobelin@imag.fr>
+- Michael Mercier <michael.mercier@inria.fr>
+- Laurent Bobelin <laurent.bobelin@imag.fr>
 
 
